@@ -1,0 +1,4184 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DirectShowLib</name>
+    </assembly>
+    <members>
+        <member name="T:DirectShowLib.MultimediaStreaming.AMMStream">
+            <summary>
+            From unnamed enum
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.AMMMultiStream">
+            <summary>
+            From unnamed enum
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.AMOpenModes">
+            <summary>
+            From unnamed enum
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.MultimediaStreaming.MsError.ThrowExceptionForHR(System.Int32)">
+            <summary>
+            If hr has a "failed" status code (E_*), throw an exception.  Note that status
+            messages (S_*) are not considered failure codes.  If DES or DShow error text
+            is available, it is used to build the exception, otherwise a generic com error
+            is thrown.
+            </summary>
+            <param name="hr">The HRESULT to check</param>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.AMMultiMediaStream">
+            <summary>
+            From CLSID_AMMultiMediaStream
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.AMMediaTypeStream">
+            <summary>
+            From CLSID_AMMediaTypeStream
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.AMDirectDrawStream">
+            <summary>
+            From CLSID_AMDirectDrawStream
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.AMAudioStream">
+            <summary>
+            From CLSID_AMAudioStream
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.AMAudioData">
+            <summary>
+            From CLSID_AMAudioData
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.CompletionStatusFlags">
+            <summary>
+            From COMPLETION_STATUS_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.SSUpdate">
+            <summary>
+            From unnamed enum
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.StreamState">
+            <summary>
+            From STREAM_STATE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.StreamType">
+            <summary>
+            From STREAM_TYPE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MultimediaStreaming.MMSSF">
+            <summary>
+            From unnamed enum
+            </summary>
+        </member>
+        <member name="F:DirectShowLib.MultimediaStreaming.MSPID.PrimaryVideo">
+            <summary> MSPID_PrimaryVideo </summary>
+        </member>
+        <member name="F:DirectShowLib.MultimediaStreaming.MSPID.PrimaryAudio">
+            <summary> MSPID_PrimaryAudio </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.BdaChangeState">
+            <summary>
+            From BDA_CHANGE_STATE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.MulticastMode">
+            <summary>
+            From BDA_MULTICAST_MODE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.MediaSampleContent">
+            <summary>
+            From MEDIA_SAMPLE_CONTENT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.BdaNodeDescriptor">
+            <summary>
+            From BDANODE_DESCRIPTOR
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.CCSubstreamService">
+            <summary>
+            From KS_CC_SUBSTREAM_SERVICE_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.TIFLoad">
+            <summary>
+            From CLSID_TIFLoad
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.FECMethod">
+            <summary>
+            From FECMethod
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.BinaryConvolutionCodeRate">
+            <summary>
+            From BinaryConvolutionCodeRate
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.Polarisation">
+            <summary>
+            From Polarisation
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.SpectralInversion">
+            <summary>
+            From SpectralInversion
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.ModulationType">
+            <summary>
+            From ModulationType
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.DVBSystemType">
+            <summary>
+            From DVBSystemType
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.HierarchyAlpha">
+            <summary>
+            From HierarchyAlpha
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.GuardInterval">
+            <summary>
+            From GuardInterval
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.TransmissionMode">
+            <summary>
+            From TransmissionMode
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.ComponentStatus">
+            <summary>
+            From ComponentStatus
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.ComponentCategory">
+            <summary>
+            From ComponentCategory
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.MPEG2StreamType">
+            <summary>
+            From MPEG2StreamType
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.ATSCComponentTypeFlags">
+            <summary>
+            From ATSCComponentTypeFlags
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.BDATemplateConnection">
+            <summary>
+            From BDA_TEMPLATE_CONNECTION
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.BDACompFlags">
+            <summary>
+            From BDA_Comp_Flags
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.RunningStatus">
+            <summary>
+            Define possible values for a running_status field according to ETSI EN 300 468
+            This enum doesn't exist in the c++ headers
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.ETFilterEncProperties">
+            <summary>
+            CLSID_ETFilterEncProperties
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.ETFilterTagProperties">
+            <summary>
+            CLSID_ETFilterTagProperties
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.DTFilterEncProperties">
+            <summary>
+            CLSID_DTFilterEncProperties
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.DTFilterTagProperties">
+            <summary>
+            CLSID_DTFilterTagProperties
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.XDSCodecProperties">
+            <summary>
+            CLSID_XDSCodecProperties
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.XDSCodecTagProperties">
+            <summary>
+            CLSID_XDSCodecTagProperties
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.CXDSData">
+            <summary>
+            CLSID_CXDSData
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.XDSCodec">
+            <summary>
+            CLSID_XDSCodec
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.ProtType">
+            <summary>
+            From ProtType
+            </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.XDSCodecNewXDSRating">
+            <summary> EVENTID_XDSCodecNewXDSRating </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.XDSCodecDuplicateXDSRating">
+            <summary> EVENTID_XDSCodecDuplicateXDSRating </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.XDSCodecNewXDSPacket">
+            <summary> EVENTID_XDSCodecNewXDSPacket </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.DTFilterRatingChange">
+            <summary> EVENTID_DTFilterRatingChange </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.DTFilterRatingsBlock">
+            <summary> EVENTID_DTFilterRatingsBlock </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.DTFilterRatingsUnblock">
+            <summary> EVENTID_DTFilterRatingsUnblock </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.DTFilterXDSPacket">
+            <summary> EVENTID_DTFilterXDSPacket </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.ETFilterEncryptionOn">
+            <summary> EVENTID_ETFilterEncryptionOn </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.ETFilterEncryptionOff">
+            <summary> EVENTID_ETFilterEncryptionOff </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.DTFilterCOPPUnblock">
+            <summary> EVENTID_DTFilterCOPPUnblock </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.EncDecFilterError">
+            <summary> EVENTID_EncDecFilterError </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.DTFilterCOPPBlock">
+            <summary> EVENTID_DTFilterCOPPBlock </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.ETFilterCopyOnce">
+            <summary> EVENTID_ETFilterCopyOnce </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.ETFilterCopyNever">
+            <summary> EVENTID_ETFilterCopyNever </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.DTFilterDataFormatOK">
+            <summary> EVENTID_DTFilterDataFormatOK </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.DTFilterDataFormatFailure">
+            <summary> EVENTID_DTFilterDataFormatFailure </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.ETDTFilterLicenseOK">
+            <summary> EVENTID_ETDTFilterLicenseOK </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.ETDTFilterLicenseFailure">
+            <summary> EVENTID_ETDTFilterLicenseFailure </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.EncDecFilterEvent">
+            <summary> EVENTID_EncDecFilterEvent </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.FormatNotSupportedEvent">
+            <summary> EVENTID_FormatNotSupportedEvent </summary>
+        </member>
+        <member name="F:DirectShowLib.BDA.EventID.DemultiplexerFilterDiscontinuity">
+            <summary> EVENTID_DemultiplexerFilterDiscontinuity </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:DirectShowLib.BDA.PidBits" -->
+        <!-- Badly formed XML comment ignored for member "T:DirectShowLib.BDA.MpegHeaderBits" -->
+        <!-- Badly formed XML comment ignored for member "T:DirectShowLib.BDA.MpegHeaderVersionBits" -->
+        <!-- Badly formed XML comment ignored for member "T:DirectShowLib.BDA.MpegDuration" -->
+        <member name="T:DirectShowLib.BDA.MpegDateAndTime">
+            <summary>
+            From MPEG_DATE_AND_TIME
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.DsmccElement">
+            <summary>
+            From DSMCC_ELEMENT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.MpeElement">
+            <summary>
+            From MPE_ELEMENT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.EnTvRat_System">
+            <summary>
+            From EnTvRat_System
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.EnTvRat_GenericLevel">
+            <summary>
+            From EnTvRat_GenericLevel
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BDA.BfEnTvRat_GenericAttributes">
+            <summary>
+            From BfEnTvRat_GenericAttributes
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMGBF">
+            <summary>
+            From AM_GBF_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMVideoFlag">
+            <summary>
+            From AM_VIDEO_FLAG_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMSamplePropertyFlags">
+            <summary>
+            From AM_SAMPLE_PROPERTY_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.PinInfo">
+            <summary>
+            From PIN_INFO
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMMediaType">
+            <summary>
+            From AM_MEDIA_TYPE - When you are done with an instance of this class,
+            it should be released with FreeAMMediaType() to avoid leaking
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.PinDirection">
+            <summary>
+            From PIN_DIRECTION
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMSeekingSeekingCapabilities">
+            <summary>
+            From AM_SEEKING_SeekingCapabilities
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.FilterState">
+            <summary>
+            From FILTER_STATE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.FilterInfo">
+            <summary>
+            From FILTER_INFO
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMSeekingSeekingFlags">
+            <summary>
+            From AM_SEEKING_SeekingFlags
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AllocatorProperties">
+            <summary>
+            From ALLOCATOR_PROPERTIES
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMSample2Properties">
+            <summary>
+            From AM_SAMPLE2_PROPERTIES
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.IPin.ConnectionMediaType(DirectShowLib.AMMediaType)">
+            <summary>
+            Release returned parameter with DsUtils.FreeAMMediaType
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.IPin.QueryPinInfo(DirectShowLib.PinInfo@)">
+            <summary>
+            Release returned parameter with DsUtils.FreePinInfo
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.IMediaSample.GetMediaType(DirectShowLib.AMMediaType@)">
+            <summary>
+            Returned object must be released with DsUtils.FreeAMMediaType()
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.IEnumPins">
+            <summary>
+            Enumerates pins on a filter.
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.IEnumPins.Next(System.Int32,DirectShowLib.IPin[],System.IntPtr)">
+            <summary>
+            The Next method retrieves a specified number of pins in the enumeration sequence.
+            </summary>
+            <param name="cPins">Number of pins to retrieve.</param>
+            <param name="ppPins">Array of size cPins that is filled with IPin pointers. The caller must release the interfaces.</param>
+            <param name="pcFetched">Pointer to a variable that receives the number of pins retrieved.</param>
+            <returns>Returns one of the following HRESULT values.
+            <b>S_FALSE</b> - Did not retrieve as many pins as requested.
+            <b>S_OK</b> - Success.
+            <b>E_INVALIDARG</b> - Invalid argument.
+            <b>E_POINTER</b> - <b>null</b> pointer argument.
+            <b>VFW_E_ENUM_OUT_OF_SYNC</b> - The filter's state has changed and is now inconsistent with the enumerator.
+            </returns>
+            <remarks>
+            This method retrieves pointers to the specified number of pins, starting at the current position in the enumeration, and places them in the 
+            specified array. If the method succeeds, the IPin pointers all have outstanding reference counts.Be sure to release them when you are done.
+            If the number of pins changes, the enumerator is no longer consistent with the filter, and the method returns VFW_E_ENUM_OUT_OF_SYNC.
+            Discard any data obtained from previous calls to the enumerator, because it might be invalid.Update the enumerator by calling the 
+            <see cref="M:DirectShowLib.IEnumPins.Reset"/> method. You can then call the Next method safely.
+            </remarks>
+        </member>
+        <member name="M:DirectShowLib.IEnumPins.Skip(System.Int32)">
+            <summary>
+            The Skip method skips over a specified number of pins.
+            </summary>
+            <param name="cPins">Number of pins to skip.</param>
+            <returns>Returns one of the following HRESULT
+            <b>S_FALSE</b> - Skipped past the end of the sequence.
+            <b>S_OK</b> - Success.
+            <b>VFW_E_ENUM_OUT_OF_SYNC</b> - The filter's state has changed and is now inconsistent with the enumerator.
+            </returns>
+        </member>
+        <member name="M:DirectShowLib.IEnumPins.Reset">
+            <summary>
+            The Reset method resets the enumeration sequence to the beginning.
+            </summary>
+            <returns>Returns S_OK.</returns>
+        </member>
+        <member name="M:DirectShowLib.IEnumPins.Clone(DirectShowLib.IEnumPins@)">
+            <summary>
+            The Clone method makes a copy of the enumerator with the same enumeration state.
+            </summary>
+            <param name="ppEnum">Receives a pointer to the <see cref="T:DirectShowLib.IEnumPins"/> interface of the new enumerator. The caller must release the interface.</param>
+            <returns>Returns one of the following HRESULT
+            <b>S_FALSE</b> - Did not retrieve as many pins as requested.
+            <b>S_OK</b> - Success.
+            <b>E_OUTOFMEMORY</b> - Insufficient memory.
+            <b>E_POINTER</b> - <b>null</b> pointer argument.
+            <b>VFW_E_ENUM_OUT_OF_SYNC</b> - The filter's state has changed and is now inconsistent with the enumerator.
+            </returns>
+            <remarks>
+            If the number of pins changes, the enumerator is no longer consistent with the filter, and the method returns VFW_E_ENUM_OUT_OF_SYNC. 
+            Discard any data obtained from previous calls to the enumerator, because it might be invalid. Update the enumerator by calling the 
+            <see cref="M:DirectShowLib.IEnumPins.Reset"/> method. You can then call the Clone method safely.</remarks>
+        </member>
+        <member name="T:DirectShowLib.AMFilterMiscFlags">
+            <summary>
+            From _AM_FILTER_MISC_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMStreamInfoFlags">
+            <summary>
+            From AM_STREAM_INFO_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEG2Program">
+            <summary>
+            From MPEG2_PROGRAM_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMAudioRendererStatParam">
+            <summary>
+            From _AM_AUDIO_RENDERER_STAT_PARAM
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMStreamInfo">
+            <summary>
+            From AM_STREAM_INFO
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVDecoderResolution">
+            <summary>
+            From _DVDECODERRESOLUTION
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMIntfSearchFlags">
+            <summary>
+            From _AM_INTF_SEARCH_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMQueryDecoder">
+            <summary>
+            From AM_QUERY_DECODER_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DecoderCap">
+            <summary>
+            From DECODER_CAP_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DecimationUsage">
+            <summary>
+            From DECIMATION_USAGE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMOverlayFX">
+            <summary>
+            From AMOVERLAYFX
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMResCtlReserveFlags">
+            <summary>
+            From _AMRESCTL_RESERVEFLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMStreamSelectInfoFlags">
+            <summary>
+            From _AMSTREAMSELECTINFOFLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMStreamSelectEnableFlags">
+            <summary>
+            From _AMSTREAMSELECTENABLEFLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Merit">
+            <summary>
+            unnamed enum
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ColorKey">
+            <summary>
+            From COLORKEY
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.RegPinMedium">
+            <summary>
+            From REGPINMEDIUM
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVInfo">
+            <summary>
+            From DVINFO
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVEncoderResolution">
+            <summary>
+            From _DVENCODERRESOLUTION
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVEncoderFormat">
+            <summary>
+            From _DVENCODERFORMAT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVEncoderVideoFormat">
+            <summary>
+            From _DVENCODERVIDEOFORMAT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMRenderExFlags">
+            <summary>
+            From _AM_RENSDEREXFLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.InterleavingMode">
+            <summary>
+            From InterleavingMode
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMFileSinkFlags">
+            <summary>
+            From AM_FILESINK_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.KSPropertySupport">
+            <summary>
+            From KSPROPERTY_SUPPORT_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMPropertyPin">
+            <summary>
+            From AMPROPERTY_PIN
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMTunerSubChannel">
+            <summary>
+            From AMTunerSubChannel
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMTunerSignalStrength">
+            <summary>
+            From AMTunerSignalStrength
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMTunerModeType">
+            <summary>
+            From AMTunerModeType
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMTunerEventType">
+            <summary>
+            From AMTunerEventType
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AnalogVideoStandard">
+            <summary>
+            From AnalogVideoStandard
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.TunerInputType">
+            <summary>
+            From TunerInputType
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoControlFlags">
+            <summary>
+            From VideoControlFlags
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.TVAudioMode">
+            <summary>
+            From TVAudioMode
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoProcAmpProperty">
+            <summary>
+            From VideoProcAmpProperty
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoProcAmpFlags">
+            <summary>
+            From VideoProcAmpFlags
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.PhysicalConnectorType">
+            <summary>
+            From PhysicalConnectorType
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMTVAudioEventType">
+            <summary>
+            From AMTVAudioEventType
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CompressionCaps">
+            <summary>
+            From CompressionCaps
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VfwCompressDialogs">
+            <summary>
+            From VfwCompressDialogs
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VfwCaptureDialogs">
+            <summary>
+            From VfwCaptureDialogs
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ExtDevicePort">
+            <summary>
+            From DEV_PORT_*
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ExtDeviceCaps">
+            <summary>
+            From ED_DEVCAP*, ED_DEVTYPE* etc.
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ExtTransportCaps">
+            <summary>
+            From ED_TRANSCAP*
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ExtTransportMediaStates">
+            <summary>
+            From ED_MEDIA*
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ExtTransportModes">
+            <summary>
+            From ED_MODE*
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ExtTransportStatus">
+            <summary>
+            From ED_MEDIA* etc.
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ExtTransportParameters">
+            <summary>
+            From ED_TRANSBASIC* etc.
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ExtTransportAudio">
+            <summary>
+            From ED_AUDIO*
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ExtTransportEdit">
+            <summary>
+            From ED_EDIT*
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoStreamConfigCaps">
+            <summary>
+            From VIDEO_STREAM_CONFIG_CAPS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AudioStreamConfigCaps">
+            <summary>
+            From AUDIO_STREAM_CONFIG_CAPS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Quality">
+            <summary>
+            From Quality
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.QualityMessageType">
+            <summary>
+            From QualityMessageType
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CameraControlProperty">
+            <summary>
+            From CameraControlProperty
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CameraControlFlags">
+            <summary>
+            From CameraControlFlags
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.NotifyFlags">
+            <summary>
+            From define AM_MEDIAEVENT_NONOTIFY
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.OABool">
+            <summary>
+            From #define OATRUE/OAFALSE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WindowStyle">
+            <summary>
+            From WS_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WindowStyleEx">
+            <summary>
+            From WS_EX_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WindowState">
+            <summary>
+            From SW_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DispatchFlags">
+            <summary>
+            From DISPATCH_* defines
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.DES.DESError.ThrowExceptionForHR(System.Int32)">
+            <summary>
+            If hr has a "failed" status code (E_*), throw an exception.  Note that status
+            messages (S_*) are not considered failure codes.  If DES or DShow error text
+            is available, it is used to build the exception, otherwise a generic com error
+            is thrown.
+            </summary>
+            <param name="hr">The HRESULT to check</param>
+        </member>
+        <member name="T:DirectShowLib.DES.AMTimeline">
+            <summary>
+            From CLSID_AMTimeline
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.PropertySetter">
+            <summary>
+            From CLSID_PropertySetter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.AMTimelineObj">
+            <summary>
+            From CLSID_AMTimelineObj
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.AMTimelineSrc">
+            <summary>
+            From CLSID_AMTimelineSrc
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.AMTimelineTrack">
+            <summary>
+            From CLSID_AMTimelineTrack
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.AMTimelineComp">
+            <summary>
+            From CLSID_AMTimelineComp
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.AMTimelineGroup">
+            <summary>
+            From CLSID_AMTimelineGroup
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.AMTimelineTrans">
+            <summary>
+            From CLSID_AMTimelineTrans
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.AMTimelineEffect">
+            <summary>
+            From CLSID_AMTimelineEffect
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.RenderEngine">
+            <summary>
+            From CLSID_RenderEngine
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.SmartRenderEngine">
+            <summary>
+            From CLSID_SmartRenderEngine
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.AudMixer">
+            <summary>
+            From CLSID_AudMixer
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.Xml2Dex">
+            <summary>
+            From CLSID_Xml2Dex
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.MediaLocator">
+            <summary>
+            From CLSID_MediaLocator
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.MediaDet">
+            <summary>
+            From CLSID_MediaDet
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.DxtCompositor">
+            <summary>
+            From CLSID_DxtCompositor
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.DxtAlphaSetter">
+            <summary>
+            From CLSID_DxtAlphaSetter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.DxtJpeg">
+            <summary>
+            From CLSID_DxtJpeg
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.ColorSource">
+            <summary>
+            From CLSID_ColorSource
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.DxtKey">
+            <summary>
+            From CLSID_DxtKey
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.TimelineMajorType">
+            <summary>
+            From TIMELINE_MAJOR_TYPE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.TimelineInsertMode">
+            <summary>
+            From unnamed enum
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.SFNValidateFlags">
+            <summary>
+            From unnamed enum
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.SCompFmt0">
+            <summary>
+            From SCompFmt0
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.ResizeFlags">
+            <summary>
+            From unnamed enum
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.DexterFTrackSearchFlags">
+            <summary>
+            From DEXTERF_TRACK_SEARCH_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.DexterParam">
+            <summary>
+            From DEXTER_PARAM
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.ConnectFDynamic">
+            <summary>
+            From unnamed enum
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.DexterValue">
+            <summary>
+            From DEXTER_VALUE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.Dexterf">
+            <summary>
+            From DEXTERF
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DES.DESErrorCode">
+            <summary>
+            From DEX_IDS_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CDef">
+            <summary>
+            From CDEF_CLASS_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.PinConnectedStatus">
+            <summary>
+            Not from DirectShow
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BitmapInfo">
+            <summary>
+            From BITMAPINFO
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BitmapInfoHeader">
+            <summary>
+            From BITMAPINFOHEADER
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DDPixelFormat">
+            <summary>
+            From DDPIXELFORMAT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DsCAUUID">
+            <summary>
+            From CAUUID
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.DsCAUUID.ToGuidArray">
+            <summary>
+            Perform a manual marshaling of pElems to retrieve an array of System.Guid.
+            Assume this structure has been already filled by the ISpecifyPropertyPages.GetPages() method.
+            </summary>
+            <returns>A managed representation of pElems (cElems items)</returns>
+        </member>
+        <member name="T:DirectShowLib.DsLong">
+            <summary>
+            DirectShowLib.DsLong is a wrapper class around a <see cref="T:System.Int64"/> value type.
+            </summary>
+            <remarks>
+            This class is necessary to enable null paramters passing.
+            </remarks>
+        </member>
+        <member name="M:DirectShowLib.DsLong.#ctor(System.Int64)">
+            <summary>
+            Constructor
+            Initialize a new instance of DirectShowLib.DsLong with the Value parameter
+            </summary>
+            <param name="Value">Value to assign to this new instance</param>
+        </member>
+        <member name="M:DirectShowLib.DsLong.ToString">
+            <summary>
+            Get a string representation of this DirectShowLib.DsLong Instance.
+            </summary>
+            <returns>A string representing this instance</returns>
+        </member>
+        <member name="M:DirectShowLib.DsLong.op_Implicit(DirectShowLib.DsLong)~System.Int64">
+             <summary>
+             Define implicit cast between DirectShowLib.DsLong and System.Int64 for languages supporting this feature.
+             VB.Net doesn't support implicit cast. <see cref="M:DirectShowLib.DsLong.ToInt64"/> for similar functionality.
+             <code>
+               // Define a new DsLong instance
+               DsLong dsL = new DsLong(9876543210);
+               // Do implicit cast between DsLong and Int64
+               long l = dsL;
+            
+               Console.WriteLine(l.ToString());
+             </code>
+             </summary>
+             <param name="g">DirectShowLib.DsLong to be cast</param>
+             <returns>A casted System.Int64</returns>
+        </member>
+        <member name="M:DirectShowLib.DsLong.op_Implicit(System.Int64)~DirectShowLib.DsLong">
+             <summary>
+             Define implicit cast between System.Int64 and DirectShowLib.DsLong for languages supporting this feature.
+             VB.Net doesn't support implicit cast. <see cref="!:DirectShowLib.DsGuid.FromInt64"/> for similar functionality.
+             <code>
+               // Define a new Int64 instance
+               long l = 9876543210;
+               // Do implicit cast between Int64 and DsLong
+               DsLong dsl = l;
+            
+               Console.WriteLine(dsl.ToString());
+             </code>
+             </summary>
+             <param name="g">System.Int64 to be cast</param>
+             <returns>A casted DirectShowLib.DsLong</returns>
+        </member>
+        <member name="M:DirectShowLib.DsLong.ToInt64">
+            <summary>
+            Get the System.Int64 equivalent to this DirectShowLib.DsLong instance.
+            </summary>
+            <returns>A System.Int64</returns>
+        </member>
+        <member name="M:DirectShowLib.DsLong.FromInt64(System.Int64)">
+            <summary>
+            Get a new DirectShowLib.DsLong instance for a given System.Int64
+            </summary>
+            <param name="g">The System.Int64 to wrap into a DirectShowLib.DsLong</param>
+            <returns>A new instance of DirectShowLib.DsLong</returns>
+        </member>
+        <member name="T:DirectShowLib.DsGuid">
+            <summary>
+            DirectShowLib.DsGuid is a wrapper class around a System.Guid value type.
+            </summary>
+            <remarks>
+            This class is necessary to enable null paramters passing.
+            </remarks>
+        </member>
+        <member name="M:DirectShowLib.DsGuid.#ctor">
+            <summary>
+            Empty constructor. 
+            Initialize it with System.Guid.Empty
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.DsGuid.#ctor(System.String)">
+            <summary>
+            Constructor.
+            Initialize this instance with a given System.Guid string representation.
+            </summary>
+            <param name="g">A valid System.Guid as string</param>
+        </member>
+        <member name="M:DirectShowLib.DsGuid.#ctor(System.Guid)">
+            <summary>
+            Constructor.
+            Initialize this instance with a given System.Guid.
+            </summary>
+            <param name="g">A System.Guid value type</param>
+        </member>
+        <member name="M:DirectShowLib.DsGuid.ToString">
+            <summary>
+            Get a string representation of this DirectShowLib.DsGuid Instance.
+            </summary>
+            <returns>A string representing this instance</returns>
+        </member>
+        <member name="M:DirectShowLib.DsGuid.ToString(System.String)">
+            <summary>
+            Get a string representation of this DirectShowLib.DsGuid Instance with a specific format.
+            </summary>
+            <param name="format"><see cref="M:System.Guid.ToString"/> for a description of the format parameter.</param>
+            <returns>A string representing this instance according to the format parameter</returns>
+        </member>
+        <member name="M:DirectShowLib.DsGuid.op_Implicit(DirectShowLib.DsGuid)~System.Guid">
+             <summary>
+             Define implicit cast between DirectShowLib.DsGuid and System.Guid for languages supporting this feature.
+             VB.Net doesn't support implicit cast. <see cref="M:DirectShowLib.DsGuid.ToGuid"/> for similar functionality.
+             <code>
+               // Define a new DsGuid instance
+               DsGuid dsG = new DsGuid("{33D57EBF-7C9D-435e-A15E-D300B52FBD91}");
+               // Do implicit cast between DsGuid and Guid
+               Guid g = dsG;
+            
+               Console.WriteLine(g.ToString());
+             </code>
+             </summary>
+             <param name="g">DirectShowLib.DsGuid to be cast</param>
+             <returns>A casted System.Guid</returns>
+        </member>
+        <member name="M:DirectShowLib.DsGuid.op_Implicit(System.Guid)~DirectShowLib.DsGuid">
+             <summary>
+             Define implicit cast between System.Guid and DirectShowLib.DsGuid for languages supporting this feature.
+             VB.Net doesn't support implicit cast. <see cref="M:DirectShowLib.DsGuid.FromGuid(System.Guid)"/> for similar functionality.
+             <code>
+               // Define a new Guid instance
+               Guid g = new Guid("{B9364217-366E-45f8-AA2D-B0ED9E7D932D}");
+               // Do implicit cast between Guid and DsGuid
+               DsGuid dsG = g;
+            
+               Console.WriteLine(dsG.ToString());
+             </code>
+             </summary>
+             <param name="g">System.Guid to be cast</param>
+             <returns>A casted DirectShowLib.DsGuid</returns>
+        </member>
+        <member name="M:DirectShowLib.DsGuid.ToGuid">
+            <summary>
+            Get the System.Guid equivalent to this DirectShowLib.DsGuid instance.
+            </summary>
+            <returns>A System.Guid</returns>
+        </member>
+        <member name="M:DirectShowLib.DsGuid.FromGuid(System.Guid)">
+            <summary>
+            Get a new DirectShowLib.DsGuid instance for a given System.Guid
+            </summary>
+            <param name="g">The System.Guid to wrap into a DirectShowLib.DsGuid</param>
+            <returns>A new instance of DirectShowLib.DsGuid</returns>
+        </member>
+        <member name="T:DirectShowLib.DsInt">
+            <summary>
+            DirectShowLib.DsInt is a wrapper class around a <see cref="T:System.Int32"/> value type.
+            </summary>
+            <remarks>
+            This class is necessary to enable null paramters passing.
+            </remarks>
+        </member>
+        <member name="M:DirectShowLib.DsInt.#ctor(System.Int32)">
+            <summary>
+            Constructor
+            Initialize a new instance of DirectShowLib.DsInt with the Value parameter
+            </summary>
+            <param name="Value">Value to assign to this new instance</param>
+        </member>
+        <member name="M:DirectShowLib.DsInt.ToString">
+            <summary>
+            Get a string representation of this DirectShowLib.DsInt Instance.
+            </summary>
+            <returns>A string representing this instance</returns>
+        </member>
+        <member name="M:DirectShowLib.DsInt.op_Implicit(DirectShowLib.DsInt)~System.Int32">
+             <summary>
+             Define implicit cast between DirectShowLib.DsInt and System.Int64 for languages supporting this feature.
+             VB.Net doesn't support implicit cast. <see cref="!:DirectShowLib.DsInt.ToInt64"/> for similar functionality.
+             <code>
+               // Define a new DsInt instance
+               DsInt dsI = new DsInt(0x12345678);
+               // Do implicit cast between DsInt and Int32
+               int i = dsI;
+            
+               Console.WriteLine(i.ToString());
+             </code>
+             </summary>
+             <param name="g">DirectShowLib.DsInt to be cast</param>
+             <returns>A casted System.Int32</returns>
+        </member>
+        <member name="M:DirectShowLib.DsInt.op_Implicit(System.Int32)~DirectShowLib.DsInt">
+             <summary>
+             Define implicit cast between System.Int32 and DirectShowLib.DsInt for languages supporting this feature.
+             VB.Net doesn't support implicit cast. <see cref="!:DirectShowLib.DsGuid.FromInt32"/> for similar functionality.
+             <code>
+               // Define a new Int32 instance
+               int i = 0x12345678;
+               // Do implicit cast between Int64 and DsInt
+               DsInt dsI = i;
+            
+               Console.WriteLine(dsI.ToString());
+             </code>
+             </summary>
+             <param name="g">System.Int32 to be cast</param>
+             <returns>A casted DirectShowLib.DsInt</returns>
+        </member>
+        <member name="M:DirectShowLib.DsInt.ToInt32">
+            <summary>
+            Get the System.Int32 equivalent to this DirectShowLib.DsInt instance.
+            </summary>
+            <returns>A System.Int32</returns>
+        </member>
+        <member name="M:DirectShowLib.DsInt.FromInt32(System.Int32)">
+            <summary>
+            Get a new DirectShowLib.DsInt instance for a given System.Int32
+            </summary>
+            <param name="g">The System.Int32 to wrap into a DirectShowLib.DsInt</param>
+            <returns>A new instance of DirectShowLib.DsInt</returns>
+        </member>
+        <member name="T:DirectShowLib.DsShort">
+            <summary>
+            DirectShowLib.DsShort is a wrapper class around a <see cref="T:System.Int16"/> value type.
+            </summary>
+            <remarks>
+            This class is necessary to enable null paramters passing.
+            </remarks>
+        </member>
+        <member name="M:DirectShowLib.DsShort.#ctor(System.Int16)">
+            <summary>
+            Constructor
+            Initialize a new instance of DirectShowLib.DsShort with the Value parameter
+            </summary>
+            <param name="Value">Value to assign to this new instance</param>
+        </member>
+        <member name="M:DirectShowLib.DsShort.ToString">
+            <summary>
+            Get a string representation of this DirectShowLib.DsShort Instance.
+            </summary>
+            <returns>A string representing this instance</returns>
+        </member>
+        <member name="M:DirectShowLib.DsShort.op_Implicit(DirectShowLib.DsShort)~System.Int16">
+             <summary>
+             Define implicit cast between DirectShowLib.DsShort and System.Int16 for languages supporting this feature.
+             VB.Net doesn't support implicit cast. <see cref="!:DirectShowLib.DsShort.ToInt64"/> for similar functionality.
+             <code>
+               // Define a new DsShort instance
+               DsShort dsS = new DsShort(0x1234);
+               // Do implicit cast between DsShort and Int16
+               short s = dsS;
+            
+               Console.WriteLine(s.ToString());
+             </code>
+             </summary>
+             <param name="g">DirectShowLib.DsShort to be cast</param>
+             <returns>A casted System.Int16</returns>
+        </member>
+        <member name="M:DirectShowLib.DsShort.op_Implicit(System.Int16)~DirectShowLib.DsShort">
+             <summary>
+             Define implicit cast between System.Int16 and DirectShowLib.DsShort for languages supporting this feature.
+             VB.Net doesn't support implicit cast. <see cref="!:DirectShowLib.DsGuid.FromInt16"/> for similar functionality.
+             <code>
+               // Define a new Int16 instance
+               short s = 0x1234;
+               // Do implicit cast between Int64 and DsShort
+               DsShort dsS = s;
+            
+               Console.WriteLine(dsS.ToString());
+             </code>
+             </summary>
+             <param name="g">System.Int16 to be cast</param>
+             <returns>A casted DirectShowLib.DsShort</returns>
+        </member>
+        <member name="M:DirectShowLib.DsShort.ToInt16">
+            <summary>
+            Get the System.Int16 equivalent to this DirectShowLib.DsShort instance.
+            </summary>
+            <returns>A System.Int16</returns>
+        </member>
+        <member name="M:DirectShowLib.DsShort.FromInt16(System.Int16)">
+            <summary>
+            Get a new DirectShowLib.DsShort instance for a given System.Int64
+            </summary>
+            <param name="g">The System.Int16 to wrap into a DirectShowLib.DsShort</param>
+            <returns>A new instance of DirectShowLib.DsShort</returns>
+        </member>
+        <member name="T:DirectShowLib.DsRect">
+            <summary>
+            DirectShowLib.DsRect is a managed representation of the Win32 RECT structure.
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.DsRect.#ctor">
+            <summary>
+            Empty contructor. Initialize all fields to 0
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.DsRect.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            A parametred constructor. Initialize fields with given values.
+            </summary>
+            <param name="left">the left value</param>
+            <param name="top">the top value</param>
+            <param name="right">the right value</param>
+            <param name="bottom">the bottom value</param>
+        </member>
+        <member name="M:DirectShowLib.DsRect.#ctor(System.Drawing.Rectangle)">
+            <summary>
+            A parametred constructor. Initialize fields with a given <see cref="T:System.Drawing.Rectangle"/>.
+            </summary>
+            <param name="rectangle">A <see cref="T:System.Drawing.Rectangle"/></param>
+            <remarks>
+            Warning, DsRect define a rectangle by defining two of his corners and <see cref="T:System.Drawing.Rectangle"/> define a rectangle with his upper/left corner, his width and his height.
+            </remarks>
+        </member>
+        <member name="M:DirectShowLib.DsRect.ToString">
+            <summary>
+            Provide de string representation of this DsRect instance
+            </summary>
+            <returns>A string formated like this : [left, top - right, bottom]</returns>
+        </member>
+        <member name="M:DirectShowLib.DsRect.op_Implicit(DirectShowLib.DsRect)~System.Drawing.Rectangle">
+             <summary>
+             Define implicit cast between DirectShowLib.DsRect and System.Drawing.Rectangle for languages supporting this feature.
+             VB.Net doesn't support implicit cast. <see cref="M:DirectShowLib.DsRect.ToRectangle"/> for similar functionality.
+             <code>
+               // Define a new Rectangle instance
+               Rectangle r = new Rectangle(0, 0, 100, 100);
+               // Do implicit cast between Rectangle and DsRect
+               DsRect dsR = r;
+            
+               Console.WriteLine(dsR.ToString());
+             </code>
+             </summary>
+             <param name="r">a DsRect to be cast</param>
+             <returns>A casted System.Drawing.Rectangle</returns>
+        </member>
+        <member name="M:DirectShowLib.DsRect.op_Implicit(System.Drawing.Rectangle)~DirectShowLib.DsRect">
+             <summary>
+             Define implicit cast between System.Drawing.Rectangle and DirectShowLib.DsRect for languages supporting this feature.
+             VB.Net doesn't support implicit cast. <see cref="M:DirectShowLib.DsRect.FromRectangle(System.Drawing.Rectangle)"/> for similar functionality.
+             <code>
+               // Define a new DsRect instance
+               DsRect dsR = new DsRect(0, 0, 100, 100);
+               // Do implicit cast between DsRect and Rectangle
+               Rectangle r = dsR;
+            
+               Console.WriteLine(r.ToString());
+             </code>
+             </summary>
+             <param name="r">A System.Drawing.Rectangle to be cast</param>
+             <returns>A casted DsRect</returns>
+        </member>
+        <member name="M:DirectShowLib.DsRect.ToRectangle">
+            <summary>
+            Get the System.Drawing.Rectangle equivalent to this DirectShowLib.DsRect instance.
+            </summary>
+            <returns>A System.Drawing.Rectangle</returns>
+        </member>
+        <member name="M:DirectShowLib.DsRect.FromRectangle(System.Drawing.Rectangle)">
+            <summary>
+            Get a new DirectShowLib.DsRect instance for a given <see cref="T:System.Drawing.Rectangle"/>
+            </summary>
+            <param name="r">The <see cref="T:System.Drawing.Rectangle"/> used to initialize this new DirectShowLib.DsGuid</param>
+            <returns>A new instance of DirectShowLib.DsGuid</returns>
+        </member>
+        <member name="M:DirectShowLib.DsError.ThrowExceptionForHR(System.Int32)">
+            <summary>
+            If hr has a "failed" status code (E_*), throw an exception.  Note that status
+            messages (S_*) are not considered failure codes.  If DirectShow error text
+            is available, it is used to build the exception, otherwise a generic com error
+            is thrown.
+            </summary>
+            <param name="hr">The HRESULT to check</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:DirectShowLib.DsError.GetErrorText(System.Int32)" -->
+        <member name="M:DirectShowLib.DsUtils.GetPinCategory(DirectShowLib.IPin)">
+            <summary>
+            Returns the PinCategory of the specified pin.  Usually a member of PinCategory.  Not all pins have a category.
+            </summary>
+            <param name="pPin"></param>
+            <returns>Guid indicating pin category or Guid.Empty on no category.  Usually a member of PinCategory</returns>
+        </member>
+        <member name="M:DirectShowLib.DsUtils.FreeAMMediaType(DirectShowLib.AMMediaType)">
+            <summary>
+             Free the nested structures and release any
+             COM objects within an AMMediaType struct.
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.DsUtils.FreePinInfo(DirectShowLib.PinInfo)">
+            <summary>
+             Free the nested interfaces within a PinInfo struct.
+            </summary>
+        </member>
+        <member name="P:DirectShowLib.DsDevice.DevicePath">
+            <summary>
+            Returns a unique identifier for a device
+            </summary>
+        </member>
+        <member name="P:DirectShowLib.DsDevice.ClassID">
+            <summary>
+            Returns the ClassID for a device
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.DsDevice.GetDevicesOfCat(System.Guid)">
+            <summary>
+            Returns an array of DsDevices of type devcat.
+            </summary>
+            <param name="cat">Any one of FilterCategory</param>
+        </member>
+        <member name="M:DirectShowLib.DsDevice.GetPropBagValue(System.String)">
+            <summary>
+            Get a specific PropertyBag value from a moniker
+            </summary>
+            <param name="sPropName">The name of the value to retrieve</param>
+            <returns>String or null on error</returns>
+        </member>
+        <member name="M:DirectShowLib.DsFindPin.ByDirection(DirectShowLib.IBaseFilter,DirectShowLib.PinDirection,System.Int32)">
+            <summary>
+            Scans a filter's pins looking for a pin in the specified direction
+            </summary>
+            <param name="vSource">The filter to scan</param>
+            <param name="vDir">The direction to find</param>
+            <param name="iIndex">Zero based index (ie 2 will return the third pin in the specified direction)</param>
+            <returns>The matching pin, or null if not found</returns>
+        </member>
+        <member name="M:DirectShowLib.DsFindPin.ByName(DirectShowLib.IBaseFilter,System.String)">
+            <summary>
+            Scans a filter's pins looking for a pin with the specified name
+            </summary>
+            <param name="vSource">The filter to scan</param>
+            <param name="vPinName">The pin name to find</param>
+            <returns>The matching pin, or null if not found</returns>
+        </member>
+        <member name="M:DirectShowLib.DsFindPin.ByCategory(DirectShowLib.IBaseFilter,System.Guid,System.Int32)">
+            <summary>
+            Scan's a filter's pins looking for a pin with the specified category
+            </summary>
+            <param name="vSource">The filter to scan</param>
+            <param name="guidPinCat">The guid from PinCategory to scan for</param>
+            <param name="iIndex">Zero based index (ie 2 will return the third pin of the specified category)</param>
+            <returns>The matching pin, or null if not found</returns>
+        </member>
+        <member name="M:DirectShowLib.DsFindPin.ByConnectionStatus(DirectShowLib.IBaseFilter,DirectShowLib.PinConnectedStatus,System.Int32)">
+            <summary>
+            Scans a filter's pins looking for a pin with the specified connection status
+            </summary>
+            <param name="vSource">The filter to scan</param>
+            <param name="vStat">The status to find (connected/unconnected)</param>
+            <param name="iIndex">Zero based index (ie 2 will return the third pin with the specified status)</param>
+            <returns>The matching pin, or null if not found</returns>
+        </member>
+        <member name="M:DirectShowLib.DsToString.AMMediaTypeToString(DirectShowLib.AMMediaType)">
+            <summary>
+            Produces a usable string that describes the MediaType object
+            </summary>
+            <returns>Concatenation of MajorType + SubType + FormatType + Fixed + Temporal + SampleSize.ToString</returns>
+        </member>
+        <member name="M:DirectShowLib.DsToString.MediaTypeToString(System.Guid)">
+            <summary>
+            Converts AMMediaType.MajorType Guid to a readable string
+            </summary>
+            <returns>MajorType Guid as a readable string or Guid if unrecognized</returns>
+        </member>
+        <member name="M:DirectShowLib.DsToString.MediaSubTypeToString(System.Guid)">
+            <summary>
+            Converts the AMMediaType.SubType Guid to a readable string
+            </summary>
+            <returns>SubType Guid as a readable string or Guid if unrecognized</returns>
+        </member>
+        <member name="M:DirectShowLib.DsToString.MediaFormatTypeToString(System.Guid)">
+            <summary>
+            Converts the AMMediaType.FormatType Guid to a readable string
+            </summary>
+            <returns>FormatType Guid as a readable string or Guid if unrecognized</returns>
+        </member>
+        <member name="M:DirectShowLib.DsToString.WalkClass(System.Type,System.Guid)">
+            <summary>
+            Use reflection to walk a class looking for a property containing a specified guid
+            </summary>
+            <param name="MyType">Class to scan</param>
+            <param name="guid">Guid to scan for</param>
+            <returns>String representing property name that matches, or Guid.ToString() for no match</returns>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdDomain">
+            <summary>
+            From DVD_DOMAIN
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdMenuId">
+            <summary>
+            From DVD_MENU_ID
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdDiscSide">
+            <summary>
+            From DVD_DISC_SIDE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdPreferredDisplayMode">
+            <summary>
+            From DVD_PREFERRED_DISPLAY_MODE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdFrameRate">
+            <summary>
+            From DVD_FRAMERATE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdTimeCodeFlags">
+            <summary>
+            From DVD_TIMECODE_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.ValidUOPFlag">
+            <summary>
+            From VALID_UOP_FLAG
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdCmdFlags">
+            <summary>
+            From DVD_CMD_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdOptionFlag">
+            <summary>
+            From DVD_OPTION_FLAG
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdRelativeButton">
+            <summary>
+            From DVD_RELATIVE_BUTTON
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdParentalLevel">
+            <summary>
+            From DVD_PARENTAL_LEVEL
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdAudioLangExt">
+            <summary>
+            From DVD_AUDIO_LANG_EXT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdSubPictureLangExt">
+            <summary>
+            From DVD_SUBPICTURE_LANG_EXT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdAudioAppMode">
+            <summary>
+            From DVD_AUDIO_APPMODE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdAudioFormat">
+            <summary>
+            From DVD_AUDIO_FORMAT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdKaraokeDownMix">
+            <summary>
+            From DVD_KARAOKE_DOWNMIX
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdKaraokeContents">
+            <summary>
+            From DVD_KARAOKE_CONTENTS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdKaraokeAssignment">
+            <summary>
+            From DVD_KARAOKE_ASSIGNMENT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdVideoCompression">
+            <summary>
+            From DVD_VIDEO_COMPRESSION
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdSubPictureType">
+            <summary>
+            From DVD_SUBPICTURE_TYPE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdSubPictureCoding">
+            <summary>
+            From DVD_SUBPICTURE_CODING
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdTitleAppMode">
+            <summary>
+            From DVD_TITLE_APPMODE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdTextStringType">
+            <summary>
+            From DVD_TextStringType
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdTextCharSet">
+            <summary>
+            From DVD_TextCharSet
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdAudioCaps">
+            <summary>
+            From DVD_AUDIO_CAPS_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.AMDvdGraphFlags">
+            <summary>
+            From AM_DVD_GRAPH_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.AMDvdStreamFlags">
+            <summary>
+            From AM_DVD_STREAM_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.GPRMArray">
+            <summary>
+            From GPRMARRAY
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.SPRMArray">
+            <summary>
+            From SPRMARRAY
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdHMSFTimeCode">
+            <summary>
+            From DVD_HMSF_TIMECODE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdPlaybackLocation2">
+            <summary>
+            From DVD_PLAYBACK_LOCATION2
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdAudioAttributes">
+            <summary>
+            From DVD_AudioAttributes
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdMUAMixingInfo">
+            <summary>
+            From DVD_MUA_MixingInfo
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdMUACoeff">
+            <summary>
+            From DVD_MUA_Coeff
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdMultichannelAudioAttributes">
+            <summary>
+            From DVD_MultichannelAudioAttributes
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdKaraokeAttributes">
+            <summary>
+            From DVD_KaraokeAttributes
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdVideoAttributes">
+            <summary>
+            From DVD_VideoAttributes
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdSubpictureAttributes">
+            <summary>
+            From DVD_SubpictureAttributes
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdTitleAttributes">
+            <summary>
+            From DVD_TitleAttributes
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdMenuAttributes">
+            <summary>
+            From DVD_MenuAttributes
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.DvdDecoderCaps">
+            <summary>
+            From DVD_DECODER_CAPS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dvd.AMDvdRenderStatus">
+            <summary>
+            From AM_DVD_RENDERSTATUS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMPinFlowControl">
+            <summary>
+            From _AM_PIN_FLOW_CONTROL_BLOCK_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMGraphConfigReconnect">
+            <summary>
+            From AM_GRAPH_CONFIG_RECONNECT_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMFilterFlags">
+            <summary>
+            From _AM_FILTER_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.RemFilterFlags">
+            <summary>
+            From _REM_FILTER_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMLine21CCLevel">
+            <summary>
+            From AM_LINE21_CCLEVEL
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMLine21CCService">
+            <summary>
+            From AM_LINE21_CCSERVICE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMLine21CCState">
+            <summary>
+            From AM_LINE21_CCSTATE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMLine21DrawBGMode">
+            <summary>
+            From AM_LINE21_DRAWBGMODE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOOutputDataBufferFlags">
+            <summary>
+            From _DMO_OUTPUT_DATA_BUFFER_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOEnumerator">
+            <summary>
+            From DMO_ENUM_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMORegisterFlags">
+            <summary>
+            From DMO_REGISTER_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOProcessOutput">
+            <summary>
+            From DMO_PROCESS_OUTPUT_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOInputDataBuffer">
+            <summary>
+            From DMO_INPUT_DATA_BUFFER_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOInplaceProcess">
+            <summary>
+            From DMO_INPLACE_PROCESS_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOInputStreamInfo">
+            <summary>
+            From DMO_INPUT_STREAM_INFO_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOOutputStreamInfo">
+            <summary>
+            From DMO_OUTPUT_STREAM_INFO_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOSetType">
+            <summary>
+            From _DMO_SET_TYPE_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOInputStatusFlags">
+            <summary>
+            From DMO_INPUT_STATUS_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOVideoOutputStream">
+            <summary>
+            From DMO_VIDEO_OUTPUT_STREAM_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOPartialMediatype">
+            <summary>
+            From DMO_PARTIAL_MEDIATYPE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.DMOOutputDataBuffer">
+            <summary>
+            From DMO_OUTPUT_DATA_BUFFER
+            </summary>
+        </member>
+        <member name="F:DirectShowLib.DMO.DMOCategory.AudioDecoder">
+            <summary> DMOCATEGORY_AUDIO_DECODER </summary>
+        </member>
+        <member name="F:DirectShowLib.DMO.DMOCategory.AudioEncoder">
+            <summary> DMOCATEGORY_AUDIO_ENCODER </summary>
+        </member>
+        <member name="F:DirectShowLib.DMO.DMOCategory.VideoDecoder">
+            <summary> DMOCATEGORY_VIDEO_DECODER </summary>
+        </member>
+        <member name="F:DirectShowLib.DMO.DMOCategory.VideoEncoder">
+            <summary> DMOCATEGORY_VIDEO_ENCODER </summary>
+        </member>
+        <member name="F:DirectShowLib.DMO.DMOCategory.AudioEffect">
+            <summary> DMOCATEGORY_AUDIO_EFFECT </summary>
+        </member>
+        <member name="F:DirectShowLib.DMO.DMOCategory.VideoEffect">
+            <summary> DMOCATEGORY_VIDEO_EFFECT </summary>
+        </member>
+        <member name="F:DirectShowLib.DMO.DMOCategory.AudioCaptureEffect">
+            <summary> DMOCATEGORY_AUDIO_CAPTURE_EFFECT </summary>
+        </member>
+        <member name="M:DirectShowLib.DMO.DMOError.ThrowExceptionForHR(System.Int32)">
+            <summary>
+            If hr has a "failed" status code (E_*), throw an exception.  Note that status
+            messages (S_*) are not considered failure codes.  If DMO or DShow error text
+            is available, it is used to build the exception, otherwise a generic COM error
+            is thrown.
+            </summary>
+            <param name="hr">The HRESULT to check</param>
+        </member>
+        <member name="F:DirectShowLib.DMO.MediaParamTimeFormat.Reference">
+            <summary> GUID_TIME_REFERENCE </summary>
+        </member>
+        <member name="F:DirectShowLib.DMO.MediaParamTimeFormat.Music">
+            <summary> GUID_TIME_MUSIC </summary>
+        </member>
+        <member name="F:DirectShowLib.DMO.MediaParamTimeFormat.Samples">
+            <summary> GUID_TIME_SAMPLES, audio capture category </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.MPData">
+            <summary>
+            From MP_DATA
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.MPEnvelopeSegment">
+            <summary>
+            From MP_ENVELOPE_SEGMENT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.MPFlags">
+            <summary>
+            From MPF_ENVLP_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.MPType">
+            <summary>
+            From MP_TYPE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.MPCaps">
+            <summary>
+            From MP_CAPS_CURVE* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMO.ParamInfo">
+            <summary>
+            From MP_PARAMINFO
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.KSMultipleItem">
+            <summary>
+            From KSMULTIPLE_ITEM - Note that data is returned in the memory IMMEDIATELY following this struct.
+            The Size parm indicates ths size of the KSMultipleItem plus the extra bytes.
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.IKsPin.KsQueryMediums(System.IntPtr@)">
+            <summary>
+            The caller must free the returned structures, using the CoTaskMemFree function
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MixerData">
+            <summary>
+            From MIXER_DATA_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MixerState">
+            <summary>
+            From MIXER_STATE_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DDColor">
+            <summary>
+            From DDCOLOR_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DDColorControl">
+            <summary>
+            From DDCOLORCONTROL
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGRequestType">
+            <summary>
+            From MPEG_REQUEST_TYPE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGContextType">
+            <summary>
+            From MPEG_CONTEXT_TYPE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGPacketList">
+            <summary>
+            From MPEG_PACKET_LIST
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DSMCCFilterOptions">
+            <summary>
+            From DSMCC_FILTER_OPTIONS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ATSCFilterOptions">
+            <summary>
+            From ATSC_FILTER_OPTIONS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEG2Filter">
+            <summary>
+            From MPEG2_FILTER
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVB_EIT_FILTER_OPTIONS">
+            <summary>
+            From DVB_EIT_FILTER_OPTIONS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEG2Filter2">
+            <summary>
+            From MPEG2_FILTER2
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGContextUnion">
+            <summary>
+            From unnamed union
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BCSDeMux">
+            <summary>
+            From MPEG_BCS_DEMUX
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGWinSock">
+            <summary>
+            From MPEG_WINSOCK
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGContext">
+            <summary>
+            From MPEG_CONTEXT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGStreamBuffer">
+            <summary>
+            From MPEG_STREAM_BUFFER
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WSTLevel">
+            <summary>
+            From AM_WST_LEVEL
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WSTService">
+            <summary>
+            From AM_WST_SERVICE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WSTState">
+            <summary>
+            From AM_WST_STATE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WSTDrawBGMode">
+            <summary>
+            From AM_WST_DRAWBGMODE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGAudioDivider">
+            <summary>
+            Not from DirectShow
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGAudioDual">
+            <summary>
+            From AM_MPEG_AUDIO_DUAL_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGAudioAccuracy">
+            <summary>
+            Not from DirectShow
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEGAudioChannels">
+            <summary>
+            Not from DirectShow
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WSTPage">
+            <summary>
+            From AM_WST_PAGE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AcmMpegHeadLayer">
+            <summary>
+            From ACM_MPEG_LAYER* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AcmMpegHeadMode">
+            <summary>
+            From ACM_MPEG_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AcmMpegHeadFlags">
+            <summary>
+            From ACM_MPEG_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WaveMask">
+            <summary>
+            From SPEAKER_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEG1WaveFormat">
+            <summary>
+            From MPEG1WAVEFORMAT
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WaveFormatExtensible">
+            <summary>
+            From WAVEFORMATEXTENSIBLE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ASFWriterConfig">
+            <summary>
+            From _AM_ASFWRITERCONFIG_PARAM
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMInterlace">
+            <summary>
+            From AMINTERLACE_*
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMCopyProtect">
+            <summary>
+            From AMCOPYPROTECT_*
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMControl">
+            <summary>
+            From AMCONTROL_*
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoInfoHeader">
+            <summary>
+            From VIDEOINFOHEADER
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoInfoHeader2">
+            <summary>
+            From VIDEOINFOHEADER2
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WaveFormatEx">
+            <summary>
+            From WAVEFORMATEX
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.ISampleGrabberCB.SampleCB(System.Double,DirectShowLib.IMediaSample)">
+            <summary>
+            When called, callee must release pSample
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMExtendedSeekingCapabilities">
+            <summary>
+            From AMExtendedSeekingCapabilities
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE.RecordingType">
+            <summary>
+            From unnamed structure
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE.StreamBufferAttrDataType">
+            <summary>
+            From STREAMBUFFER_ATTR_DATATYPE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE.StreamBufferEventCode">
+            <summary>
+            From unnamed structure
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE.StreamBufferRecording">
+            <summary>
+            From g_wszStreamBufferRecording* static const WCHAR
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE.StreamBufferAttribute">
+            <summary>
+            From STREAMBUFFER_ATTRIBUTE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE.SBEPinData">
+            <summary>
+            From SBE_PIN_DATA
+            </summary>
+        </member>
+        <member name="F:DirectShowLib.SBE.SBEEvent.RecControlStarted">
+            <summary> EVENTID_SBE2RecControlStarted </summary>
+        </member>
+        <member name="F:DirectShowLib.SBE.SBEEvent.RecControlStopped">
+            <summary> EVENTID_SBE2RecControlStopped </summary>
+        </member>
+        <member name="F:DirectShowLib.SBE.SBEEvent.StreamDescEvent">
+            <summary> SBE2_STREAM_DESC_EVENT </summary>
+        </member>
+        <member name="F:DirectShowLib.SBE.SBEEvent.V1StreamsCreationEvent">
+            <summary> SBE2_V1_STREAMS_CREATION_EVENT </summary>
+        </member>
+        <member name="F:DirectShowLib.SBE.SBEEvent.V2StreamsCreationEvent">
+            <summary> SBE2_V2_STREAMS_CREATION_EVENT </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE.CrossbarDefaultFlags">
+            <summary>
+            From CROSSBAR_DEFAULT_FLAGS
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE.SBE2_StreamDesc">
+            <summary>
+            From SBE2_STREAM_DESC
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE.DVRStreamDesc">
+            <summary>
+            From DVR_STREAM_DESC
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.StreamBufferRecordingAttributes">
+            <summary>
+            CLSID_StreamBufferRecordingAttributes
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AudioRecord">
+            <summary>
+            CLSID_AudioRecord
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AVICo">
+            <summary>
+            CLSID_AVICo
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AVIDoc">
+            <summary>
+            CLSID_AVIDoc
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AviReader">
+            <summary>
+            CLSID_AviReader
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.FGControl">
+            <summary>
+            CLSID_FGControl 
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.FileSource">
+            <summary>
+            CLSID_FileSource
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.FilterMapper">
+            <summary>
+            CLSID_FilterMapper
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ProtoFilterGraph">
+            <summary>
+            CLSID_ProtoFilterGraph
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MOVReader">
+            <summary>
+            CLSID_MOVReader
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VPObject">
+            <summary>
+            CLSID_VPObject
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VPVBIObject">
+            <summary>
+            CLSID_VPVBIObject
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEG1Doc">
+            <summary>
+            CLSID_MPEG1Doc
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.TextRender">
+            <summary>
+            CLSID_TextRender
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CDeviceMoniker">
+            <summary>
+            CLSID_CDeviceMoniker
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DTFilter">
+            <summary>
+            CLSID_DTFilter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ETFilter">
+            <summary>
+            CLSID_ETFilter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.FilterGraphPrivateThread">
+            <summary>
+            CLSID_FilterGraphPrivateThread
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DtvCcFilter">
+            <summary>
+            CLSID_DtvCcFilter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MSTVCaptionFilter">
+            <summary>
+            CLSID_MSTVCaptionFilter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CreateDevEnum">
+            <summary>
+            CLSID_SystemDeviceEnum
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.FilterGraph">
+            <summary>
+            CLSID_FilterGraph
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.FilterGraphNoThread">
+            <summary>
+            CLSID_FilterGraphNoThread
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CaptureGraphBuilder2">
+            <summary>
+            CLSID_CaptureGraphBuilder2
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DvdGraphBuilder">
+            <summary>
+            CLSID_DvdGraphBuilder
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CaptureGraphBuilder">
+            <summary>
+            CLSID_CaptureGraphBuilder
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.StreamBufferConfig">
+            <summary>
+            CLSID_StreamBufferConfig
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.StreamBufferComposeRecording">
+            <summary>
+            CLSID_StreamBufferComposeRecording
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SeekingPassThru">
+            <summary>
+            CLSID_SeekingPassThru
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.FilterMapper2">
+            <summary>
+            CLSID_FilterMapper2
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MemoryAllocator">
+            <summary>
+            CLSID_MemoryAllocator
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MediaPropertyBag">
+            <summary>
+            CLSID_MediaPropertyBag
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVDState">
+            <summary>
+            CLSID_DVDState
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SectionList">
+            <summary>
+            CLSID_SectionList
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Mpeg2Stream">
+            <summary>
+            CLSID_Mpeg2Stream
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Mpeg2Data">
+            <summary>
+            CLSID_Mpeg2Data
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SAMIParser">
+            <summary>
+            Unnamed clsid
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.InternalScriptCommandRenderer">
+            <summary>
+            Unnamed clsid
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.BroadcastEventService">
+            <summary>
+            CLSID_BroadcastEventService
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AtscPsipParser">
+            <summary>
+            CLSID_AtscPsipParser
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DvbSiParser">
+            <summary>
+            CLSID_DvbSiParser
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DMOWrapperFilter">
+            <summary>
+            CLSID_DMOWrapperFilter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.StreamBufferSink">
+            <summary>
+            CLSID_StreamBufferSink
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SampleGrabber">
+            <summary>
+            CLSID_SampleGrabber
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.StreamBufferSource">
+            <summary>
+            CLSID_StreamBufferSource
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoMixingRenderer">
+            <summary>
+            CLSID_VideoMixingRenderer
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoMixingRenderer9">
+            <summary>
+            CLSID_VideoMixingRenderer9
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.EnhancedVideoRenderer">
+            <summary>
+            CLSID_EnhancedVideoRenderer
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoRendererDefault">
+            <summary>
+            CLSID_VideoRendererDefault
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AviSplitter">
+            <summary>
+            CLSID_AviSplitter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SmartTee">
+            <summary>
+            CLSID_SmartTee
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.NullRenderer">
+            <summary>
+            CLSID_NullRenderer
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ACMWrapper">
+            <summary>
+            CLSID_ACMWrapper
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AudioRender">
+            <summary>
+            CLSID_AudioRender
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AVIDec">
+            <summary>
+            CLSID_AVIDec
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AVIDraw">
+            <summary>
+            CLSID_AVIDraw
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AviDest">
+            <summary>
+            CLSID_AviDest
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ATSCNetworkProvider">
+            <summary>
+            CLSID_ATSCNetworkProvider
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVBCNetworkProvider">
+            <summary>
+            CLSID_DVBCNetworkProvider
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVBSNetworkProvider">
+            <summary>
+            CLSID_DVBSNetworkProvider
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVBTNetworkProvider">
+            <summary>
+            CLSID_DVBTNetworkProvider
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.NetworkProvider">
+            <summary>
+            CLSID_NetworkProvider
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Colour">
+            <summary>
+            CLSID_Colour
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DSoundRender">
+            <summary>
+            CLSID_DSoundRender
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVMux">
+            <summary>
+            CLSID_DVMux
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVSplitter">
+            <summary>
+            CLSID_DVSplitter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVVideoCodec">
+            <summary>
+            CLSID_DVVideoCodec
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVVideoEnc">
+            <summary>
+            CLSID_DVVideoEnc
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DVDNavigator">
+            <summary>
+            CLSID_DVDNavigator
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AsyncReader">
+            <summary>
+            CLSID_AsyncReader
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.URLReader">
+            <summary>
+            CLSID_URLReader
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.FileWriter">
+            <summary>
+            CLSID_FileWriter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.ModexRenderer">
+            <summary>
+            CLSID_ModexRenderer
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.InfTee">
+            <summary>
+            CLSID_InfTee
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Line21Decoder">
+            <summary>
+            CLSID_Line21Decoder
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Line21Decoder2">
+            <summary>
+            CLSID_Line21Decoder2
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AVIMIDIRender">
+            <summary>
+            CLSID_AVIMIDIRender
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MJPGEnc">
+            <summary>
+            CLSID_MJPGEnc
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MjpegDec">
+            <summary>
+            CLSID_MjpegDec
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CMpegAudioCodec">
+            <summary>
+            CLSID_CMpegAudioCodec
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEG1Splitter">
+            <summary>
+            CLSID_MPEG1Splitter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CMpegVideoCodec">
+            <summary>
+            CLSID_CMpegVideoCodec
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEG2Demultiplexer">
+            <summary>
+            CLSID_MPEG2Demultiplexer
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MMSPLITTER">
+            <summary>
+            CLSID_MMSPLITTER
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.OverlayMixer">
+            <summary>
+            CLSID_OverlayMixer
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.OverlayMixer2">
+            <summary>
+            CLSID_OverlayMixer2
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.QTDec">
+            <summary>
+            CLSID_QTDec
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.QuickTimeParser">
+            <summary>
+            CLSID_QuickTimeParser
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VBISurfaces">
+            <summary>
+            CLSID_VBISurfaces
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VfwCapture">
+            <summary>
+            CLSID_VfwCapture
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Dither">
+            <summary>
+            CLSID_Dither
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoPortManager">
+            <summary>
+            CLSID_VideoPortManager
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VideoRenderer">
+            <summary>
+            CLSID_VideoRenderer
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WMAsfReader">
+            <summary>
+            CLSID_WMAsfReader
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SystemClock">
+            <summary>
+            CLSID_SystemClock
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WMAsfWriter">
+            <summary>
+            CLSID_WMAsfWriter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.WSTDecoder">
+            <summary>
+            CLSID_WSTDecoder
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.Mpeg2VideoStreamAnalyzer">
+            <summary>
+            CLSID_Mpeg2VideoStreamAnalyzer
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.PTFilter">
+            <summary>
+            CLSID_PTFilter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.MPEG2Demultiplexer_NoClock">
+            <summary>
+            CLSID_MPEG2Demultiplexer_NoClock
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE2Sink">
+            <summary>
+            CLSID_SBE2Sink
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.StreamBufferPropertyHandler">
+            <summary>
+            CLSID_StreamBufferPropertyHandler
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.StreamBufferThumbnailHandler">
+            <summary>
+            CLSID_StreamBufferThumbnailHandler
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE2File">
+            <summary>
+            CLSID_SBE2File
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CCAFilter">
+            <summary>
+            CLSID_CCAFilter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.CaptionsFilter">
+            <summary>
+            CLSID_CaptionsFilter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SubtitlesFilter">
+            <summary>
+            CLSID_SubtitlesFilter
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DirectShowPluginControl">
+            <summary>
+            CLSID_DirectShowPluginControl
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE2MediaTypeProfile">
+            <summary>
+            CLSID_SBE2MediaTypeProfile
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.SBE2FileScan">
+            <summary>
+            CLSID_SBE2FileScan
+            </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.CPCAFiltersCategory">
+            <summary> CLSID_CPCAFiltersCategory </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.MediaEncoderCategory">
+            <summary> CLSID_MediaEncoderCategory </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.MediaMultiplexerCategory">
+            <summary> CLSID_MediaMultiplexerCategory </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.DMOFilterCategory">
+            <summary> CLSID_DMOFilterCategory </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AudioInputDevice">
+            <summary> CLSID_AudioInputDeviceCategory, audio capture category </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.VideoInputDevice">
+            <summary> CLSID_VideoInputDeviceCategory, video capture category </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.VideoCompressorCategory">
+            <summary> CLSID_VideoCompressorCategory, video compressor category </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AudioCompressorCategory">
+            <summary> CLSID_AudioCompressorCategory, audio compressor category </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.LegacyAmFilterCategory">
+            <summary> CLSID_LegacyAmFilterCategory, legacy filters </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AudioRendererCategory">
+            <summary> CLSID_AudioRendererCategory, Audio renderer category</summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.BDAReceiverComponentsCategory">
+            <summary> KSCATEGORY_BDA_RECEIVER_COMPONENT, BDA Receiver Components category</summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.BDASourceFiltersCategory">
+            <summary> KSCATEGORY_BDA_NETWORK_TUNER, BDA Source Filters category</summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.BDARenderingFiltersCategory">
+            <summary> KSCATEGORY_BDA_IP_SINK, BDA Rendering Filters category</summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.BDANetworkProvidersCategory">
+            <summary> KSCATEGORY_BDA_NETWORK_PROVIDER, BDA Network Providers category</summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.BDATransportInformationRenderersCategory">
+            <summary> KSCATEGORY_BDA_TRANSPORT_INFORMATION, BDA Transport Information Renderers category</summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.MidiRendererCategory">
+            <summary> CLSID_MidiRendererCategory </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.TransmitCategory">
+            <summary> CLSID_TransmitCategory  External Renderers Category</summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.DeviceControlCategory">
+            <summary> CLSID_DeviceControlCategory  Device Control Filters</summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.VideoEffects1Category">
+            <summary> CLSID_VideoEffects1Category </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.VideoEffects2Category">
+            <summary> CLSID_VideoEffects2Category </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AudioEffects1Category">
+            <summary> CLSID_AudioEffects1Category </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AudioEffects2Category">
+            <summary> CLSID_AudioEffects2Category </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:DirectShowLib.FilterCategory.KSDataDecompressor" -->
+        <member name="F:DirectShowLib.FilterCategory.KSCommunicationsTransform">
+            <summary> KSCATEGORY_COMMUNICATIONSTRANSFORM </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.KSDataTransform">
+            <summary> KSCATEGORY_DATATRANSFORM </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.KSInterfaceTransform">
+            <summary> KSCATEGORY_INTERFACETRANSFORM </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.KSMixer">
+            <summary> KSCATEGORY_MIXER </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.KSAudioDevice">
+            <summary> KSCATEGORY_AUDIO_DEVICE </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.ActiveMovieCategories">
+            <summary> CLSID_ActiveMovieCategories </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSCapture">
+            <summary> AM_KSCATEGORY_CAPTURE </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSRender">
+            <summary> AM_KSCATEGORY_RENDER </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSDataCompressor">
+            <summary> AM_KSCATEGORY_DATACOMPRESSOR </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSAudio">
+            <summary> AM_KSCATEGORY_AUDIO </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSVideo">
+            <summary> AM_KSCATEGORY_VIDEO </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSTVTuner">
+            <summary> AM_KSCATEGORY_TVTUNER </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSCrossbar">
+            <summary> AM_KSCATEGORY_CROSSBAR </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSTVAudio">
+            <summary> AM_KSCATEGORY_TVAUDIO </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSVBICodec">
+            <summary> AM_KSCATEGORY_VBICODEC </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSSplitter">
+            <summary> AM_KSCATEGORY_SPLITTER </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.WDMStreamingEncoderDevices">
+            <summary> Not defined </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.WDMStreamingMultiplexerDevices">
+            <summary> Not defined </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.LTMMVideoProcessors">
+            <summary> Not defined </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.BDACPCAFilters">
+            <summary> Not defined </summary>
+        </member>
+        <member name="F:DirectShowLib.FilterCategory.AMKSVideoScreen">
+            <summary> Not defined </summary>
+        </member>
+        <member name="F:DirectShowLib.VMRClsId.AllocPresenter">
+            <summary>CLSID_AllocPresenter</summary>
+        </member>
+        <member name="F:DirectShowLib.VMRClsId.AllocPresenterDDXclMode">
+            <summary>CLSID_AllocPresenterDDXclMode</summary>
+        </member>
+        <member name="F:DirectShowLib.TVEClsId.DShowTVEFilter">
+            <summary>CLSID_DShowTVEFilter</summary>
+        </member>
+        <member name="F:DirectShowLib.TVEClsId.TVEFilterTuneProperties">
+            <summary>CLSID_TVEFilterTuneProperties</summary>
+        </member>
+        <member name="F:DirectShowLib.TVEClsId.TVEFilterCCProperties">
+            <summary>CLSID_TVEFilterCCProperties</summary>
+        </member>
+        <member name="F:DirectShowLib.TVEClsId.TVEFilterStatsProperties">
+            <summary>CLSID_TVEFilterStatsProperties</summary>
+        </member>
+        <member name="F:DirectShowLib.ENCAPIClsId.IVideoEncoderProxy">
+            <summary>CLSID_IVideoEncoderProxy</summary>
+        </member>
+        <member name="F:DirectShowLib.ENCAPIClsId.ICodecAPIProxy">
+            <summary>CLSID_ICodecAPIProxy</summary>
+        </member>
+        <member name="F:DirectShowLib.ENCAPIClsId.IVideoEncoderCodecAPIProxy">
+            <summary>CLSID_IVideoEncoderCodecAPIProxy</summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.Video">
+            <summary> MEDIATYPE_Video 'vids' </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.Interleaved">
+            <summary> MEDIATYPE_Interleaved 'iavs' </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.Audio">
+            <summary> MEDIATYPE_Audio 'auds' </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.Subtitle">
+            <summary> MEDIATYPE_Subtitle 'subs' </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.FileSourceAsync">
+            <summary> MEDIATYPE_FileSourceAsync </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.Texts">
+            <summary> MEDIATYPE_Text 'txts' </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.Stream">
+            <summary> MEDIATYPE_Stream </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.VBI">
+            <summary> MEDIATYPE_VBI </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.Midi">
+            <summary> MEDIATYPE_Midi </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.File">
+            <summary> MEDIATYPE_File </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.ScriptCommand">
+            <summary> MEDIATYPE_ScriptCommand </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.AuxLine21Data">
+            <summary> MEDIATYPE_AUXLine21Data </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.Timecode">
+            <summary> MEDIATYPE_Timecode </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.LMRT">
+            <summary> MEDIATYPE_LMRT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.URLStream">
+            <summary> MEDIATYPE_URL_STREAM </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.AnalogVideo">
+            <summary> MEDIATYPE_AnalogVideo </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.AnalogAudio">
+            <summary> MEDIATYPE_AnalogAudio </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.Mpeg2Sections">
+            <summary> MEDIATYPE_MPEG2_SECTIONS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.DTVCCData">
+            <summary> MEDIATYPE_DTVCCData </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.MSTVCaption">
+            <summary> MEDIATYPE_MSTVCaption </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.AUXTeletextPage">
+            <summary> MEDIATYPE_AUXTeletextPage </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaType.CC_Container">
+            <summary> MEDIATYPE_CC_CONTAINER </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Aac">
+            <summary> MEDIASUBTYPE_RAW_AAC1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.LatmAac">
+            <summary> MEDIASUBTYPE_LATM_AAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.MpegLoas">
+            <summary> MEDIASUBTYPE_MPEG_LOAS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.AacAdts">
+            <summary> WAVE_FORMAT_AAC_ADTS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.MpegAdtsAac">
+            <summary> MEDIASUBTYPE_MPEG_ADTS_AAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.MpegRawAac">
+            <summary> MEDIASUBTYPE_MPEG_RAW_AAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.NokiaMpegAdtsAac">
+            <summary> MEDIASUBTYPE_NOKIA_MPEG_ADTS_AAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.NokiaMpegRawAac">
+            <summary> MEDIASUBTYPE_NOKIA_MPEG_RAW_AAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.VodafoneMpegAdtsAac">
+            <summary> MEDIASUBTYPE_VODAFONE_MPEG_ADTS_AAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.VodafoneMpegRawAac">
+            <summary> MEDIASUBTYPE_VODAFONE_MPEG_RAW_AAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.MpegHeAac">
+            <summary> MEDIASUBTYPE_MPEG_HEAAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Als">
+            <summary> MEDIASUBTYPE_ALS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Mpeg4Audio">
+            <summary> MEDIASUBTYPE_MP4A </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Mpeg4AudioAdvanced">
+            <summary> MEDIASUBTYPE_mp4a </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.DolbyWaveAc3">
+            <summary> MEDIASUBTYPE_WAVE_DOLBY_AC3</summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.DolbyAc3Spdif">
+            <summary> MEDIASUBTYPE_DOLBY_AC3_SPDIF </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.DolbyEac3">
+            <summary> MEDIASUBTYPE_DOLBY_DDPLUS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.DolbyArcsoftEac3">
+            <summary> MEDIASUBTYPE_DOLBY_DDPLUS_ARCSOFT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.DolbyTrueHd">
+            <summary> MEDIASUBTYPE_DOLBY_TRUEHD </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.DolbyArcsoftTrueHd">
+            <summary> MEDIASUBTYPE_DOLBY_TRUEHD_ARCSOFT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.DolbyAc3">
+            <summary> MEDIASUBTYPE_DOLBY_AC3 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.WaveDts">
+            <summary> MEDIASUBTYPE_WAVE_DTS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Dts">
+            <summary> MEDIASUBTYPE_DTS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.DtsHd">
+            <summary> MEDIASUBTYPE_DTS_HD </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Mpeg1Packet">
+            <summary> MEDIASUBTYPE_MPEG1Packet </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Mpeg1Payload">
+            <summary> MEDIASUBTYPE_MPEG1Payload </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Mpeg1AudioPayload">
+            <summary> MEDIASUBTYPE_MPEG1AudioPayload </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Mp3">
+            <summary> MEDIASUBTYPE_MP3 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Mpeg2Audio">
+            <summary> MEDIASUBTYPE_MPEG2_AUDIO </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Flac">
+            <summary> MEDIASUBTYPE_FLAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.FlacFramed">
+            <summary> MEDIASUBTYPE_FLAC_FRAMED </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Vorbis2">
+            <summary> MEDIASUBTYPE_Vorbis2 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Tta1">
+            <summary> MEDIASUBTYPE_TTA1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.WavPack4">
+            <summary> MEDIASUBTYPE_WAVPACK4 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Mlp">
+            <summary> MEDIASUBTYPE_MLP </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Alac">
+            <summary> MEDIASUBTYPE_ALAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Aes3">
+            <summary> MEDIASUBTYPE_AES3 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.DvdLpcmAudio">
+            <summary> MEDIASUBTYPE_DVD_LPCM_AUDIO </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.BdLpcmAudio">
+            <summary> MEDIASUBTYPE_BD_LPCM_AUDIO </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.HdmvLpcmAudio">
+            <summary> MEDIASUBTYPE_HDMV_LPCM_AUDIO </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmNone">
+            <summary> MEDIASUBTYPE_PCM_NONE </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmRaw">
+            <summary> MEDIASUBTYPE_PCM_RAW </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmTwos">
+            <summary> MEDIASUBTYPE_PCM_TWOS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmSowt">
+            <summary> MEDIASUBTYPE_PCM_SOWT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmIn24">
+            <summary> MEDIASUBTYPE_PCM_IN24 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmIn32">
+            <summary> MEDIASUBTYPE_PCM_IN32 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmFl32">
+            <summary> MEDIASUBTYPE_PCM_FL32 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmFl64">
+            <summary> MEDIASUBTYPE_PCM_FL64 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmIn24Le">
+            <summary> MEDIASUBTYPE_PCM_IN24_le </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmIn32Le">
+            <summary> MEDIASUBTYPE_PCM_IN32_le </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmFl32Le">
+            <summary> MEDIASUBTYPE_PCM_FL32_le </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmFl64Le">
+            <summary> MEDIASUBTYPE_PCM_FL64_le </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.MsAudio">
+            <summary> MEDIASUBTYPE_MSAUDIO1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.WmAudio2">
+            <summary> MEDIASUBTYPE_WMAUDIO2 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.WmAudio3">
+            <summary> MEDIASUBTYPE_WMAUDIO3 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.WmAudioLossless">
+            <summary> MEDIASUBTYPE_WMAUDIO_LOSSLESS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.WmaSpdif">
+            <summary> MEDIASUBTYPE_WMASPDIF </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.WmAudio4">
+            <summary> MEDIASUBTYPE_WMAUDIO4 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Cook">
+            <summary> MEDIASUBTYPE_COOK </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Raac">
+            <summary> MEDIASUBTYPE_RAAC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Racp">
+            <summary> MEDIASUBTYPE_RACP </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Sipr">
+            <summary> MEDIASUBTYPE_SIPR </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.SiprWave">
+            <summary> MEDIASUBTYPE_SIPR_WAVE </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Dnet">
+            <summary> MEDIASUBTYPE_DNET </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Ra28_8">
+            <summary> MEDIASUBTYPE_28_8 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Ra14_4">
+            <summary> MEDIASUBTYPE_14_4 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Ralf">
+            <summary> MEDIASUBTYPE_RALF </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Dsdl">
+            <summary> MEDIASUBTYPE_DSDL </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Dsdm">
+            <summary> MEDIASUBTYPE_DSDM </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Dsd1">
+            <summary> MEDIASUBTYPE_DSD1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Dsd8">
+            <summary> MEDIASUBTYPE_DSD8 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Pcm">
+            <summary> MEDIASUBTYPE_PCM </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.DrmAudio">
+            <summary> MEDIASUBTYPE_DRM_Audio </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.IeeeFloat">
+            <summary> MEDIASUBTYPE_IEEE_FLOAT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.RawSport">
+            <summary> MEDIASUBTYPE_RAW_SPORT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.SpdifTag241h">
+            <summary> MEDIASUBTYPE_SPDIF_TAG_241h </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.PcmAudioObsolete">
+            <summary> MEDIASUBTYPE_PCMAudio_Obsolete </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Wave">
+            <summary> MEDIASUBTYPE_WAVE </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Amr">
+            <summary> MEDIASUBTYPE_AMR </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.FfmpegAudio">
+            <summary> MEDIASUBTYPE_FFMPEG_AUDIO </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Speex">
+            <summary> MEDIASUBTYPE_SPEEX </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Opus">
+            <summary> WAVE_FORMAT_OPUS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Samr">
+            <summary> MEDIASUBTYPE_SAMR </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Nellymoser">
+            <summary> MEDIASUBTYPE_NELLYMOSER </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Alaw">
+            <summary> MEDIASUBTYPE_ALAW </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Mulaw">
+            <summary> MEDIASUBTYPE_MULAW </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.MsGsm610">
+            <summary> MEDIASUBTYPE_MSGSM610 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.AdPmcMs">
+            <summary> MEDIASUBTYPE_ADPCM_MS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.TrueSpeech">
+            <summary> MEDIASUBTYPE_TRUESPEECH </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Qdm2">
+            <summary> MEDIASUBTYPE_QDM2 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Rt29">
+            <summary> MEDIASUBTYPE_VOXWARE_RT29 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Atrac3">
+            <summary> MEDIASUBTYPE_ATRAC3 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Atrc">
+            <summary> MEDIASUBTYPE_ATRC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Atrac3P">
+            <summary> MEDIASUBTYPE_ATRAC3P </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Audio.Bink">
+            <summary> MEDIASUBTYPE_Bink </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.H264">
+            <summary> MEDIASUBTYPE_H264 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.h264">
+            <summary> MEDIASUBTYPE_h264 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.X264">
+            <summary> MEDIASUBTYPE_X264 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.x264">
+            <summary> MEDIASUBTYPE_x264 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Avc1">
+            <summary> MEDIASUBTYPE_AVC1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.avc1">
+            <summary> MEDIASUBTYPE_avc1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Ccv1">
+            <summary> MEDIASUBTYPE_CCV1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.H264Bis">
+            <summary> MEDIASUBTYPE_H264_bis </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Amvc">
+            <summary> MEDIASUBTYPE_AMVC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Mvc1">
+            <summary> MEDIASUBTYPE_MVC1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Hevc">
+            <summary> MEDIASUBTYPE_HEVC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Hvc1">
+            <summary> MEDIASUBTYPE_HVC1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Hm10">
+            <summary> MEDIASUBTYPE_HM10 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Mpeg1Payload">
+            <summary> MEDIASUBTYPE_MPEG1Payload </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Bink">
+            <summary> MEDIASUBTYPE_BIKI </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Div3">
+            <summary> MEDIASUBTYPE_DIV3 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.div3">
+            <summary> MEDIASUBTYPE_div3 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Dx50">
+            <summary> MEDIASUBTYPE_DX50 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.dx50">
+            <summary> MEDIASUBTYPE_dx50 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Divx">
+            <summary> MEDIASUBTYPE_DIVX </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.divx">
+            <summary> MEDIASUBTYPE_divx </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Dvsd">
+            <summary> MEDIASUBTYPE_DVSD </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Dvhd">
+            <summary> MEDIASUBTYPE_DVHD </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Dvsl">
+            <summary> MEDIASUBTYPE_DVSL </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Dvcp">
+            <summary> MEDIASUBTYPE_DVCP    </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Flv1">
+            <summary> MEDIASUBTYPE_FLV1    </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.flv1">
+            <summary> MEDIASUBTYPE_flv1    </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Flv4">
+            <summary> MEDIASUBTYPE_FLV4    </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.flv4">
+            <summary> MEDIASUBTYPE_flv4    </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Video.Fps1">
+            <summary> MEDIASUBTYPE_FPS1    </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.CLPL">
+            <summary> MEDIASUBTYPE_CLPL </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.YUYV">
+            <summary> MEDIASUBTYPE_YUYV </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.IYUV">
+            <summary> MEDIASUBTYPE_IYUV </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.YVU9">
+            <summary> MEDIASUBTYPE_YVU9 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Y411">
+            <summary> MEDIASUBTYPE_Y411 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Y41P">
+            <summary> MEDIASUBTYPE_Y41P </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.YUY2">
+            <summary> MEDIASUBTYPE_YUY2 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.YVYU">
+            <summary> MEDIASUBTYPE_YVYU </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.UYVY">
+            <summary> MEDIASUBTYPE_UYVY </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Y211">
+            <summary> MEDIASUBTYPE_Y211 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.YV16">
+            <summary> MEDIASUBTYPE_YV16 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.YV24">
+            <summary> MEDIASUBTYPE_YV24 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.v210">
+            <summary> MEDIASUBTYPE_v210 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.v216">
+            <summary> MEDIASUBTYPE_v216 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Y410">
+            <summary> MEDIASUBTYPE_Y410 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Y416">
+            <summary> MEDIASUBTYPE_Y416 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.v410">
+            <summary> MEDIASUBTYPE_v410 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.CLJR">
+            <summary> MEDIASUBTYPE_CLJR </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.IF09">
+            <summary> MEDIASUBTYPE_IF09 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.CPLA">
+            <summary> MEDIASUBTYPE_CPLA </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.MJPG">
+            <summary> MEDIASUBTYPE_MJPG </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.TVMJ">
+            <summary> MEDIASUBTYPE_TVMJ </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.WAKE">
+            <summary> MEDIASUBTYPE_WAKE </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.CFCC">
+            <summary> MEDIASUBTYPE_CFCC </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.IJPG">
+            <summary> MEDIASUBTYPE_IJPG </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.PLUM">
+            <summary> MEDIASUBTYPE_Plum </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.DVCS">
+            <summary> MEDIASUBTYPE_DVCS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.DVSD">
+            <summary> MEDIASUBTYPE_DVSD </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.MDVF">
+            <summary> MEDIASUBTYPE_MDVF </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB1">
+            <summary> MEDIASUBTYPE_RGB1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB4">
+            <summary> MEDIASUBTYPE_RGB4 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB8">
+            <summary> MEDIASUBTYPE_RGB8 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB565">
+            <summary> MEDIASUBTYPE_RGB565 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB555">
+            <summary> MEDIASUBTYPE_RGB555 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB24">
+            <summary> MEDIASUBTYPE_RGB24 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB32">
+            <summary> MEDIASUBTYPE_RGB32 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ARGB1555">
+            <summary> MEDIASUBTYPE_ARGB1555 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ARGB4444">
+            <summary> MEDIASUBTYPE_ARGB4444 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ARGB32">
+            <summary> MEDIASUBTYPE_ARGB32 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.A2R10G10B10">
+            <summary> MEDIASUBTYPE_A2R10G10B10 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.A2B10G10R10">
+            <summary> MEDIASUBTYPE_A2B10G10R10 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AYUV">
+            <summary> MEDIASUBTYPE_AYUV </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AI44">
+            <summary> MEDIASUBTYPE_AI44 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.IA44">
+            <summary> MEDIASUBTYPE_IA44 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB32_D3D_DX7_RT">
+            <summary> MEDIASUBTYPE_RGB32_D3D_DX7_RT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB16_D3D_DX7_RT">
+            <summary> MEDIASUBTYPE_RGB16_D3D_DX7_RT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ARGB32_D3D_DX7_RT">
+            <summary> MEDIASUBTYPE_ARGB32_D3D_DX7_RT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ARGB4444_D3D_DX7_RT">
+            <summary> MEDIASUBTYPE_ARGB4444_D3D_DX7_RT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ARGB1555_D3D_DX7_RT">
+            <summary> MEDIASUBTYPE_ARGB1555_D3D_DX7_RT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB32_D3D_DX9_RT">
+            <summary> MEDIASUBTYPE_RGB32_D3D_DX9_RT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.RGB16_D3D_DX9_RT">
+            <summary> MEDIASUBTYPE_RGB16_D3D_DX9_RT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ARGB32_D3D_DX9_RT">
+            <summary> MEDIASUBTYPE_ARGB32_D3D_DX9_RT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ARGB4444_D3D_DX9_RT">
+            <summary> MEDIASUBTYPE_ARGB4444_D3D_DX9_RT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ARGB1555_D3D_DX9_RT">
+            <summary> MEDIASUBTYPE_ARGB1555_D3D_DX9_RT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.YV12">
+            <summary> MEDIASUBTYPE_YV12 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.NV12">
+            <summary> MEDIASUBTYPE_NV12 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.IMC1">
+            <summary> MEDIASUBTYPE_IMC1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.IMC2">
+            <summary> MEDIASUBTYPE_IMC2 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.IMC3">
+            <summary> MEDIASUBTYPE_IMC3 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.IMC4">
+            <summary> MEDIASUBTYPE_IMC4 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.S340">
+            <summary> MEDIASUBTYPE_S340 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.S342">
+            <summary> MEDIASUBTYPE_S342 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Overlay">
+            <summary> MEDIASUBTYPE_Overlay </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.MPEG1SystemStream">
+            <summary> MEDIATYPE_MPEG1SystemStream </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.MPEG1System">
+            <summary> MEDIASUBTYPE_MPEG1System </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.MPEG1VideoCD">
+            <summary> MEDIASUBTYPE_MPEG1VideoCD </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.MPEG1Video">
+            <summary> MEDIASUBTYPE_MPEG1Video </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.MPEG1Audio">
+            <summary> MEDIASUBTYPE_MPEG1Audio </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Avi">
+            <summary> MEDIASUBTYPE_Avi </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Asf">
+            <summary> MEDIASUBTYPE_Asf </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.QTMovie">
+            <summary> MEDIASUBTYPE_QTMovie </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.QTRpza">
+            <summary> MEDIASUBTYPE_QTRpza </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.QTSmc">
+            <summary> MEDIASUBTYPE_QTSmc </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.QTRle">
+            <summary> MEDIASUBTYPE_QTRle </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.QTJpeg">
+            <summary> MEDIASUBTYPE_QTJpeg </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AU">
+            <summary> MEDIASUBTYPE_AU </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AIFF">
+            <summary> MEDIASUBTYPE_AIFF </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.dvhd">
+            <summary> MEDIASUBTYPE_dvhd </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.dvsl">
+            <summary> MEDIASUBTYPE_dvsl </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.dv25">
+            <summary> MEDIASUBTYPE_dv25 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.dv50">
+            <summary> MEDIASUBTYPE_dv50 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.dvh1">
+            <summary> MEDIASUBTYPE_dvh1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Line21_BytePair">
+            <summary> MEDIASUBTYPE_Line21_BytePair </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Line21_GOPPacket">
+            <summary> MEDIASUBTYPE_Line21_GOPPacket </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Line21_VBIRawData">
+            <summary> MEDIASUBTYPE_Line21_VBIRawData </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.TELETEXT">
+            <summary> MEDIASUBTYPE_TELETEXT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.WSS">
+            <summary> MEDIASUBTYPE_WSS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.VPS">
+            <summary> MEDIASUBTYPE_VPS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.DssVideo">
+            <summary> MEDIASUBTYPE_DssVideo </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.DssAudio">
+            <summary> MEDIASUBTYPE_DssAudio </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.VPVideo">
+            <summary> MEDIASUBTYPE_VPVideo </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.VPVBI">
+            <summary> MEDIASUBTYPE_VPVBI </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_NTSC_M">
+            <summary> MEDIASUBTYPE_AnalogVideo_NTSC_M </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_PAL_B">
+            <summary> MEDIASUBTYPE_AnalogVideo_PAL_B </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_PAL_D">
+            <summary> MEDIASUBTYPE_AnalogVideo_PAL_D </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_PAL_G">
+            <summary> MEDIASUBTYPE_AnalogVideo_PAL_G </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_PAL_H">
+            <summary> MEDIASUBTYPE_AnalogVideo_PAL_H </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_PAL_I">
+            <summary> MEDIASUBTYPE_AnalogVideo_PAL_I </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_PAL_M">
+            <summary> MEDIASUBTYPE_AnalogVideo_PAL_M </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_PAL_N">
+            <summary> MEDIASUBTYPE_AnalogVideo_PAL_N </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_PAL_N_COMBO">
+            <summary> MEDIASUBTYPE_AnalogVideo_PAL_N_COMBO </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_SECAM_B">
+            <summary> MEDIASUBTYPE_AnalogVideo_SECAM_B </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_SECAM_D">
+            <summary> MEDIASUBTYPE_AnalogVideo_SECAM_D </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_SECAM_G">
+            <summary> MEDIASUBTYPE_AnalogVideo_SECAM_G </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_SECAM_H">
+            <summary> MEDIASUBTYPE_AnalogVideo_SECAM_H </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_SECAM_K">
+            <summary> MEDIASUBTYPE_AnalogVideo_SECAM_K </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_SECAM_K1">
+            <summary> MEDIASUBTYPE_AnalogVideo_SECAM_K1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AnalogVideo_SECAM_L">
+            <summary> MEDIASUBTYPE_AnalogVideo_SECAM_L </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.I420">
+            <summary> not in uuids.h </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.VideoImage">
+            <summary> WMMEDIASUBTYPE_VIDEOIMAGE </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Mpeg2Video">
+            <summary> WMMEDIASUBTYPE_MPEG2_VIDEO </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.WebStream">
+            <summary> WMMEDIASUBTYPE_WebStream </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Mpeg2Audio">
+            <summary> MEDIASUBTYPE_MPEG2_AUDIO </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Mpeg2DvD">
+            <summary> MEDIASUBTYPE_MPEG2_DVD </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.DvbSI">
+            <summary> MEDIASUBTYPE_DVB_SI </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.AtscSI">
+            <summary> MEDIASUBTYPE_ATSC_SI </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Mpeg2Data">
+            <summary> MEDIASUBTYPE_MPEG2DATA </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Mpeg2Program">
+            <summary> MEDIASUBTYPE_MPEG2_PROGRAM </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Mpeg2Transport">
+            <summary> MEDIASUBTYPE_MPEG2_TRANSPORT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Mpeg2TransportStride">
+            <summary> MEDIASUBTYPE_MPEG2_TRANSPORT_STRIDE </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.None">
+            <summary> MEDIASUBTYPE_None </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.BdaMpeg2Transport">
+            <summary> MEDIASUBTYPE_BDA_MPEG2_TRANSPORT </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.VC1">
+            <summary> MEDIASUBTYPE_VC1 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.CyberlinkVC1">
+            <summary> MEDIASUBTYPE_VC1_Cyberlink </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.NV24">
+            <summary> MEDIASUBTYPE_NV24 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Data708_608">
+            <summary> MEDIASUBTYPE_708_608Data </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.DtvCcData">
+            <summary> MEDIASUBTYPE_DtvCcData </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.LATMAACLAF">
+            <summary> MEDIASUBTYPE_LATM_AAC_LAF_SPLITTER </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.DVB_Subtitles">
+            <summary> MEDIASUBTYPE_DVB_SUBTITLES </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ISDB_Captions">
+            <summary> MEDIASUBTYPE_ISDB_CAPTIONS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ISDB_Superimpose">
+            <summary> MEDIASUBTYPE_ISDB_SUPERIMPOSE </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.NV11">
+            <summary> MEDIASUBTYPE_NV11 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.P208">
+            <summary> MEDIASUBTYPE_P208 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.P210">
+            <summary> MEDIASUBTYPE_P210 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.P216">
+            <summary> MEDIASUBTYPE_P216 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.P010">
+            <summary> MEDIASUBTYPE_P010 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.P016">
+            <summary> MEDIASUBTYPE_P016 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Y210">
+            <summary> MEDIASUBTYPE_Y210 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Y216">
+            <summary> MEDIASUBTYPE_Y216 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.P408">
+            <summary> MEDIASUBTYPE_P408 </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.CC_Container">
+            <summary> MEDIASUBTYPE_CC_CONTAINER </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.VBI">
+            <summary> MEDIASUBTYPE_VBI </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.XDS">
+            <summary> MEDIASUBTYPE_XDS </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.ETDTFilter_Tagged">
+            <summary> MEDIASUBTYPE_ETDTFilter_Tagged </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.CPFilters_Processed">
+            <summary> MEDIASUBTYPE_CPFilters_Processed </summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Utf8">
+            <summary>MEDIASUBTYPE_UTF8</summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Ssa">
+            <summary>MEDIASUBTYPE_SSA</summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Ass">
+            <summary>MEDIASUBTYPE_ASS</summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Ass2">
+            <summary>MEDIASUBTYPE_ASS2</summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.Ssf">
+            <summary>MEDIASUBTYPE_SSF</summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.VobSub">
+            <summary>MEDIASUBTYPE_VOBSUB</summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.HdmvSub">
+            <summary>MEDIASUBTYPE_HDMVSUB</summary>
+        </member>
+        <member name="F:DirectShowLib.MediaSubType.DvbSub">
+            <summary>MEDIASUBTYPE_DVB_SUBTITLES</summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.None">
+            <summary> FORMAT_None </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.VideoInfo">
+            <summary> FORMAT_VideoInfo </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.VideoInfo2">
+            <summary> FORMAT_VideoInfo2 </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.WaveEx">
+            <summary> FORMAT_WaveFormatEx </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.MpegVideo">
+            <summary> FORMAT_MPEGVideo </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.MpegStreams">
+            <summary> FORMAT_MPEGStreams </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.DvInfo">
+            <summary> FORMAT_DvInfo </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.AnalogVideo">
+            <summary> FORMAT_AnalogVideo </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.Mpeg2Video">
+            <summary> FORMAT_MPEG2Video </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.DolbyAC3">
+            <summary> FORMAT_DolbyAC3 </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.Mpeg2Audio">
+            <summary> FORMAT_MPEG2Audio </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.WSS525">
+            <summary> FORMAT_525WSS </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.ETDTFilter_Tagged">
+            <summary> FORMATTYPE_ETDTFilter_Tagged </summary>
+        </member>
+        <member name="F:DirectShowLib.FormatType.CPFilters_Processed">
+            <summary> FORMATTYPE_CPFilters_Processed </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.UDCRTag">
+            <summary> DSATTRIB_UDCRTag </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.PicSampleSeq">
+            <summary> DSATTRIB_PicSampleSeq </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.OptionalVideoAttributes">
+            <summary> DSATTRIB_OptionalVideoAttributes </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.CC_ContainerInfo">
+            <summary> DSATTRIB_CC_CONTAINER_INFO </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.TransportProperties">
+            <summary> DSATTRIB_TRANSPORT_PROPERTIES </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.PBDATagAttribute">
+            <summary> DSATTRIB_PBDATAG_ATTRIBUTE </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.CaptureStreamtime">
+            <summary> DSATTRIB_CAPTURE_STREAMTIME </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.DShowStreamDesc">
+            <summary> DSATTRIB_DSHOW_STREAM_DESC </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.SampleLiveStreamtime">
+            <summary> DSATTRIB_SAMPLE_LIVE_STREAM_TIME </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.WMDRMProtectionInfo">
+            <summary> DSATTRIB_WMDRMProtectionInfo </summary>
+        </member>
+        <member name="F:DirectShowLib.DSAttrib.BadSampleInfo">
+            <summary> DSATTRIB_BadSampleInfo </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.Pin">
+            <summary> AMPROPSETID_Pin</summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.DroppedFrames">
+            <summary> PROPSETID_VIDCAP_DROPPEDFRAMES </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.ENCAPIPARAM_BitRate">
+            <summary> STATIC_ENCAPIPARAM_BITRATE </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.ENCAPIPARAM_PeakBitRate">
+            <summary> STATIC_ENCAPIPARAM_PEAK_BITRATE </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.ENCAPIPARAM_BitRateMode">
+            <summary> STATIC_ENCAPIPARAM_BITRATE_MODE </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.ENCAPIPARAM_SAP_MODE">
+            <summary> ENCAPIPARAM_SAP_MODE </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.CODECAPI_AVDecMmcssClass">
+            <summary> CODECAPI_AVDecMmcssClass </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.CODECAPI_ChangeLists">
+            <summary> STATIC_CODECAPI_CHANGELISTS </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.CODECAPI_VideoEncoder">
+            <summary> STATIC_CODECAPI_VIDEO_ENCODER </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.CODECAPI_AudioEncoder">
+            <summary> STATIC_CODECAPI_AUDIO_ENCODER </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.CODECAPI_SetAllDefaults">
+            <summary> STATIC_CODECAPI_SETALLDEFAULTS </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.CODECAPI_AllSettings">
+            <summary> STATIC_CODECAPI_ALLSETTINGS </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.CODECAPI_SupportsEvents">
+            <summary> STATIC_CODECAPI_SUPPORTSEVENTS </summary>
+        </member>
+        <member name="F:DirectShowLib.PropSetID.CODECAPI_CurrentChangeList">
+            <summary> STATIC_CODECAPI_CURRENTCHANGELIST </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.Capture">
+            <summary> PIN_CATEGORY_CAPTURE </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.Preview">
+            <summary> PIN_CATEGORY_PREVIEW </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.AnalogVideoIn">
+            <summary> PIN_CATEGORY_ANALOGVIDEOIN </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.VBI">
+            <summary> PIN_CATEGORY_VBI </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.VideoPort">
+            <summary> PIN_CATEGORY_VIDEOPORT </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.NABTS">
+            <summary> PIN_CATEGORY_NABTS </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.EDS">
+            <summary> PIN_CATEGORY_EDS </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.TeleText">
+            <summary> PIN_CATEGORY_TELETEXT </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.CC">
+            <summary> PIN_CATEGORY_CC </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.Still">
+            <summary> PIN_CATEGORY_STILL </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.TimeCode">
+            <summary> PIN_CATEGORY_TIMECODE </summary>
+        </member>
+        <member name="F:DirectShowLib.PinCategory.VideoPortVBI">
+            <summary> PIN_CATEGORY_VIDEOPORT_VBI </summary>
+        </member>
+        <member name="F:DirectShowLib.FindDirection.UpstreamOnly">
+            <summary> LOOK_UPSTREAM_ONLY </summary>
+        </member>
+        <member name="F:DirectShowLib.FindDirection.DownstreamOnly">
+            <summary> LOOK_DOWNSTREAM_ONLY </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.CrossbarFilterPropertyPage">
+            <summary> CLSID_CrossbarFilterPropertyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.AudioInputMixer">
+            <summary> CLSID_AudioInputMixerProperties </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.AudioProperties">
+            <summary> CLSID_AudioProperties </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.AudioRendererAdvancedProperties">
+            <summary> CLSID_AudioRendererAdvancedProperties </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.AviMux">
+            <summary> CLSID_AviMuxProptyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.AviMux1">
+            <summary> CLSID_AviMuxProptyPage1 </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.DVDec">
+            <summary> CLSID_DVDecPropertiesPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.DVEnc">
+            <summary> CLSID_DVEncPropertiesPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.Modex">
+            <summary> CLSID_ModexProperties </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.Capture">
+            <summary> CLSID_CaptureProperties </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.WstDecoder">
+            <summary> CLSID_WstDecoderPropertyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.DVMux">
+            <summary> CLSID_DVMuxPropertyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.VideoProcAmpPropertyPage">
+            <summary> CLSID_VideoProcAmpPropertyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.CameraControlPropertyPage">
+            <summary> CLSID_CameraControlPropertyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.AnalogVideoDecoderPropertyPage">
+            <summary> CLSID_AnalogVideoDecoderPropertyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.VideoStreamConfigPropertyPage">
+            <summary> CLSID_VideoStreamConfigPropertyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.ATSCNetworkPropertyPage">
+            <summary> CLSID_ATSCNetworkPropertyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.TVTunerFilterPropertyPage">
+            <summary> CLSID_TVTunerFilterPropertyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.PropertyPages.TVAudioFilterPropertyPage">
+            <summary> CLSID_TVAudioFilterPropertyPage </summary>
+        </member>
+        <member name="F:DirectShowLib.BDANodeCategory.RFTuner">
+            <summary> KSNODE_BDA_RF_TUNER </summary>
+        </member>
+        <member name="F:DirectShowLib.BDANodeCategory.QAMDemodulator">
+            <summary> KSNODE_BDA_QAM_DEMODULATOR </summary>
+        </member>
+        <member name="F:DirectShowLib.BDANodeCategory.QPSKDemodulator">
+            <summary> KSNODE_BDA_QPSK_DEMODULATOR </summary>
+        </member>
+        <member name="F:DirectShowLib.BDANodeCategory.EightVSBDemodulator">
+            <summary> KSNODE_BDA_8VSB_DEMODULATOR </summary>
+        </member>
+        <member name="F:DirectShowLib.BDANodeCategory.COFDMDemodulator">
+            <summary> KSNODE_BDA_COFDM_DEMODULATOR </summary>
+        </member>
+        <member name="F:DirectShowLib.BDANodeCategory.OpenCablePod">
+            <summary> KSNODE_BDA_OPENCABLE_POD </summary>
+        </member>
+        <member name="F:DirectShowLib.BDANodeCategory.CommonCAPod">
+            <summary> KSNODE_BDA_COMMON_CA_POD </summary>
+        </member>
+        <member name="F:DirectShowLib.BDANodeCategory.PidFilter">
+            <summary> KSNODE_BDA_PID_FILTER </summary>
+        </member>
+        <member name="F:DirectShowLib.BDANodeCategory.IPSink">
+            <summary> KSNODE_BDA_IP_SINK </summary>
+        </member>
+        <member name="F:DirectShowLib.TAGTables.UdriTagTables">
+            <summary> UUID_UdriTagTables </summary>
+        </member>
+        <member name="F:DirectShowLib.TAGTables.WMDRMTagTables">
+            <summary> UUID_WMDRMTagTables </summary>
+        </member>
+        <member name="F:DirectShowLib.SourceFilters.StreamBufferSource">
+            <summary> CLSID_StreamBufferSource </summary>
+        </member>
+        <member name="T:DirectShowLib.KSTopologyConnection">
+            <summary>
+            From KSTOPOLOGY_CONNECTION
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.AMVP_Mode">
+            <summary>
+            From AMVP_MODE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9PresentationFlags">
+            <summary>
+            From VMR9PresentationFlags
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9SurfaceAllocationFlags">
+            <summary>
+            From VMR9SurfaceAllocationFlags
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9ProcAmpControlFlags">
+            <summary>
+            From VMR9ProcAmpControlFlags
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9MixerPrefs">
+            <summary>
+            From VMR9MixerPrefs
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9DeinterlaceTech">
+            <summary>
+            From VMR9DeinterlaceTech
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9AlphaBitmapFlags">
+            <summary>
+            From VMR9AlphaBitmapFlags
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9DeinterlacePrefs">
+            <summary>
+            From VMR9DeinterlacePrefs
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9RenderPrefs">
+            <summary>
+            From VMR9RenderPrefs
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9Mode">
+            <summary>
+            From VMR9Mode
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9AspectRatioMode">
+            <summary>
+            From VMR9AspectRatioMode
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9SampleFormat">
+            <summary>
+            From VMR9_SampleFormat
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9PresentationInfo">
+            <summary>
+            From VMR9PresentationInfo
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9AllocationInfo">
+            <summary>
+            From VMR9AllocationInfo
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9ProcAmpControl">
+            <summary>
+            From VMR9ProcAmpControl
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9MonitorInfo">
+            <summary>
+            From VMR9MonitorInfo
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9DeinterlaceCaps">
+            <summary>
+            From VMR9DeinterlaceCaps
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9VideoStreamInfo">
+            <summary>
+            From VMR9VideoStreamInfo
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9VideoDesc">
+            <summary>
+            From VMR9VideoDesc
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9Frequency">
+            <summary>
+            From VMR9Frequency
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9AlphaBitmap">
+            <summary>
+            From VMR9AlphaBitmap
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMR9ProcAmpControlRange">
+            <summary>
+            From VMR9ProcAmpControlRange
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRDeinterlaceTech">
+            <summary>
+            From VMRDeinterlaceTech
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRBitmap">
+            <summary>
+            From VMRBITMAP_* defines
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRDeinterlacePrefs">
+            <summary>
+            From VMRDeinterlacePrefs
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRMixerPrefs">
+            <summary>
+            From VMRMixerPrefs
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRRenderPrefs">
+            <summary>
+            From VMRRenderPrefs
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRMode">
+            <summary>
+            From VMRMode
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRAspectRatioMode">
+            <summary>
+            From VMR_ASPECT_RATIO_MODE
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRAlphaBitmap">
+            <summary>
+            From VMRALPHABITMAP
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRDeinterlaceCaps">
+            <summary>
+            From VMRDeinterlaceCaps
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRFrequency">
+            <summary>
+            From VMRFrequency
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRVideoDesc">
+            <summary>
+            From VMRVideoDesc
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRVideoStreamInfo">
+            <summary>
+            From VMRVIDEOSTREAMINFO
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.DDColorKey">
+            <summary>
+            From DDCOLORKEY
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRMonitorInfo">
+            <summary>
+            From VMRMONITORINFO
+            </summary>
+        </member>
+        <member name="T:DirectShowLib.VMRGuid">
+            <summary>
+            From VMRGUID
+            </summary>
+        </member>
+        <member name="M:DirectShowLib.IVMRWindowlessControl.GetCurrentImage(System.IntPtr@)">
+            <summary>
+            the caller is responsible for free the returned memory by calling CoTaskMemFree.
+            </summary>
+        </member>
+    </members>
+</doc>

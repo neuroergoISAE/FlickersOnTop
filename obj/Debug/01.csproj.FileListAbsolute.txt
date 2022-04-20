@@ -1,0 +1,16 @@
+D:\Devlpt\SDL-CS\tuto - SharpSdl2Examples\SharpSdl2Examples-master\01\bin\Debug\SDL2.dll
+D:\Devlpt\SDL-CS\tuto - SharpSdl2Examples\SharpSdl2Examples-master\01\bin\Debug\01.exe.config
+D:\Devlpt\SDL-CS\tuto - SharpSdl2Examples\SharpSdl2Examples-master\01\bin\Debug\01.exe
+D:\Devlpt\SDL-CS\tuto - SharpSdl2Examples\SharpSdl2Examples-master\01\bin\Debug\01.pdb
+D:\Devlpt\SDL-CS\tuto - SharpSdl2Examples\SharpSdl2Examples-master\01\obj\Debug\01.csproj.AssemblyReference.cache
+D:\Devlpt\SDL-CS\tuto - SharpSdl2Examples\SharpSdl2Examples-master\01\obj\Debug\01.csproj.CoreCompileInputs.cache
+D:\Devlpt\SDL-CS\tuto - SharpSdl2Examples\SharpSdl2Examples-master\01\obj\Debug\01.exe
+D:\Devlpt\SDL-CS\tuto - SharpSdl2Examples\SharpSdl2Examples-master\01\obj\Debug\01.pdb
+D:\Devlpt\SDL-CS\V01\bin\Debug\SDL2.dll
+D:\Devlpt\SDL-CS\V01\bin\Debug\01.exe.config
+D:\Devlpt\SDL-CS\V01\bin\Debug\01.exe
+D:\Devlpt\SDL-CS\V01\bin\Debug\01.pdb
+D:\Devlpt\SDL-CS\V01\obj\Debug\01.csproj.AssemblyReference.cache
+D:\Devlpt\SDL-CS\V01\obj\Debug\01.csproj.CoreCompileInputs.cache
+D:\Devlpt\SDL-CS\V01\obj\Debug\01.exe
+D:\Devlpt\SDL-CS\V01\obj\Debug\01.pdb

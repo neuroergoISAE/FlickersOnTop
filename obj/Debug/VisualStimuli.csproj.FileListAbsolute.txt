@@ -1,0 +1,8 @@
+/home/dcas/l.darmet/VISUAL_STIMULI/bin/Debug/SDL2.dll
+/home/dcas/l.darmet/VISUAL_STIMULI/bin/Debug/VisualStimuli.exe.config
+/home/dcas/l.darmet/VISUAL_STIMULI/bin/Debug/VisualStimuli.exe
+/home/dcas/l.darmet/VISUAL_STIMULI/bin/Debug/VisualStimuli.pdb
+/home/dcas/l.darmet/VISUAL_STIMULI/obj/Debug/VisualStimuli.csprojAssemblyReference.cache
+/home/dcas/l.darmet/VISUAL_STIMULI/obj/Debug/VisualStimuli.csproj.CoreCompileInputs.cache
+/home/dcas/l.darmet/VISUAL_STIMULI/obj/Debug/VisualStimuli.exe
+/home/dcas/l.darmet/VISUAL_STIMULI/obj/Debug/VisualStimuli.pdb
