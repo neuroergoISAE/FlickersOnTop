@@ -12,30 +12,27 @@ namespace VisualStimuli
 		private IntPtr m_handle;
 		private CScreen m_screen;
 		private UInt32 m_color1;
-		private double m_alpha1;
+		private double m_alpha;
 		private UInt32 m_color2;
-		private double m_alpha2;
 		private double m_frequence;
 		private double m_phase;
 
         public double Phase { get => m_phase; set => m_phase = value; }
         public double Frequence { get => m_frequence; set => m_frequence = value; }
-        public double Alpha2 { get => m_alpha2; set => m_alpha2 = value; }
         public uint Color2 { get => m_color2; set => m_color2 = value; }
-        public double Alpha1 { get => m_alpha1; set => m_alpha1 = value; }
+        public double Alpha { get => m_alpha; set => m_alpha = value; }
         public uint Color1 { get => m_color1; set => m_color1 = value; }
         internal CScreen Screen { get => m_screen; set => m_screen = value; }
         public IntPtr Handle { get => m_handle; set => m_handle = value; }
 
 
-        public CFlicker(CScreen aScreen, UInt32 col1, UInt32 col2, double freq, double alph1, double alph2, double phase)
+        public CFlicker(CScreen aScreen, UInt32 col1, UInt32 col2, double freq, double alph, double phase)
 		{
 			Color1 = col1;
 			Color2 = col2;
 			Frequence = freq;
 			Screen = aScreen;
-			Alpha1 = alph1;
-			Alpha2 = alph2;
+			Alpha = alph;
 			Phase = phase;
 
 			SDL.SDL_SysWMinfo info = new SDL.SDL_SysWMinfo();			
@@ -43,7 +40,7 @@ namespace VisualStimuli
 			SDL.SDL_bool bRes = SDL.SDL_GetWindowWMInfo(Screen.PWindow, ref info);
 			Handle = info.info.win.window;
 
-			Screen.ChangeColorAndAlpha(col1, alph1);
+			Screen.ChangeColorAndAlpha(col1, alph);
 			Console.WriteLine("Flicker {0} created", Screen.Name);
 		}
 
@@ -54,10 +51,9 @@ namespace VisualStimuli
 		}
 
 
-		public void ChangeAlphas(double alph1, double alph2)
+		public void ChangeAlphas(double alph)
 		{
-			Alpha1 = alph1;
-			Alpha2 = alph2;
+			Alpha = alph;
 		}
 
 

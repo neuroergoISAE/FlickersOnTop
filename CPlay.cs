@@ -75,7 +75,6 @@ namespace VisualStimuli
 				SDL.SDL_MapRGB(screenSurface1.format, 255, 255, 255), // color2 RGB
 				60.0, // freq
 				1.0, // alpha1
-				1.0, // alpha2
 				0.5 // phase
 				);
 			m_listFlickers.Add(flicker1);
@@ -88,7 +87,6 @@ namespace VisualStimuli
 				SDL.SDL_MapRGB(screenSurface2.format, 255, 255, 255),
 				40.0,
 				0.5,
-				1.0,
 				0.0
 				);
 			m_listFlickers.Add(flicker2);
@@ -101,7 +99,6 @@ namespace VisualStimuli
 				SDL.SDL_MapRGB(screenSurface3.format, 255, 255, 255),
 				10.0,
 				1.0,
-				0.2,
 				0.0
 				);
 			m_listFlickers.Add(flicker3);
@@ -114,7 +111,6 @@ namespace VisualStimuli
 				SDL.SDL_MapRGB(screenSurface4.format, 255, 255, 255),
 				10.0,
 				1.0,
-				0.2,
 				0.7
 				);
 			m_listFlickers.Add(flicker4);
@@ -126,7 +122,6 @@ namespace VisualStimuli
 				SDL.SDL_MapRGB(screenSurface5.format, 0, 0, 0),
 				SDL.SDL_MapRGB(screenSurface5.format, 255, 255, 255),
 				10.0,
-				1.0,
 				1.0,
 				0.0
 				);
@@ -188,7 +183,7 @@ namespace VisualStimuli
 
 			// Init other variable
 			int i = 0;
-			double lumin = 0.0;
+			double sin_value = 0.0;
 			//double[] alpha = new double[2];
 			//UInt32[] color = new UInt32[2];
 			UInt32 colorSin = 0;
@@ -213,7 +208,7 @@ namespace VisualStimuli
 					if (i >= frameRate * 240) {
 						i = 0;
 					}
-					lumin = m_matrix[j, i];
+					sin_value = m_matrix[j, i];
 
 					// Lower bound for color
 					r1 = currentFlicker.GetRed(currentFlicker.Color1); 
@@ -226,14 +221,14 @@ namespace VisualStimuli
 					b2 = currentFlicker.GetBlue(currentFlicker.Color2);
 					
 					// Update color value following interpolated sin wave
-					rSin = (Byte)(r1 * lumin + r2 * (1 - lumin));
-					gSin = (Byte)(g1 * lumin + g2 * (1 - lumin));
-					bSin = (Byte)(b1 * lumin + b2 * (1 - lumin));
+					rSin = (Byte)(r1 * sin_value + r2 * (1 - sin_value));
+					gSin = (Byte)(g1 * sin_value + g2 * (1 - sin_value));
+					bSin = (Byte)(b1 * sin_value + b2 * (1 - sin_value));
 					var screenSurface = Marshal.PtrToStructure<SDL.SDL_Surface>(currentFlicker.Screen.PSurface);
 					colorSin = SDL.SDL_MapRGB(screenSurface.format, rSin, gSin, bSin);
 					
-					// Update transparency value (not necessary
-					// double alphaSin = (currentFlicker.Alpha1 * lumin) + (currentFlicker.Alpha2 * (1 - lumin));
+					// Update transparency value (not necessary)
+					// double alphaSin = currentFlicker.Alpha * sin_value;
 
 					// Put the updated value for color in the flicker
 					currentFlicker.FlipColor(colorSin);
