@@ -35,10 +35,10 @@ namespace VisualStimuli
 
         public CScreen(int x, int y, int width, int height, String name, bool fixedScreen)
         {
-            Create(x, y, width, height, name, fixedScreen);
+            create(x, y, width, height, name, fixedScreen);
         }
 
-        private void Create(int x, int y, int width, int height, String name, bool fixedScreen)
+        private void create(int x, int y, int width, int height, String name, bool fixedScreen)
         {
             if (!fixedScreen) {
 
@@ -107,18 +107,20 @@ namespace VisualStimuli
         }
 
 
-        public void Show()
+        public void show()
         {
             SDL.SDL_RenderPresent(PRenderer);
-        }
+        } 
 
-        public void ChangeColorAndAlpha(UInt32 col, double alph)
+
+        
+        public void changeColorAndAlpha(UInt32 col, double alph)
         {
-            ChangeColor(col);
-            ChangeAlpha(alph);
+            changeColor(col);
+            changeAlpha(alph);
         }
 
-        public void ChangeColor(UInt32 col)
+        public void changeColor(UInt32 col)
         {
             SDL.SDL_FillRect(PSurface, IntPtr.Zero, col);
 
@@ -130,7 +132,7 @@ namespace VisualStimuli
         }
 
 
-        public void ChangeAlpha(double alph)
+        public void changeAlpha(double alph)
         {
             if (alph >= 0)
             {

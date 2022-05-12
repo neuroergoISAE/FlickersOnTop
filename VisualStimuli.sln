@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32407.337
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualStimuli", "VisualStimuli.csproj", "{AFCDC194-86C6-411C-9B09-55D83C0E7629}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface2App", "Interface2App\Interface2App.csproj", "{D660B203-CCE4-4766-B532-75999391FF77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noise3", "ConsoleApp1\Noise3.csproj", "{5F0FF760-5099-426F-A02F-3F288DD7F429}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{AFCDC194-86C6-411C-9B09-55D83C0E7629}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFCDC194-86C6-411C-9B09-55D83C0E7629}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFCDC194-86C6-411C-9B09-55D83C0E7629}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D660B203-CCE4-4766-B532-75999391FF77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D660B203-CCE4-4766-B532-75999391FF77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D660B203-CCE4-4766-B532-75999391FF77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D660B203-CCE4-4766-B532-75999391FF77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F0FF760-5099-426F-A02F-3F288DD7F429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F0FF760-5099-426F-A02F-3F288DD7F429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F0FF760-5099-426F-A02F-3F288DD7F429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F0FF760-5099-426F-A02F-3F288DD7F429}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
