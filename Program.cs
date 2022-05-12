@@ -9,7 +9,7 @@ namespace VisualStimuli
     {
         static int Main(string[] args)
         {
-           
+            Console.WriteLine("Hello the world");
            CPlay oPlay = new CPlay();
             oPlay.flexibleSin();              
             return 0;
