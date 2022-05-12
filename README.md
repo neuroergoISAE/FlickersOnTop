@@ -5,8 +5,8 @@ https://visualstudio.microsoft.com/vs/
 
 
 There are two projects : 
-+ Interface2App - which includes an graphical interface that define the information of flickers 
-+ VisualSimuli - which implement the main program
++ Interface2App - which includes th graphical interface that define the information of flickers 
++ VisualSimuli - which implements the main program
 
 
 HOW DOES IT WORKS ?
