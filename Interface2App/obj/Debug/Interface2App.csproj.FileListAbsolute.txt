@@ -1,0 +1,11 @@
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\bin\Debug\Interface2App.exe.config
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\bin\Debug\Interface2App.exe
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\bin\Debug\Interface2App.pdb
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\obj\Debug\Interface2App.csproj.AssemblyReference.cache
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\obj\Debug\Interface2App.csproj.SuggestedBindingRedirects.cache
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\obj\Debug\Interface2App.Form1.resources
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\obj\Debug\Interface2App.Properties.Resources.resources
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\obj\Debug\Interface2App.csproj.GenerateResource.cache
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\obj\Debug\Interface2App.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\obj\Debug\Interface2App.exe
+C:\Users\Lenovo\Source\Repos\VisualStimuli\Interface2App\obj\Debug\Interface2App.pdb
