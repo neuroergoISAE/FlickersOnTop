@@ -4,10 +4,10 @@ Download VisualStudio 2022
 https://visualstudio.microsoft.com/vs/
 
 
-There are three projects : 
+There are two projects : 
 + Interface2App - which includes an graphical interface that define the information of flickers 
 + VisualSimuli - which implement the main program
-+ Noise3(additional) - for fun(a screen with noise)
+
 
 HOW DOES IT WORKS ?
 
