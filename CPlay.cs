@@ -282,7 +282,7 @@ namespace VisualStimuli
 					if (i >= frameRate) {
 						i = 0;
 					}
-					lumin = m_matrix[j, i];
+					lumin = m_matrix[j, i];// this makes flickerings 
 
 					// col1
 					r1 = currentFlicker.getRed(currentFlicker.Color1); 
@@ -327,8 +327,100 @@ namespace VisualStimuli
 
 				i += 1;
 			} 
-		} 
+		}
+		public void ImageFlicker() 
+		{ 
+			bool quit = false;
+			
+			double time = 50; // in seconds
+			double frameRate = getFrameRate();
+			double Frequence = 20.0; // freq
+			double Phase = 0.3;         // phase 
+			int N = (int)(time * frameRate); // number of flickerings 
+			Console.WriteLine(N);
+			float[] opacity = new float[N];   // the opacity 
+			opacity[0] = 0;
+			// initialize 
+			for (int i = 0; i < N; i++)
+			{
+				//opacity[i + 1] = (float)0.1 * i;
+				//if (i > 9) {
+				//	opacity[i] = 1;
+				//}
+				opacity[i] = (float) (0.5*(1+Math.Sin(2 * Math.PI * Frequence * i / frameRate + Phase * Math.PI)));
+				Console.Write(opacity[i]+ " ");
+			}
+
+			IntPtr m_window = IntPtr.Zero;
+			IntPtr m_render = IntPtr.Zero;
+			IntPtr m_texture = IntPtr.Zero;
+			IntPtr m_image = IntPtr.Zero;
+
+			if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) < 0)
+			{
+
+				Console.WriteLine("Unable to initialize SDL.Error: {0}", SDL.SDL_GetError());
+
+			}
+			else
+			{
+				SDL.SDL_Event e;
+				Console.WriteLine("Come on, we can do it!!!");
+			
+				m_window = SDL.SDL_CreateWindow("Image", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, 400, 400,
+												SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN | SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
+
+				m_render = SDL.SDL_CreateRenderer(m_window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+
+				m_image = SDL.SDL_LoadBMP("sample.bmp");
+				for (int i = 0; i < N; i++)
+				{
+					SDL.SDL_SetWindowOpacity(m_window, opacity[i]);
+
+					m_texture = SDL.SDL_CreateTextureFromSurface(m_render, m_image);
+
+					SDL.SDL_RenderClear(m_render);
+					SDL.SDL_RenderCopy(m_render, m_texture, IntPtr.Zero, IntPtr.Zero);
+
+					SDL.SDL_RenderPresent(m_render);
+				}
+				//SDL.SDL_Delay(500);
+
+				if (m_window == IntPtr.Zero)
+				{
+					Console.WriteLine("Unabel to create a window. Error: {0}", SDL.SDL_GetError());
+
+				}
+				else
+				{	
+						while (!quit)
+						{
+							while (SDL.SDL_PollEvent(out e) != 0)
+							{
+								switch (e.type)
+								{
+									case SDL.SDL_EventType.SDL_QUIT:
+										quit = true;
+										break;
+									// add pressing Q to quit window;
+								}
+
+							}
+						}
+				}
+
+			}
+
+			//SDL.SDL_RenderCopy(m_render,m_texture, IntPtr.Zero, IntPtr.Zero );
+			//SDL.SDL_RenderPresent(m_render);
+			SDL.SDL_DestroyTexture(m_texture);
+			SDL.SDL_FreeSurface(m_image);
+			SDL.SDL_DestroyRenderer(m_render);
+			SDL.SDL_DestroyWindow(m_window);
+			SDL.SDL_Quit();
+		}
 	}
 
-
 }
+
+

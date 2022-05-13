@@ -11,7 +11,8 @@ namespace VisualStimuli
         {
             Console.WriteLine("Hello the world");
            CPlay oPlay = new CPlay();
-            oPlay.flexibleSin();              
+            //oPlay.flexibleSin();
+            oPlay.ImageFlicker();
             return 0;
         }
     }
