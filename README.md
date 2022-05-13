@@ -18,7 +18,7 @@ Ex: C:\\Users\\Lenovo\\Desktop\\test_file.txt ==> C:\\Users\\Asus(name of your c
 + You do the same thing at line 111 in file Cplay.cs 
 
 + In order to run FLickering Image, just sample change flixibleSin function to ImageFlicker in Program.cs file 
-
+Attention: you have to coppy sample.bmp file in FlickersOnTop folder and paste in in bin/debug folder.
 + Finally, change Startup project to VisualSimuli and run program.
 
 All files are coded in C# and runing in VisualStudio 
