@@ -78,7 +78,17 @@ namespace VisualStimuli
             }
 
             // the renderer
-            m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
+            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);/// use 
+
+            m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1,SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);/// use SDL_RENDERER_ACCELERATED
+
+            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_SOFTWARE);/// use 
+
+            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_TARGETTEXTURE);/// use 
+
+            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, 0);/// use 
+
+
             if (m_pRenderer == IntPtr.Zero) {
                 Console.WriteLine("Renderer could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
                 return;

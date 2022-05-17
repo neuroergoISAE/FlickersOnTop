@@ -108,6 +108,7 @@ namespace VisualStimuli
 			int resX = 1920;
 			int resY = 1080;
 			Console.WriteLine("It works");
+			//string filePath = "test_file.txt";
 			string filePath = "C:\\Users\\Lenovo\\Desktop\\test_file.txt"; // change here ***
 			double[,] pMatrix = new double[4,11];// 4 flickers and 10 defined infomations
 			Read_File(filePath, pMatrix);
@@ -272,18 +273,25 @@ namespace VisualStimuli
 			Byte r2 = 0; Byte g2 = 0; Byte b2 = 0;
 
 			double frameRate = getFrameRate();
-			frequenciesMatrix(frameRate);
+			//frequenciesMatrix(frameRate);  // (3)
 
 			while (!quit && SDL.SDL_GetTicks() < 50000)
 			{
 				for (int j = 0; j < m_listFlickers.Count; j++)
 				{
 					CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
+
+					currentFlicker.setData(currentFlicker);// using this function instade of frequenciesMatrix come normal, replacing (3); 
+
 					if (i >= frameRate) {
 						i = 0;
 					}
-					lumin = m_matrix[j, i];// this makes flickerings 
 
+					//lumin = m_matrix[j, i];// this makes flickerings    (4)
+
+					 lumin = currentFlicker.getData(i,currentFlicker.Data);// taking data direcly from CFlicker.cs, replacing (4)
+
+					 Console.Write(lumin + " ");
 					// col1
 					r1 = currentFlicker.getRed(currentFlicker.Color1); 
 					g1 = currentFlicker.getGreen(currentFlicker.Color1); 
@@ -329,26 +337,50 @@ namespace VisualStimuli
 			} 
 		}
 		public void ImageFlicker() 
-		{ 
+		{
+			// Frequence
+			
+			Console.WriteLine("Input Frequence: ");
+			string freq_string = Console.ReadLine();
+			
+
+			while (Double.TryParse(freq_string, out _) != true) {
+				Console.WriteLine("Wrong Input, Please try again!");
+				freq_string = Console.ReadLine();
+			}
+			double Frequence = Double.Parse(freq_string); // freq done
+
+
+			// Phase
+			Console.WriteLine("Input Phase: ");
+			string phase_string = Console.ReadLine();
+			while (Double.TryParse(phase_string, out _) != true)
+			{
+				Console.WriteLine("Wrong Input, Please try again!");
+				phase_string = Console.ReadLine();
+			}
+
+			double Phase = Double.Parse(phase_string);         // phase done
+			
 			bool quit = false;
 			
 			double time = 50; // in seconds
+
 			double frameRate = getFrameRate();
-			double Frequence = 20.0; // freq
-			double Phase = 0.3;         // phase 
+
 			int N = (int)(time * frameRate); // number of flickerings 
 			Console.WriteLine(N);
 			float[] opacity = new float[N];   // the opacity 
-			opacity[0] = 0;
+			
+
 			// initialize 
 			for (int i = 0; i < N; i++)
 			{
-				//opacity[i + 1] = (float)0.1 * i;
-				//if (i > 9) {
-				//	opacity[i] = 1;
-				//}
-				opacity[i] = (float) (0.5*(1+Math.Sin(2 * Math.PI * Frequence * i / frameRate + Phase * Math.PI)));
-				Console.Write(opacity[i]+ " ");
+				
+
+				opacity[i] = (float)( 0.5 * (1.0 + Math.Sin(2 * Math.PI * Frequence * i / frameRate + Phase * Math.PI)));
+
+				Console.Write(opacity[i] + " ");
 			}
 
 			IntPtr m_window = IntPtr.Zero;
@@ -366,24 +398,29 @@ namespace VisualStimuli
 			{
 				SDL.SDL_Event e;
 				Console.WriteLine("Come on, we can do it!!!");
-			
+				
 				m_window = SDL.SDL_CreateWindow("Image", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, 400, 400,
 												SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN | SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
 
 				m_render = SDL.SDL_CreateRenderer(m_window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 
 				m_image = SDL.SDL_LoadBMP("sample.bmp");
+
 				for (int i = 0; i < N; i++)
 				{
+
 					SDL.SDL_SetWindowOpacity(m_window, opacity[i]);
+					//SDL.SDL_Delay(5);
+
 
 					m_texture = SDL.SDL_CreateTextureFromSurface(m_render, m_image);
 
 					SDL.SDL_RenderClear(m_render);
 					SDL.SDL_RenderCopy(m_render, m_texture, IntPtr.Zero, IntPtr.Zero);
 
-					SDL.SDL_RenderPresent(m_render);
+					SDL.SDL_RenderPresent(m_render);/// test 
 				}
+				
 				//SDL.SDL_Delay(500);
 
 				if (m_window == IntPtr.Zero)

@@ -18,7 +18,7 @@ namespace VisualStimuli
 		private double m_frequence;
 		private double m_phase;
 		private int m_typeFreq;
-		
+		private double[] m_data;
 		public double Phase { get => m_phase; set => m_phase = value; }
         public double Frequence { get => m_frequence; set => m_frequence = value; }
         public double Alpha2 { get => m_alpha2; set => m_alpha2 = value; }
@@ -29,6 +29,7 @@ namespace VisualStimuli
         public IntPtr Handle { get => m_handle; set => m_handle = value; }
 		public int TypeFrequence { get => m_typeFreq; set => m_typeFreq = value; }
 
+		public double[] Data { get => m_data; set => m_data = value; }
         public CFlicker(CScreen aScreen, UInt32 col1, UInt32 col2, double freq, double alph1, double alph2, double phase, int typeFreq)
 		{
 			Color1 = col1;
@@ -97,13 +98,83 @@ namespace VisualStimuli
 			m_screen.show();
 		}
 
+		public double getData(int i, double[] a) {
+
+			return a[i];
+		
+		}
 		/// <summary>
 		/// Flicker.matrixFrequence
 		/// @agurment : ith flicker, framerate, a Flicker, matrix;
 		/// Function to initilize type frequence of flicker
 		/// TODO: 
 		/// </summary>
+
+
+		public void setData(CFlicker flicker) { 
 		
+			Random rand = new Random();
+			int tmp;
+			double frameRate = 60.0;
+			const double timeFlicker = 50;
+			m_data = new double[(int)(frameRate * timeFlicker)];
+
+			if (flicker.TypeFrequence == 1) { 
+			
+				for(int j = 0; j < (int)frameRate * timeFlicker; j++)
+				{
+
+					tmp = rand.Next();
+					if (tmp % 7 == 0)
+					{
+						Data[j] = 1;//  max amplitude = 1.0 
+					}
+					else
+					{
+						Data[j] = 0.1; //  min amplitude = 0.1 
+					}
+
+				}
+			}
+			if (flicker.TypeFrequence == 2) {
+
+				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
+				{
+					Data[j] = 0.5 * (1.0 + Math.Sin(2 * Math.PI * flicker.Frequence * j / frameRate + flicker.Phase * Math.PI));
+				}
+
+			}
+
+			if (flicker.TypeFrequence == 3) {
+
+				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
+				{
+					double demo = 0.5 * (1.0 + Math.Sin(2 * Math.PI * flicker.Frequence * j / frameRate + flicker.Phase * Math.PI));
+					if (demo <= 0.1)
+					{
+						Data[j] = 1;
+					}
+					else
+					{
+						Data[j] = 0.1;
+					}
+				}
+
+			}
+
+			if (flicker.TypeFrequence == 4) {
+
+				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
+				{
+					Data[j] = 0.5 * (1.0 + Math.Sqrt(2 * Math.PI * flicker.Frequence * j / frameRate + flicker.Phase * Math.PI));
+				}
+
+			}
+		
+		
+		}
+
+		// ------------------------------------------------ Oder verison -----------------------------------------
 		public void matrixFrequence(int flickerth, double m_framerate, CFlicker Flicker, double[,] m_matrix)
 		{
 			 Random rand = new Random(); // Create a list of random number
