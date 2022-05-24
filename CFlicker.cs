@@ -157,7 +157,7 @@ namespace VisualStimuli
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
 				{
 					double demo = 0.5 * (1.0 + Math.Sin(2 * Math.PI * flicker.Frequence * j / frameRate + flicker.Phase * Math.PI));
-					if (demo <= 0.1)   // demo has a continous range from 0 to 1 so when demo value < 0.1 we consider approximatively demo = 0 and in inverse we consider demo = 1 when its value > 0.1; 
+					if (demo <= 0.5)   // demo has a continous range from 0 to 1 so when demo value < 0.5 we consider approximatively demo = 0 and in inverse we consider demo = 1 when its value > 0.5; 
 					{
 						Data[j] = 0;
 					}
