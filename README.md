@@ -13,8 +13,9 @@ HOW DOES IT WORKS ?
 
 + First you run project Interface2App (in bar Startup Project) 
 Attention: Because of this program will create a file in Desktop so you must look at line 25 file GraphicalInterface.cs to change filePath to your suitable folder.
+```
 Ex: C:\\Users\\Lenovo\\Desktop\\test_file.txt ==> C:\\Users\\Asus(name of your computer)\\Desktop\\test_file.txt
-
+```
 + You do the same thing at line 116 in file CPlay.cs 
 
 + In order to run FLickering Image, just sample change flixibleSin function to ImageFlicker in Program.cs file 
