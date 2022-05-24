@@ -22,7 +22,9 @@ Attention: you have to coppy chessboard.bmp file in FlickersOnTop folder and pas
 + Finally, change Startup project to VisualSimuli and run program.
 
 
-P/s: An icon chessboard (Interface.lik) are already created in folder FlickerOnTop to help you easly open Interface2App without run it in VisualStudio
+P/s: An icon chessboard (Interface.lik) are already created in folder FlickerOnTop to help you easly open Interface2App without run it in VisualStudio.
+
+
 All files are coded in C# and runing in VisualStudio 
 
 
