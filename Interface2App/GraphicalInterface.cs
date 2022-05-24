@@ -22,7 +22,7 @@ namespace Interface2App
 
 		private void bt_save(object sender, EventArgs e)
 		{
-			StreamWriter file = new StreamWriter("C:\\Users\\Lenovo\\Desktop\\test_file.txt");// chnang here 
+			StreamWriter file = new StreamWriter("C:\\Users\\Lenovo\\Desktop\\test_file.txt");// change here 
 			//flicker 1
 			
 			string t1 = text1.Text;
@@ -158,9 +158,10 @@ namespace Interface2App
 				"1: Random \n" +
 				"2: Sinous \n" +
 				"3: Square \n" +
-				"4: Root Square\n\n"+
+				"4: Root Square\n"+
+				"5: Maximum length sequencen\n\n" +
 				"V.\n" +
-				"After finishing one line, you have to click to Create File and run Visual Stimuli project \n\n" +
+				"After finishing one line, you can click to Create File and run Visual Stimuli project \n\n" +
 				
 				"VI.\n" +
 				"Each column corresponds to characteristics and each line corresponds to flickers\n\n" +

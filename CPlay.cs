@@ -61,10 +61,15 @@ namespace VisualStimuli
 			public System.Int32 dmDisplayFlags;
 			public System.Int32 dmDisplayFrequency;
 		}
+
+		/// <summary>
+		/// @Arguemnt: filePath, a matrix 
+		/// TODO : CSharp function to do it automaticaly
+		/// Return: a matrix for flicker with information users input 
+		/// </summary>
 		public static async void Read_File(string filePath, double[,] matrix)
 		{
-			//double[,] matrix = new double[4,6];//initial a matrix number;
-											   //List<string> listStrLineElement; 
+			
 			int i = 0;
 			
 			try
@@ -73,7 +78,7 @@ namespace VisualStimuli
 				
 					string line;
 				line = reader.ReadLine();
-				//Console.WriteLine(line);
+				
 				
 				while (line != null) { 
 					
@@ -86,7 +91,7 @@ namespace VisualStimuli
 					i++;
 					line = reader.ReadLine();
 				}
-				//Console.WriteLine(matrix[1, 2] + matrix[0,3]);
+				
 				reader.Close();
 				
 			}
@@ -97,10 +102,8 @@ namespace VisualStimuli
 			}
 		}
 
-		
-		
 		/// <summary>
-		/// Temp function to initialize flickers in code (the same datas from file "test2_bis.txt")
+		/// Temp function to initialize flickers in code 
 		/// TODO : CSharp function to do it automaticaly
 		/// </summary>
 		public void init_test()
@@ -108,8 +111,10 @@ namespace VisualStimuli
 			int resX = 1920;
 			int resY = 1080;
 			Console.WriteLine("It works");
-			//string filePath = "test_file.txt";
+			
+
 			string filePath = "C:\\Users\\Lenovo\\Desktop\\test_file.txt"; // change here ***
+
 			double[,] pMatrix = new double[4,11];// 4 flickers and 10 defined infomations
 			Read_File(filePath, pMatrix);
 			Console.WriteLine(pMatrix[0, 6].GetType());
@@ -211,7 +216,7 @@ namespace VisualStimuli
 		}
 		
 		/// <summary>
-		/// 
+		/// TODO: Get fresh frame from the screen 
 		/// </summary>
 		/// <returns></returns>
 		public double getFrameRate()
@@ -222,31 +227,14 @@ namespace VisualStimuli
 			EnumDisplaySettings(null, -1, ref devMode);
 			return (double)devMode.dmDisplayFrequency;
 		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="frameRate"></param>
-		/// 
 		
-		public void frequenciesMatrix(double frameRate)
-		{
-			int n = m_listFlickers.Count;
-			
-			const double timeFlicker = 50;              //in seconds
-			
-			m_matrix = new double[n, (int)(frameRate * timeFlicker)];
-			for (int i = 0; i < n; i++) {
-				CFlicker aFlicker = (CFlicker)m_listFlickers[i];
-				aFlicker.matrixFrequence(i, frameRate, aFlicker, m_matrix);
-				
-			}
-		}
-
-
+		/// <param name="frameRate"></param>
+		
 
 		/// <summary>
-		/// 
+		///@Name: FlexibleSin
+		///@Argument: 
+		///TODO: Generating the flickers in screen acrroding to type of sinous frequences
 		/// </summary>
 		public void flexibleSin()
 		{
@@ -273,25 +261,20 @@ namespace VisualStimuli
 			Byte r2 = 0; Byte g2 = 0; Byte b2 = 0;
 
 			double frameRate = getFrameRate();
-			//frequenciesMatrix(frameRate);  // (3)
-
+			
 			while (!quit && SDL.SDL_GetTicks() < 50000)
 			{
 				for (int j = 0; j < m_listFlickers.Count; j++)
 				{
 					CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
 
-					currentFlicker.setData(currentFlicker);// using this function instade of frequenciesMatrix come normal, replacing (3); 
-
+					currentFlicker.setData(currentFlicker);
 					if (i >= frameRate) {
 						i = 0;
 					}
 
-					//lumin = m_matrix[j, i];// this makes flickerings    (4)
+					 lumin = currentFlicker.getData(i,currentFlicker.Data);
 
-					 lumin = currentFlicker.getData(i,currentFlicker.Data);// taking data direcly from CFlicker.cs, replacing (4)
-
-					 Console.Write(lumin + " ");
 					// col1
 					r1 = currentFlicker.getRed(currentFlicker.Color1); 
 					g1 = currentFlicker.getGreen(currentFlicker.Color1); 
@@ -336,6 +319,12 @@ namespace VisualStimuli
 				i += 1;
 			} 
 		}
+
+		/// <summary>
+		/// @Name: ImageFlicker
+		/// @Argument:
+		/// @TODO: Making a checkboard image flickering in the center of computer screen 
+		/// </summary>
 		public void ImageFlicker() 
 		{
 			// Frequence
@@ -376,11 +365,8 @@ namespace VisualStimuli
 			// initialize 
 			for (int i = 0; i < N; i++)
 			{
-				
 
 				opacity[i] = (float)( 0.5 * (1.0 + Math.Sin(2 * Math.PI * Frequence * i / frameRate + Phase * Math.PI)));
-
-				Console.Write(opacity[i] + " ");
 			}
 
 			IntPtr m_window = IntPtr.Zero;
@@ -397,14 +383,14 @@ namespace VisualStimuli
 			else
 			{
 				SDL.SDL_Event e;
-				Console.WriteLine("Come on, we can do it!!!");
+				
 				
 				m_window = SDL.SDL_CreateWindow("Image", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, 400, 400,
 												SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN | SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
 
 				m_render = SDL.SDL_CreateRenderer(m_window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 
-				m_image = SDL.SDL_LoadBMP("sample.bmp");
+				m_image = SDL.SDL_LoadBMP("checkboard.bmp");
 
 				for (int i = 0; i < N; i++)
 				{
@@ -412,20 +398,16 @@ namespace VisualStimuli
 					SDL.SDL_SetWindowOpacity(m_window, opacity[i]);
 					//SDL.SDL_Delay(5);
 
-
 					m_texture = SDL.SDL_CreateTextureFromSurface(m_render, m_image);
 
 					SDL.SDL_RenderClear(m_render);
 					SDL.SDL_RenderCopy(m_render, m_texture, IntPtr.Zero, IntPtr.Zero);
-
 					SDL.SDL_RenderPresent(m_render);/// test 
 				}
-				
-				//SDL.SDL_Delay(500);
 
 				if (m_window == IntPtr.Zero)
 				{
-					Console.WriteLine("Unabel to create a window. Error: {0}", SDL.SDL_GetError());
+					Console.WriteLine("Unable to create a window. Error: {0}", SDL.SDL_GetError());
 
 				}
 				else
@@ -448,8 +430,6 @@ namespace VisualStimuli
 
 			}
 
-			//SDL.SDL_RenderCopy(m_render,m_texture, IntPtr.Zero, IntPtr.Zero );
-			//SDL.SDL_RenderPresent(m_render);
 			SDL.SDL_DestroyTexture(m_texture);
 			SDL.SDL_FreeSurface(m_image);
 			SDL.SDL_DestroyRenderer(m_render);

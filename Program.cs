@@ -10,8 +10,8 @@ namespace VisualStimuli
         static int Main(string[] args)
         {
             Console.WriteLine("Hello the world");
-            //CPlay oPlay = new CPlay();
-            oPlay.flexibleSin();
+            CPlay oPlay = new CPlay();
+            //oPlay.flexibleSin();
             oPlay.ImageFlicker();
             return 0;
         }

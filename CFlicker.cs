@@ -103,40 +103,46 @@ namespace VisualStimuli
 			return a[i];
 		
 		}
+
+
 		/// <summary>
-		/// Flicker.matrixFrequence
-		/// @agurment : ith flicker, framerate, a Flicker, matrix;
-		/// Function to initilize type frequence of flicker
-		/// TODO: 
+		/// Name: setData
+		/// @agurment : flicker 
+		/// TODO: Verify what type of frequences to set opaque value of the flickers
+		/// Attention: frameRate depende on the fresh rate of screen so verify it before run program. 
+		/// Here it is taken by defaut a value of 60Hz
 		/// </summary>
+		public void setData(CFlicker flicker)
+		{
 
-
-		public void setData(CFlicker flicker) { 
-		
 			Random rand = new Random();
 			int tmp;
-			double frameRate = 60.0;
+			double frameRate = 60;  // 60Hz 
 			const double timeFlicker = 50;
-			m_data = new double[(int)(frameRate * timeFlicker)];
+			m_data = new double[(int)(frameRate * timeFlicker)]; // initializing data
 
-			if (flicker.TypeFrequence == 1) { 
-			
-				for(int j = 0; j < (int)frameRate * timeFlicker; j++)
+			// random frequence
+			if (flicker.TypeFrequence == 1)
+			{
+
+				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
 				{
 
 					tmp = rand.Next();
 					if (tmp % 7 == 0)
 					{
-						Data[j] = 1;//  max amplitude = 1.0 
+						Data[j] = 1;//  max opacity = 1.0 
 					}
 					else
 					{
-						Data[j] = 0.1; //  min amplitude = 0.1 
+						Data[j] = 0; //  min opacity = 0
 					}
 
 				}
 			}
-			if (flicker.TypeFrequence == 2) {
+			// sininous frequence
+			if (flicker.TypeFrequence == 2)
+			{
 
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
 				{
@@ -144,25 +150,28 @@ namespace VisualStimuli
 				}
 
 			}
-
-			if (flicker.TypeFrequence == 3) {
+			// square frequence
+			if (flicker.TypeFrequence == 3)
+			{
 
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
 				{
 					double demo = 0.5 * (1.0 + Math.Sin(2 * Math.PI * flicker.Frequence * j / frameRate + flicker.Phase * Math.PI));
-					if (demo <= 0.1)
+					if (demo <= 0.1)   // demo has a continous range from 0 to 1 so when demo value < 0.1 we consider approximatively demo = 0 and in inverse we consider demo = 1 when its value > 0.1; 
 					{
-						Data[j] = 1;
+						Data[j] = 0;
 					}
 					else
 					{
-						Data[j] = 0.1;
+						Data[j] = 1;
 					}
+					Console.WriteLine(Data[j]);
 				}
 
 			}
-
-			if (flicker.TypeFrequence == 4) {
+			// square root frequence 
+			if (flicker.TypeFrequence == 4)
+			{
 
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
 				{
@@ -170,72 +179,31 @@ namespace VisualStimuli
 				}
 
 			}
-		
-		
-		}
-
-		// ------------------------------------------------ Oder verison -----------------------------------------
-		public void matrixFrequence(int flickerth, double m_framerate, CFlicker Flicker, double[,] m_matrix)
-		{
-			 Random rand = new Random(); // Create a list of random number
-			 int tmp; // temporal random number
-					  
-			// random frequence
-			const double timeFlicker = 50;// in seconds
-			if (Flicker.TypeFrequence == 1)
+			// Maximum length sequences
+			if(flicker.TypeFrequence == 5)
 			{
-				for (int j = 0; j < (int)m_framerate*timeFlicker; j++)
+				// To understand maximum length sequence, go https://www.gaussianwaves.com/2018/09/maximum-length-sequences-m-sequences/
+				// Here, we take a primitive polynomial degree 8 
+				// The generator polynomial of the given LFSR is g(x) = g0 + g1x + g2x^2 + ... + gnx^n
+				// So data we wiil set here have form: s[k + 8] = s[k + 7] + s[k + 2] + s[k + 1] + s[k]
+				// LFSR is Linear feedback shift registers 
+				// We initialyze 8 first random numbers (because of MLS is pseudorandom frequence)
+				Data[0] = 1;
+				Data[1] = 0;
+				Data[2] = 0;
+				Data[3] = 1;
+				Data[4] = 0;
+				Data[5] = 1;
+				Data[6] = 0;
+				Data[7] = 1;
+				 for(int j = 0;j < (int)frameRate * timeFlicker - 8 ; j++)
 				{
-					tmp = rand.Next();
-
-					if (tmp % 7 == 0)
-					{
-						m_matrix[flickerth, j] = 1;//  max amplitude = 1.0 
-					}
-					else
-					{
-						m_matrix[flickerth, j] = 0.1; //  min amplitude = 0.1 
-					}
-
-				}
-			}
-			// sininous frequence
-			if (Flicker.TypeFrequence == 2)
-			{
-				for (int j = 0; j < (int)m_framerate * timeFlicker; j++)
-				{
-					m_matrix[flickerth, j] = 0.5 * (1.0 + Math.Sin(2 * Math.PI * Flicker.Frequence * j / m_framerate + Flicker.Phase * Math.PI));
-				}
-			}
-			// square frequence
-			if (Flicker.TypeFrequence == 3)
-			{
-
-				for (int j = 0; j < (int)m_framerate * timeFlicker; j++)
-				{
-					double demo = 0.5 * (1.0 + Math.Sin(2 * Math.PI * Flicker.Frequence * j / m_framerate + Flicker.Phase * Math.PI));
-					if (demo <= 0.1)
-					{
-						m_matrix[flickerth, j] = 1;
-					}
-					else
-					{
-						m_matrix[flickerth, j] = 0.1;
-					}
+					Data[j + 8] = (Data[j + 7] + Data[j + 2] + Data[j + 1] + Data[j]) % 2;
+					
 				}
 
+				 
 			}
-			// square root frequence 
-
-			if (Flicker.TypeFrequence == 4)
-			{
-				for (int j = 0; j < (int)m_framerate * timeFlicker; j++)
-				{
-					m_matrix[flickerth, j] = 0.5 * (1.0 + Math.Sqrt(2 * Math.PI * Flicker.Frequence * j / m_framerate + Flicker.Phase * Math.PI));
-				}
-			}
-
-
 		}
 	}
 }

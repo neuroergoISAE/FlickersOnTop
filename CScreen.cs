@@ -39,6 +39,16 @@ namespace VisualStimuli
             create(x, y, width, height, name, fixedScreen);
         }
 
+
+        /*
+        @Name: create
+        @Arguement: 
+            + x,y : Position of the top left corner flicker
+            + width, height: flicker rectangle
+            + name: 
+            + fixedScrenn:
+        @TODO: Create a rectangle screen no border with the defined above informations (x, y, width, height, name)
+         */
         private void create(int x, int y, int width, int height, String name, bool fixedScreen)
         {
             if (!fixedScreen) {
@@ -78,16 +88,8 @@ namespace VisualStimuli
             }
 
             // the renderer
-            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);/// use 
-
-            m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1,SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);/// use SDL_RENDERER_ACCELERATED
-
-            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_SOFTWARE);/// use 
-
-            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_TARGETTEXTURE);/// use 
-
-            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, 0);/// use 
-
+            m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1,SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | 
+                                                                      SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
 
             if (m_pRenderer == IntPtr.Zero) {
                 Console.WriteLine("Renderer could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
@@ -97,18 +99,6 @@ namespace VisualStimuli
             //We initialyze the screen like a black box
             var surfTmp = Marshal.PtrToStructure<SDL.SDL_Surface>(m_pSurface);
             SDL.SDL_FillRect(m_pSurface, IntPtr.Zero, SDL.SDL_MapRGB(surfTmp.format, 0, 0, 0));
-
-
-            // the Image
-            //m_pImage = SDL.SDL_LoadBMP("C:\\Users\\Lenovo\\Desktop\\C#\\FlickersOnTop\\bin\\Debug\\cat.jpg");
-
-            // the Texture 2
-           // m_pTexture = SDL.SDL_CreateTextureFromSurface(m_pRenderer, m_pImage);
-           // if (m_pTexture == IntPtr.Zero)
-            //{
-             //   Console.WriteLine("Texture could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
-             //  return;
-           //  }
 
             
             // the Texture
@@ -131,37 +121,48 @@ namespace VisualStimuli
             Name = name;
         }
 
-
+        /*
+        @Name: show
+        @Arguement: 
+        @TODO: Supporting function of the function dislay in CFlicer.cs - Display a window
+         */
         public void show()
         {
-            SDL.SDL_RenderPresent(PRenderer);
+            SDL.SDL_RenderPresent(PRenderer);// how can we reaplce this function ??? 
         } 
 
-
-        
         public void changeColorAndAlpha(UInt32 col, double alph)
         {
             changeColor(col);
             changeAlpha(alph);
         }
 
+        /*
+        @Name: changeColor
+        @Arguement: 
+            + col: number which express the color of flicker
+            
+        @TODO: Reseting the color of flicker 
+         */
         public void changeColor(UInt32 col)
         {
             SDL.SDL_FillRect(PSurface, IntPtr.Zero, col); 
-            //SDL.SDL_FillRect(PImage, IntPtr.Zero, col);
-
+           
             var surfTmp = Marshal.PtrToStructure<SDL.SDL_Surface>(PSurface); 
-            //var surfTmp = Marshal.PtrToStructure<SDL.SDL_Surface>(PImage);
-             SDL.SDL_UpdateTexture(PTexture, IntPtr.Zero, surfTmp.pixels, surfTmp.pitch);
-
-            //SDL.SDL_RenderCopy(PRenderer, PTexture, IntPtr.Zero, IntPtr.Zero);
-           // SDL.SDL_RenderPresent(PRenderer);
+            
+            SDL.SDL_UpdateTexture(PTexture, IntPtr.Zero, surfTmp.pixels, surfTmp.pitch);
 
             SDL.SDL_RenderClear(PRenderer);
             SDL.SDL_RenderCopy(PRenderer, PTexture, IntPtr.Zero, IntPtr.Zero);
         }
 
+        /*
+       @Name: changeAlpha
+       @Arguement: 
+           + alpha: number express the opacity of flicker (0-1)
 
+       @TODO: Setting the opacity of flicker
+        */
         public void changeAlpha(double alph)
         {
             if (alph >= 0)
