@@ -63,10 +63,11 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// @Arguemnt: filePath, a matrix 
-		/// TODO : CSharp function to do it automaticaly
-		/// Return: a matrix for flicker with information users input 
+		/// Read a txt file to file with flickers information.
 		/// </summary>
+		/// <param name="filePath">Path to the txt file.</param>
+		/// <param name="matrix">Empty matrix to be filled.</param>
+		/// <returns> A matrix that contains the flickers information</returns>
 		public static async void Read_File(string filePath, double[,] matrix)
 		{
 			
@@ -103,9 +104,9 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// Temp function to initialize flickers in code 
-		/// TODO : CSharp function to do it automaticaly
+		/// Temporary function to initialize flickers
 		/// </summary>
+		/// <returns>None</returns>
 		public void init_test()
 		{
 			int resX = 1920;
@@ -215,10 +216,11 @@ namespace VisualStimuli
 
 		}
 		
+		
 		/// <summary>
-		/// TODO: Get fresh frame from the screen 
+		/// Get refresh rate of the screen
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Refresh rate of the screen</returns>
 		public double getFrameRate()
 		{
 			DEVMODE devMode = new DEVMODE();
@@ -228,14 +230,10 @@ namespace VisualStimuli
 			return (double)devMode.dmDisplayFrequency;
 		}
 		
-		/// <param name="frameRate"></param>
-		
-
 		/// <summary>
-		///@Name: FlexibleSin
-		///@Argument: 
-		///TODO: Generating the flickers in screen acrroding to type of sinous frequences
+		/// Generating the flickers on the screen, according to the parameters of the .txt file
 		/// </summary>
+		/// <returns>None</returns>
 		public void flexibleSin()
 		{
 			UInt32 time1 = 0;
@@ -321,10 +319,9 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// @Name: ImageFlicker
-		/// @Argument:
-		/// @TODO: Making a checkboard image flickering in the center of computer screen 
+		/// Make the image of a checkboardflickers in the center of the screen 
 		/// </summary>
+		/// <returns>None</returns>
 		public void ImageFlicker() 
 		{
 			// Frequence
