@@ -1,14 +1,16 @@
 Flickers on top
 =======================
 
-## Organization of the repo
+Organization of the repo
+---------------
 
 There are two projects:
 
 - Interface2App: the GUI to define the number and parameters of the flickers;
 - VisualSimuli: implements the main program
 
-## How to use it
+How to use it
+---------------
 
 1. Open project Interface2App (in bar Startup Project).
 
@@ -23,11 +25,13 @@ There are two projects:
 
 P/s: An icon chessboard (Interface.lik) is already created in folder FlickerOnTop to help you easly open Interface2App without run it in VisualStudio.
 
-## Dependencies
+Dependencies
+---------------
 
 All files are coded in C# and runing in VisualStudio.  
 Download VisualStudio 2022: <https://visualstudio.microsoft.com/vs/>  
 
-## Help
+Help
+---------------
 
 If you experience issues during installation and/or use of this program, you can post a new issue on the [GitHub issues webpage](https://github.com/ludovicdmt/FlickersOnTop/issues). We will reply to you as soon as possible and are very interested in to the improvement of this tool.  
