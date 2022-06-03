@@ -274,7 +274,7 @@ namespace VisualStimuli
 					}
 
 					 lumin = currentFlicker.getData(i,currentFlicker.Data);
-
+					//Console.Write(lumin+ " ");
 					// col1
 					r1 = currentFlicker.getRed(currentFlicker.Color1); 
 					g1 = currentFlicker.getGreen(currentFlicker.Color1); 
@@ -359,15 +359,16 @@ namespace VisualStimuli
 
 			int N = (int)(time * frameRate); // number of flickerings 
 			Console.WriteLine(N);
-			float[] opacity = new float[N];   // the opacity 
-			
+
+			double[] opacity = new double[N];   // the opacity 
+			init_test();
 
 			// initialize 
-			for (int i = 0; i < N; i++)
-			{
+			Console.Write("Number of flicker: " + m_listFlickers.Count);
+			CFlicker currentFlicker = (CFlicker)m_listFlickers[0];///
 
-				opacity[i] = (float)( 0.5 * (1.0 + Math.Sin(2 * Math.PI * Frequence * i / frameRate + Phase * Math.PI)));
-			}
+			currentFlicker.setData(currentFlicker);
+			
 
 			IntPtr m_window = IntPtr.Zero;
 			IntPtr m_render = IntPtr.Zero;
@@ -392,26 +393,33 @@ namespace VisualStimuli
 
 				m_image = SDL.SDL_LoadBMP("checkboard.bmp");
 
-				for (int i = 0; i < N; i++)
+				while (!quit && SDL.SDL_GetTicks() < 5000)
 				{
+					for (int i = 0; i < N; i++)
+					{
+						if (i >= frameRate)
+						{
+							i = 0;
+						}
+						double op = currentFlicker.getData(i, currentFlicker.Data);//Data[i]
+						//Console.Write(op+ " ");
+						SDL.SDL_SetWindowOpacity(m_window, (float)op);
 
-					SDL.SDL_SetWindowOpacity(m_window, opacity[i]);
-					//SDL.SDL_Delay(5);
 
-					m_texture = SDL.SDL_CreateTextureFromSurface(m_render, m_image);
+						m_texture = SDL.SDL_CreateTextureFromSurface(m_render, m_image);
 
-					SDL.SDL_RenderClear(m_render);
-					SDL.SDL_RenderCopy(m_render, m_texture, IntPtr.Zero, IntPtr.Zero);
-					SDL.SDL_RenderPresent(m_render);/// test 
-				}
+						SDL.SDL_RenderClear(m_render);
+						SDL.SDL_RenderCopy(m_render, m_texture, IntPtr.Zero, IntPtr.Zero);
+						SDL.SDL_RenderPresent(m_render);/// test 
+					}
 
-				if (m_window == IntPtr.Zero)
-				{
-					Console.WriteLine("Unable to create a window. Error: {0}", SDL.SDL_GetError());
+					if (m_window == IntPtr.Zero)
+					{
+						Console.WriteLine("Unable to create a window. Error: {0}", SDL.SDL_GetError());
 
-				}
-				else
-				{	
+					}
+					else
+					{
 						while (!quit)
 						{
 							while (SDL.SDL_PollEvent(out e) != 0)
@@ -421,11 +429,25 @@ namespace VisualStimuli
 									case SDL.SDL_EventType.SDL_QUIT:
 										quit = true;
 										break;
-									// add pressing Q to quit window;
+										// add pressing Q to quit window;
 								}
 
 							}
 						}
+					}
+					double time1 = SDL.SDL_GetTicks();
+					SDL.SDL_Event evt = new SDL.SDL_Event();
+					if (SDL.SDL_PollEvent(out evt) != 0)
+					{
+						if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
+						{
+							quit = true;
+						}
+						else
+						{
+							quit = false;
+						}
+					}
 				}
 
 			}

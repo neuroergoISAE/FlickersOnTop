@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 using SDL2;
 
 namespace VisualStimuli
-{
+{	/// <summary>
+	/// Inputs: Color, Frequence, Alpha, Phase, Type, Screen;
+	/// 
+	/// Functions: CFlicker, changeColors, changeAlphas, flip, getRed, getBlue, get Green, origin, display, getData, setData; 
+	/// </summary>
     class CFlicker
     {
 		private IntPtr m_handle;
@@ -30,7 +34,20 @@ namespace VisualStimuli
 		public int TypeFrequence { get => m_typeFreq; set => m_typeFreq = value; }
 
 		public double[] Data { get => m_data; set => m_data = value; }
-        public CFlicker(CScreen aScreen, UInt32 col1, UInt32 col2, double freq, double alph1, double alph2, double phase, int typeFreq)
+		/// <summary>
+		/// Making a screen flicker with defined informations (color, alpha, phase, frequence, type of frequence). 
+		/// </summary>
+		/// <param name="aScreen">The instance illustates the screen will flicker.</param>
+		/// <param name="col1">The instance illustates color of the flicker.</param>
+		/// <param name="col2">The instance illustates color of the flicker.</param>
+		/// <param name="freq">The instance illustates frequence of the flicker.</param>
+		/// <param name="alph1">The instance illustates alpha of the flicker.</param>
+		/// <param name="alph2">The instance illustates alpha of the flicker.</param>
+		/// <param name="phase">The instance illustates phase of the flicker.</param>
+		/// <param name="typeFreq">The instance illustates type of the flicker(sinious, max-length-sequence,...).</param>
+		///<return>None</return>>
+		
+		public CFlicker(CScreen aScreen, UInt32 col1, UInt32 col2, double freq, double alph1, double alph2, double phase, int typeFreq)
 		{
 			Color1 = col1;
 			Color2 = col2;
@@ -51,67 +68,104 @@ namespace VisualStimuli
 			Console.WriteLine("Flicker {0} created - Position \t{1} pixels\t{2} pixels", Screen.Name,Screen.W, Screen.H);
 		}
 
+		/// <summary>
+		/// Change  colors coefficient of the flicker.
+		/// </summary>
+		/// <param name="col1">Color 1</param>
+		/// <param name="col2">Color 2</param>
 		public void changeColors(UInt32 col1, UInt32 col2)
 		{
 			Color1 = col1;
 			Color2 = col2;
 		}
 
-
+		/// <summary>
+		/// Change the coefficient of opacity of the flicker.
+		/// </summary>
+		/// <param name="alph1">Alpha 1.</param>
+		/// <param name="alph2">Alpha 2.</param>
 		public void changeAlphas(double alph1, double alph2)
 		{
 			Alpha1 = alph1;
 			Alpha2 = alph2;
 		}
 
-
+		/// <summary>
+		/// Change Color and Alpha coefficients of the flicker.
+		/// </summary>
+		/// <param name="col">Color.</param>
+		/// <param name="alph">Alpha.</param>
 		public void flip(UInt32 col, double alph)
 		{
 			Screen.changeColorAndAlpha(col, alph);
 		}
 
+		/// <summary>
+		/// Get the number which represent to red color.
+		/// </summary>
+		/// <param name="color"> Red value. </param>
+		/// <returns>Red color.</returns>
 		public Byte getRed(UInt32 color)
 		{
 			Byte res = (Byte)(color >> 16);
 			return res;
 		}
 
+		/// <summary>
+		/// Get the number which represent to green color.
+		/// </summary>
+		/// <param name="color"> Green value. </param>
+		/// <returns> Green color.</returns>
 		public Byte getGreen(UInt32 color)
 		{
 			Byte res = (Byte)((color - (int)Math.Pow(2, 16)) >> 8);
 			return res;
 		}
+
+		/// <summary>
+		/// Get the number which represent to blue color.
+		/// </summary>
+		/// <param name="color"> Blue value. </param>
+		/// <returns> Blue color.</returns>
 		public Byte getBlue(UInt32 color)
 		{
 			Byte res = (Byte)((color - (int)Math.Pow(2, 16) - (int)Math.Pow(2, 8)));
 			return res;
 		}
 
+		/// <summary>
+		/// Setting flicker size(width, height) and flicker position(x,y).
+		/// </summary>
 		public void origin()
 		{
 			SDL.SDL_SetWindowSize(Screen.PWindow, Screen.W, Screen.H);
 			SDL.SDL_SetWindowPosition(Screen.PWindow, Screen.X, Screen.Y);
 		}
 
+		/// <summary>
+		/// Display the flicker.
+		/// </summary>
 		public void display()
 		{
 			m_screen.show();
 		}
 
+		/// <summary>
+		/// Return a number in the list Data
+		/// </summary>
+		/// <param name="i"> ith value in the list</param>
+		/// <param name="a">list number of opacity</param>
+		/// <returns>the number ith in the list Data</returns>
 		public double getData(int i, double[] a) {
 
 			return a[i];
 		
 		}
 
-
 		/// <summary>
-		/// Name: setData
-		/// @agurment : flicker 
-		/// TODO: Verify what type of frequences to set opaque value of the flickers
-		/// Attention: frameRate depende on the fresh rate of screen so verify it before run program. 
-		/// Here it is taken by defaut a value of 60Hz
+		/// Generate a list of opacity depends on type which was defined.
 		/// </summary>
+		/// <param name="flicker">FLicker.</param>
 		public void setData(CFlicker flicker)
 		{
 
@@ -147,6 +201,7 @@ namespace VisualStimuli
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
 				{
 					Data[j] = 0.5 * (1.0 + Math.Sin(2 * Math.PI * flicker.Frequence * j / frameRate + flicker.Phase * Math.PI));
+					
 				}
 
 			}
@@ -165,7 +220,6 @@ namespace VisualStimuli
 					{
 						Data[j] = 1;
 					}
-					Console.WriteLine(Data[j]);
 				}
 
 			}

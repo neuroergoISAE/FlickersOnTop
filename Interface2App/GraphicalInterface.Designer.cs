@@ -90,6 +90,7 @@
 			this.label21 = new System.Windows.Forms.Label();
 			this.textType1 = new System.Windows.Forms.TextBox();
 			this.label22 = new System.Windows.Forms.Label();
+			this.bt_run = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.red)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.green)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.blue)).BeginInit();
@@ -217,7 +218,7 @@
 			// button1
 			// 
 			this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button1.Location = new System.Drawing.Point(66, 391);
+			this.button1.Location = new System.Drawing.Point(66, 348);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(165, 59);
 			this.button1.TabIndex = 13;
@@ -321,7 +322,7 @@
 			this.button_help.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.button_help.Location = new System.Drawing.Point(66, 290);
 			this.button_help.Name = "button_help";
-			this.button_help.Size = new System.Drawing.Size(165, 81);
+			this.button_help.Size = new System.Drawing.Size(165, 52);
 			this.button_help.TabIndex = 27;
 			this.button_help.Text = "HELP";
 			this.button_help.UseVisualStyleBackColor = true;
@@ -649,11 +650,24 @@
 			this.label22.TabIndex = 63;
 			this.label22.Text = "Type ";
 			// 
+			// bt_run
+			// 
+			this.bt_run.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.bt_run.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.bt_run.Location = new System.Drawing.Point(66, 413);
+			this.bt_run.Name = "bt_run";
+			this.bt_run.Size = new System.Drawing.Size(165, 61);
+			this.bt_run.TabIndex = 69;
+			this.bt_run.Text = "RUN";
+			this.bt_run.UseVisualStyleBackColor = true;
+			this.bt_run.Click += new System.EventHandler(this.bt_run_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1203, 584);
+			this.Controls.Add(this.bt_run);
 			this.Controls.Add(this.textType4);
 			this.Controls.Add(this.textType3);
 			this.Controls.Add(this.textType2);
@@ -791,6 +805,7 @@
 		private System.Windows.Forms.Label label21;
 		private System.Windows.Forms.TextBox textType1;
 		private System.Windows.Forms.Label label22;
+		private System.Windows.Forms.Button bt_run;
 	}
 }
 

@@ -20,3 +20,7 @@ C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.Generate
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.CoreCompileInputs.cache
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.exe
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.pdb
+C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\Interface2App.exe
+C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\Interface2App.pdb
+C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\Interface2App.exe.config
+C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.CopyComplete

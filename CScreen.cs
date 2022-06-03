@@ -7,7 +7,9 @@ using System.Runtime.InteropServices;
 using SDL2;
 
 namespace VisualStimuli
-{
+{   /// <summary>
+    /// This class defines informations of a flicker(x,y,width,height) and sets of fucntions to change opacity, change color, change opacity and color as well as display it.
+   /// </summary>
     class CScreen
     {
         // Attributes (from "struct screen" in Screen.h)
@@ -33,22 +35,24 @@ namespace VisualStimuli
         public int H { get => m_h; set => m_h = value; }
         public string Name { get => m_name; set => m_name = value; }
 
-
+        /// <summary>
+        /// Create a borderless rectangle window on computer screen with defined informations as x, y, width and height.
+        /// </summary>
+        /// <param name="x">The instance that represent the horizontal position center of the screen.</param>
+        /// <param name="y">The instance that represent the vertical position center of the screen.</param>
+        /// <param name="width">The instance that represent the width of the screen.</param>
+        /// <param name="height">The instance that represent the height of the screen.</param>
+        /// <param name="name">The instance that represent the name of the screen.</param>
+        /// <param name="fixedScreen">The instance represent the screen is fixed or not.</param>
         public CScreen(int x, int y, int width, int height, String name, bool fixedScreen)
         {
             create(x, y, width, height, name, fixedScreen);
         }
-
-
-        /*
-        @Name: create
-        @Arguement: 
-            + x,y : Position of the top left corner flicker
-            + width, height: flicker rectangle
-            + name: 
-            + fixedScrenn:
-        @TODO: Create a rectangle screen no border with the defined above informations (x, y, width, height, name)
-         */
+        
+        /// <summary>
+        /// Support to function CSreen.
+        /// </summary>
+        
         private void create(int x, int y, int width, int height, String name, bool fixedScreen)
         {
             if (!fixedScreen) {
@@ -121,29 +125,30 @@ namespace VisualStimuli
             Name = name;
         }
 
-        /*
-        @Name: show
-        @Arguement: 
-        @TODO: Supporting function of the function dislay in CFlicer.cs - Display a window
-         */
+        /// <summary>
+        /// Display the screen.
+        /// </summary>
         public void show()
         {
-            SDL.SDL_RenderPresent(PRenderer);// how can we reaplce this function ??? 
-        } 
-
+            SDL.SDL_RenderPresent(PRenderer);
+        }
+        /// <summary>
+        /// Change two coefficients Color and Alpha. 
+        /// </summary>
+        /// <param name="col">The instance represent to color of the screen.</param>
+        /// <param name="alph">The instance represent to opacity of the screen.</param>
+        /// <return> None</return>>   
         public void changeColorAndAlpha(UInt32 col, double alph)
         {
             changeColor(col);
             changeAlpha(alph);
         }
 
-        /*
-        @Name: changeColor
-        @Arguement: 
-            + col: number which express the color of flicker
-            
-        @TODO: Reseting the color of flicker 
-         */
+       /// <summary>
+       /// Change Color coefficient of screen.
+       /// </summary>
+       /// <param name="col">The instance represent to the color of screen.</param>
+       /// <return> None</return>>
         public void changeColor(UInt32 col)
         {
             SDL.SDL_FillRect(PSurface, IntPtr.Zero, col); 
@@ -156,13 +161,12 @@ namespace VisualStimuli
             SDL.SDL_RenderCopy(PRenderer, PTexture, IntPtr.Zero, IntPtr.Zero);
         }
 
-        /*
-       @Name: changeAlpha
-       @Arguement: 
-           + alpha: number express the opacity of flicker (0-1)
 
-       @TODO: Setting the opacity of flicker
-        */
+        /// <summary>
+        /// Change opacity coefficient of screen.
+        /// </summary>
+        /// <param name="alph">The instance represent to the opacity of screen.</param>
+        /// <return> None</return>>
         public void changeAlpha(double alph)
         {
             if (alph >= 0)
@@ -171,6 +175,6 @@ namespace VisualStimuli
             }
         } 
 
-    } // class CScreen
+    } 
 
-} // namespace
+} 

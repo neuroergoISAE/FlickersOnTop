@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.IO;
 
 
-
 namespace Interface2App
 {
 	public partial class Form1 : Form
@@ -33,8 +32,6 @@ namespace Interface2App
 			string t6 = text6.Text;
 			string tAlpha1 = textAlpha1.Text;
 			string type1 = textType1.Text;
-			
-
 			
 
 			file.Write(t1 + " "); file.Write(t2 + " "); file.Write(t3 + " ");
@@ -100,13 +97,10 @@ namespace Interface2App
 				warnted.Text = "Click HELP !!!";
 
 			}
-			if (Double.TryParse(t2, out _) != true)
-			{
-				warnted.Text = "Click HELP !!!";
-
-			}
-
+			
 			file.Close();
+		
+			return ;
 		}
 
 		private void bar_Scroll(object sender, EventArgs e)
@@ -154,18 +148,34 @@ namespace Interface2App
 				"III.\n" +
 				"Frequence in Hz and Phase in degrees\n\n"+ 
 				"IV.\n"+ 
-				"You can choose in Type (1 - 4)\n" +
+				"You can choose in Type (1 - 5)\n" +
 				"1: Random \n" +
 				"2: Sinous \n" +
 				"3: Square \n" +
 				"4: Root Square\n"+
 				"5: Maximum length sequencen\n\n" +
 				"V.\n" +
-				"After finishing one line, you can click to Create File and run Visual Stimuli project \n\n" +
+				"After finishing one line, you can click to Create File  \n" +
+				"Finally, Click to RUN button to run program\n\n" +
 				
 				"VI.\n" +
 				"Each column corresponds to characteristics and each line corresponds to flickers\n\n" +
 				"HAVE FUN !!!");
+		}
+
+		private void bt_run_Click(object sender, EventArgs e)
+		{
+
+			if (System.Windows.Forms.Application.MessageLoop)
+			{
+				// WinForms app
+				System.Windows.Forms.Application.Exit();
+			}
+			else
+			{
+				// Console app
+				System.Environment.Exit(1);
+			}
 		}
 	}
 }

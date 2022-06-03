@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using SDL2;
+using Interface2App;
+using System.Windows.Forms;
 
 
 namespace VisualStimuli
@@ -9,10 +11,14 @@ namespace VisualStimuli
     {
         static int Main(string[] args)
         {
-            Console.WriteLine("Hello the world");
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
+				
             CPlay oPlay = new CPlay();
-            //oPlay.flexibleSin();
-            oPlay.ImageFlicker();
+            oPlay.flexibleSin();
+            //oPlay.ImageFlicker();
             return 0;
         }
     }
