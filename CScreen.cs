@@ -8,8 +8,9 @@ using SDL2;
 
 namespace VisualStimuli
 {   /// <summary>
-    /// This class defines informations of a flicker(x,y,width,height) and sets of fucntions to change opacity, change color, change opacity and color as well as display it.
-   /// </summary>
+    /// <strong>Defined informations:</strong> x, y, width, height, name, bool;
+    /// <strong>Functions: </strong>CSreen, show, changeColorAndAlpha, changeColor, changeAlpha.
+    /// </summary>
     class CScreen
     {
         // Attributes (from "struct screen" in Screen.h)
@@ -36,14 +37,14 @@ namespace VisualStimuli
         public string Name { get => m_name; set => m_name = value; }
 
         /// <summary>
-        /// Create a borderless rectangle window on computer screen with defined informations as x, y, width and height.
+        /// Create a borderless rectangle window on computer screen.
         /// </summary>
-        /// <param name="x">The instance that represent the horizontal position center of the screen.</param>
-        /// <param name="y">The instance that represent the vertical position center of the screen.</param>
-        /// <param name="width">The instance that represent the width of the screen.</param>
-        /// <param name="height">The instance that represent the height of the screen.</param>
-        /// <param name="name">The instance that represent the name of the screen.</param>
-        /// <param name="fixedScreen">The instance represent the screen is fixed or not.</param>
+        /// <param name="x">The value represents the horizontal position center of the screen.</param>
+        /// <param name="y">The value represents the vertical position center of the screen.</param>
+        /// <param name="width">The value represents the width of the screen.</param>
+        /// <param name="height">The value represents the height of the screen.</param>
+        /// <param name="name">The value represents the name of the screen.</param>
+        /// <param name="fixedScreen">The value represents the screen is fixed or not.</param>
         public CScreen(int x, int y, int width, int height, String name, bool fixedScreen)
         {
             create(x, y, width, height, name, fixedScreen);
@@ -133,10 +134,10 @@ namespace VisualStimuli
             SDL.SDL_RenderPresent(PRenderer);
         }
         /// <summary>
-        /// Change two coefficients Color and Alpha. 
+        /// Update two coefficients Color and Opacity. 
         /// </summary>
-        /// <param name="col">The instance represent to color of the screen.</param>
-        /// <param name="alph">The instance represent to opacity of the screen.</param>
+        /// <param name="col">The UInt32 value represents to the color.</param>
+        /// <param name="alph">The double value represents to the opacity.</param>
         /// <return> None</return>>   
         public void changeColorAndAlpha(UInt32 col, double alph)
         {
@@ -145,9 +146,9 @@ namespace VisualStimuli
         }
 
        /// <summary>
-       /// Change Color coefficient of screen.
+       /// Update the color coefficient.
        /// </summary>
-       /// <param name="col">The instance represent to the color of screen.</param>
+       /// <param name="col">The UInt32 value represents to the color.</param>
        /// <return> None</return>>
         public void changeColor(UInt32 col)
         {
@@ -163,9 +164,9 @@ namespace VisualStimuli
 
 
         /// <summary>
-        /// Change opacity coefficient of screen.
+        /// Setting the coefficient of opacity.
         /// </summary>
-        /// <param name="alph">The instance represent to the opacity of screen.</param>
+        /// <param name="alph">The double value represents to the opacity.</param>
         /// <return> None</return>>
         public void changeAlpha(double alph)
         {

@@ -7,9 +7,9 @@ using SDL2;
 
 namespace VisualStimuli
 {	/// <summary>
-	/// Inputs: Color, Frequence, Alpha, Phase, Type, Screen;
+	/// <strong>Inputs:</strong> Color, Frequence, Alpha, Phase, Type, Screen;
 	/// 
-	/// Functions: CFlicker, changeColors, changeAlphas, flip, getRed, getBlue, get Green, origin, display, getData, setData; 
+	/// <strong>Functions: </strong>CFlicker, changeColors, changeAlphas, flip, getRed, getBlue, get Green, origin, display, getData, setData;
 	/// </summary>
     class CFlicker
     {
@@ -35,16 +35,16 @@ namespace VisualStimuli
 
 		public double[] Data { get => m_data; set => m_data = value; }
 		/// <summary>
-		/// Making a screen flicker with defined informations (color, alpha, phase, frequence, type of frequence). 
+		/// Create a flicker.
 		/// </summary>
-		/// <param name="aScreen">The instance illustates the screen will flicker.</param>
-		/// <param name="col1">The instance illustates color of the flicker.</param>
-		/// <param name="col2">The instance illustates color of the flicker.</param>
-		/// <param name="freq">The instance illustates frequence of the flicker.</param>
-		/// <param name="alph1">The instance illustates alpha of the flicker.</param>
-		/// <param name="alph2">The instance illustates alpha of the flicker.</param>
-		/// <param name="phase">The instance illustates phase of the flicker.</param>
-		/// <param name="typeFreq">The instance illustates type of the flicker(sinious, max-length-sequence,...).</param>
+		/// <param name="aScreen">The screen which will flick.</param>
+		/// <param name="col1">The UInt32 value illustates color1.</param>
+		/// <param name="col2">The UInt32 value illustates color2.</param>
+		/// <param name="freq">The double value illustates frequence.</param>
+		/// <param name="alph1">The double value illustates the opacity1.</param>
+		/// <param name="alph2">The double value illustates the opacity2.</param>
+		/// <param name="phase">The double value illustates the phase.</param>
+		/// <param name="typeFreq">The double value illustates type of the flicker (sinious, max-length-sequence,...).</param>
 		///<return>None</return>>
 		
 		public CFlicker(CScreen aScreen, UInt32 col1, UInt32 col2, double freq, double alph1, double alph2, double phase, int typeFreq)
@@ -69,7 +69,7 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// Change  colors coefficient of the flicker.
+		/// Update color coefficient.
 		/// </summary>
 		/// <param name="col1">Color 1</param>
 		/// <param name="col2">Color 2</param>
@@ -80,10 +80,10 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// Change the coefficient of opacity of the flicker.
+		/// Update the coefficient of opacity.
 		/// </summary>
-		/// <param name="alph1">Alpha 1.</param>
-		/// <param name="alph2">Alpha 2.</param>
+		/// <param name="alph1">Double Alpha 1.</param>
+		/// <param name="alph2">Double Alpha 2.</param>
 		public void changeAlphas(double alph1, double alph2)
 		{
 			Alpha1 = alph1;
@@ -91,17 +91,17 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// Change Color and Alpha coefficients of the flicker.
+		/// Update Color and Alpha coefficients.
 		/// </summary>
-		/// <param name="col">Color.</param>
-		/// <param name="alph">Alpha.</param>
+		/// <param name="col">UInt32 Color value.</param>
+		/// <param name="alph">Double Alpha value.</param>
 		public void flip(UInt32 col, double alph)
 		{
 			Screen.changeColorAndAlpha(col, alph);
 		}
 
 		/// <summary>
-		/// Get the number which represent to red color.
+		/// Get the number which represents to red color.
 		/// </summary>
 		/// <param name="color"> Red value. </param>
 		/// <returns>Red color.</returns>
@@ -112,7 +112,7 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// Get the number which represent to green color.
+		/// Get the number which represents to green color.
 		/// </summary>
 		/// <param name="color"> Green value. </param>
 		/// <returns> Green color.</returns>
@@ -123,7 +123,7 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// Get the number which represent to blue color.
+		/// Get the number which represents to blue color.
 		/// </summary>
 		/// <param name="color"> Blue value. </param>
 		/// <returns> Blue color.</returns>
@@ -134,7 +134,7 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// Setting flicker size(width, height) and flicker position(x,y).
+		/// Setting flicker's size and flicker's position.
 		/// </summary>
 		public void origin()
 		{
@@ -155,7 +155,7 @@ namespace VisualStimuli
 		/// </summary>
 		/// <param name="i"> ith value in the list</param>
 		/// <param name="a">list number of opacity</param>
-		/// <returns>the number ith in the list Data</returns>
+		/// <returns>The number ith in the list Data</returns>
 		public double getData(int i, double[] a) {
 
 			return a[i];
@@ -163,7 +163,7 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// Generate a list of opacity depends on type which was defined.
+		/// Generate a list of opacity number depends on type which was defined.
 		/// </summary>
 		/// <param name="flicker">FLicker.</param>
 		public void setData(CFlicker flicker)

@@ -15,8 +15,6 @@ C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\VisualStimuli.exe
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\VisualStimuli.pdb
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.AssemblyReference.cache
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.SuggestedBindingRedirects.cache
-C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.UserControl1.resources
-C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.GenerateResource.cache
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.CoreCompileInputs.cache
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.exe
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.pdb
