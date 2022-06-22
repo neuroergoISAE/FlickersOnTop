@@ -115,9 +115,9 @@ namespace VisualStimuli
 
 			int numFlicker = 0;
 
-			//string filePath = "C:\\Users\\Lenovo\\Desktop\\test_file.txt";// change here ***
+			string filePath = "C:\\Users\\Lenovo\\Desktop\\test_file.txt";// change here ***
 
-			string filePath = "test_file.txt";
+			//string filePath = "test_file.txt";
 
 			StreamReader reader = new StreamReader (filePath);
 			string line = reader.ReadLine();
@@ -133,9 +133,9 @@ namespace VisualStimuli
 			Read_File(filePath, pMatrix);
 
 
-			byte red1 = Convert.ToByte(pMatrix[0, 7]);
-			byte green1 = Convert.ToByte(pMatrix[0, 8]);
-			byte bleu1 = Convert.ToByte(pMatrix[0, 9]);
+			byte red1 = Convert.ToByte(pMatrix[0, 8]);
+			byte green1 = Convert.ToByte(pMatrix[0, 9]);
+			byte bleu1 = Convert.ToByte(pMatrix[0, 10]);
 			CScreen[] screen = new CScreen[numFlicker]; 
 			CFlicker[] flicker = new CFlicker[numFlicker];
 			for (int i = 0; i < numFlicker; i++)
@@ -150,7 +150,7 @@ namespace VisualStimuli
 						pMatrix[i, 6] / 100, // alpha1
 						pMatrix[i, 6] / 100, // alpha2
 						pMatrix[i, 5],  // phase
-						pMatrix[i, 10]); // type frequence
+						pMatrix[i, 7]); // type frequence
 
 					m_listFlickers.Add(flicker[i]);
 				

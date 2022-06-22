@@ -75,8 +75,8 @@ namespace Interface2App
 		/// <param name="e"></param>
 		private void bt_save(object sender, EventArgs e)
 		{
-			//StreamWriter file = new StreamWriter("C:\\Users\\Lenovo\\Desktop\\test_file.txt");// change here 
-			StreamWriter file = new StreamWriter("test_file.txt");
+			StreamWriter file = new StreamWriter("C:\\Users\\Lenovo\\Desktop\\test_file.txt");// change here 
+			//StreamWriter file = new StreamWriter("test_file.txt");
 			//flicker 1
 
 			string t1 = text1.Text;
@@ -92,15 +92,16 @@ namespace Interface2App
 			file.Write(t1 + " "); file.Write(t2 + " "); file.Write(t3 + " ");
 			file.Write(t4 + " "); file.Write(t5 + " "); file.Write(t6 + " ");
 			file.Write(tAlpha1 + " ");
+			file.Write(type1 + " ");
 			if (red.Value == 0 && green.Value == 0 && blue.Value == 0)
 			{
-				file.Write("255" + " "); file.Write("255" + " "); file.Write("255" + " ");
+				file.Write("255" + " "); file.Write("255" + " "); file.Write("255" + "\n");
 			}
 			else
 			{
-				file.Write(red.Value + " "); file.Write(green.Value + " "); file.Write(blue.Value + " "); 
+				file.Write(red.Value + " "); file.Write(green.Value + " "); file.Write(blue.Value + "\n"); 
 			}
-			file.Write(type1 + "\n");
+			
 			//flicker 2
 			string t7 = text7.Text; // x
 			string t8 = text8.Text; // y
@@ -115,7 +116,7 @@ namespace Interface2App
 			file.Write(t7 + " "); file.Write(t8 + " "); file.Write(t9 + " ");
 			file.Write(t10 + " "); file.Write(t11 + " "); file.Write(t12 + " ");
 			file.Write(tAlpha2 + " ");
-			file.Write(red.Value + " "); file.Write(green.Value + " "); file.Write(blue.Value + " ");
+			//file.Write(red.Value + " "); file.Write(green.Value + " "); file.Write(blue.Value + " ");
 			file.Write(type2 + "\n");
 
 			//flicker 3
@@ -131,7 +132,7 @@ namespace Interface2App
 			file.Write(t13 + " "); file.Write(t14 + " "); file.Write(t15 + " ");
 			file.Write(t16 + " "); file.Write(t17 + " "); file.Write(t18 + " ");
 			file.Write(tAlpha3 + " ");
-			file.Write(red.Value + " "); file.Write(green.Value + " "); file.Write(blue.Value + " ");
+			//file.Write(red.Value + " "); file.Write(green.Value + " "); file.Write(blue.Value + " ");
 			file.Write(type3 + "\n");
 
 			//flicker 4
@@ -148,7 +149,7 @@ namespace Interface2App
 			file.Write(t19 + " "); file.Write(t20 + " "); file.Write(t21 + " ");
 			file.Write(t22 + " "); file.Write(t23 + " "); file.Write(t24 + " ");
 			file.Write(tAlpha4 + " ");
-			file.Write(red.Value + " "); file.Write(green.Value + " "); file.Write(blue.Value + " "); 
+			//file.Write(red.Value + " "); file.Write(green.Value + " "); file.Write(blue.Value + " "); 
 			file.Write(type4 + "\n");
 
 			

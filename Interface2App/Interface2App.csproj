@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\LSL.cs" />
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,6 +135,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\help icon %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lsl.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
