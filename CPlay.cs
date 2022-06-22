@@ -8,14 +8,15 @@ using System.Runtime.InteropServices;
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Windows.Forms;
  
 
 namespace VisualStimuli
 {
-	class CPlay
+	public class CPlay
 	{
 		ArrayList m_listFlickers = new ArrayList();
-		double[,] m_matrix;
+		//double[,] m_matrix;
 
 		[DllImport("user32.dll", EntryPoint = "SetWindowPos")]
 		public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
@@ -68,7 +69,7 @@ namespace VisualStimuli
 		/// <param name="filePath">Path to the txt file.</param>
 		/// <param name="matrix">Empty matrix to be filled.</param>
 		/// <returns> A matrix that contains the flickers information</returns>
-		public static async void Read_File(string filePath, double[,] matrix)
+		public static void Read_File(string filePath, int[,] matrix)
 		{
 			
 			int i = 0;
@@ -86,7 +87,7 @@ namespace VisualStimuli
 					string [] parts = line.Split(' ');
 					for (int j = 0; j < parts.Length; j++) {
 					
-							matrix[i, j] = double.Parse(parts[j]);
+							matrix[i, j] = int.Parse(parts[j]);
 						
 					}
 					i++;
@@ -109,110 +110,52 @@ namespace VisualStimuli
 		/// <returns>None</returns>
 		public void init_test()
 		{
-			int resX = 1920;
-			int resY = 1080;
-			Console.WriteLine("It works");
 			
+			Console.WriteLine("The one that got away - Katy Perry \n");
 
-			string filePath = "C:\\Users\\Lenovo\\Desktop\\test_file.txt"; // change here ***
+			int numFlicker = 0;
 
-			double[,] pMatrix = new double[4,11];// 4 flickers and 10 defined infomations
+			//string filePath = "C:\\Users\\Lenovo\\Desktop\\test_file.txt";// change here ***
+
+			string filePath = "test_file.txt";
+
+			StreamReader reader = new StreamReader (filePath);
+			string line = reader.ReadLine();
+			while(line!= null)
+			{
+				numFlicker++;
+				line = reader.ReadLine();
+			}
+			reader.Close ();
+			Console.WriteLine("Number of Flicker:" + numFlicker);
+			int[,] pMatrix = new int[numFlicker,11];// matrix  flickers and 11 defined infomations
+
 			Read_File(filePath, pMatrix);
-			Console.WriteLine(pMatrix[0, 6].GetType());
 
-			//*** flicker1
-			double width1 = pMatrix[0, 2] * 0.66/  1267.1;
-			double height1 = pMatrix[0, 3] * 0.66 /  712.8;
-			double x1 = pMatrix[0, 0] * 0.66 / 100 - width1/2;
-			double y1 = pMatrix[0, 1] * 0.66 / 100 - height1/2;
+
 			byte red1 = Convert.ToByte(pMatrix[0, 7]);
 			byte green1 = Convert.ToByte(pMatrix[0, 8]);
 			byte bleu1 = Convert.ToByte(pMatrix[0, 9]);
-			Console.WriteLine(green1);
-			
-			CScreen screen1 = new CScreen((int)(resX * x1), (int)(resY * y1), (int)(resX * width1), (int)(resY * height1), "F1", false);
-			var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen1.PSurface);
-			CFlicker flicker1 = new CFlicker(screen1,
-				SDL.SDL_MapRGB(screenSurface1.format, 0, 0, 0), // color1 RGB
-				SDL.SDL_MapRGB(screenSurface1.format, red1, green1, bleu1), // color2 RGB
-				pMatrix[0,4], // freq
-				pMatrix[0,6]/100, // alpha1
-				pMatrix[0,6]/100, // alpha2
-				pMatrix[0,5],  // phase
-				(int)pMatrix[0,10]); // type frequence
+			CScreen[] screen = new CScreen[numFlicker]; 
+			CFlicker[] flicker = new CFlicker[numFlicker];
+			for (int i = 0; i < numFlicker; i++)
+			{
 
-			m_listFlickers.Add(flicker1);
+				screen[i] = new CScreen(pMatrix[i, 0], pMatrix[i, 1], pMatrix[i, 2], pMatrix[i, 3], i.ToString(), false) ;
+					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen[i].PSurface);
+					 flicker[i] = new CFlicker(screen[i],
+						SDL.SDL_MapRGB(screenSurface1.format, 0, 0, 0), // color1 RGB
+						SDL.SDL_MapRGB(screenSurface1.format, red1, green1, bleu1), // color2 RGB
+						pMatrix[i, 4], // freq
+						pMatrix[i, 6] / 100, // alpha1
+						pMatrix[i, 6] / 100, // alpha2
+						pMatrix[i, 5],  // phase
+						pMatrix[i, 10]); // type frequence
 
-			// ***Flicker 2
-			double width2 = pMatrix[1, 2] * 0.66 / 1267.1;
-			double height2 = pMatrix[1, 3] * 0.66 / 712.8;
-			double x2 = pMatrix[1, 0] * 0.66 / 100 - width2 / 2;
-			double y2 = pMatrix[1, 1] * 0.66 / 100 - height2 / 2;
+					m_listFlickers.Add(flicker[i]);
+				
+			}
 
-			byte red2 = Convert.ToByte(pMatrix[1, 7]);
-			byte green2 = Convert.ToByte(pMatrix[1, 8]);
-			byte bleu2 = Convert.ToByte(pMatrix[1, 9]);
-			
-			
-			CScreen screen2 = new CScreen((int)(resX * x2), (int)(resY * y2), (int)(resX * width2), (int)(resY * height2), "F2", false);
-			var screenSurface2 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen2.PSurface);
-			CFlicker flicker2 = new CFlicker(screen2,
-				SDL.SDL_MapRGB(screenSurface1.format, 0, 0, 0), // color1 RGB
-				SDL.SDL_MapRGB(screenSurface1.format, red2, green2, bleu2), // color2 RGB
-				pMatrix[1, 4], // freq
-				pMatrix[1, 6] / 100, // alpha1
-				pMatrix[1,6]/100, // alpha2
-				pMatrix[1, 5], // phase
-				(int)pMatrix[1,10]); // type frequence
-			m_listFlickers.Add(flicker2);
-
-			// ***Flicker 3
-			double width3 = pMatrix[2, 2] * 0.66 / 1267.1;
-			double height3 = pMatrix[2, 3] * 0.66 / 712.8;
-			double x3 = pMatrix[2, 0] * 0.66 / 100 - width3 / 2;
-			double y3 = pMatrix[2, 1] * 0.66 / 100 - height3 / 2;
-
-			byte red3 = Convert.ToByte(pMatrix[2, 7]);
-			byte green3 = Convert.ToByte(pMatrix[2, 8]);
-			byte bleu3 = Convert.ToByte(pMatrix[2, 9]);
-
-
-			CScreen screen3 = new CScreen((int)(resX * x3), (int)(resY * y3), (int)(resX * width3), (int)(resY * height3), "F3", false);
-			var screenSurface3 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen3.PSurface);
-			CFlicker flicker3 = new CFlicker(screen3,
-				SDL.SDL_MapRGB(screenSurface1.format, 0, 0, 0), // color1 RGB
-				SDL.SDL_MapRGB(screenSurface1.format, red3, green3, bleu3), // color2 RGB
-				pMatrix[2, 4], // freq
-				pMatrix[2, 6]/100, // alpha1
-				pMatrix[2,6]/100, // alpha2
-				pMatrix[2, 5], // phase
-				(int)pMatrix[2,10]);// type frequency
-			m_listFlickers.Add(flicker3);
-			
-			// ***Flicker 4
-			double width4 = pMatrix[3, 2] * 0.66 / 1267.1;
-			double height4 = pMatrix[3, 3] * 0.66 / 712.8;
-			double x4 = pMatrix[3, 0] * 0.66 / 100 - width4 / 2;
-			double y4 = pMatrix[3, 1] * 0.66 / 100 - height4 / 2;
-
-			byte red4 = Convert.ToByte(pMatrix[3, 7]);
-			byte green4 = Convert.ToByte(pMatrix[3, 8]);
-			byte bleu4 = Convert.ToByte(pMatrix[3, 9]);
-
-
-			CScreen screen4 = new CScreen((int)(resX * x4), (int)(resY * y4), (int)(resX * width4), (int)(resY * height4), "F4", false);
-			var screenSurface4 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen4.PSurface);
-			CFlicker flicker4 = new CFlicker(screen4,
-				SDL.SDL_MapRGB(screenSurface1.format, 0, 0, 0), // color1 RGB
-				SDL.SDL_MapRGB(screenSurface1.format, red4, green4, bleu4), // color2 RGB
-				pMatrix[3, 4], // freq
-				pMatrix[3, 6]/100, // alpha1
-				pMatrix[3, 6]/100, // alpha2
-				pMatrix[3, 5], // phase
-				(int)pMatrix[3,10]);//type frequence
-			m_listFlickers.Add(flicker4);
-			
-			
 
 		}
 		
@@ -260,7 +203,7 @@ namespace VisualStimuli
 
 			double frameRate = getFrameRate();
 			
-			while (!quit && SDL.SDL_GetTicks() < 50000)
+			while (!quit && SDL.SDL_GetTicks() < 10000)
 			{
 				for (int j = 0; j < m_listFlickers.Count; j++)
 				{
@@ -358,6 +301,7 @@ namespace VisualStimuli
 			Console.WriteLine(N);
 
 			double[] opacity = new double[N];   // the opacity 
+
 			init_test();
 
 			// initialize 
