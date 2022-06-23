@@ -22,9 +22,8 @@ namespace Interface2App
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new Form1());
 			// create stream info and outlet
-			StreamInfo inf = new StreamInfo("Test1", "Markers", 1, 0, channel_format_t.cf_string, "giu4569");
-			StreamOutlet outl = new StreamOutlet(inf);
-
+			//StreamInfo inf = new StreamInfo("Test1", "Markers", 1, 0, channel_format_t.cf_string, "giu4569");
+			//StreamOutlet outl = new StreamOutlet(inf);
 
 			CPlay oPlay = new CPlay();
 			oPlay.flexibleSin();

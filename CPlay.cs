@@ -115,7 +115,7 @@ namespace VisualStimuli
 
 			int numFlicker = 0;
 
-			string filePath = "C:\\Users\\Lenovo\\Desktop\\test_file.txt";// change here ***
+			string filePath = "C:\\Users\\Lenovo\\Desktop\\test1_file.txt";// change here ***
 
 			//string filePath = "test_file.txt";
 
@@ -133,9 +133,9 @@ namespace VisualStimuli
 			Read_File(filePath, pMatrix);
 
 
-			byte red1 = Convert.ToByte(pMatrix[0, 8]);
-			byte green1 = Convert.ToByte(pMatrix[0, 9]);
-			byte bleu1 = Convert.ToByte(pMatrix[0, 10]);
+			//byte red1 = Convert.ToByte(pMatrix[0, 8]);
+			//byte green1 = Convert.ToByte(pMatrix[0, 9]);
+			//byte bleu1 = Convert.ToByte(pMatrix[0, 10]);
 			CScreen[] screen = new CScreen[numFlicker]; 
 			CFlicker[] flicker = new CFlicker[numFlicker];
 			for (int i = 0; i < numFlicker; i++)
@@ -145,7 +145,7 @@ namespace VisualStimuli
 					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen[i].PSurface);
 					 flicker[i] = new CFlicker(screen[i],
 						SDL.SDL_MapRGB(screenSurface1.format, 0, 0, 0), // color1 RGB
-						SDL.SDL_MapRGB(screenSurface1.format, red1, green1, bleu1), // color2 RGB
+						SDL.SDL_MapRGB(screenSurface1.format, 255, 255, 255), // color2 RGB
 						pMatrix[i, 4], // freq
 						pMatrix[i, 6] / 100, // alpha1
 						pMatrix[i, 6] / 100, // alpha2
