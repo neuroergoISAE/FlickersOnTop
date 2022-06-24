@@ -83,19 +83,19 @@ namespace Interface2App
 
 			using (StreamWriter s = File.AppendText(path))
 			{
-				for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+				for (int i = 0; i < dataGridView1.Rows.Count - 2; i++)
 				{
 					for (int j = 0; j < dataGridView1.Columns.Count - 1; j++)
 					{
-						s.Write(dataGridView1.Rows[i].Cells[j].Value.ToString());
+						s.Write(dataGridView1.Rows[i].Cells[j].Value?.ToString());
 						s.Write(" ");
 					}
 					s.Write("\t"); s.Write(now.ToString());
 					s.Write("\n");
 				}
-
+				s.Close();
 			}
-
+			
 
 			return;
 			
@@ -223,23 +223,21 @@ namespace Interface2App
 			{
 				if (flicker.IsValid)
 				{
-					using (StreamWriter file = new StreamWriter("C:\\Users\\Lenovo\\Desktop\\test1_file.txt"))
+					using (TextWriter file = new StreamWriter("C:\\Users\\Lenovo\\Desktop\\test1_file.txt"))
 					{
 
-						for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+						for (int i = 0; i < dataGridView1.Rows.Count - 2; i++)
 						{
-							for (int j = 0; j < dataGridView1.Columns.Count - 1; j++)
+							for (int j = 0; j < dataGridView1.Columns.Count - 1 ; j++)
 							{
-								file.Write(dataGridView1.Rows[i].Cells[j].Value.ToString());
+								file.Write(dataGridView1.Rows[i].Cells[j].Value?.ToString());
 								file.Write(" ");
 							}
+							file.Write(dataGridView1.Rows[i].Cells[dataGridView1.Columns.Count - 1].Value?.ToString());
 							file.Write("\n");
 						}
-
+						file.Close();
 					}
-
-					return;
-
 
 				}
 			}

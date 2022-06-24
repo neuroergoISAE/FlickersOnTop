@@ -155,11 +155,7 @@ namespace VisualStimuli
 					m_listFlickers.Add(flicker[i]);
 				
 			}
-
-
 		}
-		
-		
 		/// <summary>
 		/// Get refresh rate of the screen
 		/// </summary>
@@ -203,7 +199,7 @@ namespace VisualStimuli
 
 			double frameRate = getFrameRate();
 			
-			while (!quit && SDL.SDL_GetTicks() < 10000)
+			while (!quit && SDL.SDL_GetTicks() < 100000)
 			{
 				for (int j = 0; j < m_listFlickers.Count; j++)
 				{

@@ -64,8 +64,8 @@ namespace VisualStimuli
 			Handle = info.info.win.window;
 
 			Screen.changeColorAndAlpha(col1, alph1);
-			Console.WriteLine("			\t# |Width|  \t|Height|");
-			Console.WriteLine("Flicker {0} created - Position \t{1} pixels\t{2} pixels", Screen.Name,Screen.W, Screen.H);
+			Console.WriteLine("	\n");
+			Console.WriteLine("Flicker {0} created - Position \tX = {1}\tY = {2}\tWidth = {3}\tHeight = {4} pixels", Screen.Name,Screen.X, Screen.Y,Screen.W, Screen.H);
 		}
 
 		/// <summary>
