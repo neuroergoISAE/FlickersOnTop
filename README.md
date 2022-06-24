@@ -12,18 +12,15 @@ There are two projects:
 How to use it
 ---------------
 
-1. Open project Interface2App (in bar Startup Project).
+1. Change `filePath` in [line 24 of the file GraphicalInterface.cs](https://github.com/ludovicdmt/FlickersOnTop/blob/main/Interface2App/GraphicalInterface.cs#L24) to save the configuration file of the flickers in a suitable folder on your computer. For instance: `C:\\Users\\MyComputer\\Desktop\\test_file.txt`.
 
-2. Change `filePath` in [line 25 of the file GraphicalInterface.cs](https://github.com/ludovicdmt/FlickersOnTop/blob/main/Interface2App/GraphicalInterface.cs#L25) to save the configuration file of the flickers in a suitable folder on your computer. For instance: `C:\\Users\\MyComputer\\Desktop\\test_file.txt`.
+2. Change also accordingly [line 117 in file CPlay.cs](https://github.com/ludovicdmt/FlickersOnTop/blob/main/CPlay.cs#L117).
 
-3. Change also accordingly [line 116 in file CPlay.cs](https://github.com/ludovicdmt/FlickersOnTop/blob/main/CPlay.cs#L116).
-
-4. In the [main Program.cs](https://github.com/ludovicdmt/FlickersOnTop/blob/main/Program.cs) you can choose to either make an image of a chessboard flicker: with the `ImageFlicker` function or a regular rectangle flicker with `flexibleSin` function.  
+3. In the [main Program.cs](https://github.com/ludovicdmt/FlickersOnTop/blob/main/Program.cs) you can choose to either make an image of a chessboard flicker: with the `ImageFlicker` function or a regular rectangle flicker with `flexibleSin` function.  
 ⚠️ Warning: you have to copy `chessboard.bmp` file in FlickersOnTop folder and paste in in bin/debug folder to use `ImageFlicker` function.
 
-5. Finally, change Startup project to VisualStimuli and compilte the program.
+4. Finally, set Startup project to VisualStimuli and compilte the program.
 
-P/s: An icon chessboard (Interface.lik) is already created in folder FlickerOnTop to help you easly open Interface2App without run it in VisualStudio.
 
 Dependencies
 ---------------
