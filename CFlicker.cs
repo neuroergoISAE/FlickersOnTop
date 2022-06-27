@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using SDL2;
+using static VisualStimuli.CPlay;
 
 namespace VisualStimuli
 {	/// <summary>
@@ -161,6 +163,18 @@ namespace VisualStimuli
 			return a[i];
 		
 		}
+		/// <summary>
+		/// Getting frame rate of the computer
+		/// </summary>
+		/// <returns></returns>
+		private double GetFrameRate()
+		{
+			DEVMODE devMode = new DEVMODE();
+			devMode.dmSize = (short)Marshal.SizeOf(devMode);
+			devMode.dmDriverExtra = 0;
+			EnumDisplaySettings(null, -1, ref devMode);
+			return (double)devMode.dmDisplayFrequency;
+		}
 
 		/// <summary>
 		/// Generate a list of opacity number depends on type which was defined.
@@ -171,12 +185,13 @@ namespace VisualStimuli
 
 			Random rand = new Random();
 			int tmp;
-			double frameRate = 60;  // 60Hz 
+			double frameRate = GetFrameRate(); 
+			// 60Hz 
 			const double timeFlicker = 50;
 			m_data = new double[(int)(frameRate * timeFlicker)]; // initializing data
 
 			// random frequence
-			if (flicker.TypeFrequence == 1)
+			if (flicker.TypeFrequence == 0)
 			{
 
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
@@ -195,7 +210,7 @@ namespace VisualStimuli
 				}
 			}
 			// sininous frequence
-			if (flicker.TypeFrequence == 2)
+			if (flicker.TypeFrequence == 1)
 			{
 
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
@@ -206,7 +221,7 @@ namespace VisualStimuli
 
 			}
 			// square frequence
-			if (flicker.TypeFrequence == 3)
+			if (flicker.TypeFrequence == 2)
 			{
 
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
@@ -224,7 +239,7 @@ namespace VisualStimuli
 
 			}
 			// square root frequence 
-			if (flicker.TypeFrequence == 4)
+			if (flicker.TypeFrequence == 3)
 			{
 
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
@@ -234,7 +249,7 @@ namespace VisualStimuli
 
 			}
 			// Maximum length sequences
-			if(flicker.TypeFrequence == 5)
+			if(flicker.TypeFrequence == 4)
 			{
 				// To understand maximum length sequence, go https://www.gaussianwaves.com/2018/09/maximum-length-sequences-m-sequences/
 				// Here, we take a primitive polynomial degree 8 

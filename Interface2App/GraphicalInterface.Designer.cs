@@ -29,7 +29,6 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			System.Windows.Forms.Label frequenceLabel;
 			System.Windows.Forms.Label heightLabel;
 			System.Windows.Forms.Label opacityLabel;
@@ -39,6 +38,7 @@
 			System.Windows.Forms.Label widthLabel;
 			System.Windows.Forms.Label xLabel;
 			System.Windows.Forms.Label yLabel;
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.button1 = new System.Windows.Forms.Button();
 			this.red = new System.Windows.Forms.TrackBar();
 			this.green = new System.Windows.Forms.TrackBar();
@@ -57,6 +57,7 @@
 			this.button_pre = new System.Windows.Forms.Button();
 			this.button_help = new System.Windows.Forms.Button();
 			this.frequenceTextBox = new System.Windows.Forms.TextBox();
+			this.flickerBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.heightTextBox = new System.Windows.Forms.TextBox();
 			this.opacityTextBox = new System.Windows.Forms.TextBox();
 			this.phaseTextBox = new System.Windows.Forms.TextBox();
@@ -78,7 +79,8 @@
 			this.opacityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.suplementDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.flickerBindingSource = new System.Windows.Forms.BindingSource(this.components);
+			this.btn_import = new System.Windows.Forms.Button();
+			this.btn_delete = new System.Windows.Forms.Button();
 			frequenceLabel = new System.Windows.Forms.Label();
 			heightLabel = new System.Windows.Forms.Label();
 			opacityLabel = new System.Windows.Forms.Label();
@@ -91,10 +93,100 @@
 			((System.ComponentModel.ISupportInitialize)(this.red)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.green)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.blue)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.flickerBindingSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.flickerBindingSource)).BeginInit();
 			this.SuspendLayout();
+			// 
+			// frequenceLabel
+			// 
+			frequenceLabel.AutoSize = true;
+			frequenceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			frequenceLabel.Location = new System.Drawing.Point(10, 197);
+			frequenceLabel.Name = "frequenceLabel";
+			frequenceLabel.Size = new System.Drawing.Size(100, 20);
+			frequenceLabel.TabIndex = 75;
+			frequenceLabel.Text = "Frequence:";
+			// 
+			// heightLabel
+			// 
+			heightLabel.AutoSize = true;
+			heightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			heightLabel.Location = new System.Drawing.Point(10, 148);
+			heightLabel.Name = "heightLabel";
+			heightLabel.Size = new System.Drawing.Size(67, 20);
+			heightLabel.TabIndex = 77;
+			heightLabel.Text = "Height:";
+			// 
+			// opacityLabel
+			// 
+			opacityLabel.AutoSize = true;
+			opacityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			opacityLabel.Location = new System.Drawing.Point(237, 67);
+			opacityLabel.Name = "opacityLabel";
+			opacityLabel.Size = new System.Drawing.Size(74, 20);
+			opacityLabel.TabIndex = 79;
+			opacityLabel.Text = "Opacity:";
+			// 
+			// phaseLabel
+			// 
+			phaseLabel.AutoSize = true;
+			phaseLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			phaseLabel.Location = new System.Drawing.Point(237, 24);
+			phaseLabel.Name = "phaseLabel";
+			phaseLabel.Size = new System.Drawing.Size(64, 20);
+			phaseLabel.TabIndex = 81;
+			phaseLabel.Text = "Phase:";
+			// 
+			// suplementLabel
+			// 
+			suplementLabel.AutoSize = true;
+			suplementLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			suplementLabel.Location = new System.Drawing.Point(237, 146);
+			suplementLabel.Name = "suplementLabel";
+			suplementLabel.Size = new System.Drawing.Size(100, 20);
+			suplementLabel.TabIndex = 83;
+			suplementLabel.Text = "Suplement:";
+			// 
+			// typeLabel
+			// 
+			typeLabel.AutoSize = true;
+			typeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			typeLabel.Location = new System.Drawing.Point(237, 109);
+			typeLabel.Name = "typeLabel";
+			typeLabel.Size = new System.Drawing.Size(52, 20);
+			typeLabel.TabIndex = 85;
+			typeLabel.Text = "Type:";
+			// 
+			// widthLabel
+			// 
+			widthLabel.AutoSize = true;
+			widthLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			widthLabel.Location = new System.Drawing.Point(10, 106);
+			widthLabel.Name = "widthLabel";
+			widthLabel.Size = new System.Drawing.Size(60, 20);
+			widthLabel.TabIndex = 87;
+			widthLabel.Text = "Width:";
+			// 
+			// xLabel
+			// 
+			xLabel.AutoSize = true;
+			xLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			xLabel.Location = new System.Drawing.Point(10, 33);
+			xLabel.Name = "xLabel";
+			xLabel.Size = new System.Drawing.Size(26, 20);
+			xLabel.TabIndex = 89;
+			xLabel.Text = "X:";
+			// 
+			// yLabel
+			// 
+			yLabel.AutoSize = true;
+			yLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			yLabel.Location = new System.Drawing.Point(10, 70);
+			yLabel.Name = "yLabel";
+			yLabel.Size = new System.Drawing.Size(26, 20);
+			yLabel.TabIndex = 91;
+			yLabel.Text = "Y:";
 			// 
 			// button1
 			// 
@@ -111,7 +203,7 @@
 			// 
 			// red
 			// 
-			this.red.Location = new System.Drawing.Point(343, 397);
+			this.red.Location = new System.Drawing.Point(335, 405);
 			this.red.Maximum = 255;
 			this.red.Name = "red";
 			this.red.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -122,7 +214,7 @@
 			// 
 			// green
 			// 
-			this.green.Location = new System.Drawing.Point(343, 448);
+			this.green.Location = new System.Drawing.Point(336, 456);
 			this.green.Maximum = 255;
 			this.green.Name = "green";
 			this.green.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -133,7 +225,7 @@
 			// 
 			// blue
 			// 
-			this.blue.Location = new System.Drawing.Point(343, 497);
+			this.blue.Location = new System.Drawing.Point(336, 505);
 			this.blue.Maximum = 255;
 			this.blue.Name = "blue";
 			this.blue.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -146,7 +238,7 @@
 			// 
 			this.pnl.BackColor = System.Drawing.SystemColors.HighlightText;
 			this.pnl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnl.Location = new System.Drawing.Point(625, 397);
+			this.pnl.Location = new System.Drawing.Point(579, 397);
 			this.pnl.Name = "pnl";
 			this.pnl.Size = new System.Drawing.Size(291, 159);
 			this.pnl.TabIndex = 17;
@@ -154,7 +246,7 @@
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(311, 405);
+			this.label8.Location = new System.Drawing.Point(304, 413);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(39, 20);
 			this.label8.TabIndex = 18;
@@ -163,7 +255,7 @@
 			// label9
 			// 
 			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(296, 461);
+			this.label9.Location = new System.Drawing.Point(289, 469);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(54, 20);
 			this.label9.TabIndex = 19;
@@ -172,7 +264,7 @@
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(309, 511);
+			this.label10.Location = new System.Drawing.Point(302, 519);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(41, 20);
 			this.label10.TabIndex = 20;
@@ -243,7 +335,7 @@
 			// 
 			this.label23.AutoSize = true;
 			this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label23.Location = new System.Drawing.Point(693, 360);
+			this.label23.Location = new System.Drawing.Point(645, 363);
 			this.label23.Name = "label23";
 			this.label23.Size = new System.Drawing.Size(147, 22);
 			this.label23.TabIndex = 0;
@@ -277,16 +369,6 @@
 			this.button_help.UseVisualStyleBackColor = true;
 			this.button_help.Click += new System.EventHandler(this.button_help_Click);
 			// 
-			// frequenceLabel
-			// 
-			frequenceLabel.AutoSize = true;
-			frequenceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			frequenceLabel.Location = new System.Drawing.Point(10, 197);
-			frequenceLabel.Name = "frequenceLabel";
-			frequenceLabel.Size = new System.Drawing.Size(100, 20);
-			frequenceLabel.TabIndex = 75;
-			frequenceLabel.Text = "Frequence:";
-			// 
 			// frequenceTextBox
 			// 
 			this.frequenceTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.flickerBindingSource, "Frequence", true));
@@ -295,15 +377,9 @@
 			this.frequenceTextBox.Size = new System.Drawing.Size(100, 26);
 			this.frequenceTextBox.TabIndex = 5;
 			// 
-			// heightLabel
+			// flickerBindingSource
 			// 
-			heightLabel.AutoSize = true;
-			heightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			heightLabel.Location = new System.Drawing.Point(10, 148);
-			heightLabel.Name = "heightLabel";
-			heightLabel.Size = new System.Drawing.Size(67, 20);
-			heightLabel.TabIndex = 77;
-			heightLabel.Text = "Height:";
+			this.flickerBindingSource.DataSource = typeof(Interface2App.Flicker);
 			// 
 			// heightTextBox
 			// 
@@ -313,16 +389,6 @@
 			this.heightTextBox.Size = new System.Drawing.Size(100, 26);
 			this.heightTextBox.TabIndex = 4;
 			// 
-			// opacityLabel
-			// 
-			opacityLabel.AutoSize = true;
-			opacityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			opacityLabel.Location = new System.Drawing.Point(237, 67);
-			opacityLabel.Name = "opacityLabel";
-			opacityLabel.Size = new System.Drawing.Size(74, 20);
-			opacityLabel.TabIndex = 79;
-			opacityLabel.Text = "Opacity:";
-			// 
 			// opacityTextBox
 			// 
 			this.opacityTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.flickerBindingSource, "Opacity", true));
@@ -330,16 +396,6 @@
 			this.opacityTextBox.Name = "opacityTextBox";
 			this.opacityTextBox.Size = new System.Drawing.Size(100, 26);
 			this.opacityTextBox.TabIndex = 7;
-			// 
-			// phaseLabel
-			// 
-			phaseLabel.AutoSize = true;
-			phaseLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			phaseLabel.Location = new System.Drawing.Point(237, 24);
-			phaseLabel.Name = "phaseLabel";
-			phaseLabel.Size = new System.Drawing.Size(64, 20);
-			phaseLabel.TabIndex = 81;
-			phaseLabel.Text = "Phase:";
 			// 
 			// phaseTextBox
 			// 
@@ -349,16 +405,6 @@
 			this.phaseTextBox.Size = new System.Drawing.Size(100, 26);
 			this.phaseTextBox.TabIndex = 6;
 			// 
-			// suplementLabel
-			// 
-			suplementLabel.AutoSize = true;
-			suplementLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			suplementLabel.Location = new System.Drawing.Point(237, 146);
-			suplementLabel.Name = "suplementLabel";
-			suplementLabel.Size = new System.Drawing.Size(100, 20);
-			suplementLabel.TabIndex = 83;
-			suplementLabel.Text = "Suplement:";
-			// 
 			// suplementTextBox
 			// 
 			this.suplementTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.flickerBindingSource, "Suplement", true));
@@ -366,16 +412,6 @@
 			this.suplementTextBox.Name = "suplementTextBox";
 			this.suplementTextBox.Size = new System.Drawing.Size(100, 26);
 			this.suplementTextBox.TabIndex = 9;
-			// 
-			// typeLabel
-			// 
-			typeLabel.AutoSize = true;
-			typeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			typeLabel.Location = new System.Drawing.Point(237, 109);
-			typeLabel.Name = "typeLabel";
-			typeLabel.Size = new System.Drawing.Size(52, 20);
-			typeLabel.TabIndex = 85;
-			typeLabel.Text = "Type:";
 			// 
 			// typeTextBox
 			// 
@@ -385,16 +421,6 @@
 			this.typeTextBox.Size = new System.Drawing.Size(100, 26);
 			this.typeTextBox.TabIndex = 8;
 			// 
-			// widthLabel
-			// 
-			widthLabel.AutoSize = true;
-			widthLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			widthLabel.Location = new System.Drawing.Point(10, 106);
-			widthLabel.Name = "widthLabel";
-			widthLabel.Size = new System.Drawing.Size(60, 20);
-			widthLabel.TabIndex = 87;
-			widthLabel.Text = "Width:";
-			// 
 			// widthTextBox
 			// 
 			this.widthTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.flickerBindingSource, "Width", true));
@@ -403,16 +429,6 @@
 			this.widthTextBox.Size = new System.Drawing.Size(100, 26);
 			this.widthTextBox.TabIndex = 3;
 			// 
-			// xLabel
-			// 
-			xLabel.AutoSize = true;
-			xLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			xLabel.Location = new System.Drawing.Point(10, 33);
-			xLabel.Name = "xLabel";
-			xLabel.Size = new System.Drawing.Size(26, 20);
-			xLabel.TabIndex = 89;
-			xLabel.Text = "X:";
-			// 
 			// xTextBox
 			// 
 			this.xTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.flickerBindingSource, "X", true));
@@ -420,16 +436,6 @@
 			this.xTextBox.Name = "xTextBox";
 			this.xTextBox.Size = new System.Drawing.Size(100, 26);
 			this.xTextBox.TabIndex = 1;
-			// 
-			// yLabel
-			// 
-			yLabel.AutoSize = true;
-			yLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			yLabel.Location = new System.Drawing.Point(10, 70);
-			yLabel.Name = "yLabel";
-			yLabel.Size = new System.Drawing.Size(26, 20);
-			yLabel.TabIndex = 91;
-			yLabel.Text = "Y:";
 			// 
 			// yTextBox
 			// 
@@ -441,7 +447,7 @@
 			// 
 			// btn_new
 			// 
-			this.btn_new.Location = new System.Drawing.Point(1059, 335);
+			this.btn_new.Location = new System.Drawing.Point(1061, 335);
 			this.btn_new.Name = "btn_new";
 			this.btn_new.Size = new System.Drawing.Size(75, 47);
 			this.btn_new.TabIndex = 10;
@@ -457,7 +463,7 @@
 			this.btn_save_imediatly.TabIndex = 11;
 			this.btn_save_imediatly.Text = "Save";
 			this.btn_save_imediatly.UseVisualStyleBackColor = true;
-			this.btn_save_imediatly.Click += new System.EventHandler(this.btn_save_imediatly_Click);
+			this.btn_save_imediatly.Click += new System.EventHandler(this.btn_save_immediatly_Click);
 			// 
 			// errorProvider
 			// 
@@ -558,9 +564,25 @@
 			this.suplementDataGridViewTextBoxColumn.Name = "suplementDataGridViewTextBoxColumn";
 			this.suplementDataGridViewTextBoxColumn.Width = 150;
 			// 
-			// flickerBindingSource
+			// btn_import
 			// 
-			this.flickerBindingSource.DataSource = typeof(Interface2App.Flicker);
+			this.btn_import.Location = new System.Drawing.Point(869, 335);
+			this.btn_import.Name = "btn_import";
+			this.btn_import.Size = new System.Drawing.Size(94, 47);
+			this.btn_import.TabIndex = 96;
+			this.btn_import.Text = "Image";
+			this.btn_import.UseVisualStyleBackColor = true;
+			this.btn_import.Click += new System.EventHandler(this.btn_image);
+			// 
+			// btn_delete
+			// 
+			this.btn_delete.Location = new System.Drawing.Point(969, 335);
+			this.btn_delete.Name = "btn_delete";
+			this.btn_delete.Size = new System.Drawing.Size(84, 47);
+			this.btn_delete.TabIndex = 97;
+			this.btn_delete.Text = "Delete";
+			this.btn_delete.UseVisualStyleBackColor = true;
+			this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
 			// 
 			// Form1
 			// 
@@ -568,6 +590,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.MenuBar;
 			this.ClientSize = new System.Drawing.Size(1264, 590);
+			this.Controls.Add(this.btn_delete);
+			this.Controls.Add(this.btn_import);
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.btn_save_imediatly);
 			this.Controls.Add(this.btn_new);
@@ -616,9 +640,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.red)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.green)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.blue)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.flickerBindingSource)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.flickerBindingSource)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -666,6 +690,8 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn opacityDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn suplementDataGridViewTextBoxColumn;
+		private System.Windows.Forms.Button btn_import;
+		private System.Windows.Forms.Button btn_delete;
 	}
 }
 

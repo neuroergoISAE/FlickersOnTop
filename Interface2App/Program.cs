@@ -14,7 +14,7 @@ namespace Interface2App
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		//[STAThread]
+		[STAThread]
 		static void Main()
 		{
 			//using StreamInfo inf = new StreamInfo("TEst")
@@ -25,8 +25,7 @@ namespace Interface2App
 			//StreamInfo inf = new StreamInfo("Test1", "Markers", 1, 0, channel_format_t.cf_string, "giu4569");
 			//StreamOutlet outl = new StreamOutlet(inf);
 
-			CPlay oPlay = new CPlay();
-			oPlay.flexibleSin();
+			
 		}
 	}
 }

@@ -14,6 +14,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
 using System.Timers;
+using VisualStimuli;
 
 namespace Interface2App
 {
@@ -33,9 +34,14 @@ namespace Interface2App
 		{
 			flickerBindingSource.DataSource = new List<Flicker>();
 			Thread trackerThread = new Thread(Tracker);
-
-			trackerThread.Start();
-			
+			try
+			{
+				trackerThread.Start();
+			}
+			catch (ThreadStateException)
+			{
+				trackerThread.Abort();
+			}
 		}
 
 		private bool condition = true; // consition to detect when the Thread should stop 
@@ -95,7 +101,7 @@ namespace Interface2App
 				}
 				s.Close();
 			}
-			
+			MessageBox.Show("Save file successfully");
 
 			return;
 			
@@ -139,26 +145,27 @@ namespace Interface2App
 		/// <param name="e"></param>
 		private void button_help_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("All the TextBox should be filled by a number as flowing instructions \n\n" +
+			MessageBox.Show("All the TextBox should be filled by a number as flowing instructions. \n\n" +
 				"I.\n" +
-				"X (Horizontal), Y (Vertical) repectively corresspond to the possition of center of flicker\n\n" +
+				"X (Horizontal), Y (Vertical) repectively corresspond to the possition of center of flicker.\n\n" +
 				"II.\n" +
-				"Width, Height defined how many pixels you want to put in\n\n" +
+				"Width, Height defined how many pixels you want to put in.\n\n" +
 				"III.\n" +
-				"Frequence in Hz and Phase in degrees\n\n"+ 
+				"Frequence in Hz and Phase in degrees.\n\n"+ 
 				"IV.\n"+ 
-				"You can choose in Type (1 - 5)\n" +
-				"1: Random \n" +
-				"2: Sinous \n" +
-				"3: Square \n" +
-				"4: Root Square\n"+
-				"5: Maximum length sequencen\n\n" +
+				"You can choose in Type (0 - 4)\n" +
+				"0: Random \n" +
+				"1: Sinous \n" +
+				"2: Square \n" +
+				"3: Root Square\n"+
+				"4: Maximum length sequencen\n\n" +
 				"V.\n" +
-				"After completing each all TextBox, you can click to New to create a new data \n" +
-				"Click to Create File to save permentaly data to the file, Click to Save to just use the instance data\n\n" +
+				"After completing each all TextBox, you can click to New to create a new data/ \n" +
+				"Click to Create File to save permentaly data to the file, Click to Save to just use the instance data.\n\n" +
 				
 				"VI.\n" +
-				"Finally, Click to RUN to run program or PRE to re-run privous configuration\n\n" +
+				"Finally, Click to RUN to run program or PRE to re-run privous configuration.\n" +
+				"Click to Image to take an image and it will flick with defined Type anf Frequence you have met.\n\n" +
 				"THANK FOR READING !!!");
 		}
 		/// <summary>
@@ -168,9 +175,14 @@ namespace Interface2App
 		/// <param name="e"></param>
 		private void button_pre_Click(object sender, EventArgs e)
 		{
-			condition = false; // we must stop the thread before doing any tasks
 
-			System.Windows.Forms.Application.Exit();
+			//condition = false; // we must stop the thread before doing any tasks
+			this.WindowState = FormWindowState.Minimized;
+			CPlay oPlay = new CPlay();
+			oPlay.flexibleSin();
+			
+			oPlay.Close();
+			//System.Windows.Forms.Application.Exit();
 			
 		}
 		/// <summary>
@@ -180,18 +192,23 @@ namespace Interface2App
 		/// <param name="e"></param>
 		private void bt_run_Click(object sender, EventArgs e)
 		{
-			// we must stop the thread before doing any tasks
-			btn_save_imediatly_Click(sender, e);
+			
+			btn_save_immediatly_Click(sender, e);
 			
 
 			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled))
 			{
-				condition = false;
-				System.Windows.Forms.Application.Exit();
+				condition = false; // we must stop the thread before doing any tasks
+				//System.Windows.Forms.Application.Exit();
+				this.WindowState = FormWindowState.Minimized;
+				CPlay oPlay = new CPlay();
+				oPlay.flexibleSin();
+				Application.Exit();
+
 			}
 			else
 			{
-				MessageBox.Show("Fault, TRY AGAIN!" );
+				MessageBox.Show("Fault, TRY AGAIN!");
 				
 			}
 			
@@ -212,10 +229,10 @@ namespace Interface2App
 		private void btn_new_Click(object sender, EventArgs e)
 		{
 			flickerBindingSource.AddNew();
-			//flickerBindingSource.DataSource = new Flicker();
+			
 		}
 
-		private void btn_save_imediatly_Click(object sender, EventArgs e)
+		private void btn_save_immediatly_Click(object sender, EventArgs e)
 		{
 			flickerBindingSource.EndEdit();
 			Flicker flicker = flickerBindingSource.Current as Flicker;
@@ -241,6 +258,40 @@ namespace Interface2App
 
 				}
 			}
+		}
+
+		
+
+		private void btn_delete_Click(object sender, EventArgs e)
+		{
+			foreach (DataGridViewRow item in this.dataGridView1.SelectedRows)
+			{
+				dataGridView1.Rows.RemoveAt(item.Index);
+			}
+		}
+
+		
+		public void btn_image(object sender, EventArgs e)
+		{
+			
+			using (OpenFileDialog ofd = new OpenFileDialog())
+			{
+				ofd.Filter = "bmp file (*.bmp)|*.bmp|All files (*.*)|*.*";
+				
+				if(ofd.ShowDialog() == DialogResult.OK)
+				{
+					string filename = ofd.FileName;
+					string path = "C:\\Users\\Lenovo\\Desktop\\image_file.txt";
+					StreamWriter a = new StreamWriter(path);
+					a.Write(filename);
+					a.Close();
+				}
+			}
+			//this.WindowState = FormWindowState.Minimized;
+			CPlay oPlay = new CPlay();
+			oPlay.ImageFlicker();
+			
+			
 		}
 	}
 }

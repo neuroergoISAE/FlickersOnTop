@@ -175,8 +175,6 @@ namespace VisualStimuli
 		/// <returns>None</returns>
 		public void flexibleSin()
 		{
-			UInt32 time1 = 0;
-			//UInt32 time2 = 0;
 			bool quit = false;
 
 			init_test();
@@ -198,63 +196,78 @@ namespace VisualStimuli
 			Byte r2 = 0; Byte g2 = 0; Byte b2 = 0;
 
 			double frameRate = getFrameRate();
-			
-			while (!quit && SDL.SDL_GetTicks() < 100000)
-			{
-				for (int j = 0; j < m_listFlickers.Count; j++)
+			//for(int time = 0; time < 100; time++)
+			//{
+				while (!quit && SDL.SDL_GetTicks() < 5000)
 				{
-					CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
+					for (int j = 0; j < m_listFlickers.Count; j++)
+					{
+						CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
 
-					currentFlicker.setData(currentFlicker);
-					if (i >= frameRate) {
-						i = 0;
+						currentFlicker.setData(currentFlicker);
+						if (i >= frameRate)
+						{
+							i = 0;
+						}
+
+						lumin = currentFlicker.getData(i, currentFlicker.Data);
+						//Console.Write(lumin+ " ");
+						// col1
+						r1 = currentFlicker.getRed(currentFlicker.Color1);
+						g1 = currentFlicker.getGreen(currentFlicker.Color1);
+						b1 = currentFlicker.getBlue(currentFlicker.Color1);
+
+						// col2
+						r2 = currentFlicker.getRed(currentFlicker.Color2);
+						g2 = currentFlicker.getGreen(currentFlicker.Color2);
+						b2 = currentFlicker.getBlue(currentFlicker.Color2);
+
+						// interpollation sin waves
+
+						// col sin
+						rSin = (Byte)(r1 * lumin + r2 * (1 - lumin));
+						gSin = (Byte)(g1 * lumin + g2 * (1 - lumin));
+						bSin = (Byte)(b1 * lumin + b2 * (1 - lumin));
+
+						var screenSurface = Marshal.PtrToStructure<SDL.SDL_Surface>(currentFlicker.Screen.PSurface);
+
+						colorSin = SDL.SDL_MapRGB(screenSurface.format, rSin, gSin, bSin);
+
+						// alpha sin
+						double alphaSin = (currentFlicker.Alpha1 * lumin) + (currentFlicker.Alpha2 * (1 - lumin));
+
+						// flip
+						currentFlicker.flip(colorSin, alphaSin);
+
+						// dislay
+						currentFlicker.display();
 					}
 
-					 lumin = currentFlicker.getData(i,currentFlicker.Data);
-					//Console.Write(lumin+ " ");
-					// col1
-					r1 = currentFlicker.getRed(currentFlicker.Color1); 
-					g1 = currentFlicker.getGreen(currentFlicker.Color1); 
-					b1 = currentFlicker.getBlue(currentFlicker.Color1);
-
-					// col2
-					r2 = currentFlicker.getRed(currentFlicker.Color2); 
-					g2 = currentFlicker.getGreen(currentFlicker.Color2); 
-					b2 = currentFlicker.getBlue(currentFlicker.Color2);
-
-					// interpollation sin waves
-
-					// col sin
-					rSin = (Byte)(r1 * lumin + r2 * (1 - lumin));
-					gSin = (Byte)(g1 * lumin + g2 * (1 - lumin));
-					bSin = (Byte)(b1 * lumin + b2 * (1 - lumin));
-					var screenSurface = Marshal.PtrToStructure<SDL.SDL_Surface>(currentFlicker.Screen.PSurface);
-					colorSin = SDL.SDL_MapRGB(screenSurface.format, rSin, gSin, bSin);
 					
-					// alpha sin
-					double alphaSin = (currentFlicker.Alpha1 * lumin) + (currentFlicker.Alpha2 * (1 - lumin));
+					//SDL.SDL_Event evt = new SDL.SDL_Event();
+					//if (SDL.SDL_PollEvent(out evt) != 0)
+					//{
+					///	if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
+					//	{
+					//		quit = true;
+					//	}
+					//	else
+					//	{
+					//		quit = false;
+					//	}
+					//}
 
-					// flip
-					currentFlicker.flip(colorSin, alphaSin);
+					i += 1;
+				
 
-					// dislay
-					currentFlicker.display();
-				} 
-
-
-				time1 = SDL.SDL_GetTicks();
-				SDL.SDL_Event evt = new SDL.SDL_Event();
-				if (SDL.SDL_PollEvent(out evt) != 0) {
-					if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE) {
-						quit = true;
-					}
-					else {
-						quit = false;
-					}
 				}
-
-				i += 1;
-			} 
+				//SDL.SDL_Delay(1000);
+			//}
+			
+		}
+		public void Close()
+		{
+			Environment.Exit(0);
 		}
 
 		/// <summary>
@@ -263,45 +276,28 @@ namespace VisualStimuli
 		/// <returns>None</returns>
 		public void ImageFlicker() 
 		{
-			// Frequence
-			
-			Console.WriteLine("Input Frequence: ");
-			string freq_string = Console.ReadLine();
-			
+			string filepath = "C:\\Users\\Lenovo\\Desktop\\image_file.txt";
 
-			while (Double.TryParse(freq_string, out _) != true) {
-				Console.WriteLine("Wrong Input, Please try again!");
-				freq_string = Console.ReadLine();
-			}
-			double Frequence = Double.Parse(freq_string); // freq done
+			StreamReader reader = new StreamReader(filepath);
+			string imagefile = reader.ReadToEnd();
+			Console.WriteLine(imagefile);
 
-
-			// Phase
-			Console.WriteLine("Input Phase: ");
-			string phase_string = Console.ReadLine();
-			while (Double.TryParse(phase_string, out _) != true)
-			{
-				Console.WriteLine("Wrong Input, Please try again!");
-				phase_string = Console.ReadLine();
-			}
-
-			double Phase = Double.Parse(phase_string);         // phase done
-			
-			bool quit = false;
-			
+			int i = 0;
 			double time = 50; // in seconds
 
 			double frameRate = getFrameRate();
 
-			int N = (int)(time * frameRate); // number of flickerings 
-			Console.WriteLine(N);
+			
 
-			double[] opacity = new double[N];   // the opacity 
+			int N = (int)(time * frameRate); // number of flickerings 
+			Console.WriteLine("time x frameRate = " + N);
+
+		
 
 			init_test();
 
 			// initialize 
-			Console.Write("Number of flicker: " + m_listFlickers.Count);
+			Console.WriteLine("Number of flicker: " + m_listFlickers.Count);
 			CFlicker currentFlicker = (CFlicker)m_listFlickers[0];///
 
 			currentFlicker.setData(currentFlicker);
@@ -310,7 +306,7 @@ namespace VisualStimuli
 			IntPtr m_window = IntPtr.Zero;
 			IntPtr m_render = IntPtr.Zero;
 			IntPtr m_texture = IntPtr.Zero;
-			IntPtr m_image = IntPtr.Zero;
+			IntPtr m_surface = IntPtr.Zero;
 
 			if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) < 0)
 			{
@@ -320,77 +316,58 @@ namespace VisualStimuli
 			}
 			else
 			{
-				SDL.SDL_Event e;
+				//SDL.SDL_Event e;
 				
 				
 				m_window = SDL.SDL_CreateWindow("Image", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, 400, 400,
 												SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN | SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
+				if(m_window == IntPtr.Zero)
+				{
+					Console.WriteLine("Enable to create a window: Error {0}", SDL.SDL_GetError());
+				}
 
 				m_render = SDL.SDL_CreateRenderer(m_window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 
-				m_image = SDL.SDL_LoadBMP("checkboard.bmp");
+				m_surface = SDL.SDL_LoadBMP(imagefile); // ***** file
 
-				while (!quit && SDL.SDL_GetTicks() < 5000)
+				if (m_window == IntPtr.Zero)
 				{
-					for (int i = 0; i < N; i++)
-					{
-						if (i >= frameRate)
+					Console.WriteLine("Enable to create a surface of image: Error {0}", SDL.SDL_GetError());
+				}
+				m_texture = SDL.SDL_CreateTextureFromSurface(m_render, m_surface);
+
+				//Initialize the opacity from table 
+				float[] opacity = new float[(int)frameRate];
+				for(int j = 0; j < frameRate; j++)
+				{
+					opacity[j] = (float)currentFlicker.getData(j, currentFlicker.Data);
+					Console.Write(opacity[j] + " ");
+				}
+				
+				while (SDL.SDL_GetTicks() < 10000)
+				{
+					if(i > (int)frameRate - 1 )
 						{
 							i = 0;
 						}
-						double op = currentFlicker.getData(i, currentFlicker.Data);//Data[i]
-						//Console.Write(op+ " ");
-						SDL.SDL_SetWindowOpacity(m_window, (float)op);
+
+					SDL.SDL_SetWindowOpacity(m_window, opacity[i]);
+					SDL.SDL_RenderClear(m_render);
+					SDL.SDL_RenderCopy(m_render, m_texture, IntPtr.Zero, IntPtr.Zero);
+					SDL.SDL_RenderPresent(m_render);
+					i++;
+					
+					
+
+					//Console.Write(i + " ");
 
 
-						m_texture = SDL.SDL_CreateTextureFromSurface(m_render, m_image);
-
-						SDL.SDL_RenderClear(m_render);
-						SDL.SDL_RenderCopy(m_render, m_texture, IntPtr.Zero, IntPtr.Zero);
-						SDL.SDL_RenderPresent(m_render);/// test 
-					}
-
-					if (m_window == IntPtr.Zero)
-					{
-						Console.WriteLine("Unable to create a window. Error: {0}", SDL.SDL_GetError());
-
-					}
-					else
-					{
-						while (!quit)
-						{
-							while (SDL.SDL_PollEvent(out e) != 0)
-							{
-								switch (e.type)
-								{
-									case SDL.SDL_EventType.SDL_QUIT:
-										quit = true;
-										break;
-										// add pressing Q to quit window;
-								}
-
-							}
-						}
-					}
-					double time1 = SDL.SDL_GetTicks();
-					SDL.SDL_Event evt = new SDL.SDL_Event();
-					if (SDL.SDL_PollEvent(out evt) != 0)
-					{
-						if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
-						{
-							quit = true;
-						}
-						else
-						{
-							quit = false;
-						}
-					}
 				}
 
 			}
 
 			SDL.SDL_DestroyTexture(m_texture);
-			SDL.SDL_FreeSurface(m_image);
+			SDL.SDL_FreeSurface(m_surface);
 			SDL.SDL_DestroyRenderer(m_render);
 			SDL.SDL_DestroyWindow(m_window);
 			SDL.SDL_Quit();
