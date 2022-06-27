@@ -9,6 +9,8 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Windows.Forms;
+using System.Threading;
+using LSL;
  
 
 namespace VisualStimuli
@@ -179,6 +181,10 @@ namespace VisualStimuli
 
 			init_test();
 
+			// create stream info and outlet
+            using StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string, "flk42");
+            using StreamOutlet outl = new StreamOutlet(inf);
+
 			// All the flickers foreground 
 			for (int j = 0; j < m_listFlickers.Count; j++) {
 				CFlicker aFlicker = (CFlicker)m_listFlickers[j];
@@ -196,6 +202,9 @@ namespace VisualStimuli
 			Byte r2 = 0; Byte g2 = 0; Byte b2 = 0;
 
 			double frameRate = getFrameRate();
+
+			string[] marker_info = new string[1];
+
 			//for(int time = 0; time < 100; time++)
 			//{
 				while (!quit && SDL.SDL_GetTicks() < 5000)
@@ -203,6 +212,10 @@ namespace VisualStimuli
 					for (int j = 0; j < m_listFlickers.Count; j++)
 					{
 						CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
+						
+						// Current flicker frequency
+						char charFreq = Convert.ToChar(currentFlicker.Frequence);
+						sample[0] = charFreq
 
 						currentFlicker.setData(currentFlicker);
 						if (i >= frameRate)
@@ -235,6 +248,9 @@ namespace VisualStimuli
 
 						// alpha sin
 						double alphaSin = (currentFlicker.Alpha1 * lumin) + (currentFlicker.Alpha2 * (1 - lumin));
+						
+						// Push the marker in LSL that the flicker will flicker now
+						outl.push_sample(sample);
 
 						// flip
 						currentFlicker.flip(colorSin, alphaSin);
