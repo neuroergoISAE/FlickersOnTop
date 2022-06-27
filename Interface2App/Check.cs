@@ -10,13 +10,13 @@ using System.Timers;
 namespace Interface2App
 {
 	
-	public class Flicker : EntityValidator
+	public class Check : EntityValidator
 	{
-		//static int resX = Screen.PrimaryScreen.Bounds.Width;
-		//public int resY = Screen.PrimaryScreen.Bounds.Height;
+		//private int resX = Screen.PrimaryScreen.Bounds.Width;
+		public int resY = Screen.PrimaryScreen.Bounds.Height;
 
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
-		//[Range(0, maximum: resX)]
+		[Range(0, sizeX())]
 		public int X { get; set; }
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
 		//[Range(0, 720)]
@@ -42,6 +42,9 @@ namespace Interface2App
 
 		public int  Suplement {get ; set;}
 
-
+		static int sizeX()
+		{
+			return Screen.PrimaryScreen.Bounds.Width;
+		}
 	}
 }

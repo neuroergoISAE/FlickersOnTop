@@ -198,7 +198,7 @@ namespace VisualStimuli
 			double frameRate = getFrameRate();
 			//for(int time = 0; time < 100; time++)
 			//{
-				while (!quit && SDL.SDL_GetTicks() < 5000)
+				while (!quit && SDL.SDL_GetTicks() < 10000)
 				{
 					for (int j = 0; j < m_listFlickers.Count; j++)
 					{
@@ -244,18 +244,18 @@ namespace VisualStimuli
 					}
 
 					
-					//SDL.SDL_Event evt = new SDL.SDL_Event();
-					//if (SDL.SDL_PollEvent(out evt) != 0)
-					//{
-					///	if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
-					//	{
-					//		quit = true;
-					//	}
-					//	else
-					//	{
-					//		quit = false;
-					//	}
-					//}
+					SDL.SDL_Event evt = new SDL.SDL_Event();
+					if (SDL.SDL_PollEvent(out evt) != 0)
+					{
+						if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
+						{
+							quit = true;
+						}
+						else
+						{
+							quit = false;
+						}
+					}
 
 					i += 1;
 				
@@ -270,13 +270,16 @@ namespace VisualStimuli
 			Environment.Exit(0);
 		}
 
+		public int resX = Screen.PrimaryScreen.Bounds.Width;
+		public int resY = Screen.PrimaryScreen.Bounds.Height;
 		/// <summary>
-		/// Make the image of a checkboardflickers in the center of the screen 
+		/// Make a chossen image flicks in the center of the screen with size 400x400
 		/// </summary>
 		/// <returns>None</returns>
 		public void ImageFlicker() 
 		{
-			string filepath = "C:\\Users\\Lenovo\\Desktop\\image_file.txt";
+			
+		string filepath = "C:\\Users\\Lenovo\\Desktop\\image_file.txt";
 
 			StreamReader reader = new StreamReader(filepath);
 			string imagefile = reader.ReadToEnd();
@@ -316,10 +319,8 @@ namespace VisualStimuli
 			}
 			else
 			{
-				//SDL.SDL_Event e;
 				
-				
-				m_window = SDL.SDL_CreateWindow("Image", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, 400, 400,
+				m_window = SDL.SDL_CreateWindow("Image", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, resX,resY,
 												SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN | SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
 				if(m_window == IntPtr.Zero)
 				{
@@ -330,7 +331,7 @@ namespace VisualStimuli
 
 				m_surface = SDL.SDL_LoadBMP(imagefile); // ***** file
 
-				if (m_window == IntPtr.Zero)
+				if (m_surface == IntPtr.Zero)
 				{
 					Console.WriteLine("Enable to create a surface of image: Error {0}", SDL.SDL_GetError());
 				}
@@ -356,12 +357,6 @@ namespace VisualStimuli
 					SDL.SDL_RenderCopy(m_render, m_texture, IntPtr.Zero, IntPtr.Zero);
 					SDL.SDL_RenderPresent(m_render);
 					i++;
-					
-					
-
-					//Console.Write(i + " ");
-
-
 				}
 
 			}

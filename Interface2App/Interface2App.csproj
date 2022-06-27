@@ -70,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityValidator.cs" />
-    <Compile Include="Flicker.cs" />
+    <Compile Include="Check.cs" />
     <Compile Include="GraphicalInterface.cs">
       <SubType>Form</SubType>
     </Compile>

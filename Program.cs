@@ -17,8 +17,8 @@ namespace VisualStimuli
            // Application.Run(new Form1());
             
             CPlay oPlay = new CPlay();
-            //oPlay.flexibleSin();
-            oPlay.ImageFlicker();
+            oPlay.flexibleSin();
+            //oPlay.ImageFlicker();
             return 0;
         }
     }

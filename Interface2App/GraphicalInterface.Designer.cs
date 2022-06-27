@@ -379,7 +379,7 @@
 			// 
 			// flickerBindingSource
 			// 
-			this.flickerBindingSource.DataSource = typeof(Interface2App.Flicker);
+			this.flickerBindingSource.DataSource = typeof(Interface2App.Check);
 			// 
 			// heightTextBox
 			// 

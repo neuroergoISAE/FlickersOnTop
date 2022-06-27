@@ -32,7 +32,7 @@ namespace Interface2App
 		/// <param name="e"></param>
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			flickerBindingSource.DataSource = new List<Flicker>();
+			flickerBindingSource.DataSource = new List<Check>();
 			Thread trackerThread = new Thread(Tracker);
 			try
 			{
@@ -235,7 +235,7 @@ namespace Interface2App
 		private void btn_save_immediatly_Click(object sender, EventArgs e)
 		{
 			flickerBindingSource.EndEdit();
-			Flicker flicker = flickerBindingSource.Current as Flicker;
+			Check flicker = flickerBindingSource.Current as Check;
 			if (flicker != null)
 			{
 				if (flicker.IsValid)
