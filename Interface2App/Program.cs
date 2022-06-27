@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VisualStimuli;
 using System.Threading;
-using LSL;
+
 
 namespace Interface2App
 {

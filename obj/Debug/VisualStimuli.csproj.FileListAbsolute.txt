@@ -18,3 +18,4 @@ C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.Suggeste
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.CoreCompileInputs.cache
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.exe
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.pdb
+C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\lsl.dll
