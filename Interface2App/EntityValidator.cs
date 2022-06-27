@@ -7,7 +7,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Interface2App
-{
+{	
+	/// <summary>
+	/// To be filled
+	/// </summary>
 	public class EntityValidator : IDataErrorInfo
 	{
 		public string this[string property]

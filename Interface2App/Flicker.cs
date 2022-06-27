@@ -9,7 +9,9 @@ using System.Timers;
 
 namespace Interface2App
 {
-	
+	/// <summary>
+	/// Check in the boxes if the format is correct (i.e. users should input float and not char)
+	/// </summary>
 	public class Flicker : EntityValidator
 	{
 		//static int resX = Screen.PrimaryScreen.Bounds.Width;
