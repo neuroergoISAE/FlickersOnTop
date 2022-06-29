@@ -12,11 +12,11 @@ namespace Interface2App
 	
 	public class Check : EntityValidator
 	{
-		//private int resX = Screen.PrimaryScreen.Bounds.Width;
+		private int resX = Screen.PrimaryScreen.Bounds.Width;
 		public int resY = Screen.PrimaryScreen.Bounds.Height;
 
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
-		[Range(0, sizeX())]
+		//[Range(0, sizeX())]
 		public int X { get; set; }
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
 		//[Range(0, 720)]
