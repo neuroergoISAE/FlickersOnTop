@@ -183,9 +183,14 @@ namespace VisualStimuli
 
 			// create stream info and outlet
 
+
              //StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0.1, channel_format_t.cf_string , "giu4h5600");
              //StreamOutlet outl = new StreamOutlet(inf);
 			 string[] sample = new string[1];
+
+
+             StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string, "flk42");
+             StreamOutlet outl = new StreamOutlet(inf);
 
 
 			// All the flickers foreground 
@@ -210,6 +215,8 @@ namespace VisualStimuli
 			
 
 
+			string[] marker_info = new string[1];
+
 			//for(int time = 0; time < 100; time++)
 			//{
 				while (!quit && SDL.SDL_GetTicks() < 10000)
@@ -219,11 +226,13 @@ namespace VisualStimuli
 						CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
 						
 						// Current flicker frequency
+
 						//char charFreq = Convert.ToChar(currentFlicker.Frequence);
 
 						//sample[0] = currentFlicker.Frequence.ToString();
 						//outl.push_sample(sample);
 						 
+
 
 						currentFlicker.setData(currentFlicker);
 
@@ -259,7 +268,11 @@ namespace VisualStimuli
 						double alphaSin = (currentFlicker.Alpha1 * lumin) + (currentFlicker.Alpha2 * (1 - lumin));
 						
 						// Push the marker in LSL that the flicker will flicker now
+
 						//outl.push_sample(sample);
+
+					
+
 
 						// flip
 						currentFlicker.flip(colorSin, alphaSin);
