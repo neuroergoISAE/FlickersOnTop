@@ -184,13 +184,13 @@ namespace VisualStimuli
 			// create stream info and outlet
 
 
-             //StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0.1, channel_format_t.cf_string , "giu4h5600");
-             //StreamOutlet outl = new StreamOutlet(inf);
-			 string[] sample = new string[1];
-
-
-             StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string, "flk42");
+             StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0.1, channel_format_t.cf_string , "giu4h5600");
              StreamOutlet outl = new StreamOutlet(inf);
+			 char[] sample = new char[1];
+			 string[] marker_info = new string[1];
+
+			//StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string, "flk42");
+			// StreamOutlet outl = new StreamOutlet(inf);
 
 
 			// All the flickers foreground 
@@ -211,11 +211,7 @@ namespace VisualStimuli
 
 			double frameRate = getFrameRate();
 
-
-			
-
-
-			string[] marker_info = new string[1];
+			double[] a = new double[2];
 
 			//for(int time = 0; time < 100; time++)
 			//{
@@ -224,15 +220,18 @@ namespace VisualStimuli
 					for (int j = 0; j < m_listFlickers.Count; j++)
 					{
 						CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
+
+					// Current flicker frequency
+
+					//char charFreq = Convert.ToChar(currentFlicker.Frequence.ToString());
+					//sample[0] = charFreq;
+
+					marker_info[0] = currentFlicker.Frequence.ToString();
+					   //a[0] = currentFlicker.Frequence;
 						
-						// Current flicker frequency
-
-						//char charFreq = Convert.ToChar(currentFlicker.Frequence);
-
-						//sample[0] = currentFlicker.Frequence.ToString();
-						//outl.push_sample(sample);
-						 
-
+						//outl.push_sample(sample)
+						//Console.Out.WriteLine(marker_info);
+					    
 
 						currentFlicker.setData(currentFlicker);
 
@@ -269,9 +268,8 @@ namespace VisualStimuli
 						
 						// Push the marker in LSL that the flicker will flicker now
 
-						//outl.push_sample(sample);
+						outl.push_sample(marker_info);
 
-					
 
 
 						// flip

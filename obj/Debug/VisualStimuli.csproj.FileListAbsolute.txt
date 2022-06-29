@@ -9,6 +9,8 @@ C:\Users\Lenovo\Source\Repos\VisualStimuli\obj\Debug\VisualStimuli.csproj.Genera
 C:\Users\Lenovo\Source\Repos\VisualStimuli\obj\Debug\VisualStimuli.csproj.CoreCompileInputs.cache
 C:\Users\Lenovo\Source\Repos\VisualStimuli\obj\Debug\VisualStimuli.exe
 C:\Users\Lenovo\Source\Repos\VisualStimuli\obj\Debug\VisualStimuli.pdb
+C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\lsl.dll
+C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\Lsl\LSL.cs
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\VisualStimuli.exe.config
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\VisualStimuli.exe
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\VisualStimuli.pdb
@@ -17,6 +19,4 @@ C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.Suggeste
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.csproj.CoreCompileInputs.cache
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.exe
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\obj\Debug\VisualStimuli.pdb
-C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\Lsl\LSL.cs
-C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\lsl.dll
 C:\Users\Lenovo\Desktop\C#\FlickersOnTop\bin\Debug\SDL2.dll
