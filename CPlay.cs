@@ -148,9 +148,9 @@ namespace VisualStimuli
 					 flicker[i] = new CFlicker(screen[i],
 						SDL.SDL_MapRGB(screenSurface1.format, 0, 0, 0), // color1 RGB
 						SDL.SDL_MapRGB(screenSurface1.format, 255, 255, 255), // color2 RGB
-						pMatrix[i, 4], // freq
-						pMatrix[i, 6] / 100, // alpha1
-						pMatrix[i, 6] / 100, // alpha2
+						pMatrix[i, 4], // freq`
+						(double)pMatrix[i, 6]/100, // alpha1
+						(double)pMatrix[i, 6] /100, // alpha2
 						pMatrix[i, 5],  // phase
 						pMatrix[i, 7]); // type frequence
 
@@ -184,14 +184,10 @@ namespace VisualStimuli
 			// create stream info and outlet
 
 
-             StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0.1, channel_format_t.cf_string , "giu4h5600");
-             StreamOutlet outl = new StreamOutlet(inf);
+            // StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0.1, channel_format_t.cf_string , "giu4h5600");
+             //StreamOutlet outl = new StreamOutlet(inf);
 			 char[] sample = new char[1];
 			 string[] marker_info = new string[1];
-
-			//StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string, "flk42");
-			// StreamOutlet outl = new StreamOutlet(inf);
-
 
 			// All the flickers foreground 
 			for (int j = 0; j < m_listFlickers.Count; j++) {
@@ -223,15 +219,7 @@ namespace VisualStimuli
 
 					// Current flicker frequency
 
-					//char charFreq = Convert.ToChar(currentFlicker.Frequence.ToString());
-					//sample[0] = charFreq;
-
-					marker_info[0] = currentFlicker.Frequence.ToString();
-					   //a[0] = currentFlicker.Frequence;
-						
-						//outl.push_sample(sample)
-						//Console.Out.WriteLine(marker_info);
-					    
+					//marker_info[0] = currentFlicker.Frequence.ToString(); 
 
 						currentFlicker.setData(currentFlicker);
 
@@ -268,9 +256,7 @@ namespace VisualStimuli
 						
 						// Push the marker in LSL that the flicker will flicker now
 
-						outl.push_sample(marker_info);
-
-
+						//outl.push_sample(marker_info);
 
 						// flip
 						currentFlicker.flip(colorSin, alphaSin);
@@ -330,8 +316,6 @@ namespace VisualStimuli
 
 			int N = (int)(time * frameRate); // number of flickerings 
 			Console.WriteLine("time x frameRate = " + N);
-
-		
 
 			init_test();
 
