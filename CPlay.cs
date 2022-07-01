@@ -182,12 +182,9 @@ namespace VisualStimuli
 			init_test();
 
 			// create stream info and outlet
-
-
-            // StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0.1, channel_format_t.cf_string , "giu4h5600");
-             //StreamOutlet outl = new StreamOutlet(inf);
-			 char[] sample = new char[1];
-			 string[] marker_info = new string[1];
+            StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0.1, channel_format_t.cf_string , "giu4h5600");
+            StreamOutlet outl = new StreamOutlet(inf);
+			string[] marker_info = new string[2];
 
 			// All the flickers foreground 
 			for (int j = 0; j < m_listFlickers.Count; j++) {
@@ -209,83 +206,81 @@ namespace VisualStimuli
 
 			double[] a = new double[2];
 
-			//for(int time = 0; time < 100; time++)
-			//{
-				while (!quit && SDL.SDL_GetTicks() < 10000)
+			for (int j = 0; j < m_listFlickers.Count; j++)
+			{
+				// Current flicker frequency
+				marker_info[0] = currentFlicker.Frequence.ToString(); 
+				marker_info[1] = currentFlicker.Phase.ToString(); 
+
+				// Push the marker in LSL that the flicker will flicker now
+				outl.push_sample(String.Join("_", marker_info));
+			}
+			}
+
+			while (!quit && SDL.SDL_GetTicks() < 10000)
+			{
+				for (int j = 0; j < m_listFlickers.Count; j++)
 				{
-					for (int j = 0; j < m_listFlickers.Count; j++)
+					CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
+
+					currentFlicker.setData(currentFlicker);
+
+					if (i >= frameRate)
 					{
-						CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
-
-					// Current flicker frequency
-
-					//marker_info[0] = currentFlicker.Frequence.ToString(); 
-
-						currentFlicker.setData(currentFlicker);
-
-						if (i >= frameRate)
-						{
-							i = 0;
-						}
-
-						lumin = currentFlicker.getData(i, currentFlicker.Data);
-						//Console.Write(lumin+ " ");
-						// col1
-						r1 = currentFlicker.getRed(currentFlicker.Color1);
-						g1 = currentFlicker.getGreen(currentFlicker.Color1);
-						b1 = currentFlicker.getBlue(currentFlicker.Color1);
-
-						// col2
-						r2 = currentFlicker.getRed(currentFlicker.Color2);
-						g2 = currentFlicker.getGreen(currentFlicker.Color2);
-						b2 = currentFlicker.getBlue(currentFlicker.Color2);
-
-						// interpollation sin waves
-
-						// col sin
-						rSin = (Byte)(r1 * lumin + r2 * (1 - lumin));
-						gSin = (Byte)(g1 * lumin + g2 * (1 - lumin));
-						bSin = (Byte)(b1 * lumin + b2 * (1 - lumin));
-
-						var screenSurface = Marshal.PtrToStructure<SDL.SDL_Surface>(currentFlicker.Screen.PSurface);
-
-						colorSin = SDL.SDL_MapRGB(screenSurface.format, rSin, gSin, bSin);
-
-						// alpha sin
-						double alphaSin = (currentFlicker.Alpha1 * lumin) + (currentFlicker.Alpha2 * (1 - lumin));
-						
-						// Push the marker in LSL that the flicker will flicker now
-
-						//outl.push_sample(marker_info);
-
-						// flip
-						currentFlicker.flip(colorSin, alphaSin);
-
-						// dislay
-						currentFlicker.display();
+						i = 0;
 					}
 
-					
-					SDL.SDL_Event evt = new SDL.SDL_Event();
-					if (SDL.SDL_PollEvent(out evt) != 0)
-					{
-						if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
-						{
-							quit = true;
-						}
-						else
-						{
-							quit = false;
-						}
-					}
+					lumin = currentFlicker.getData(i, currentFlicker.Data);
+					//Console.Write(lumin+ " ");
+					// col1
+					r1 = currentFlicker.getRed(currentFlicker.Color1);
+					g1 = currentFlicker.getGreen(currentFlicker.Color1);
+					b1 = currentFlicker.getBlue(currentFlicker.Color1);
 
-					i += 1;
-				
+					// col2
+					r2 = currentFlicker.getRed(currentFlicker.Color2);
+					g2 = currentFlicker.getGreen(currentFlicker.Color2);
+					b2 = currentFlicker.getBlue(currentFlicker.Color2);
 
+					// interpollation sin waves
+
+					// col sin
+					rSin = (Byte)(r1 * lumin + r2 * (1 - lumin));
+					gSin = (Byte)(g1 * lumin + g2 * (1 - lumin));
+					bSin = (Byte)(b1 * lumin + b2 * (1 - lumin));
+
+					var screenSurface = Marshal.PtrToStructure<SDL.SDL_Surface>(currentFlicker.Screen.PSurface);
+
+					colorSin = SDL.SDL_MapRGB(screenSurface.format, rSin, gSin, bSin);
+
+					// alpha sin
+					double alphaSin = (currentFlicker.Alpha1 * lumin) + (currentFlicker.Alpha2 * (1 - lumin));
+
+					// flip
+					currentFlicker.flip(colorSin, alphaSin);
+
+					// dislay
+					currentFlicker.display();
 				}
-				//SDL.SDL_Delay(1000);
-			//}
-			
+
+				
+				SDL.SDL_Event evt = new SDL.SDL_Event();
+				if (SDL.SDL_PollEvent(out evt) != 0)
+				{
+					if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
+					{
+						quit = true;
+					}
+					else
+					{
+						quit = false;
+					}
+				}
+
+				i += 1;
+
+			}
+		
 		}
 		public void Close()
 		{
