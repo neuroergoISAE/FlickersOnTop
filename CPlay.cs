@@ -204,17 +204,17 @@ namespace VisualStimuli
 
 			double frameRate = getFrameRate();
 
-			double[] a = new double[2];
 
 			for (int j = 0; j < m_listFlickers.Count; j++)
 			{
 				// Current flicker frequency
+				CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
 				marker_info[0] = currentFlicker.Frequence.ToString(); 
-				marker_info[1] = currentFlicker.Phase.ToString(); 
+				marker_info[1] = currentFlicker.Phase.ToString();
 
 				// Push the marker in LSL that the flicker will flicker now
-				outl.push_sample(String.Join("_", marker_info));
-			}
+				//outl.push_sample(string.Join("_", marker_info));
+				outl.push_sample(marker_info);
 			}
 
 			while (!quit && SDL.SDL_GetTicks() < 10000)
