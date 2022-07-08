@@ -38,6 +38,7 @@
 			System.Windows.Forms.Label widthLabel;
 			System.Windows.Forms.Label xLabel;
 			System.Windows.Forms.Label yLabel;
+			System.Windows.Forms.Button btn_imp;
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.button1 = new System.Windows.Forms.Button();
 			this.red = new System.Windows.Forms.TrackBar();
@@ -57,7 +58,6 @@
 			this.button_pre = new System.Windows.Forms.Button();
 			this.button_help = new System.Windows.Forms.Button();
 			this.frequenceTextBox = new System.Windows.Forms.TextBox();
-			this.flickerBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.heightTextBox = new System.Windows.Forms.TextBox();
 			this.opacityTextBox = new System.Windows.Forms.TextBox();
 			this.phaseTextBox = new System.Windows.Forms.TextBox();
@@ -70,6 +70,8 @@
 			this.btn_save_imediatly = new System.Windows.Forms.Button();
 			this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.btn_import = new System.Windows.Forms.Button();
+			this.btn_delete = new System.Windows.Forms.Button();
 			this.xDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.yDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.widthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -79,8 +81,7 @@
 			this.opacityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.suplementDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.btn_import = new System.Windows.Forms.Button();
-			this.btn_delete = new System.Windows.Forms.Button();
+			this.flickerBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			frequenceLabel = new System.Windows.Forms.Label();
 			heightLabel = new System.Windows.Forms.Label();
 			opacityLabel = new System.Windows.Forms.Label();
@@ -90,12 +91,13 @@
 			widthLabel = new System.Windows.Forms.Label();
 			xLabel = new System.Windows.Forms.Label();
 			yLabel = new System.Windows.Forms.Label();
+			btn_imp = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.red)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.green)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.blue)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.flickerBindingSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.flickerBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// frequenceLabel
@@ -187,6 +189,16 @@
 			yLabel.Size = new System.Drawing.Size(26, 20);
 			yLabel.TabIndex = 91;
 			yLabel.Text = "Y:";
+			// 
+			// btn_imp
+			// 
+			btn_imp.Location = new System.Drawing.Point(1122, 388);
+			btn_imp.Name = "btn_imp";
+			btn_imp.Size = new System.Drawing.Size(105, 38);
+			btn_imp.TabIndex = 98;
+			btn_imp.Text = "Import";
+			btn_imp.UseVisualStyleBackColor = true;
+			btn_imp.Click += new System.EventHandler(this.btn_imp);
 			// 
 			// button1
 			// 
@@ -377,10 +389,6 @@
 			this.frequenceTextBox.Size = new System.Drawing.Size(100, 26);
 			this.frequenceTextBox.TabIndex = 5;
 			// 
-			// flickerBindingSource
-			// 
-			this.flickerBindingSource.DataSource = typeof(Interface2App.Check);
-			// 
 			// heightTextBox
 			// 
 			this.heightTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.flickerBindingSource, "Height", true));
@@ -492,6 +500,26 @@
 			this.dataGridView1.Size = new System.Drawing.Size(724, 285);
 			this.dataGridView1.TabIndex = 95;
 			// 
+			// btn_import
+			// 
+			this.btn_import.Location = new System.Drawing.Point(869, 335);
+			this.btn_import.Name = "btn_import";
+			this.btn_import.Size = new System.Drawing.Size(94, 47);
+			this.btn_import.TabIndex = 96;
+			this.btn_import.Text = "Image";
+			this.btn_import.UseVisualStyleBackColor = true;
+			this.btn_import.Click += new System.EventHandler(this.btn_image);
+			// 
+			// btn_delete
+			// 
+			this.btn_delete.Location = new System.Drawing.Point(969, 335);
+			this.btn_delete.Name = "btn_delete";
+			this.btn_delete.Size = new System.Drawing.Size(84, 47);
+			this.btn_delete.TabIndex = 97;
+			this.btn_delete.Text = "Delete";
+			this.btn_delete.UseVisualStyleBackColor = true;
+			this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
+			// 
 			// xDataGridViewTextBoxColumn
 			// 
 			this.xDataGridViewTextBoxColumn.DataPropertyName = "X";
@@ -564,25 +592,9 @@
 			this.suplementDataGridViewTextBoxColumn.Name = "suplementDataGridViewTextBoxColumn";
 			this.suplementDataGridViewTextBoxColumn.Width = 150;
 			// 
-			// btn_import
+			// flickerBindingSource
 			// 
-			this.btn_import.Location = new System.Drawing.Point(869, 335);
-			this.btn_import.Name = "btn_import";
-			this.btn_import.Size = new System.Drawing.Size(94, 47);
-			this.btn_import.TabIndex = 96;
-			this.btn_import.Text = "Image";
-			this.btn_import.UseVisualStyleBackColor = true;
-			this.btn_import.Click += new System.EventHandler(this.btn_image);
-			// 
-			// btn_delete
-			// 
-			this.btn_delete.Location = new System.Drawing.Point(969, 335);
-			this.btn_delete.Name = "btn_delete";
-			this.btn_delete.Size = new System.Drawing.Size(84, 47);
-			this.btn_delete.TabIndex = 97;
-			this.btn_delete.Text = "Delete";
-			this.btn_delete.UseVisualStyleBackColor = true;
-			this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
+			this.flickerBindingSource.DataSource = typeof(Interface2App.Check);
 			// 
 			// Form1
 			// 
@@ -590,6 +602,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.MenuBar;
 			this.ClientSize = new System.Drawing.Size(1264, 590);
+			this.Controls.Add(btn_imp);
 			this.Controls.Add(this.btn_delete);
 			this.Controls.Add(this.btn_import);
 			this.Controls.Add(this.dataGridView1);
@@ -640,9 +653,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.red)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.green)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.blue)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.flickerBindingSource)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.flickerBindingSource)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -681,6 +694,8 @@
 		private System.Windows.Forms.Button btn_new;
 		private System.Windows.Forms.ErrorProvider errorProvider;
 		private System.Windows.Forms.DataGridView dataGridView1;
+		private System.Windows.Forms.Button btn_import;
+		private System.Windows.Forms.Button btn_delete;
 		private System.Windows.Forms.DataGridViewTextBoxColumn xDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn yDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn widthDataGridViewTextBoxColumn;
@@ -690,8 +705,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn opacityDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn suplementDataGridViewTextBoxColumn;
-		private System.Windows.Forms.Button btn_import;
-		private System.Windows.Forms.Button btn_delete;
 	}
 }
 
