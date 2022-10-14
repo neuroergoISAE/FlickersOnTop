@@ -83,9 +83,13 @@ namespace Interface2App
 		/// <param name="e"></param>
 		private void bt_save(object sender, EventArgs e)
 		{
-			//StreamWriter file = new StreamWriter("C:\\Users\\Lenovo\\Desktop\\test_file.txt");// change here 
 			DateTime now = DateTime.Now;
-			string path = "C:\\Users\\Lenovo\\Desktop\\test2_file.txt";
+			//string path = "D:\\MANIPS\\FlickersOnTop\\test1_file.txt";
+			string path = Application.StartupPath;
+			path = path.Substring(0, path.LastIndexOf('\\'));
+			path = path.Substring(0, path.LastIndexOf('\\'));
+			path += "\\test1_file.txt";
+			//StreamWriter file = new StreamWriter(path);// change here 
 
 			using (StreamWriter s = File.AppendText(path))
 			{
@@ -240,7 +244,11 @@ namespace Interface2App
 			{
 				if (flicker.IsValid)
 				{
-					using (TextWriter file = new StreamWriter("C:\\Users\\Lenovo\\Desktop\\test1_file.txt"))
+					string path = Application.StartupPath;
+					path = path.Substring(0, path.LastIndexOf('\\'));
+					path = path.Substring(0, path.LastIndexOf('\\'));
+					path += "\\test1_file.txt";
+					using (TextWriter file = new StreamWriter(path))
 					{
 
 						for (int i = 0; i < dataGridView1.Rows.Count - 2; i++)

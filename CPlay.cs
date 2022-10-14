@@ -117,7 +117,12 @@ namespace VisualStimuli
 
 			int numFlicker = 0;
 
-			string filePath = "C:\\Users\\Lenovo\\Desktop\\test1_file.txt";// change here ***
+			// string filePath = "D:\\MANIPS\\FlickersOnTop\\test1_file.txt";// change here ***
+			
+			string filePath = Application.StartupPath;
+			filePath = filePath.Substring(0, filePath.LastIndexOf('\\'));
+			filePath = filePath.Substring(0, filePath.LastIndexOf('\\'));
+			filePath += "\\test1_file.txt";
 
 			//string filePath = "test_file.txt";
 
@@ -217,7 +222,7 @@ namespace VisualStimuli
 				outl.push_sample(marker_info);
 			}
 
-			while (!quit && SDL.SDL_GetTicks() < 10000)
+			while (!quit && SDL.SDL_GetTicks() < 1000000)
 			{
 				for (int j = 0; j < m_listFlickers.Count; j++)
 				{
@@ -296,7 +301,7 @@ namespace VisualStimuli
 		public void ImageFlicker() 
 		{
 			
-		string filepath = "C:\\Users\\Lenovo\\Desktop\\image_file.txt";
+		string filepath = "F:\\MANIPS\\FlickersOnTop\\image_file.txt";
 
 			StreamReader reader = new StreamReader(filepath);
 			string imagefile = reader.ReadToEnd();
