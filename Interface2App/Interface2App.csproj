@@ -92,7 +92,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Properties\DataSources\Flicker.datasource" />
+    <None Include="Properties\DataSources\Check.datasource" />
+    <None Include="Properties\DataSources\EntityValidator.datasource" />
+    <None Include="Properties\DataSources\Form1.datasource" />
+    <None Include="Properties\DataSources\Interface2App.Properties.Resources.datasource" />
+    <None Include="Properties\DataSources\Interface2App.Properties.Settings.datasource" />
+    <None Include="Properties\DataSources\Program.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

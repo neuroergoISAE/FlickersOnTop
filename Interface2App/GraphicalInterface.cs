@@ -301,5 +301,72 @@ namespace Interface2App
 			
 			
 		}
+		
+		private void btn_imp(object sender, EventArgs e)
+		{
+			DataTable dataTable = new DataTable();
+			dataTable.Columns.Add("X-11 ", typeof(string));
+			dataTable.Columns.Add("Y ", typeof(string));
+			dataTable.Columns.Add("Width-11 ", typeof(string));
+			dataTable.Columns.Add("Height ", typeof(string));
+			dataTable.Columns.Add("Frequence ", typeof(string));
+			dataTable.Columns.Add("Phase ", typeof(string));
+			dataTable.Columns.Add("Opacity ", typeof(string));
+			dataTable.Columns.Add("Type ", typeof(string));
+			dataTable.Columns.Add("Suplement ", typeof(string));
+
+			dataGridView1.DataSource = dataTable;
+
+			using (OpenFileDialog ofd = new OpenFileDialog())
+			{
+				ofd.Filter = "txt file (*.txt)|*.txt|All files (*.*)|*.*";
+
+				if(ofd.ShowDialog() == DialogResult.OK)
+				{
+					string filename = ofd.FileName;
+					//StreamReader file = new StreamReader(filename);
+
+					string[] lines = File.ReadAllLines(filename);
+
+					string[] data;
+					for(int i = 0; i < lines.Length; i++)
+					{
+						data = lines[i].ToString().Split('|');
+						string[] row = new string[data.Length];
+						for(int j = 0; j < data.Length; j++)
+						{
+							row[j] = data[j];
+						}
+						dataTable.Rows.Add(row);
+					}
+
+
+					/*
+					string[] columnnames = file.ReadLine().Split(' ');
+					
+					foreach(string c in columnnames)
+					{
+						dataTable.Columns.Add(c);
+					}
+
+					string newline;
+					while((newline = file.ReadLine())!= null)
+					{
+						DataRow dr = dataTable.NewRow();
+						string[] values = newline.Split(' ');	
+						for(int i = 0; i <values.Length; i++)
+						{
+							dr[i] = values[i];
+						}
+						dataTable.Rows.Add(dr);
+					}
+					file.Close();
+					dataGridView1.DataSource = dataTable;
+					//flickerBindingSource.DataSource = dataTable;
+					*/
+				}
+				
+			}
+		}
 	}
 }

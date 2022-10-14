@@ -187,7 +187,7 @@ namespace VisualStimuli
 			init_test();
 
 			// create stream info and outlet
-            StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0.1, channel_format_t.cf_string , "giu4h5600");
+            StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string , "giu4h5600");
             StreamOutlet outl = new StreamOutlet(inf);
 			string[] marker_info = new string[2];
 
@@ -340,7 +340,7 @@ namespace VisualStimuli
 			else
 			{
 				
-				m_window = SDL.SDL_CreateWindow("Image", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, resX,resY,
+				m_window = SDL.SDL_CreateWindow("Image", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, 600,400,
 												SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN | SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
 				if(m_window == IntPtr.Zero)
 				{
