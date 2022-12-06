@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using SDL2;
 using static VisualStimuli.CPlay;
 
@@ -11,7 +13,7 @@ namespace VisualStimuli
 {	/// <summary>
 	/// <strong>Inputs:</strong> Color, Frequence, Alpha, Phase, Type, Screen;
 	/// 
-	/// <strong>Functions: </strong>CFlicker, changeColors, changeAlphas, flip, getRed, getBlue, get Green, origin, display, getData, setData;
+	/// <strong>Functions: </strong>CFlicker2, changeColors, changeAlphas, flip, getRed, getBlue, get Green, origin, display, getData, setData;
 	/// </summary>
     class CFlicker
     {
@@ -25,6 +27,14 @@ namespace VisualStimuli
 		private double m_phase;
 		private int m_typeFreq;
 		private double[] m_data;
+		private int m_x;
+		private int m_y;
+		private int m_width;
+		private int m_height;
+		public int X { get=>m_x; set=>m_x=value; }
+		public int Y { get=>m_y; set=> m_y = value; }
+		public int Width { get=>m_width; set=> m_width = value; }
+		public int Height { get=>m_height; set=> m_height = value; }
 		public double Phase { get => m_phase; set => m_phase = value; }
         public double Frequence { get => m_frequence; set => m_frequence = value; }
         public double Alpha2 { get => m_alpha2; set => m_alpha2 = value; }
@@ -34,12 +44,13 @@ namespace VisualStimuli
         internal CScreen Screen { get => m_screen; set => m_screen = value; }
         public IntPtr Handle { get => m_handle; set => m_handle = value; }
 		public int TypeFrequence { get => m_typeFreq; set => m_typeFreq = value; }
+		public IntPtr AtlasTexture { get; set; }
+		public int size { get; set; }
 
 		public double[] Data { get => m_data; set => m_data = value; }
 		/// <summary>
 		/// Create a flicker.
 		/// </summary>
-		/// <param name="aScreen">The screen which will flick.</param>
 		/// <param name="col1">The UInt32 value illustates color1.</param>
 		/// <param name="col2">The UInt32 value illustates color2.</param>
 		/// <param name="freq">The double value illustates frequence.</param>
@@ -49,57 +60,31 @@ namespace VisualStimuli
 		/// <param name="typeFreq">The double value illustates type of the flicker (sinious, max-length-sequence,...).</param>
 		///<return>None</return>>
 		
-		public CFlicker(CScreen aScreen, UInt32 col1, UInt32 col2, double freq, double alph1, double alph2, double phase, int typeFreq)
+		public CFlicker(int x,int y,int width,int height,CScreen screen, UInt32 col1, UInt32 col2, double freq, double alph1, double alph2, double phase, int typeFreq)
 		{
 			Color1 = col1;
 			Color2 = col2;
 			Frequence = freq;
-			Screen = aScreen;
+			Screen= screen;
+			X = x;
+			Y = y;
+			Width = width;
+			Height = height;
 			Alpha1 = alph1;
 			Alpha2 = alph2;
 			Phase = phase;
 			TypeFrequence = typeFreq;
+			double frameRate = GetFrameRate();
 
 			SDL.SDL_SysWMinfo info = new SDL.SDL_SysWMinfo();			
 			SDL.SDL_VERSION(out info.version);
 			SDL.SDL_bool bRes = SDL.SDL_GetWindowWMInfo(Screen.PWindow, ref info);
 			Handle = info.info.win.window;
 
-			Screen.changeColorAndAlpha(col1, alph1);
-			Console.WriteLine("	\n");
+            Console.WriteLine("	\n");
 			Console.WriteLine("Flicker {0} created - Position \tX = {1}\tY = {2}\tWidth = {3}\tHeight = {4} pixels", Screen.Name,Screen.X, Screen.Y,Screen.W, Screen.H);
-		}
-
-		/// <summary>
-		/// Update color coefficient.
-		/// </summary>
-		/// <param name="col1">Color 1</param>
-		/// <param name="col2">Color 2</param>
-		public void changeColors(UInt32 col1, UInt32 col2)
-		{
-			Color1 = col1;
-			Color2 = col2;
-		}
-
-		/// <summary>
-		/// Update the coefficient of opacity.
-		/// </summary>
-		/// <param name="alph1">Double Alpha 1.</param>
-		/// <param name="alph2">Double Alpha 2.</param>
-		public void changeAlphas(double alph1, double alph2)
-		{
-			Alpha1 = alph1;
-			Alpha2 = alph2;
-		}
-
-		/// <summary>
-		/// Update Color and Alpha coefficients.
-		/// </summary>
-		/// <param name="col">UInt32 Color value.</param>
-		/// <param name="alph">Double Alpha value.</param>
-		public void flip(UInt32 col, double alph)
-		{
-			Screen.changeColorAndAlpha(col, alph);
+			setData();
+			//CreateAtlas();
 		}
 
 		/// <summary>
@@ -147,9 +132,14 @@ namespace VisualStimuli
 		/// <summary>
 		/// Display the flicker.
 		/// </summary>
-		public void display()
+		public void display(int index)
 		{
-			m_screen.show();
+            var i = Data[index];
+            var r = (Byte)(getRed(Color1) * i + getRed(Color2) * (1 - i));
+            var g = (Byte)(getGreen(Color1) * i + getGreen(Color2) * (1 - i));
+            var b = (Byte)(getBlue(Color1) * i + getBlue(Color2) * (1 - i));
+            var a = (Byte)(Alpha1 * i + Alpha2 * (1 - i));
+            m_screen.show(r,g,b,a);
 		}
 
 		/// <summary>
@@ -180,7 +170,7 @@ namespace VisualStimuli
 		/// Generate a list of opacity number depends on type which was defined.
 		/// </summary>
 		/// <param name="flicker">FLicker.</param>
-		public void setData(CFlicker flicker)
+		public void setData()
 		{
 
 			Random rand = new Random();
@@ -188,10 +178,11 @@ namespace VisualStimuli
 			double frameRate = GetFrameRate(); 
 			// 60Hz 
 			const double timeFlicker = 50;
-			m_data = new double[(int)(frameRate * timeFlicker)]; // initializing data
+            size = (int)(frameRate * timeFlicker);
+            m_data = new double[size]; // initializing data
 
-			// random frequence
-			if (flicker.TypeFrequence == 0)
+            // random frequence
+            if (TypeFrequence == 0)
 			{
 
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
@@ -210,23 +201,20 @@ namespace VisualStimuli
 				}
 			}
 			// sininous frequence
-			if (flicker.TypeFrequence == 1)
+			if (TypeFrequence == 1)
 			{
-
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
 				{
-					Data[j] = 0.5 * (1.0 + Math.Sin(2 * Math.PI * flicker.Frequence * j / frameRate + flicker.Phase * Math.PI));
-					
+					Data[j] = 0.5 * (1.0 + Math.Sin(2 * Math.PI * Frequence * j / frameRate + Phase * Math.PI));
 				}
-
 			}
 			// square frequence
-			if (flicker.TypeFrequence == 2)
+			if (TypeFrequence == 2)
 			{
 
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
 				{
-					double demo = 0.5 * (1.0 + Math.Sin(2 * Math.PI * flicker.Frequence * j / frameRate + flicker.Phase * Math.PI));
+					double demo = 0.5 * (1.0 + Math.Sin(2 * Math.PI * Frequence * j / frameRate + Phase * Math.PI));
 					if (demo <= 0.5)   // demo has a continous range from 0 to 1 so when demo value < 0.5 we consider approximatively demo = 0 and in inverse we consider demo = 1 when its value > 0.5; 
 					{
 						Data[j] = 0;
@@ -239,17 +227,17 @@ namespace VisualStimuli
 
 			}
 			// square root frequence 
-			if (flicker.TypeFrequence == 3)
+			if (TypeFrequence == 3)
 			{
 
 				for (int j = 0; j < (int)frameRate * timeFlicker; j++)
 				{
-					Data[j] = 0.5 * (1.0 + Math.Sqrt(2 * Math.PI * flicker.Frequence * j / frameRate + flicker.Phase * Math.PI));
+					Data[j] = 0.5 * (1.0 + Math.Sqrt(2 * Math.PI * Frequence * j / frameRate + Phase * Math.PI));
 				}
 
 			}
 			// Maximum length sequences
-			if(flicker.TypeFrequence == 4)
+			if(TypeFrequence == 4)
 			{
 				// To understand maximum length sequence, go https://www.gaussianwaves.com/2018/09/maximum-length-sequences-m-sequences/
 				// Here, we take a primitive polynomial degree 8 
@@ -273,7 +261,7 @@ namespace VisualStimuli
 
 				 
 			}
-		}
+		}    
 	}
 }
 

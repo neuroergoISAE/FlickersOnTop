@@ -112,19 +112,15 @@ namespace VisualStimuli
 		/// <returns>None</returns>
 		public void init_test()
 		{
-			
-			Console.WriteLine("The one that got away - Katy Perry \n");
+            var surface = SDL.SDL_CreateRGBSurface(0, 256, 256, 32, 0, 0, 0, 0);
+            Console.WriteLine("The one that got away - Katy Perry \n");
 
 			int numFlicker = 0;
-
-			// string filePath = "D:\\MANIPS\\FlickersOnTop\\test1_file.txt";// change here ***
 			
 			string filePath = Application.StartupPath;
 			filePath = filePath.Substring(0, filePath.LastIndexOf('\\'));
 			filePath = filePath.Substring(0, filePath.LastIndexOf('\\'));
 			filePath += "\\test1_file.txt";
-
-			//string filePath = "test_file.txt";
 
 			StreamReader reader = new StreamReader (filePath);
 			string line = reader.ReadLine();
@@ -147,10 +143,14 @@ namespace VisualStimuli
 			CFlicker[] flicker = new CFlicker[numFlicker];
 			for (int i = 0; i < numFlicker; i++)
 			{
-
 				screen[i] = new CScreen(pMatrix[i, 0], pMatrix[i, 1], pMatrix[i, 2], pMatrix[i, 3], i.ToString(), false) ;
 					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen[i].PSurface);
-					 flicker[i] = new CFlicker(screen[i],
+					 flicker[i] = new CFlicker(
+						 pMatrix[i, 0],
+						 pMatrix[i, 1],
+						 pMatrix[i, 2],
+						 pMatrix[i, 3],
+						 screen[i],
 						SDL.SDL_MapRGB(screenSurface1.format, 0, 0, 0), // color1 RGB
 						SDL.SDL_MapRGB(screenSurface1.format, 255, 255, 255), // color2 RGB
 						pMatrix[i, 4], // freq`
@@ -198,16 +198,12 @@ namespace VisualStimuli
 			}
 
 			// init vars
-			int i = 0;
-			double lumin = 0.0;
+			int index = 0;
 			double[] alpha = new double[2];
 			UInt32[] color = new UInt32[2];
-			UInt32 colorSin = 0;
-			Byte rSin = 0; Byte gSin = 0; Byte bSin = 0;
-			Byte r1 = 0; Byte g1 = 0; Byte b1 = 0;
-			Byte r2 = 0; Byte g2 = 0; Byte b2 = 0;
 
 			double frameRate = getFrameRate();
+			Console.WriteLine(frameRate.ToString());
 
 
 			for (int j = 0; j < m_listFlickers.Count; j++)
@@ -221,55 +217,22 @@ namespace VisualStimuli
 				//outl.push_sample(string.Join("_", marker_info));
 				outl.push_sample(marker_info);
 			}
-
-			while (!quit && SDL.SDL_GetTicks() < 1000000)
+            string filePath = Application.StartupPath;
+            filePath = filePath.Substring(0, filePath.LastIndexOf('\\'));
+            filePath = filePath.Substring(0, filePath.LastIndexOf('\\'));
+            var filePath2 = filePath+"\\test_time2.txt";
+            filePath += "\\test_time.csv";
+            while (!quit && SDL.SDL_GetTicks() < 1000000)
 			{
-				for (int j = 0; j < m_listFlickers.Count; j++)
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                for (int j = 0; j < m_listFlickers.Count; j++)
 				{
-					CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
-
-					currentFlicker.setData(currentFlicker);
-
-					if (i >= frameRate)
-					{
-						i = 0;
-					}
-
-					lumin = currentFlicker.getData(i, currentFlicker.Data);
-					//Console.Write(lumin+ " ");
-					// col1
-					r1 = currentFlicker.getRed(currentFlicker.Color1);
-					g1 = currentFlicker.getGreen(currentFlicker.Color1);
-					b1 = currentFlicker.getBlue(currentFlicker.Color1);
-
-					// col2
-					r2 = currentFlicker.getRed(currentFlicker.Color2);
-					g2 = currentFlicker.getGreen(currentFlicker.Color2);
-					b2 = currentFlicker.getBlue(currentFlicker.Color2);
-
-					// interpollation sin waves
-
-					// col sin
-					rSin = (Byte)(r1 * lumin + r2 * (1 - lumin));
-					gSin = (Byte)(g1 * lumin + g2 * (1 - lumin));
-					bSin = (Byte)(b1 * lumin + b2 * (1 - lumin));
-
-					var screenSurface = Marshal.PtrToStructure<SDL.SDL_Surface>(currentFlicker.Screen.PSurface);
-
-					colorSin = SDL.SDL_MapRGB(screenSurface.format, rSin, gSin, bSin);
-
-					// alpha sin
-					double alphaSin = (currentFlicker.Alpha1 * lumin) + (currentFlicker.Alpha2 * (1 - lumin));
-
-					// flip
-					currentFlicker.flip(colorSin, alphaSin);
-
+                    CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
+					if (index >= currentFlicker.size) { index = 0; }
 					// dislay
-					currentFlicker.display();
-				}
-
-				
-				SDL.SDL_Event evt = new SDL.SDL_Event();
+                    currentFlicker.display(index);
+                }
+                SDL.SDL_Event evt = new SDL.SDL_Event();
 				if (SDL.SDL_PollEvent(out evt) != 0)
 				{
 					if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
@@ -281,12 +244,12 @@ namespace VisualStimuli
 						quit = false;
 					}
 				}
+				index += 1;
+				var left = (1 / frameRate) - watch.ElapsedTicks/10000000d;
+                if (left>0) { Thread.Sleep((int)(left*1000)); } else { Console.WriteLine("Warning Rendering can't keep up!! max FPS: {0}",10000000d/watch.ElapsedTicks); }
 
-				i += 1;
-
-			}
-		
-		}
+            }
+        }
 		public void Close()
 		{
 			Environment.Exit(0);
@@ -322,8 +285,6 @@ namespace VisualStimuli
 			// initialize 
 			Console.WriteLine("Number of flicker: " + m_listFlickers.Count);
 			CFlicker currentFlicker = (CFlicker)m_listFlickers[0];///
-
-			currentFlicker.setData(currentFlicker);
 			
 
 			IntPtr m_window = IntPtr.Zero;

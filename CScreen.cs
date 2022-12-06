@@ -49,37 +49,41 @@ namespace VisualStimuli
         {
             create(x, y, width, height, name, fixedScreen);
         }
-        
+
         /// <summary>
         /// Support to function CSreen.
         /// </summary>
-        
+
         private void create(int x, int y, int width, int height, String name, bool fixedScreen)
         {
-            if (!fixedScreen) {
+            if (!fixedScreen)
+            {
 
-                m_pWindow = SDL.SDL_CreateWindow(name, 
+                m_pWindow = SDL.SDL_CreateWindow(name,
                     x,
                     y,
                     width,
                     height,
                     SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN | SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
 
-                if (m_pWindow == IntPtr.Zero) {
+                if (m_pWindow == IntPtr.Zero)
+                {
                     Console.WriteLine("Window could not be created - Level 1 ! SDL_Error: {0}", SDL.SDL_GetError());
                     return;
                 }
             }
-            else {
+            else
+            {
 
-                m_pWindow = SDL.SDL_CreateWindow(name, 
+                m_pWindow = SDL.SDL_CreateWindow(name,
                     x,
                     y,
                     width,
                     height,
                     SDL.SDL_WindowFlags.SDL_WINDOW_HIDDEN);
 
-                if (m_pWindow == IntPtr.Zero) {
+                if (m_pWindow == IntPtr.Zero)
+                {
                     Console.WriteLine("Window could not be created - Level 2 ! SDL_Error: {0}", SDL.SDL_GetError());
                     return;
                 }
@@ -87,36 +91,25 @@ namespace VisualStimuli
 
             // the Surface
             m_pSurface = SDL.SDL_GetWindowSurface(m_pWindow);
-            if (m_pSurface == IntPtr.Zero) {
+            if (m_pSurface == IntPtr.Zero)
+            {
                 Console.WriteLine("Surface could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
                 return;
             }
 
             // the renderer
-            m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1,SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | 
-                                                                      SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
-
-            if (m_pRenderer == IntPtr.Zero) {
+            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED |
+            //                                                          SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
+            //note: Vsync can cause massive lag when using lots of flickers, moving to manual fps management
+            m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+            if (m_pRenderer == IntPtr.Zero)
+            {
                 Console.WriteLine("Renderer could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
                 return;
             }
-             
-            //We initialyze the screen like a black box
-            var surfTmp = Marshal.PtrToStructure<SDL.SDL_Surface>(m_pSurface);
-            SDL.SDL_FillRect(m_pSurface, IntPtr.Zero, SDL.SDL_MapRGB(surfTmp.format, 0, 0, 0));
 
-            
-            // the Texture
-             m_pTexture = SDL.SDL_CreateTexture(m_pRenderer,
-              SDL.SDL_PIXELFORMAT_ARGB8888,
-                (int)SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING,
-               width, height);
 
-             if (m_pTexture == IntPtr.Zero) {
-                Console.WriteLine("Texture could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
-                return;
-             }
-            
+
 
             // Attributes
             X = x;
@@ -129,53 +122,16 @@ namespace VisualStimuli
         /// <summary>
         /// Display the screen.
         /// </summary>
-        public void show()
+        public void show(Byte r,Byte g,Byte b,Byte a)
         {
-            SDL.SDL_RenderPresent(PRenderer);
-        }
-        /// <summary>
-        /// Update two coefficients Color and Opacity. 
-        /// </summary>
-        /// <param name="col">The UInt32 value represents to the color.</param>
-        /// <param name="alph">The double value represents to the opacity.</param>
-        /// <return> None</return>>   
-        public void changeColorAndAlpha(UInt32 col, double alph)
-        {
-            changeColor(col);
-            changeAlpha(alph);
-        }
-
-       /// <summary>
-       /// Update the color coefficient.
-       /// </summary>
-       /// <param name="col">The UInt32 value represents to the color.</param>
-       /// <return> None</return>>
-        public void changeColor(UInt32 col)
-        {
-            SDL.SDL_FillRect(PSurface, IntPtr.Zero, col); 
-           
-            var surfTmp = Marshal.PtrToStructure<SDL.SDL_Surface>(PSurface); 
-            
-            SDL.SDL_UpdateTexture(PTexture, IntPtr.Zero, surfTmp.pixels, surfTmp.pitch);
-
+            //var watch=System.Diagnostics.Stopwatch.StartNew();
             SDL.SDL_RenderClear(PRenderer);
-            SDL.SDL_RenderCopy(PRenderer, PTexture, IntPtr.Zero, IntPtr.Zero);
+            SDL.SDL_SetRenderDrawColor(PRenderer, r, g, b, a);
+            SDL.SDL_RenderFillRect(PRenderer, IntPtr.Zero);
+            SDL.SDL_RenderPresent(PRenderer);
+            //watch.Stop();
+            //Console.WriteLine("Rendering time: {0} ms", watch.ElapsedTicks / 10000d);
+
         }
-
-
-        /// <summary>
-        /// Setting the coefficient of opacity.
-        /// </summary>
-        /// <param name="alph">The double value represents to the opacity.</param>
-        /// <return> None</return>>
-        public void changeAlpha(double alph)
-        {
-            if (alph >= 0)
-            {
-                SDL.SDL_SetWindowOpacity(PWindow, (float)alph);
-            }
-        } 
-
-    } 
-
+    }
 } 
