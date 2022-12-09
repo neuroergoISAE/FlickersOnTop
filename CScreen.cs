@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using SDL2;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace VisualStimuli
 {   /// <summary>
-    /// <strong>Defined informations:</strong> x, y, width, height, name, bool;
-    /// <strong>Functions: </strong>CSreen, show, changeColorAndAlpha, changeColor, changeAlpha.
+    /// <strong>Defined informations:</strong> x, y, width, height, name;
+    /// <strong>Functions: </strong>CSreen, show
     /// </summary>
     class CScreen
     {
@@ -45,9 +46,12 @@ namespace VisualStimuli
         /// <param name="height">The value represents the height of the screen.</param>
         /// <param name="name">The value represents the name of the screen.</param>
         /// <param name="fixedScreen">The value represents the screen is fixed or not.</param>
-        public CScreen(int x, int y, int width, int height, String name, bool fixedScreen)
+        public CScreen(int x, int y, int width, int height, String name, bool fixedScreen,Byte r,Byte g, Byte b)
         {
             create(x, y, width, height, name, fixedScreen);
+            SDL.SDL_RenderClear(PRenderer);
+            SDL.SDL_SetRenderDrawColor(PRenderer, r, g, b, 255);
+            SDL.SDL_RenderFillRect(PRenderer, IntPtr.Zero);
         }
 
         /// <summary>
@@ -80,7 +84,7 @@ namespace VisualStimuli
                     y,
                     width,
                     height,
-                    SDL.SDL_WindowFlags.SDL_WINDOW_HIDDEN);
+                    SDL.SDL_WindowFlags.SDL_WINDOW_HIDDEN | SDL.SDL_WindowFlags.SDL_WINDOW_ALWAYS_ON_TOP);
 
                 if (m_pWindow == IntPtr.Zero)
                 {
@@ -88,7 +92,7 @@ namespace VisualStimuli
                     return;
                 }
             }
-
+            SDL.SDL_SetWindowOpacity(m_pWindow, 0.5f);
             // the Surface
             m_pSurface = SDL.SDL_GetWindowSurface(m_pWindow);
             if (m_pSurface == IntPtr.Zero)
@@ -107,7 +111,8 @@ namespace VisualStimuli
                 Console.WriteLine("Renderer could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
                 return;
             }
-
+            SDL.SDL_SetRenderDrawBlendMode(m_pRenderer, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
+            
 
 
 
@@ -118,20 +123,18 @@ namespace VisualStimuli
             H = height;
             Name = name;
         }
-
         /// <summary>
         /// Display the screen.
         /// </summary>
-        public void show(Byte r,Byte g,Byte b,Byte a)
+        public void show(Byte a)
         {
-            //var watch=System.Diagnostics.Stopwatch.StartNew();
-            SDL.SDL_RenderClear(PRenderer);
-            SDL.SDL_SetRenderDrawColor(PRenderer, r, g, b, a);
-            SDL.SDL_RenderFillRect(PRenderer, IntPtr.Zero);
             SDL.SDL_RenderPresent(PRenderer);
-            //watch.Stop();
-            //Console.WriteLine("Rendering time: {0} ms", watch.ElapsedTicks / 10000d);
-
+            SDL.SDL_SetWindowOpacity(m_pWindow, a / 255f);
+        }
+        public void Quit()
+        {
+            SDL.SDL_FreeSurface(m_pSurface);
+            SDL.SDL_DestroyRenderer(PRenderer);
         }
     }
 } 

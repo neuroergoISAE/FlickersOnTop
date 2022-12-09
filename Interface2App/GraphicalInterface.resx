@@ -117,62 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="frequenceLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="heightLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="opacityLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="phaseLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="suplementLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="typeLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="widthLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="xLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="yLabel.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="btn_imp.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="button1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACoAAAAnCAYAAAB5XdqFAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA68AAAOvAGVvHJJAAAAB3RJ
-        TUUH5gYWCSsTC+Qo5AAABDNJREFUWEftVlkrtVEUducP4JJygSJFEUlmbsxDZiKkZMwsFyiFyHBB4YYS
-        SgkXXMkQSlHihshwYyhj5sP6etZ3lu+kg9c5x/EpT+328+79vut99tprr7VN6IfgV6ih8a1CHx8fuT09
-        PalH3sa3CH1+flazf1CpVGqmHZ8SipXr2+BBQW1tLSUkJNDBwQE/Pzw8cK8NioXiJ4ZEYmIii+zt7SVr
-        a2va2dnhcc2FaEKRUNmq7e1tmp6epvn5eZqbm/tUm52dpZmZGdrd3aWAgABycHBgm8Dk5CRZWVmxfUBb
-        GHwoVDwJcfb29hQXF0fh4eEUERGhqEVGRnKLjY2l6OhoMjExodLSUgoKCqKmpia2DYyPj5Orqyvd3Nzw
-        8+s4/lCobEVdXR1VVFQw1xXFxcUUGBjIsXl7e0vOzs7U0tKiniXy8PCgxcVF5q9DTbHQxsZGKisrYw7R
-        2D54NjQ0VGuDN319famhoYG/gUDE4vr6OvX09NDFxQWtra2Ro6Mj9fX1UVVVFdsDtGUFxULxw8rKSuYI
-        gYmJCVpYWODYex2L0iOej46OeMszMjIoJSWF8vPz2YanpyctLS0xRzhg4QK9hWLVgJ+fn1Zj2oCTnZSU
-        pH4i9nJaWhrzw8NDsrOzo/j4eH4G3souOgn18vKi09NT5jihMC4N78vPwsLCKD09nfnJyQn3AL7HQYKX
-        nZyc1KPvJ32dhZ6fnzPX9CwEyjNOOnIl4OPjQ/39/cxlERYWFrzll5eX/Kx3ZVIqFL1wpCLZTiT0nJwc
-        5lJ5kD2wEMSlJHrNBWuDQYRq/iQmJoZSU1OZZ2Vl0d7eHnOxg8zh7u7OPCQkhLa2tpgbVSg8V1RUxNzb
-        25uFAnd3d9yXl5dzGAjgUalGXy5U5uvr6znmampqKDg4mEUBMo/thkgcwo2NDR5DbjWaUDkE+Gl3dze1
-        tbWRqakpraysvMzhOzc3N+bDw8MUFRXFHGnOaEIB/AS1W7YYtdzMzIw5yqXEJDA4OEjJycnM/f39jSsU
-        FwlLS0saGRlRjxBlZ2ezx7AATcCjUgCMLhQnF/GJhtiEF83NzV+2G7i/v+ceQiW/GkXo2dkZc2Bzc/Ol
-        NJaUlFBzczONjY2pZ//akHgdGhoynkchCte0z0CEjo6OGi9GUZ9xRQOWl5f5CogKg/n9/X326vHxMd8/
-        r6+vObfKQWttbeWiAHzJqYcYnGYgMzOTbGxseHtXV1epurqatx/CUIlyc3P5ZoQDhXsn3keMYtzW1pYG
-        BgbYzpeUUFyWkcwNCWQELBDQW6jEFryHCzMuz3l5ebydhYWFVFBQwE34e718gx7ednFxoaurK7avt1BA
-        jExNTVF7ezt1dXVRZ2enzg3fd3R0vFxI5Or3HhQJBT5asa5QalexUABhgJg1VFPiScGnhH4nfoUaGr9C
-        DY2fIxQp5/9vKvoDL4FoMxuBirQAAAAASUVORK5CYII=
-</value>
-  </data>
   <data name="button_help.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         /9j/4AAQSkZJRgABAQEAkACQAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwg
@@ -194,9 +139,6 @@
         JQaWgD//2Q==
 </value>
   </data>
-  <metadata name="flickerBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>196, 17</value>
-  </metadata>
   <metadata name="errorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>425, 17</value>
   </metadata>
@@ -615,4 +557,34 @@
         v8z4L3vMlyEv+XqZCPycpzD//y97THjJ33PeA/8/tq/8SgthJGEAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="flickerBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>196, 17</value>
+  </metadata>
+  <metadata name="NameDataGridViewTextBoxColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Opacity2DataGridViewTextBoxColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="color.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="typeDataGridViewComboBoxColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="flickerBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>196, 17</value>
+  </metadata>
+  <metadata name="NameDataGridViewTextBoxColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="Opacity2DataGridViewTextBoxColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="color.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="typeDataGridViewComboBoxColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>
