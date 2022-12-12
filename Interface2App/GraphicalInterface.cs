@@ -21,8 +21,10 @@ namespace Interface2App
 {
 	public partial class Form1 : Form
 	{
-		string path;
-		string default_save_file;
+        public static string path;
+        public static string default_save_file;
+		public BindingSource dataview;
+		private bool FlickerRunning=false;
 		private static Color convertColor(System.Windows.Media.Color c)
 		{
 			return Color.FromArgb(c.A,c.R,c.G,c.B);
@@ -46,12 +48,21 @@ namespace Interface2App
 		{
             flickerBindingSource.DataSource = FlickerList;
 			//screenViewer1.DataBindings.Add("DataSource",FlickerList , "", true, DataSourceUpdateMode.OnPropertyChanged);
+			screenViewer1.form = this;
+			dataview = flickerBindingSource;
 			// Get the path of the selected file
-            string filePath = default_save_file;
-
-			loadFile(default_save_file);
+			if (File.Exists(default_save_file))
+			{
+                loadFile(default_save_file);
+            }
+			
         }
 		delegate void SetTextCallback(Label label, string text);
+		/// <summary>
+		/// used for updating the label on screen. Mostly used for error and test
+		/// </summary>
+		/// <param name="l"></param>
+		/// <param name="text"></param>
 		public void SetText(Label l, string text)
 		{
 			if (l.InvokeRequired)
@@ -64,24 +75,36 @@ namespace Interface2App
 				l.Text = text;
 			}
 		}
+		
+		/// <summary>
+		/// Load an XML file of flickers and actualize the DataGridView and ScreenViewer
+		/// </summary>
+		/// <param name="filePath"></param>
+		
 		private void loadFile(string filePath)
 		{
             XmlSerializer serializer = new XmlSerializer(typeof(List<Flicker>));
             using (StreamReader s = new StreamReader(filePath))
             {
                 FlickerList = (List<Flicker>)serializer.Deserialize(s);
+                s.Close();
                 flickerBindingSource.DataSource = FlickerList;
                 FlickerDataGridView.Update();
-                SetText(labelTest, FlickerList.Count.ToString());
-                s.Close();
-				for(int i=0; i < FlickerList.Count; i++)
+                //SetText(labelTest, FlickerList.Count.ToString());
+                for (int i=0; i < FlickerList.Count; i++)
 				{
                     FlickerDataGridView.Rows[i].Cells["color"].Style.BackColor = convertColor(FlickerList[i].color1);
+					if (FlickerList[i].IsImageFlicker)
+					{
+						FlickerDataGridView.Rows[i].Cells["color"].Value = FlickerList[i].image;
+
+                    }
                 }
+                screenViewer1.InvalidateRectangle();
             }
         }
 		/// <summary>
-		/// Saving all informations which were written in the interface to an xml file.<br/>
+		/// Saving all informations which were written in the interface to an xml file.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -105,6 +128,11 @@ namespace Interface2App
             
 			return;
 		}
+		/// <summary>
+		/// save as an XML file the current flickers.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
         private void bt_save_as(object sender, EventArgs e)
         {
 
@@ -150,69 +178,80 @@ namespace Interface2App
         }
 		
 
-		// Closing Application anyway
+		// Closing Application in anyway
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			System.Windows.Forms.Application.Exit();
 		}
 		/// <summary>
-		/// Indicating instructures 
+		/// Indicating instructions 
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void button_help_Click(object sender, EventArgs e)
 		{
-			System.Windows.Forms.MessageBox.Show("All the TextBox should be filled by a number as flowing instructions. \n\n" +
-				"I.\n" +
-				"X (Horizontal), Y (Vertical) correspond to the position of top-left point of the flicker (in pixel).\n\n" +
-				"II.\n" +
-				"Width, Height is the size of the Flicker (in pixel).\n\n" +
-				"III.\n" +
-				"Frequency in Hz and Phase in degrees.\n\n"+ 
-				"IV.\n"+ 
-				"You can choose in Type\n" +
-				"Random \n" +
-				"Sinous \n" +
-				"Square \n" +
-				"Root Square\n"+
-				"Maximum length sequencen\n\n" +
-				"V.\n" +
-				"You can click on New to create a new Flicker/ \n" +
-				".\n\n" +
-				
-				"VI.\n" +
-				"Finally, click on RUN to run the Flicker program or PRE to re-run previous configuration.\n" +
-				"THANK FOR READING !!!");
+			System.Windows.Forms.MessageBox.Show("I.\n"
+				+ "  X (Horizontal), Y (Vertical) correspond to the position of top-left point of a Flicker (in pixel).\n"
+				+ "II.\n"
+				+ " Width, Height is the size of a Flicker (in pixel).\n"
+				+ "III.\n"
+				+ " Frequency in Hz and Phase in degrees.\n"
+				+ "IV.\n"
+				+ " You can choose in Type\n"
+				+ " Random \n"
+				+ " Sinous \n"
+				+ " Square \n"
+				+ " Root Square\n"
+				+ " Maximum length sequence\n"
+				+ "V.\n"
+				+ " You can click on New to create a new Flicker \n"
+				+ "VI.\n"
+				+ " Finally, click on RUN to run the Flicker program or TEST for a 10 seconds test.\n"
+				+ " Click on a flicker and press 'Echap' to close all flickers.\n"
+				+ "THANK FOR READING !!!");
 		}
 		/// <summary>
-		/// Run the previous configuration 
+		/// Run a 10 seconds test and show flickers on screen
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void button_pre_Click(object sender, EventArgs e)
 		{
-			CPlay oPlay = new CPlay();
-			oPlay.flexibleSin();
-			oPlay.Close();
-			//Application.Exit();
-		}
+            bt_save(sender, e);
+            if (!FlickerRunning)
+			{
+				flickerBindingSource.EndEdit();
+                CPlay oPlay = new CPlay();
+                var t = new Thread(oPlay.Animate_Flicker);
+                t.Start();
+				FlickerRunning= true;
+                System.Timers.Timer timer = new System.Timers.Timer(10000);
+                timer.AutoReset = false;
+                timer.Elapsed += OnElapsed;
+				timer.Start();
+                void OnElapsed(object sender1, EventArgs e1)
+                {
+                    t.Abort();
+					FlickerRunning= false;
+                }
+            }
+            //Application.Exit();
+        }
 		/// <summary>
-		/// Run the program
+		/// Run a thread to show flickers on screen
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void bt_run_Click(object sender, EventArgs e)
 		{
 			bt_save(sender, e);
-			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled))
+			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled) && !FlickerRunning)
 			{
+
 				CPlay oPlay = new CPlay();
-				oPlay.flexibleSin();
+				new Thread(oPlay.Animate_Flicker).Start();
+				FlickerRunning= true;
 				//Application.Exit();
-			}
-			else
-			{
-				System.Windows.Forms.MessageBox.Show("Fault, TRY AGAIN!");
 			}
 		}
 
@@ -223,13 +262,21 @@ namespace Interface2App
 		public int resX = Screen.PrimaryScreen.Bounds.Width;
 		public int resY = Screen.PrimaryScreen.Bounds.Height;
 
-
+		/// <summary>
+		/// add a new flicker
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btn_new_Click(object sender, EventArgs e)
 		{
 			flickerBindingSource.AddNew();
-			FlickerDataGridView.Rows[FlickerList.Count-1].Cells["color1"].Style.BackColor = convertColor(FlickerList[FlickerList.Count - 1].color1);
+			FlickerDataGridView.Rows[FlickerList.Count-1].Cells["color"].Style.BackColor = convertColor(FlickerList[FlickerList.Count - 1].color1);
         }
-
+		/// <summary>
+		/// delete selected flickers in the datagridview
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btn_delete_Click(object sender, EventArgs e)
 		{
 			foreach (DataGridViewRow item in this.FlickerDataGridView.SelectedRows)
@@ -237,7 +284,11 @@ namespace Interface2App
 				FlickerDataGridView.Rows.RemoveAt(item.Index);
 			}
 		}
-		
+		/// <summary>
+		/// import a list of flicker from a XML file, remove the current flickers!
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btn_imp(object sender, EventArgs e)
 		{
             // Create an instance of the OpenFileDialog class
@@ -257,40 +308,69 @@ namespace Interface2App
 				loadFile(filePath);
             }
         }
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+		/// <summary>
+		/// update the screenViewer since it doesn't use dataBinding.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void onDataChanged(object sender, EventArgs e)
 		{
 			screenViewer1.DataSource= FlickerList;
-			screenViewer1.Invalidate();
+			screenViewer1.InvalidateRectangle(FlickerDataGridView.CurrentRow.Index); //update only at the correct row to reduce calculation
 		}
+		/// <summary>
+		/// function used for custom interaction with datagridview cells.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
         private void FlickerDataGridCellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 			try
 			{
 				if (e.RowIndex >= 0 && e.ColumnIndex == FlickerDataGridView.Columns["color"].Index)
 				{
-					ColorDialog colorPickerDialog= new ColorDialog();
-					var c = FlickerList[e.RowIndex].color1;
-                    colorPickerDialog.Color = Color.FromArgb(c.A,c.R,c.G,c.B);
-                    if (colorPickerDialog.ShowDialog()==DialogResult.OK)
+                    //SetText(labelTest, "test");
+                    if (FlickerList[e.RowIndex].IsImageFlicker)
 					{
-                        var c1 = colorPickerDialog.Color;
-                        FlickerList[e.RowIndex].color1 = System.Windows.Media.Color.FromArgb(c1.A, c1.R, c1.G, c1.B);
-                        FlickerDataGridView.Rows[e.RowIndex].Cells["color1"].Style.BackColor= colorPickerDialog.Color;
+						OpenFileDialog imageDialog= new OpenFileDialog();
+						imageDialog.Filter = "Bmp image File (*.bmp)|*.bmp|All files (*.*)|*.*";
+						imageDialog.InitialDirectory = path;
+						if(imageDialog.ShowDialog() == DialogResult.OK)
+						{
+							FlickerList[e.RowIndex].image = imageDialog.FileName;
+							FlickerDataGridView.Rows[e.RowIndex].Cells["color"].Style.BackColor = Color.White;
+                            FlickerDataGridView.Rows[e.RowIndex].Cells["color"].Value = imageDialog.FileName;
+                        }
 					}
+					else
+					{
+                        ColorDialog colorPickerDialog = new ColorDialog();
+                        if (colorPickerDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            var c1 = colorPickerDialog.Color;
+                            FlickerList[e.RowIndex].color1 = System.Windows.Media.Color.FromArgb(c1.A, c1.R, c1.G, c1.B);
+                            FlickerDataGridView.Rows[e.RowIndex].Cells["color"].Style.BackColor = c1;
+                        }
+                    }
 				}
                 onDataChanged(sender, e);
             }
-			catch { }
+			catch (Exception ex)
+			{
+				SetText(labelTest,ex.Message+ex.StackTrace);
+			}
             
         }
+		/// <summary>
+		/// catch keys pressed for shortcut implementation
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="keyData"></param>
+		/// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             System.Windows.Forms.KeyEventArgs e = new System.Windows.Forms.KeyEventArgs(keyData);
-            SetText(labelTest, "Key pressed down");
+            //SetText(labelTest, "Key pressed down");
             // Check if the pressed key combination matches a defined shortcut
             if (e.Control && e.KeyCode == Keys.N)
             {
@@ -302,9 +382,17 @@ namespace Interface2App
             // Check if the pressed key combination matches a defined shortcut
             if (e.Control && e.KeyCode == Keys.S)
             {
-                // The pressed key combination matches the Ctrl+S shortcut
-                // Simulate a click on the save button
-                btn_save.PerformClick();
+				// The pressed key combination matches the Ctrl+S shortcut
+				// Simulate a click on the save button
+				if (e.Shift)
+				{
+					buttonSaveAs.PerformClick();
+				}
+				else
+				{
+                    btn_save.PerformClick();
+                }
+                
 				return true;
             }
 			if (e.Control && e.KeyCode == Keys.C) { 
@@ -327,6 +415,23 @@ namespace Interface2App
 				}
             }
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+		//when binding are reset (after a rectangle on screen was modified), colors and path are reset in the table, remodifying
+        private void flickerBindingSource_ListChanged(object sender, ListChangedEventArgs e)
+        {
+			var dgv = FlickerDataGridView;
+            for (int i = 0; FlickerList.Count > i; i++)
+            {
+				if (!FlickerList[i].IsImageFlicker)
+				{
+                    dgv.Rows[i].Cells["color"].Style.BackColor = convertColor(FlickerList[i].color1);
+				}
+				else
+				{
+                    dgv.Rows[i].Cells["color"].Value = FlickerList[i].image;
+                }
+                
+            }
         }
     }
 }

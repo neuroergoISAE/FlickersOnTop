@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Timers;
 using System.Windows.Media;
+using System.Drawing;
 
 namespace Interface2App
 {
@@ -37,14 +38,15 @@ namespace Interface2App
 		public int Opacity_Min { get; set; }
 		public int Opacity_Max { get; set; }
 		public Signal_Type Type { get; set; }
-        public Color color1 { get; set; }
-        public string imagepath { get; set; }
+        public System.Windows.Media.Color color1 { get; set; }
+        public string image { get; set; }
+		public bool IsImageFlicker { get; set; } 
 
 
 
         public enum Signal_Type
 		{
-			Sinuous=1,
+			Sine=1,
 			Root_Square=3,
 			Square=2,
 			Random=0,
@@ -56,9 +58,10 @@ namespace Interface2App
 			Name = "Flicker";
 			Opacity_Min = 0;
 			Opacity_Max = 100;
-			Type= Signal_Type.Sinuous;
-			color1= Color.FromArgb(255,255,255,255);
-			imagepath = string.Empty;
+			Type= Signal_Type.Sine;
+			color1= System.Windows.Media.Color.FromArgb(255,255,255,255);
+			IsImageFlicker = false;
+			image = String.Empty;
 			Frequency= 1;
 		}
 		public override string ToString()

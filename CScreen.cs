@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using SDL2;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace VisualStimuli
 {   /// <summary>
@@ -46,12 +41,24 @@ namespace VisualStimuli
         /// <param name="height">The value represents the height of the screen.</param>
         /// <param name="name">The value represents the name of the screen.</param>
         /// <param name="fixedScreen">The value represents the screen is fixed or not.</param>
-        public CScreen(int x, int y, int width, int height, String name, bool fixedScreen,Byte r,Byte g, Byte b)
+        public CScreen(int x, int y, int width, int height, String name, bool fixedScreen,Byte r,Byte g, Byte b,string imagepath)
         {
             create(x, y, width, height, name, fixedScreen);
-            SDL.SDL_RenderClear(PRenderer);
-            SDL.SDL_SetRenderDrawColor(PRenderer, r, g, b, 255);
-            SDL.SDL_RenderFillRect(PRenderer, IntPtr.Zero);
+            if (imagepath == string.Empty)
+            {
+                SDL.SDL_RenderClear(PRenderer);
+                SDL.SDL_SetRenderDrawColor(PRenderer, r, g, b, 255);
+                SDL.SDL_RenderFillRect(PRenderer, IntPtr.Zero);
+            }
+            else
+            {
+                var m_surface = SDL.SDL_LoadBMP(imagepath);
+                var m_texture = SDL.SDL_CreateTextureFromSurface(PRenderer, m_surface);
+                SDL.SDL_RenderCopy(PRenderer, m_texture, IntPtr.Zero, IntPtr.Zero);
+                SDL.SDL_RenderPresent(PRenderer);
+                SDL.SDL_FreeSurface(m_surface);
+            }
+            SDL.SDL_RenderPresent(PRenderer);
         }
 
         /// <summary>
@@ -93,6 +100,7 @@ namespace VisualStimuli
                 }
             }
             SDL.SDL_SetWindowOpacity(m_pWindow, 0.5f);
+            SDL.SDL_SetRelativeMouseMode(SDL.SDL_bool.SDL_FALSE);
             // the Surface
             m_pSurface = SDL.SDL_GetWindowSurface(m_pWindow);
             if (m_pSurface == IntPtr.Zero)
@@ -114,8 +122,6 @@ namespace VisualStimuli
             SDL.SDL_SetRenderDrawBlendMode(m_pRenderer, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
             
 
-
-
             // Attributes
             X = x;
             Y = y;
@@ -128,8 +134,8 @@ namespace VisualStimuli
         /// </summary>
         public void show(Byte a)
         {
-            SDL.SDL_RenderPresent(PRenderer);
-            SDL.SDL_SetWindowOpacity(m_pWindow, a / 255f);
+            //SDL.SDL_RenderPresent(PRenderer); //renderer isn't needed here
+            SDL.SDL_SetWindowOpacity(m_pWindow, a / 255f); //might be the quickest SDL rendering in the world :)
         }
         public void Quit()
         {
