@@ -377,9 +377,8 @@ namespace Interface2App
             this.labelTest.AutoSize = true;
             this.labelTest.Location = new System.Drawing.Point(3, 492);
             this.labelTest.Name = "labelTest";
-            this.labelTest.Size = new System.Drawing.Size(35, 40);
+            this.labelTest.Size = new System.Drawing.Size(0, 40);
             this.labelTest.TabIndex = 98;
-            this.labelTest.Text = string.Empty;
             // 
             // tableLayoutPanel5
             // 

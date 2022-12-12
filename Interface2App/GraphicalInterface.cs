@@ -270,8 +270,10 @@ namespace Interface2App
 		private void btn_new_Click(object sender, EventArgs e)
 		{
 			flickerBindingSource.AddNew();
+			flickerBindingSource.EndEdit();
 			FlickerDataGridView.Rows[FlickerList.Count-1].Cells["color"].Style.BackColor = convertColor(FlickerList[FlickerList.Count - 1].color1);
-        }
+			screenViewer1.DataSource = FlickerList;
+		}
 		/// <summary>
 		/// delete selected flickers in the datagridview
 		/// </summary>
@@ -281,9 +283,12 @@ namespace Interface2App
 		{
 			foreach (DataGridViewRow item in this.FlickerDataGridView.SelectedRows)
 			{
-				FlickerDataGridView.Rows.RemoveAt(item.Index);
-			}
-		}
+				FlickerList.RemoveAt(item.Index);
+            }
+            flickerBindingSource.ResetBindings(true);
+            screenViewer1.DataSource = FlickerList;
+            screenViewer1.InvalidateRectangle();
+        }
 		/// <summary>
 		/// import a list of flicker from a XML file, remove the current flickers!
 		/// </summary>
@@ -400,19 +405,21 @@ namespace Interface2App
 				if(this.FlickerDataGridView.SelectedRows.Count > 0 && flickerBindingSource.Count>0) {
                     foreach (DataGridViewRow item in this.FlickerDataGridView.SelectedRows)
                     {
-                        CopyList.Add(FlickerList[item.Index]);
+                        CopyList.Add(new Flicker(FlickerList[item.Index]));
                     }
 					Clipboard.SetDataObject(CopyList); //add to clipboard but not used inside this code, useful if you want to send it to other people
                 }
-				
 			}
             if (e.Control && e.KeyCode == Keys.V)
             {
                 if(CopyList.Count > 0)
 				{
-					//FlickerList.AddRange(CopyList);
-					foreach(Flicker f in CopyList) { flickerBindingSource.Add(f); }
-				}
+					foreach(Flicker f in CopyList) { FlickerList.Add(f); }
+					flickerBindingSource.ResetBindings(true);
+                    screenViewer1.DataSource = FlickerList;
+					screenViewer1.InvalidateRectangle();
+                }
+
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }

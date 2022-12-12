@@ -62,6 +62,7 @@ namespace Interface2App
             foreach(flickerRect fr in FlickerZones)
             {
                 fr.Dispose();
+                fr.Invalidate();
             }
             FlickerZones = new List<flickerRect>();
             for(int i=0; i<dataSource.Count; i++)
@@ -74,6 +75,10 @@ namespace Interface2App
         private void UpdateFlickerZones(int index)
         {
             var flicker = dataSource[index];
+            if (index >= FlickerZones.Count)
+            {
+                FlickerZones.Add(new flickerRect(dataSource[index],this));
+            }
             var fz = FlickerZones[index];
             fz.flicker = flicker;
             fz.Xfactor = Xfactor; fz.Yfactor=Yfactor;

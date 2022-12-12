@@ -64,6 +64,21 @@ namespace Interface2App
 			image = String.Empty;
 			Frequency= 1;
 		}
+		public Flicker(Flicker f)
+		{
+			Name = f.Name;
+			Opacity_Min = f.Opacity_Min;
+			Opacity_Max = f.Opacity_Max;
+			Type= f.Type;
+			color1 = f.color1;
+			image = f.image;
+			Frequency= f.Frequency;
+			Phase= f.Phase;
+			X= f.X;
+			Y= f.Y;
+			Width= f.Width;
+			Height= f.Height;
+		}
 		public override string ToString()
 		{
 			return string.Format("Flicker at: {0},{1} Size: {2},{3}", X, Y, Width, Height);
