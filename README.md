@@ -18,7 +18,7 @@ How to use it
 
 Launch Interface2App.exe and create some Flicker then click on TEST or RUN!
 
-if you use Images for your Flicker please note that only the path to the image path is saved and the images must be in .bmp format 
+if you use Images for your Flicker please note that only the path to the image is saved and the images must be in .bmp format 
 
 
 Dependencies
