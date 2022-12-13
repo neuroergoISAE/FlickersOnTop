@@ -16,16 +16,9 @@ There are two projects:
 How to use it
 ---------------
 
-1. Change `filePath` in [line 88 of the file GraphicalInterface.cs](**private void bt_save** function )(https://github.com/ludovicdmt/FlickersOnTop/blob/main/Interface2App/GraphicalInterface.cs#L88) to save the configuration file of the flickers in a suitable folder **on your computer**. For instance: `C:\\Users\\MyComputer\\Desktop\\test2_file.txt`.
-2. Change `filePath` in [line 243 of the file GraphicalInterface.cs](**private void btn_save_imediately_Click** function )(https://github.com/ludovicdmt/FlickersOnTop/blob/main/Interface2App/GraphicalInterface.cs#L88) to save the configuration file of the flickers in a suitable folder **on your computer**. For instance: `C:\\Users\\MyComputer\\Desktop\\test1_file.txt`.
-3. Change `filePath` in [line 284 of the file GraphicalInterface.cs](**private void btn_image** function )(https://github.com/ludovicdmt/FlickersOnTop/blob/main/Interface2App/GraphicalInterface.cs#L284) to save the configuration file of the images in a suitable folder **on your computer**. For instance: `C:\\Users\\MyComputer\\Desktop\\image_file.txt`.
+Launch Interface2App.exe and create some Flicker then click on TEST or RUN!
 
-4. Change also accordingly [line 120 in file CPlay.cs](https://github.com/ludovicdmt/FlickersOnTop/blob/main/CPlay.cs#L120) to the same `filePath` with (1).
-5. Change also accordingly [line 304 in file CPlay.cs](https://github.com/ludovicdmt/FlickersOnTop/blob/main/CPlay.cs#L304) to the same `filePath` with (3).
-
-⚠️ Warning: the image must be in file bmp.For instance: `chessboard.bmp`.
-
-6. Finally, set Startup project to `Interface2App` and compilte the program.
+if you use Images for your Flicker please note that only the path to the image is saved and the images must be in .bmp format 
 
 
 Dependencies

@@ -26,6 +26,75 @@
   </Flicker>
   <Flicker>
     <Name>Flicker</Name>
+    <X>0</X>
+    <Y>100</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>4</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>58</R>
+      <G>32</G>
+      <B>222</B>
+      <ScA>1</ScA>
+      <ScR>0.04231141</ScR>
+      <ScG>0.0144438446</ScG>
+      <ScB>0.730460763</ScB>
+    </color1>
+    <imagepath />
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>0</X>
+    <Y>100</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>4</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>58</R>
+      <G>32</G>
+      <B>222</B>
+      <ScA>1</ScA>
+      <ScR>0.04231141</ScR>
+      <ScG>0.0144438446</ScG>
+      <ScB>0.730460763</ScB>
+    </color1>
+    <imagepath />
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>100</X>
+    <Y>100</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>1</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>246</R>
+      <G>248</G>
+      <B>6</B>
+      <ScA>1</ScA>
+      <ScR>0.921581864</ScR>
+      <ScG>0.9386857</ScG>
+      <ScB>0.001821162</ScB>
+    </color1>
+    <imagepath />
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
     <X>100</X>
     <Y>0</Y>
     <Width>260</Width>
@@ -74,8 +143,77 @@
   </Flicker>
   <Flicker>
     <Name>Flicker</Name>
+    <X>100</X>
+    <Y>0</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>3</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>18</R>
+      <G>236</G>
+      <B>26</B>
+      <ScA>1</ScA>
+      <ScR>0.00604883349</ScR>
+      <ScG>0.838799</ScG>
+      <ScB>0.010329823</ScB>
+    </color1>
+    <imagepath />
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
     <X>0</X>
     <Y>0</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>2</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>244</R>
+      <G>10</G>
+      <B>15</B>
+      <ScA>1</ScA>
+      <ScR>0.9046612</ScR>
+      <ScG>0.00303527</ScG>
+      <ScB>0.00477695372</ScB>
+    </color1>
+    <imagepath />
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>0</X>
+    <Y>100</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>4</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>58</R>
+      <G>32</G>
+      <B>222</B>
+      <ScA>1</ScA>
+      <ScR>0.04231141</ScR>
+      <ScG>0.0144438446</ScG>
+      <ScB>0.730460763</ScB>
+    </color1>
+    <imagepath />
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>100</X>
+    <Y>100</Y>
     <Width>100</Width>
     <Height>100</Height>
     <Frequency>1</Frequency>
@@ -119,6 +257,75 @@
     </color1>
     <image />
     <IsImageFlicker>false</IsImageFlicker>
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>0</X>
+    <Y>0</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>2</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>244</R>
+      <G>10</G>
+      <B>15</B>
+      <ScA>1</ScA>
+      <ScR>0.9046612</ScR>
+      <ScG>0.00303527</ScG>
+      <ScB>0.00477695372</ScB>
+    </color1>
+    <imagepath />
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>0</X>
+    <Y>100</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>4</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>58</R>
+      <G>32</G>
+      <B>222</B>
+      <ScA>1</ScA>
+      <ScR>0.04231141</ScR>
+      <ScG>0.0144438446</ScG>
+      <ScB>0.730460763</ScB>
+    </color1>
+    <imagepath />
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>100</X>
+    <Y>100</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>1</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>246</R>
+      <G>248</G>
+      <B>6</B>
+      <ScA>1</ScA>
+      <ScR>0.921581864</ScR>
+      <ScG>0.9386857</ScG>
+      <ScB>0.001821162</ScB>
+    </color1>
+    <imagepath />
   </Flicker>
   <Flicker>
     <Name>Flicker</Name>
@@ -315,6 +522,52 @@
   <Flicker>
     <Name>Flicker</Name>
     <X>0</X>
+    <Y>100</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>4</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>58</R>
+      <G>32</G>
+      <B>222</B>
+      <ScA>1</ScA>
+      <ScR>0.04231141</ScR>
+      <ScG>0.0144438446</ScG>
+      <ScB>0.730460763</ScB>
+    </color1>
+    <imagepath />
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>100</X>
+    <Y>100</Y>
+    <Width>100</Width>
+    <Height>100</Height>
+    <Frequency>1</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sinuous</Type>
+    <color1>
+      <A>255</A>
+      <R>246</R>
+      <G>248</G>
+      <B>6</B>
+      <ScA>1</ScA>
+      <ScR>0.921581864</ScR>
+      <ScG>0.9386857</ScG>
+      <ScB>0.001821162</ScB>
+    </color1>
+    <imagepath />
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>100</X>
     <Y>0</Y>
     <Width>1920</Width>
     <Height>1080</Height>
