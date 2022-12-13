@@ -362,3 +362,10 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 .ipynb_checkpoints/
+/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/obj/Debug/VisualStimuli.exe
+/obj/Debug/VisualStimuli.pdb
+/obj/Debug/VisualStimuli.csproj.FileListAbsolute.txt
+/Interface2App/Flickers2.xml
+/bin/Debug/VisualStimuli.exe
+/bin/Debug/VisualStimuli.pdb
