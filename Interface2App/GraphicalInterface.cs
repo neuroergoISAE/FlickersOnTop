@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,55 +13,61 @@ using System.Threading;
 using System.Diagnostics;
 using System.ComponentModel.DataAnnotations;
 using System.Timers;
+using System.Xml;
 using VisualStimuli;
+using System.Xml.Serialization;
 
 namespace Interface2App
 {
 	public partial class Form1 : Form
 	{
-		public Form1()
+        public static string path;
+        public static string default_save_file;
+		public BindingSource dataview;
+		private bool FlickerRunning=false;
+        private static Color convertColor(System.Windows.Media.Color c)
+		{
+			return Color.FromArgb(c.A,c.R,c.G,c.B);
+		}
+		private static System.Windows.Media.Color convertColor(Color c)
+		{
+            return System.Windows.Media.Color.FromArgb(c.A, c.R, c.G, c.B);
+        }
+        public Form1()
 		{
 			InitializeComponent();
-		}
-		
-		/// <summary>
-		/// Opening a thread that indicates mouse's position
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void Form1_Load(object sender, EventArgs e)
+            path = Application.StartupPath;
+            path = path.Substring(0, path.LastIndexOf('\\'));
+            path = path.Substring(0, path.LastIndexOf('\\'));
+			default_save_file = path + "\\Flickers.xml";
+        }
+		private List<Flicker> FlickerList = new List<Flicker>();
+		private List<Flicker> CopyList = new List<Flicker>();
+        /// <summary>
+        /// Loading the form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_Load(object sender, EventArgs e)
 		{
-			flickerBindingSource.DataSource = new List<Check>();
-			Thread trackerThread = new Thread(Tracker);
-			try
+            flickerBindingSource.DataSource = FlickerList;
+			//screenViewer1.DataBindings.Add("DataSource",FlickerList , "", true, DataSourceUpdateMode.OnPropertyChanged);
+			screenViewer1.form = this;
+			dataview = flickerBindingSource;
+			// Get the path of the selected file
+			if (File.Exists(default_save_file))
 			{
-				trackerThread.Start();
-			}
-			catch (ThreadStateException)
-			{
-				trackerThread.Abort();
-			}
-		}
-
-		private bool condition = true; // consition to detect when the Thread should stop 
-		/// <summary>
-		/// Setting mouse's position 
-		/// </summary>
-		private async void Tracker()
-		{
-
-			while (condition) // do it repeatly
-			{
-				int x = (int)MousePosition.X ;
-				int y = (int)MousePosition.Y ;
-				SetText(labelX, x.ToString());
-				SetText(labelY, y.ToString());
-				await Task.Delay(10);
-			}
-
-		}
+                loadFile(default_save_file);
+            }
+			
+        }
 		delegate void SetTextCallback(Label label, string text);
-		private void SetText(Label l, string text)
+		/// <summary>
+		/// used for updating the label on screen. Mostly used for error and test
+		/// </summary>
+		/// <param name="l"></param>
+		/// <param name="text"></param>
+		public void SetText(Label l, string text)
 		{
 			if (l.InvokeRequired)
 			{
@@ -74,148 +79,201 @@ namespace Interface2App
 				l.Text = text;
 			}
 		}
-
+		
 		/// <summary>
-		/// Saving all informations which were written in the interface to the file.txt.<br/>
-		/// The file path is "C:\\Users\\"Your computer's name"\\Desktop\\test_file.txt";
+		/// Load an XML file of flickers and actualize the DataGridView and ScreenViewer
+		/// </summary>
+		/// <param name="filePath"></param>
+		
+		private void loadFile(string filePath)
+		{
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Flicker>));
+            using (StreamReader s = new StreamReader(filePath))
+            {
+                FlickerList = (List<Flicker>)serializer.Deserialize(s);
+                s.Close();
+                flickerBindingSource.DataSource = FlickerList;
+                FlickerDataGridView.Update();
+                //SetText(labelTest, FlickerList.Count.ToString());
+                for (int i=0; i < FlickerList.Count; i++)
+				{
+                    FlickerDataGridView.Rows[i].Cells["color"].Style.BackColor = convertColor(FlickerList[i].color1);
+					if (FlickerList[i].IsImageFlicker)
+					{
+						FlickerDataGridView.Rows[i].Cells["color"].Value = FlickerList[i].image;
+
+                    }
+                }
+                screenViewer1.InvalidateRectangle();
+            }
+        }
+		/// <summary>
+		/// Saving all informations which were written in the interface to an xml file.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void bt_save(object sender, EventArgs e)
 		{
-			DateTime now = DateTime.Now;
-			//string path = "D:\\MANIPS\\FlickersOnTop\\test1_file.txt";
-			string path = Application.StartupPath;
-			path = path.Substring(0, path.LastIndexOf('\\'));
-			path = path.Substring(0, path.LastIndexOf('\\'));
-			path += "\\test1_file.txt";
-			//StreamWriter file = new StreamWriter(path);// change here 
-
-			using (StreamWriter s = File.AppendText(path))
+			try
 			{
-				for (int i = 0; i < dataGridView1.Rows.Count - 2; i++)
+                string file = default_save_file;
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Flicker>));
+				using (StreamWriter s = new StreamWriter(file))
 				{
-					for (int j = 0; j < dataGridView1.Columns.Count - 1; j++)
-					{
-						s.Write(dataGridView1.Rows[i].Cells[j].Value?.ToString());
-						s.Write(" ");
-					}
-					s.Write("\t"); s.Write(now.ToString());
-					s.Write("\n");
+					serializer.Serialize(s, FlickerList);
+					s.Close();
 				}
-				s.Close();
+                SetText(labelTest, string.Format("File saved Succesfully at: {0}", file));
 			}
-			MessageBox.Show("Save file successfully");
-
+			catch
+			{
+				SetText(labelTest, "An Error Occured While Trying To Save");
+			}
+            
 			return;
-			
 		}
 		/// <summary>
-		/// Indicating the three elements of color 
+		/// save as an XML file the current flickers.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void bar_Scroll(object sender, EventArgs e)
-		{
-			int redValue = red.Value;
-			int greenValue = green.Value;
-			int blueValue = blue.Value;
+        private void bt_save_as(object sender, EventArgs e)
+        {
 
-			try
-			{
-				pnl.BackColor = Color.FromArgb(redValue, greenValue, blueValue);
-			}
-			catch (Exception)
-			{
+            try
+            {
+                // Create an instance of the SaveFileDialog class
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-				throw;
-			}
-		}
+                // Set the filter to only show files with the .txt extension
+                saveFileDialog.Filter = "Xml Files (*.xml)|*.xml|All files (*.*)|*.*";
+				saveFileDialog.DefaultExt = "xml";
+
+                // Set the default directory to the App directory
+                saveFileDialog.InitialDirectory = path;
+
+				string file;
+                // Show the dialog and check if the user clicked the OK button
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Get the path of the selected file
+                    file = (string)saveFileDialog.FileName;
+				}
+				else
+				{
+					file = path + "\\Flickers.xml";
+				}
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Flicker>));
+                using (StreamWriter s = new StreamWriter(file))
+                {
+                    serializer.Serialize(s, FlickerList);
+                    s.Close();
+                }
+                SetText(labelTest, string.Format("File saved Succesfully at: {0}", file));
+				default_save_file = file;
+            }
+            catch
+            {
+                SetText(labelTest, "An Error Occured While Trying To Save");
+            }
+
+            return;
+
+        }
 		
 
-		// Closing Appliacation anyway
-
+		// Closing Application in anyway
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			condition = false; // we must stop the thread before doing any tasks
-
 			System.Windows.Forms.Application.Exit();
-			
 		}
 		/// <summary>
-		/// Indicating instructures 
+		/// Indicating instructions 
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void button_help_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("All the TextBox should be filled by a number as flowing instructions. \n\n" +
-				"I.\n" +
-				"X (Horizontal), Y (Vertical) repectively corresspond to the possition of center of flicker.\n\n" +
-				"II.\n" +
-				"Width, Height defined how many pixels you want to put in.\n\n" +
-				"III.\n" +
-				"Frequence in Hz and Phase in degrees.\n\n"+ 
-				"IV.\n"+ 
-				"You can choose in Type (0 - 4)\n" +
-				"0: Random \n" +
-				"1: Sinous \n" +
-				"2: Square \n" +
-				"3: Root Square\n"+
-				"4: Maximum length sequencen\n\n" +
-				"V.\n" +
-				"After completing each all TextBox, you can click to New to create a new data/ \n" +
-				"Click to Create File to save permentaly data to the file, Click to Save to just use the instance data.\n\n" +
-				
-				"VI.\n" +
-				"Finally, Click to RUN to run program or PRE to re-run privous configuration.\n" +
-				"Click to Image to take an image and it will flick with defined Type anf Frequence you have met.\n\n" +
-				"THANK FOR READING !!!");
+			System.Windows.Forms.MessageBox.Show("I.\n"
+				+ "  X (Horizontal), Y (Vertical) correspond to the position of top-left point of a Flicker (in pixel).\n"
+				+ "II.\n"
+				+ " Width, Height is the size of a Flicker (in pixel).\n"
+				+ "III.\n"
+				+ " Frequency in Hz and Phase in degrees.\n"
+				+ "IV.\n"
+				+ " You can choose in Type\n"
+				+ " Random \n"
+				+ " Sinous \n"
+				+ " Square \n"
+				+ " Root Square\n"
+				+ " Maximum length sequence\n"
+				+ "V.\n"
+				+ " You can click on New to create a new Flicker \n"
+				+ "VI.\n"
+				+ " Finally, click on RUN to run the Flicker program or TEST for a 10 seconds test.\n"
+				+ " Click on a flicker and press 'Echap' to close all flickers.\n"
+				+ "THANK FOR READING !!!");
 		}
 		/// <summary>
-		/// Run the previous configuration 
+		/// Run a 10 seconds test and show flickers on screen
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void button_pre_Click(object sender, EventArgs e)
 		{
+            if (checkBox1.Checked)
+            {
+                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq:1));
+				FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1));
+			}
+            bt_save(sender, e);
+            if (!FlickerRunning)
+			{
+				flickerBindingSource.EndEdit();
+                CPlay oPlay = new CPlay();
+                var t = new Thread(oPlay.Animate_Flicker);
+                t.Start();
+				
+				FlickerRunning= true;
+                System.Timers.Timer timer = new System.Timers.Timer(10000);
+                timer.AutoReset = false;
+                timer.Elapsed += OnElapsed;
+				timer.Start();
+                void OnElapsed(object sender1, EventArgs e1)
+                {
+                    t.Abort();
+					FlickerRunning= false;
+					
+                }
+            }
 
-			//condition = false; // we must stop the thread before doing any tasks
-			this.WindowState = FormWindowState.Minimized;
-			CPlay oPlay = new CPlay();
-			oPlay.flexibleSin();
-			
-			oPlay.Close();
-			//System.Windows.Forms.Application.Exit();
-			
-		}
+			if (checkBox1.Checked) { FlickerList.RemoveAt(0);FlickerList.RemoveAt(FlickerList.Count - 1); }
+            bt_save(sender, e);
+            //Application.Exit();
+        }
 		/// <summary>
-		/// Run the program
+		/// Run a thread to show flickers on screen
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void bt_run_Click(object sender, EventArgs e)
 		{
-			
-			btn_save_immediatly_Click(sender, e);
-			
-
-			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled))
+            if (checkBox1.Checked)
+            {
+                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1));
+                FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1));
+            }
+            bt_save(sender, e);
+			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled) && !FlickerRunning)
 			{
-				condition = false; // we must stop the thread before doing any tasks
-				//System.Windows.Forms.Application.Exit();
-				this.WindowState = FormWindowState.Minimized;
-				CPlay oPlay = new CPlay();
-				oPlay.flexibleSin();
-				Application.Exit();
-
-			}
-			else
-			{
-				MessageBox.Show("Fault, TRY AGAIN!");
 				
+				CPlay oPlay = new CPlay();
+				new Thread(oPlay.Animate_Flicker).Start();
+				FlickerRunning= true;
+				//Application.Exit();
 			}
-			
+            if (checkBox1.Checked) { FlickerList.RemoveAt(0); FlickerList.RemoveAt(FlickerList.Count - 1); }
+            bt_save(sender, e);
 		}
 
 
@@ -224,149 +282,194 @@ namespace Interface2App
 
 		public int resX = Screen.PrimaryScreen.Bounds.Width;
 		public int resY = Screen.PrimaryScreen.Bounds.Height;
-		
-		private void flickerBindingNavigator_RefreshItems(object sender, EventArgs e)
-		{
 
-		}
-
+		/// <summary>
+		/// add a new flicker
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btn_new_Click(object sender, EventArgs e)
 		{
 			flickerBindingSource.AddNew();
-			
-		}
-
-		private void btn_save_immediatly_Click(object sender, EventArgs e)
-		{
 			flickerBindingSource.EndEdit();
-			Check flicker = flickerBindingSource.Current as Check;
-			if (flicker != null)
-			{
-				if (flicker.IsValid)
-				{
-					string path = Application.StartupPath;
-					path = path.Substring(0, path.LastIndexOf('\\'));
-					path = path.Substring(0, path.LastIndexOf('\\'));
-					path += "\\test1_file.txt";
-					using (TextWriter file = new StreamWriter(path))
-					{
-
-						for (int i = 0; i < dataGridView1.Rows.Count - 2; i++)
-						{
-							for (int j = 0; j < dataGridView1.Columns.Count - 1 ; j++)
-							{
-								file.Write(dataGridView1.Rows[i].Cells[j].Value?.ToString());
-								file.Write(" ");
-							}
-							file.Write(dataGridView1.Rows[i].Cells[dataGridView1.Columns.Count - 1].Value?.ToString());
-							file.Write("\n");
-						}
-						file.Close();
-					}
-
-				}
-			}
+			FlickerDataGridView.Rows[FlickerList.Count-1].Cells["color"].Style.BackColor = convertColor(FlickerList[FlickerList.Count - 1].color1);
+			screenViewer1.DataSource = FlickerList;
 		}
-
-		
-
+		/// <summary>
+		/// delete selected flickers in the datagridview
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btn_delete_Click(object sender, EventArgs e)
 		{
-			foreach (DataGridViewRow item in this.dataGridView1.SelectedRows)
+			foreach (DataGridViewRow item in this.FlickerDataGridView.SelectedRows)
 			{
-				dataGridView1.Rows.RemoveAt(item.Index);
-			}
-		}
-
-		
-		public void btn_image(object sender, EventArgs e)
-		{
-			
-			using (OpenFileDialog ofd = new OpenFileDialog())
-			{
-				ofd.Filter = "bmp file (*.bmp)|*.bmp|All files (*.*)|*.*";
-				
-				if(ofd.ShowDialog() == DialogResult.OK)
-				{
-					string filename = ofd.FileName;
-					string path = "C:\\Users\\Lenovo\\Desktop\\image_file.txt";
-					StreamWriter a = new StreamWriter(path);
-					a.Write(filename);
-					a.Close();
-				}
-			}
-			//this.WindowState = FormWindowState.Minimized;
-			CPlay oPlay = new CPlay();
-			oPlay.ImageFlicker();
-			
-			
-		}
-		
+				FlickerList.RemoveAt(item.Index);
+            }
+            flickerBindingSource.ResetBindings(true);
+            screenViewer1.DataSource = FlickerList;
+            screenViewer1.InvalidateRectangle();
+        }
+		/// <summary>
+		/// import a list of flicker from a XML file, remove the current flickers!
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btn_imp(object sender, EventArgs e)
 		{
-			DataTable dataTable = new DataTable();
-			dataTable.Columns.Add("X-11 ", typeof(string));
-			dataTable.Columns.Add("Y ", typeof(string));
-			dataTable.Columns.Add("Width-11 ", typeof(string));
-			dataTable.Columns.Add("Height ", typeof(string));
-			dataTable.Columns.Add("Frequence ", typeof(string));
-			dataTable.Columns.Add("Phase ", typeof(string));
-			dataTable.Columns.Add("Opacity ", typeof(string));
-			dataTable.Columns.Add("Type ", typeof(string));
-			dataTable.Columns.Add("Suplement ", typeof(string));
+            // Create an instance of the OpenFileDialog class
+            OpenFileDialog openFileDialog = new OpenFileDialog();
 
-			dataGridView1.DataSource = dataTable;
+            // Set the filter to only show files with the .txt extension
+            openFileDialog.Filter = "Xml files (*.xml)|*.xml|All files (*.*)|*.*";
 
-			using (OpenFileDialog ofd = new OpenFileDialog())
+			// Set the default directory to the user's My Documents folder
+			openFileDialog.InitialDirectory = path;
+
+            // Show the dialog and check if the user clicked the OK button
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Get the path of the selected file
+                string filePath = openFileDialog.FileName;
+				loadFile(filePath);
+            }
+        }
+		/// <summary>
+		/// update the screenViewer since it doesn't use dataBinding.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void onDataChanged(object sender, EventArgs e)
+		{
+			screenViewer1.DataSource= FlickerList;
+			if (FlickerDataGridView.CurrentRow != null)
 			{
-				ofd.Filter = "txt file (*.txt)|*.txt|All files (*.*)|*.*";
-
-				if(ofd.ShowDialog() == DialogResult.OK)
-				{
-					string filename = ofd.FileName;
-					//StreamReader file = new StreamReader(filename);
-
-					string[] lines = File.ReadAllLines(filename);
-
-					string[] data;
-					for(int i = 0; i < lines.Length; i++)
-					{
-						data = lines[i].ToString().Split('|');
-						string[] row = new string[data.Length];
-						for(int j = 0; j < data.Length; j++)
-						{
-							row[j] = data[j];
-						}
-						dataTable.Rows.Add(row);
-					}
-
-
-					/*
-					string[] columnnames = file.ReadLine().Split(' ');
-					
-					foreach(string c in columnnames)
-					{
-						dataTable.Columns.Add(c);
-					}
-
-					string newline;
-					while((newline = file.ReadLine())!= null)
-					{
-						DataRow dr = dataTable.NewRow();
-						string[] values = newline.Split(' ');	
-						for(int i = 0; i <values.Length; i++)
-						{
-							dr[i] = values[i];
-						}
-						dataTable.Rows.Add(dr);
-					}
-					file.Close();
-					dataGridView1.DataSource = dataTable;
-					//flickerBindingSource.DataSource = dataTable;
-					*/
-				}
-				
-			}
+                screenViewer1.InvalidateRectangle(FlickerDataGridView.CurrentRow.Index); //update only at the correct row to reduce calculation
+            }
+            
+			
 		}
-	}
+		/// <summary>
+		/// function used for custom interaction with datagridview cells.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+        private void FlickerDataGridCellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+			try
+			{
+				//detect mouse click on color column
+				if (e.RowIndex >= 0 && e.ColumnIndex == FlickerDataGridView.Columns["color"].Index)
+				{
+                    //SetText(labelTest, "test");
+                    if (FlickerList[e.RowIndex].IsImageFlicker)
+					{
+						OpenFileDialog imageDialog= new OpenFileDialog();
+						imageDialog.Filter = "Bmp image File (*.bmp)|*.bmp|All files (*.*)|*.*";
+						imageDialog.InitialDirectory = path;
+						if(imageDialog.ShowDialog() == DialogResult.OK)
+						{
+							FlickerList[e.RowIndex].image = imageDialog.FileName;
+							FlickerDataGridView.Rows[e.RowIndex].Cells["color"].Style.BackColor = Color.White;
+                            FlickerDataGridView.Rows[e.RowIndex].Cells["color"].Value = imageDialog.FileName;
+                        }
+					}
+					else
+					{
+                        ColorDialog colorPickerDialog = new ColorDialog();
+                        if (colorPickerDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            var c1 = colorPickerDialog.Color;
+                            FlickerList[e.RowIndex].color1 = System.Windows.Media.Color.FromArgb(c1.A, c1.R, c1.G, c1.B);
+                            FlickerDataGridView.Rows[e.RowIndex].Cells["color"].Style.BackColor = c1;
+                        }
+                    }
+				}
+				//manually signal that data has been changed
+                onDataChanged(sender, e);
+            }
+			catch (Exception ex)
+			{
+				SetText(labelTest,ex.Message+ex.StackTrace);
+			}
+            
+        }
+		/// <summary>
+		/// catch keys pressed for shortcut implementation
+		/// </summary>
+		/// <param name="msg"></param>
+		/// <param name="keyData"></param>
+		/// <returns></returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            System.Windows.Forms.KeyEventArgs e = new System.Windows.Forms.KeyEventArgs(keyData);
+            // Check if the pressed key combination matches a defined shortcut
+            if (e.Control && e.KeyCode == Keys.N)
+            {
+                // The pressed key combination matches the Ctrl+N shortcut
+                // Simulate a click on the "new" button
+                btn_new.PerformClick();
+				return true;
+            }
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+				// The pressed key combination matches the Ctrl+S shortcut
+				// Simulate a click on the save button
+				if (e.Shift)
+				{
+					buttonSaveAs.PerformClick();
+				}
+				else
+				{
+                    btn_save.PerformClick();
+                }
+                
+				return true;
+            }
+			if (e.Control && e.KeyCode == Keys.C) { 
+				CopyList.Clear();
+				if(this.FlickerDataGridView.SelectedRows.Count > 0 && flickerBindingSource.Count>0) {
+                    foreach (DataGridViewRow item in this.FlickerDataGridView.SelectedRows)
+                    {
+                        CopyList.Add(FlickerList[item.Index]);
+                    }
+					Clipboard.SetDataObject(CopyList); //add to clipboard but not used inside this code, useful if you want to send it to other people
+                }
+			}
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                if(CopyList.Count > 0)
+				{
+					//copy the flickers from the copyList
+					foreach(Flicker f in CopyList) { FlickerList.Add(new Flicker(f)); }
+					flickerBindingSource.ResetBindings(true);
+                    //manually update the screenviewer with the new flickers
+					screenViewer1.DataSource = FlickerList;
+					for(int i= FlickerList.Count - CopyList.Count; i < FlickerList.Count; i++)
+					{
+                        screenViewer1.InvalidateRectangle(i);
+                    }
+                }
+
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+		//when binding are reset (after a rectangle on screen was modified), colors and path are reset in the table, remodifying
+        private void flickerBindingSource_ListChanged(object sender, ListChangedEventArgs e)
+        {
+			var dgv = FlickerDataGridView;
+            for (int i = 0; FlickerList.Count > i; i++)
+            {
+				if (!FlickerList[i].IsImageFlicker)
+				{
+                    dgv.Rows[i].Cells["color"].Style.BackColor = convertColor(FlickerList[i].color1);
+				}
+				else
+				{
+                    dgv.Rows[i].Cells["color"].Value = FlickerList[i].image;
+                }
+                
+            }
+        }
+    }
 }

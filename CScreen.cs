@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using SDL2;
+using static SDL2.SDL;
 
 namespace VisualStimuli
 {   /// <summary>
-    /// <strong>Defined informations:</strong> x, y, width, height, name, bool;
-    /// <strong>Functions: </strong>CSreen, show, changeColorAndAlpha, changeColor, changeAlpha.
+    /// <strong>Defined informations:</strong> x, y, width, height, name;
+    /// <strong>Functions: </strong>CSreen, show
     /// </summary>
     class CScreen
     {
@@ -45,77 +42,92 @@ namespace VisualStimuli
         /// <param name="height">The value represents the height of the screen.</param>
         /// <param name="name">The value represents the name of the screen.</param>
         /// <param name="fixedScreen">The value represents the screen is fixed or not.</param>
-        public CScreen(int x, int y, int width, int height, String name, bool fixedScreen)
+        public CScreen(int x, int y, int width, int height, String name, bool fixedScreen,Byte r,Byte g, Byte b,string imagepath)
         {
             create(x, y, width, height, name, fixedScreen);
+            if (imagepath == string.Empty)
+            {
+                SDL.SDL_RenderClear(PRenderer);
+                SDL.SDL_SetRenderDrawColor(PRenderer, r, g, b, 255);
+                SDL.SDL_RenderFillRect(PRenderer, IntPtr.Zero);
+            }
+            else
+            {
+                var m_surface = SDL.SDL_LoadBMP(imagepath);
+                var m_texture = SDL.SDL_CreateTextureFromSurface(PRenderer, m_surface);
+                SDL.SDL_RenderCopy(PRenderer, m_texture, IntPtr.Zero, IntPtr.Zero);
+                SDL.SDL_RenderPresent(PRenderer);
+                SDL.SDL_FreeSurface(m_surface);
+            }
+            SDL.SDL_RenderPresent(PRenderer);
         }
-        
+
         /// <summary>
         /// Support to function CSreen.
         /// </summary>
-        
+
         private void create(int x, int y, int width, int height, String name, bool fixedScreen)
         {
-            if (!fixedScreen) {
+            if (!fixedScreen)
+            {
 
-                m_pWindow = SDL.SDL_CreateWindow(name, 
+                m_pWindow = SDL.SDL_CreateWindow(name,
                     x,
                     y,
                     width,
                     height,
                     SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN | SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
 
-                if (m_pWindow == IntPtr.Zero) {
+                if (m_pWindow == IntPtr.Zero)
+                {
                     Console.WriteLine("Window could not be created - Level 1 ! SDL_Error: {0}", SDL.SDL_GetError());
                     return;
                 }
             }
-            else {
+            else
+            {
 
-                m_pWindow = SDL.SDL_CreateWindow(name, 
+                m_pWindow = SDL.SDL_CreateWindow(name,
                     x,
                     y,
                     width,
                     height,
-                    SDL.SDL_WindowFlags.SDL_WINDOW_HIDDEN);
+                    SDL.SDL_WindowFlags.SDL_WINDOW_HIDDEN | SDL.SDL_WindowFlags.SDL_WINDOW_ALWAYS_ON_TOP);
 
-                if (m_pWindow == IntPtr.Zero) {
+                if (m_pWindow == IntPtr.Zero)
+                {
                     Console.WriteLine("Window could not be created - Level 2 ! SDL_Error: {0}", SDL.SDL_GetError());
                     return;
                 }
             }
+            SDL.SDL_SetWindowOpacity(m_pWindow, 0.5f);
+            SDL.SDL_SetRelativeMouseMode(SDL.SDL_bool.SDL_FALSE);
 
+            //removing some event to assure it doesn't get laggy with lots of flickers on top of each other
+            SDL_EventState(SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN, SDL_IGNORE);
+            SDL_EventState(SDL.SDL_EventType.SDL_MOUSEBUTTONUP, SDL_IGNORE);
+            SDL_EventState(SDL.SDL_EventType.SDL_MOUSEMOTION, SDL_IGNORE);
+            SDL_EventState(SDL.SDL_EventType.SDL_MOUSEWHEEL, SDL_IGNORE);
             // the Surface
             m_pSurface = SDL.SDL_GetWindowSurface(m_pWindow);
-            if (m_pSurface == IntPtr.Zero) {
+            if (m_pSurface == IntPtr.Zero)
+            {
                 Console.WriteLine("Surface could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
                 return;
             }
 
             // the renderer
-            m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1,SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | 
-                                                                      SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
-
-            if (m_pRenderer == IntPtr.Zero) {
+            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED |
+            //                                                          SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
+            //note: Vsync can cause massive lag when using lots of flickers, moving to manual fps management
+            m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+            if (m_pRenderer == IntPtr.Zero)
+            {
                 Console.WriteLine("Renderer could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
                 return;
             }
-             
-            //We initialyze the screen like a black box
-            var surfTmp = Marshal.PtrToStructure<SDL.SDL_Surface>(m_pSurface);
-            SDL.SDL_FillRect(m_pSurface, IntPtr.Zero, SDL.SDL_MapRGB(surfTmp.format, 0, 0, 0));
-
-            
-            // the Texture
-             m_pTexture = SDL.SDL_CreateTexture(m_pRenderer,
-              SDL.SDL_PIXELFORMAT_ARGB8888,
-                (int)SDL.SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING,
-               width, height);
-
-             if (m_pTexture == IntPtr.Zero) {
-                Console.WriteLine("Texture could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
-                return;
-             }
+            //might be the cause of crashing + imperfect transparency
+            //SDL.SDL_SetRenderDrawBlendMode(m_pRenderer, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
             
 
             // Attributes
@@ -125,57 +137,18 @@ namespace VisualStimuli
             H = height;
             Name = name;
         }
-
         /// <summary>
         /// Display the screen.
         /// </summary>
-        public void show()
+        public void show(Byte a)
         {
-            SDL.SDL_RenderPresent(PRenderer);
+            //SDL.SDL_RenderPresent(PRenderer); //renderer isn't needed here
+            SDL.SDL_SetWindowOpacity(m_pWindow, a / 255f); //might be the quickest SDL rendering in the world :)
         }
-        /// <summary>
-        /// Update two coefficients Color and Opacity. 
-        /// </summary>
-        /// <param name="col">The UInt32 value represents to the color.</param>
-        /// <param name="alph">The double value represents to the opacity.</param>
-        /// <return> None</return>>   
-        public void changeColorAndAlpha(UInt32 col, double alph)
+        public void Quit()
         {
-            changeColor(col);
-            changeAlpha(alph);
+            SDL.SDL_FreeSurface(m_pSurface);
+            SDL.SDL_DestroyRenderer(PRenderer);
         }
-
-       /// <summary>
-       /// Update the color coefficient.
-       /// </summary>
-       /// <param name="col">The UInt32 value represents to the color.</param>
-       /// <return> None</return>>
-        public void changeColor(UInt32 col)
-        {
-            SDL.SDL_FillRect(PSurface, IntPtr.Zero, col); 
-           
-            var surfTmp = Marshal.PtrToStructure<SDL.SDL_Surface>(PSurface); 
-            
-            SDL.SDL_UpdateTexture(PTexture, IntPtr.Zero, surfTmp.pixels, surfTmp.pitch);
-
-            SDL.SDL_RenderClear(PRenderer);
-            SDL.SDL_RenderCopy(PRenderer, PTexture, IntPtr.Zero, IntPtr.Zero);
-        }
-
-
-        /// <summary>
-        /// Setting the coefficient of opacity.
-        /// </summary>
-        /// <param name="alph">The double value represents to the opacity.</param>
-        /// <return> None</return>>
-        public void changeAlpha(double alph)
-        {
-            if (alph >= 0)
-            {
-                SDL.SDL_SetWindowOpacity(PWindow, (float)alph);
-            }
-        } 
-
-    } 
-
+    }
 } 
