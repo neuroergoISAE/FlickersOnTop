@@ -1,24 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using SDL2;
 using System.Runtime.InteropServices;
 using System.Collections;
-using System.Text.RegularExpressions;
-using System.IO;
 using System.Windows.Forms;
 using System.Threading;
 using LSL;
- 
+using System.Xml;
+using System.Globalization;
+using System.Drawing;
 
 namespace VisualStimuli
 {
 	public class CPlay
 	{
 		ArrayList m_listFlickers = new ArrayList();
-		//double[,] m_matrix;
+		string filepath; //indicate the environment path
+		public CPlay(string filepath)
+		{
+			this.filepath = filepath;
+		}
+		StreamOutlet outl;
+
+        public CPlay()
+		{
+			//lookup the position of the Application
+            filepath = Application.StartupPath;
+            filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
+            filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
+            // create stream info and outlet
+            StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string, "giu4h5600");
+            outl = new StreamOutlet(inf);
+        }
 
 		[DllImport("user32.dll", EntryPoint = "SetWindowPos")]
 		public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
@@ -64,110 +78,101 @@ namespace VisualStimuli
 			public System.Int32 dmDisplayFlags;
 			public System.Int32 dmDisplayFrequency;
 		}
+        public enum Signal_Type //enum for reading the xml file
+        {
+            Sine = 1,
+            Root_Square = 3,
+            Square = 2,
+            Random = 0,
+            Maximum_Lenght_Sequence = 4
+        };
 
-		/// <summary>
-		/// Read a txt file to file with flickers information.
-		/// </summary>
-		/// <param name="filePath">Path to the txt file.</param>
-		/// <param name="matrix">Empty matrix to be filled.</param>
-		/// <returns> A matrix that contains the flickers information</returns>
-		public static void Read_File(string filePath, int[,] matrix)
+        /// <summary>
+        /// Read a Xml file and add the flickers to the list of active flickers.
+        /// </summary>
+        /// <param name="filePath">Path to the xml file.</param>
+        public void Read_File(string filePath)
 		{
-			
-			int i = 0;
-			
-			try
-			{
-				StreamReader reader = new StreamReader(filePath);
-				
-					string line;
-				line = reader.ReadLine();
-				
-				
-				while (line != null) { 
-					
-					string [] parts = line.Split(' ');
-					for (int j = 0; j < parts.Length; j++) {
-					
-							matrix[i, j] = int.Parse(parts[j]);
-						
-					}
-					i++;
-					line = reader.ReadLine();
+			try {
+				// Load the XML file into memory
+				XmlDocument doc = new XmlDocument();
+				doc.Load(filePath);
+
+				// Get the root element of the document
+				XmlElement root = doc.DocumentElement;
+
+
+				// Iterate over the child elements of the root
+				foreach (XmlNode node in root.ChildNodes)
+				{
+					int pos_x, pos_y, width, height;
+					int.TryParse(node.SelectSingleNode("X").InnerText, out pos_x);
+					int.TryParse(node.SelectSingleNode("Y").InnerText, out pos_y);
+					int.TryParse(node.SelectSingleNode("Width").InnerText, out width);
+					int.TryParse(node.SelectSingleNode("Height").InnerText, out height);
+					Signal_Type type;
+					Enum.TryParse<Signal_Type>(node.SelectSingleNode("Type").InnerText, out type);
+					string name = node.SelectSingleNode("Name").InnerText;
+					double freq, phase;
+					double.TryParse(node.SelectSingleNode("Frequency").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out freq);
+					double.TryParse(node.SelectSingleNode("Phase").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out phase);
+					var C1Node = node.SelectSingleNode("color1");
+					var C2Node = node.SelectSingleNode("color2");
+					Byte r1, g1, b1;
+					int a1, a2;
+					Byte.TryParse(C1Node.SelectSingleNode("R").InnerText, out r1);
+					Byte.TryParse(C1Node.SelectSingleNode("G").InnerText, out g1);
+					Byte.TryParse(C1Node.SelectSingleNode("B").InnerText, out b1);
+                    int.TryParse(node.SelectSingleNode("Opacity_Min").InnerText, out a1);
+                    int.TryParse(node.SelectSingleNode("Opacity_Max").InnerText, out a2);
+					string image = string.Empty;
+					bool IsImage;
+                    bool.TryParse(node.SelectSingleNode("IsImageFlicker").InnerText, out IsImage);
+					if(IsImage)
+					{
+						image= node.SelectSingleNode("image").InnerText;
+                    }
+                    
+
+                    //create a window and a the flickers to the list of flickers
+                    CScreen screen = new CScreen(pos_x, pos_y, width, height, name, false,r1,g1,b1,image);
+					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen.PSurface);
+					m_listFlickers.Add(new CFlicker(
+						pos_x,
+						pos_y,
+						width,
+						height,
+						screen,
+					   Color.FromArgb(255, r1, g1, b1), // color1 RGB
+					   freq,
+					   a1 *2.55, // alpha1
+					   a2*2.55, // alpha2
+					   phase,
+					   (int)type) // type frequence
+					);
 				}
-				
-				reader.Close();
-				
+				Console.WriteLine("Created {0} Flickers", m_listFlickers.Count);
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-				Console.WriteLine("The file could not be readed");
-				Console.WriteLine(ex.Message);
+				Console.WriteLine(e.Message);
+				Console.WriteLine(e.StackTrace);
 			}
-		}
+        }
 
 		/// <summary>
-		/// Temporary function to initialize flickers
+		/// Initiate Flickers
 		/// </summary>
 		/// <returns>None</returns>
 		public void init_test()
 		{
-			
-			Console.WriteLine("The one that got away - Katy Perry \n");
-
-			int numFlicker = 0;
-
-			// string filePath = "D:\\MANIPS\\FlickersOnTop\\test1_file.txt";// change here ***
-			
-			string filePath = Application.StartupPath;
-			filePath = filePath.Substring(0, filePath.LastIndexOf('\\'));
-			filePath = filePath.Substring(0, filePath.LastIndexOf('\\'));
-			filePath += "\\test1_file.txt";
-
-			//string filePath = "test_file.txt";
-
-			StreamReader reader = new StreamReader (filePath);
-			string line = reader.ReadLine();
-			while(line!= null)
-			{
-				numFlicker++;
-				line = reader.ReadLine();
-			}
-			reader.Close ();
-			Console.WriteLine("Number of Flicker:" + numFlicker);
-			int[,] pMatrix = new int[numFlicker,11];// matrix  flickers and 11 defined infomations
-
-			Read_File(filePath, pMatrix);
-
-
-			//byte red1 = Convert.ToByte(pMatrix[0, 8]);
-			//byte green1 = Convert.ToByte(pMatrix[0, 9]);
-			//byte bleu1 = Convert.ToByte(pMatrix[0, 10]);
-			CScreen[] screen = new CScreen[numFlicker]; 
-			CFlicker[] flicker = new CFlicker[numFlicker];
-			for (int i = 0; i < numFlicker; i++)
-			{
-
-				screen[i] = new CScreen(pMatrix[i, 0], pMatrix[i, 1], pMatrix[i, 2], pMatrix[i, 3], i.ToString(), false) ;
-					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen[i].PSurface);
-					 flicker[i] = new CFlicker(screen[i],
-						SDL.SDL_MapRGB(screenSurface1.format, 0, 0, 0), // color1 RGB
-						SDL.SDL_MapRGB(screenSurface1.format, 255, 255, 255), // color2 RGB
-						pMatrix[i, 4], // freq`
-						(double)pMatrix[i, 6]/100, // alpha1
-						(double)pMatrix[i, 6] /100, // alpha2
-						pMatrix[i, 5],  // phase
-						pMatrix[i, 7]); // type frequence
-
-					m_listFlickers.Add(flicker[i]);
-				
-			}
+			Read_File(filepath+"\\Flickers.xml");
 		}
 		/// <summary>
 		/// Get refresh rate of the screen
 		/// </summary>
 		/// <returns>Refresh rate of the screen</returns>
-		public double getFrameRate()
+		public static double getFrameRate()
 		{
 			DEVMODE devMode = new DEVMODE();
 			devMode.dmSize = (short)Marshal.SizeOf(devMode);
@@ -175,21 +180,17 @@ namespace VisualStimuli
 			EnumDisplaySettings(null, -1, ref devMode);
 			return (double)devMode.dmDisplayFrequency;
 		}
-		
-		/// <summary>
-		/// Generating the flickers on the screen, according to the parameters of the .txt file
-		/// </summary>
-		/// <returns>None</returns>
-		public void flexibleSin()
+        private static double frameRate = getFrameRate();
+        /// <summary>
+        /// Animate the flickers from the .xml file
+        /// </summary>
+        /// <returns>None</returns>
+        public void Animate_Flicker()
 		{
 			bool quit = false;
 
 			init_test();
-
-			// create stream info and outlet
-            StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string , "giu4h5600");
-            StreamOutlet outl = new StreamOutlet(inf);
-			string[] marker_info = new string[2];
+			string[] marker_info = new string[4];
 
 			// All the flickers foreground 
 			for (int j = 0; j < m_listFlickers.Count; j++) {
@@ -198,78 +199,42 @@ namespace VisualStimuli
 			}
 
 			// init vars
-			int i = 0;
-			double lumin = 0.0;
-			double[] alpha = new double[2];
-			UInt32[] color = new UInt32[2];
-			UInt32 colorSin = 0;
-			Byte rSin = 0; Byte gSin = 0; Byte bSin = 0;
-			Byte r1 = 0; Byte g1 = 0; Byte b1 = 0;
-			Byte r2 = 0; Byte g2 = 0; Byte b2 = 0;
-
-			double frameRate = getFrameRate();
+			Console.WriteLine(frameRate.ToString());
 
 
 			for (int j = 0; j < m_listFlickers.Count; j++)
 			{
-				// Current flicker frequency
+				// Send into LSL the ID,frequency,phase and amplitude of the flickers
 				CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
-				marker_info[0] = currentFlicker.Frequence.ToString(); 
-				marker_info[1] = currentFlicker.Phase.ToString();
+				marker_info[0] = j.ToString();
+				marker_info[1] = currentFlicker.Frequency.ToString(); 
+				marker_info[2] = currentFlicker.Phase.ToString();
+				marker_info[3] = ((Math.Abs(currentFlicker.Alpha2-currentFlicker.Alpha1)).ToString());
 
-				// Push the marker in LSL that the flicker will flicker now
-				//outl.push_sample(string.Join("_", marker_info));
-				outl.push_sample(marker_info);
-			}
-
-			while (!quit && SDL.SDL_GetTicks() < 1000000)
+                // Push the marker in LSL that the flicker will flicker now
+                outl.push_sample(marker_info);
+            }
+            
+            long frame = 0;
+            var watch = System.Diagnostics.Stopwatch.StartNew(); //watch for fps syncing
+			int lost_frame = 0; //only used if computer is too slow to display all frames, we will jump over some frames
+			long frame_ticks =(long) ((1d / frameRate) * 10000000d);
+            SDL.SDL_Event evt = new SDL.SDL_Event();
+            while (!quit && SDL.SDL_GetTicks() < 1000000)
 			{
-				for (int j = 0; j < m_listFlickers.Count; j++)
+				frame += 1;
+                var watchFPSMax=System.Diagnostics.Stopwatch.StartNew();
+				//parallel treatment for each flickers
+				//flickers are still synchronized, only parallelized during 1 frame.
+				Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
 				{
-					CFlicker currentFlicker = (CFlicker)m_listFlickers[j];
-
-					currentFlicker.setData(currentFlicker);
-
-					if (i >= frameRate)
-					{
-						i = 0;
-					}
-
-					lumin = currentFlicker.getData(i, currentFlicker.Data);
-					//Console.Write(lumin+ " ");
-					// col1
-					r1 = currentFlicker.getRed(currentFlicker.Color1);
-					g1 = currentFlicker.getGreen(currentFlicker.Color1);
-					b1 = currentFlicker.getBlue(currentFlicker.Color1);
-
-					// col2
-					r2 = currentFlicker.getRed(currentFlicker.Color2);
-					g2 = currentFlicker.getGreen(currentFlicker.Color2);
-					b2 = currentFlicker.getBlue(currentFlicker.Color2);
-
-					// interpollation sin waves
-
-					// col sin
-					rSin = (Byte)(r1 * lumin + r2 * (1 - lumin));
-					gSin = (Byte)(g1 * lumin + g2 * (1 - lumin));
-					bSin = (Byte)(b1 * lumin + b2 * (1 - lumin));
-
-					var screenSurface = Marshal.PtrToStructure<SDL.SDL_Surface>(currentFlicker.Screen.PSurface);
-
-					colorSin = SDL.SDL_MapRGB(screenSurface.format, rSin, gSin, bSin);
-
-					// alpha sin
-					double alphaSin = (currentFlicker.Alpha1 * lumin) + (currentFlicker.Alpha2 * (1 - lumin));
-
-					// flip
-					currentFlicker.flip(colorSin, alphaSin);
-
-					// dislay
-					currentFlicker.display();
+					if (c.index >= c.size) { c.index = 0; }
+					c.display();
+					c.index += 1+lost_frame;
 				}
-
-				
-				SDL.SDL_Event evt = new SDL.SDL_Event();
+				);
+				watchFPSMax.Stop();
+                
 				if (SDL.SDL_PollEvent(out evt) != 0)
 				{
 					if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
@@ -281,111 +246,30 @@ namespace VisualStimuli
 						quit = false;
 					}
 				}
-
-				i += 1;
-
-			}
-		
-		}
+				var left = frame_ticks*frame - watch.ElapsedTicks;
+                Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,left/10000d,frame*1000/watch.ElapsedMilliseconds,10000000d/watchFPSMax.ElapsedTicks);
+                if (left>0L) { 
+					Thread.Sleep((int)(left/10000d));
+					lost_frame= 0;
+				} 
+				else 
+				{ 
+					Console.WriteLine("Warning Rendering can't keep up!! max FPS: {0}",frame*10000000d/watch.ElapsedTicks);
+                    left= Math.Abs(left);
+                    lost_frame = Convert.ToInt32(left / frame_ticks)+1;
+                    left -= (lost_frame-1) * frame_ticks;
+                }
+            }
+			//Kill all Flickers Windows
+			Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
+            {
+                c.Destroy();
+            });
+			SDL.SDL_Quit();
+        }
 		public void Close()
 		{
 			Environment.Exit(0);
-		}
-
-		public int resX = Screen.PrimaryScreen.Bounds.Width;
-		public int resY = Screen.PrimaryScreen.Bounds.Height;
-		/// <summary>
-		/// Make a chossen image flicks in the center of the screen with size 400x400
-		/// </summary>
-		/// <returns>None</returns>
-		public void ImageFlicker() 
-		{
-			
-		string filepath = "F:\\MANIPS\\FlickersOnTop\\image_file.txt";
-
-			StreamReader reader = new StreamReader(filepath);
-			string imagefile = reader.ReadToEnd();
-			Console.WriteLine(imagefile);
-
-			int i = 0;
-			double time = 50; // in seconds
-
-			double frameRate = getFrameRate();
-
-			
-
-			int N = (int)(time * frameRate); // number of flickerings 
-			Console.WriteLine("time x frameRate = " + N);
-
-			init_test();
-
-			// initialize 
-			Console.WriteLine("Number of flicker: " + m_listFlickers.Count);
-			CFlicker currentFlicker = (CFlicker)m_listFlickers[0];///
-
-			currentFlicker.setData(currentFlicker);
-			
-
-			IntPtr m_window = IntPtr.Zero;
-			IntPtr m_render = IntPtr.Zero;
-			IntPtr m_texture = IntPtr.Zero;
-			IntPtr m_surface = IntPtr.Zero;
-
-			if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) < 0)
-			{
-
-				Console.WriteLine("Unable to initialize SDL.Error: {0}", SDL.SDL_GetError());
-
-			}
-			else
-			{
-				
-				m_window = SDL.SDL_CreateWindow("Image", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, 600,400,
-												SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN | SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS);
-				if(m_window == IntPtr.Zero)
-				{
-					Console.WriteLine("Enable to create a window: Error {0}", SDL.SDL_GetError());
-				}
-
-				m_render = SDL.SDL_CreateRenderer(m_window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
-
-				m_surface = SDL.SDL_LoadBMP(imagefile); // ***** file
-
-				if (m_surface == IntPtr.Zero)
-				{
-					Console.WriteLine("Enable to create a surface of image: Error {0}", SDL.SDL_GetError());
-				}
-				m_texture = SDL.SDL_CreateTextureFromSurface(m_render, m_surface);
-
-				//Initialize the opacity from table 
-				float[] opacity = new float[(int)frameRate];
-				for(int j = 0; j < frameRate; j++)
-				{
-					opacity[j] = (float)currentFlicker.getData(j, currentFlicker.Data);
-					Console.Write(opacity[j] + " ");
-				}
-				
-				while (SDL.SDL_GetTicks() < 10000)
-				{
-					if(i > (int)frameRate - 1 )
-						{
-							i = 0;
-						}
-
-					SDL.SDL_SetWindowOpacity(m_window, opacity[i]);
-					SDL.SDL_RenderClear(m_render);
-					SDL.SDL_RenderCopy(m_render, m_texture, IntPtr.Zero, IntPtr.Zero);
-					SDL.SDL_RenderPresent(m_render);
-					i++;
-				}
-
-			}
-
-			SDL.SDL_DestroyTexture(m_texture);
-			SDL.SDL_FreeSurface(m_surface);
-			SDL.SDL_DestroyRenderer(m_render);
-			SDL.SDL_DestroyWindow(m_window);
-			SDL.SDL_Quit();
 		}
 	}
 
