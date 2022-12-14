@@ -67,6 +67,11 @@ namespace Interface2App
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelX = new System.Windows.Forms.Label();
+            this.labelY = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.flickerBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FlickerDataGridView)).BeginInit();
@@ -76,6 +81,8 @@ namespace Interface2App
             this.tableLayoutPanel10.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // warnted
@@ -205,6 +212,7 @@ namespace Interface2App
             this.FlickerDataGridView.TabIndex = 95;
             this.FlickerDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FlickerDataGridCellContentClick);
             this.FlickerDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FlickerDataGridCellContentClick);
+            this.FlickerDataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.FlickerDataGridView_RowsRemoved);
             // 
             // NameDataGridViewTextBoxColumn
             // 
@@ -305,7 +313,7 @@ namespace Interface2App
             // 
             this.ImageCheckBox.DataPropertyName = "IsImageFlicker";
             this.ImageCheckBox.FalseValue = "false";
-            this.ImageCheckBox.HeaderText = "Textured Flicker?";
+            this.ImageCheckBox.HeaderText = "Image Flicker?";
             this.ImageCheckBox.Name = "ImageCheckBox";
             this.ImageCheckBox.ToolTipText = "Does that Flicker use an Image?";
             this.ImageCheckBox.TrueValue = "true";
@@ -389,7 +397,7 @@ namespace Interface2App
             this.labelTest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.labelTest.AutoSize = true;
-            this.labelTest.Location = new System.Drawing.Point(3, 492);
+            this.labelTest.Location = new System.Drawing.Point(3, 498);
             this.labelTest.Name = "labelTest";
             this.labelTest.Size = new System.Drawing.Size(0, 40);
             this.labelTest.TabIndex = 98;
@@ -459,8 +467,8 @@ namespace Interface2App
             | System.Windows.Forms.AnchorStyles.Right)));
             this.screenViewer1.BackColor = System.Drawing.Color.Transparent;
             this.screenViewer1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("screenViewer1.BackgroundImage")));
-            this.screenViewer1.Location = new System.Drawing.Point(266, 8);
-            this.screenViewer1.Margin = new System.Windows.Forms.Padding(50, 5, 50, 5);
+            this.screenViewer1.Location = new System.Drawing.Point(50, 5);
+            this.screenViewer1.Margin = new System.Windows.Forms.Padding(50, 5, 40, 5);
             this.screenViewer1.MaximumSize = new System.Drawing.Size(384, 9999);
             this.screenViewer1.Name = "screenViewer1";
             this.screenViewer1.Size = new System.Drawing.Size(384, 226);
@@ -501,16 +509,73 @@ namespace Interface2App
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel10, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.screenViewer1, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 247);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 239F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1083, 242);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 245F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1083, 248);
             this.tableLayoutPanel2.TabIndex = 105;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.AutoSize = true;
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.screenViewer1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 1, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(219, 6);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(568, 236);
+            this.tableLayoutPanel3.TabIndex = 110;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.labelX, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.labelY, 0, 2);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(477, 194);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(88, 39);
+            this.tableLayoutPanel4.TabIndex = 110;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Mouse Position:";
+            // 
+            // labelX
+            // 
+            this.labelX.AutoSize = true;
+            this.labelX.Location = new System.Drawing.Point(3, 13);
+            this.labelX.Name = "labelX";
+            this.labelX.Size = new System.Drawing.Size(0, 13);
+            this.labelX.TabIndex = 1;
+            // 
+            // labelY
+            // 
+            this.labelY.AutoSize = true;
+            this.labelY.Location = new System.Drawing.Point(3, 26);
+            this.labelY.Name = "labelY";
+            this.labelY.Size = new System.Drawing.Size(0, 13);
+            this.labelY.TabIndex = 2;
             // 
             // Form1
             // 
@@ -545,6 +610,9 @@ namespace Interface2App
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -572,6 +640,12 @@ namespace Interface2App
         private System.Windows.Forms.Button buttonImport;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelX;
+        private System.Windows.Forms.Label labelY;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn xDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn yDataGridViewTextBoxColumn;
@@ -584,7 +658,6 @@ namespace Interface2App
         private System.Windows.Forms.DataGridViewTextBoxColumn color;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ImageCheckBox;
         private System.Windows.Forms.DataGridViewComboBoxColumn typeDataGridViewComboBoxColumn;
-        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

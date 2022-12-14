@@ -1,18 +1,10 @@
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Timers;
-using System.Windows.Media;
-using System.Drawing;
 
 namespace Interface2App
 {
-	
+
 	public class Flicker : EntityValidator
 	{
         [Required, RegularExpression(@"^.*", ErrorMessage = "Please enter a number")]
@@ -33,7 +25,7 @@ namespace Interface2App
 		public double Frequency { get; set; }
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
 		[Range(0, 180)]
-		public int Phase { get; set; }
+		public double Phase { get; set; }
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
 		[Range(0, 100)]
 		public int Opacity_Min { get; set; }

@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Text.RegularExpressions;
-using System.Windows.Input;
 using System.Threading;
-using System.Diagnostics;
-using System.ComponentModel.DataAnnotations;
-using System.Timers;
-using System.Xml;
 using VisualStimuli;
 using System.Xml.Serialization;
 
@@ -59,11 +50,21 @@ namespace Interface2App
 			{
                 loadFile(default_save_file);
             }
-			
+			new Thread(ThreadPosition).Start();
         }
+		private void ThreadPosition()
+		{
+			while (true)
+			{
+				var p = Cursor.Position;
+				SetText(labelX, "X: " + p.X);
+				SetText(labelY, "Y: " + p.Y);
+				Thread.Sleep(10);
+			}
+		}
 		delegate void SetTextCallback(Label label, string text);
 		/// <summary>
-		/// used for updating the label on screen. Mostly used for error and test
+		/// used for updating the labels on screen. Mostly used for error and test.
 		/// </summary>
 		/// <param name="l"></param>
 		/// <param name="text"></param>
@@ -247,8 +248,22 @@ namespace Interface2App
                 }
             }
 
-			if (checkBox1.Checked) { FlickerList.RemoveAt(0);FlickerList.RemoveAt(FlickerList.Count - 1); }
-            bt_save(sender, e);
+			if (checkBox1.Checked) 
+			{
+                FlickerList.RemoveAt(0);
+                FlickerList.RemoveAt(FlickerList.Count - 1);
+                while (true)
+				{
+                    try
+                    {
+                        bt_save(sender, e);
+						Thread.Sleep(10);
+						break;
+                    }
+                    catch { }
+                } 
+            }
+            
             //Application.Exit();
         }
 		/// <summary>
@@ -268,18 +283,27 @@ namespace Interface2App
 			{
 				
 				CPlay oPlay = new CPlay();
-				new Thread(oPlay.Animate_Flicker).Start();
+				//new Thread(oPlay.Animate_Flicker).Start(); //seems to cause problems # TODO: investigate
+				oPlay.Animate_Flicker();
 				FlickerRunning= true;
 				//Application.Exit();
 			}
-            if (checkBox1.Checked) { FlickerList.RemoveAt(0); FlickerList.RemoveAt(FlickerList.Count - 1); }
-            bt_save(sender, e);
-		}
-
-
-		// errorProvider 
-		//----------------------------------------------- Input validation ----------------------------------------------//
-
+            if (checkBox1.Checked)
+            {
+                FlickerList.RemoveAt(0);
+                FlickerList.RemoveAt(FlickerList.Count - 1);
+                while (true)
+                {
+                    try
+                    {
+                        bt_save(sender, e);
+                        Thread.Sleep(10);
+                        break;
+                    }
+                    catch { }
+                }
+            }
+        }
 		public int resX = Screen.PrimaryScreen.Bounds.Width;
 		public int resY = Screen.PrimaryScreen.Bounds.Height;
 
@@ -309,6 +333,8 @@ namespace Interface2App
             flickerBindingSource.ResetBindings(true);
             screenViewer1.DataSource = FlickerList;
             screenViewer1.InvalidateRectangle();
+            
+            
         }
 		/// <summary>
 		/// import a list of flicker from a XML file, remove the current flickers!
@@ -470,6 +496,13 @@ namespace Interface2App
                 }
                 
             }
+        }
+
+        private void FlickerDataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            //flickerBindingSource.ResetBindings(true); //will stop the application from starting
+            screenViewer1.DataSource = FlickerList;
+            screenViewer1.InvalidateRectangle();
         }
     }
 }

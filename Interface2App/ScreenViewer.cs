@@ -1,12 +1,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Windows.Media.Media3D;
-using System.Reflection;
 
 namespace Interface2App
 {
@@ -74,6 +70,7 @@ namespace Interface2App
         }
         private void UpdateFlickerZones(int index)
         {
+            if(dataSource.Count <= index) { return; }
             var flicker = dataSource[index];
             if (index >= FlickerZones.Count)
             {

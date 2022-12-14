@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
 using SDL2;
 using static SDL2.SDL;
 
@@ -47,9 +46,10 @@ namespace VisualStimuli
             create(x, y, width, height, name, fixedScreen);
             if (imagepath == string.Empty)
             {
-                SDL.SDL_RenderClear(PRenderer);
                 SDL.SDL_SetRenderDrawColor(PRenderer, r, g, b, 255);
-                SDL.SDL_RenderFillRect(PRenderer, IntPtr.Zero);
+                SDL.SDL_RenderClear(PRenderer);
+                
+                //SDL.SDL_RenderFillRect(PRenderer, IntPtr.Zero); unnecessary
             }
             else
             {
@@ -143,7 +143,10 @@ namespace VisualStimuli
         public void show(Byte a)
         {
             //SDL.SDL_RenderPresent(PRenderer); //renderer isn't needed here
-            SDL.SDL_SetWindowOpacity(m_pWindow, a / 255f); //might be the quickest SDL rendering in the world :)
+            if(SDL.SDL_SetWindowOpacity(m_pWindow, a / 255f)!=0) //might be the quickest SDL rendering in the world :)
+            {
+                throw new Exception(SDL_GetError());
+            }
         }
         public void Quit()
         {
