@@ -247,17 +247,17 @@ namespace VisualStimuli
 					}
 				}
 				var left = frame_ticks*frame - watch.ElapsedTicks;
-                Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,left/10000d,frame*1000/watch.ElapsedMilliseconds,10000000d/watchFPSMax.ElapsedTicks);
+                //Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,left/10000d,frame*1000/watch.ElapsedMilliseconds,10000000d/watchFPSMax.ElapsedTicks);
                 if (left>0L) { 
 					Thread.Sleep((int)(left/10000d));
 					lost_frame= 0;
 				} 
 				else 
 				{ 
-					Console.WriteLine("Warning Rendering can't keep up!! max FPS: {0}",frame*10000000d/watch.ElapsedTicks);
-                    left= Math.Abs(left);
-                    lost_frame = Convert.ToInt32(left / frame_ticks)+1;
-                    left -= (lost_frame-1) * frame_ticks;
+					//Console.WriteLine("Warning Rendering can't keep up!! max FPS: {0}",frame*10000000d/watch.ElapsedTicks);
+                    //left= Math.Abs(left);
+                    //lost_frame = Convert.ToInt32(left / frame_ticks)+1;
+                    //left -= (lost_frame-1) * frame_ticks;
                 }
             }
 			//Kill all Flickers Windows

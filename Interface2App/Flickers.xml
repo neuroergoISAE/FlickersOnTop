@@ -1,128 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfFlicker xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<ArrayOfFlicker xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Flicker>
     <Name>Flicker</Name>
-    <X>0</X>
-    <Y>0</Y>
-    <Width>1920</Width>
-    <Height>1080</Height>
+    <X>1100</X>
+    <Y>430</Y>
+    <Width>780</Width>
+    <Height>516</Height>
     <Frequency>1</Frequency>
     <Phase>0</Phase>
-    <Opacity_Min>100</Opacity_Min>
+    <Opacity_Min>0</Opacity_Min>
     <Opacity_Max>100</Opacity_Max>
     <Type>Sine</Type>
     <color1>
       <A>255</A>
       <R>0</R>
-      <G>0</G>
-      <B>0</B>
+      <G>255</G>
+      <B>64</B>
       <ScA>1</ScA>
       <ScR>0</ScR>
-      <ScG>0</ScG>
-      <ScB>0</ScB>
+      <ScG>1</ScG>
+      <ScB>0.0512694642</ScB>
     </color1>
     <image />
     <IsImageFlicker>false</IsImageFlicker>
   </Flicker>
   <Flicker>
     <Name>Flicker</Name>
-    <X>0</X>
-    <Y>100</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>4</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
-    <color1>
-      <A>255</A>
-      <R>58</R>
-      <G>32</G>
-      <B>222</B>
-      <ScA>1</ScA>
-      <ScR>0.04231141</ScR>
-      <ScG>0.0144438446</ScG>
-      <ScB>0.730460763</ScB>
-    </color1>
-    <imagepath />
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>0</X>
-    <Y>100</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>4</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
-    <color1>
-      <A>255</A>
-      <R>58</R>
-      <G>32</G>
-      <B>222</B>
-      <ScA>1</ScA>
-      <ScR>0.04231141</ScR>
-      <ScG>0.0144438446</ScG>
-      <ScB>0.730460763</ScB>
-    </color1>
-    <imagepath />
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>100</X>
-    <Y>100</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>1</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
-    <color1>
-      <A>255</A>
-      <R>246</R>
-      <G>248</G>
-      <B>6</B>
-      <ScA>1</ScA>
-      <ScR>0.921581864</ScR>
-      <ScG>0.9386857</ScG>
-      <ScB>0.001821162</ScB>
-    </color1>
-    <imagepath />
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>100</X>
-    <Y>0</Y>
-    <Width>260</Width>
-    <Height>358</Height>
-    <Frequency>4</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>80</Opacity_Max>
-    <Type>Sine</Type>
-    <color1>
-      <A>255</A>
-      <R>64</R>
-      <G>128</G>
-      <B>128</B>
-      <ScA>1</ScA>
-      <ScR>0.0512694642</ScR>
-      <ScG>0.215860531</ScG>
-      <ScB>0.215860531</ScB>
-    </color1>
-    <image />
-    <IsImageFlicker>false</IsImageFlicker>
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>840</X>
-    <Y>301</Y>
-    <Width>40</Width>
-    <Height>33</Height>
+    <X>-5</X>
+    <Y>119</Y>
+    <Width>780</Width>
+    <Height>516</Height>
     <Frequency>1</Frequency>
     <Phase>0</Phase>
     <Opacity_Min>0</Opacity_Min>
@@ -130,92 +37,23 @@
     <Type>Sine</Type>
     <color1>
       <A>255</A>
-      <R>255</R>
-      <G>128</G>
-      <B>0</B>
+      <R>0</R>
+      <G>255</G>
+      <B>64</B>
       <ScA>1</ScA>
-      <ScR>1</ScR>
-      <ScG>0.215860531</ScG>
-      <ScB>0</ScB>
+      <ScR>0</ScR>
+      <ScG>1</ScG>
+      <ScB>0.0512694642</ScB>
     </color1>
     <image />
     <IsImageFlicker>false</IsImageFlicker>
   </Flicker>
   <Flicker>
     <Name>Flicker</Name>
-    <X>100</X>
-    <Y>0</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>3</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
-    <color1>
-      <A>255</A>
-      <R>18</R>
-      <G>236</G>
-      <B>26</B>
-      <ScA>1</ScA>
-      <ScR>0.00604883349</ScR>
-      <ScG>0.838799</ScG>
-      <ScB>0.010329823</ScB>
-    </color1>
-    <imagepath />
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>0</X>
-    <Y>0</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>2</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
-    <color1>
-      <A>255</A>
-      <R>244</R>
-      <G>10</G>
-      <B>15</B>
-      <ScA>1</ScA>
-      <ScR>0.9046612</ScR>
-      <ScG>0.00303527</ScG>
-      <ScB>0.00477695372</ScB>
-    </color1>
-    <imagepath />
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>0</X>
-    <Y>100</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>4</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
-    <color1>
-      <A>255</A>
-      <R>58</R>
-      <G>32</G>
-      <B>222</B>
-      <ScA>1</ScA>
-      <ScR>0.04231141</ScR>
-      <ScG>0.0144438446</ScG>
-      <ScB>0.730460763</ScB>
-    </color1>
-    <imagepath />
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>100</X>
-    <Y>100</Y>
-    <Width>100</Width>
-    <Height>100</Height>
+    <X>480</X>
+    <Y>525</Y>
+    <Width>780</Width>
+    <Height>516</Height>
     <Frequency>1</Frequency>
     <Phase>0</Phase>
     <Opacity_Min>0</Opacity_Min>
@@ -223,368 +61,133 @@
     <Type>Sine</Type>
     <color1>
       <A>255</A>
-      <R>255</R>
+      <R>0</R>
       <G>255</G>
-      <B>255</B>
+      <B>64</B>
       <ScA>1</ScA>
-      <ScR>1</ScR>
+      <ScR>0</ScR>
       <ScG>1</ScG>
-      <ScB>1</ScB>
+      <ScB>0.0512694642</ScB>
     </color1>
     <image />
     <IsImageFlicker>false</IsImageFlicker>
   </Flicker>
   <Flicker>
     <Name>Flicker</Name>
-    <X>1615</X>
-    <Y>377</Y>
-    <Width>320</Width>
-    <Height>210</Height>
-    <Frequency>12</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sine</Type>
-    <color1>
-      <A>255</A>
-      <R>255</R>
-      <G>0</G>
-      <B>0</B>
-      <ScA>1</ScA>
-      <ScR>1</ScR>
-      <ScG>0</ScG>
-      <ScB>0</ScB>
-    </color1>
-    <image />
-    <IsImageFlicker>false</IsImageFlicker>
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>0</X>
-    <Y>0</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>2</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
-    <color1>
-      <A>255</A>
-      <R>244</R>
-      <G>10</G>
-      <B>15</B>
-      <ScA>1</ScA>
-      <ScR>0.9046612</ScR>
-      <ScG>0.00303527</ScG>
-      <ScB>0.00477695372</ScB>
-    </color1>
-    <imagepath />
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>0</X>
-    <Y>100</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>4</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
-    <color1>
-      <A>255</A>
-      <R>58</R>
-      <G>32</G>
-      <B>222</B>
-      <ScA>1</ScA>
-      <ScR>0.04231141</ScR>
-      <ScG>0.0144438446</ScG>
-      <ScB>0.730460763</ScB>
-    </color1>
-    <imagepath />
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>100</X>
-    <Y>100</Y>
-    <Width>100</Width>
-    <Height>100</Height>
+    <X>1160</X>
+    <Y>-47</Y>
+    <Width>780</Width>
+    <Height>516</Height>
     <Frequency>1</Frequency>
     <Phase>0</Phase>
     <Opacity_Min>0</Opacity_Min>
     <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
-    <color1>
-      <A>255</A>
-      <R>246</R>
-      <G>248</G>
-      <B>6</B>
-      <ScA>1</ScA>
-      <ScR>0.921581864</ScR>
-      <ScG>0.9386857</ScG>
-      <ScB>0.001821162</ScB>
-    </color1>
-    <imagepath />
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>100</X>
-    <Y>0</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>8</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Maximum_Lenght_Sequence</Type>
-    <color1>
-      <A>255</A>
-      <R>255</R>
-      <G>255</G>
-      <B>255</B>
-      <ScA>1</ScA>
-      <ScR>1</ScR>
-      <ScG>1</ScG>
-      <ScB>1</ScB>
-    </color1>
-    <image />
-    <IsImageFlicker>false</IsImageFlicker>
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>200</X>
-    <Y>0</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>10</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Maximum_Lenght_Sequence</Type>
-    <color1>
-      <A>255</A>
-      <R>255</R>
-      <G>255</G>
-      <B>255</B>
-      <ScA>1</ScA>
-      <ScR>1</ScR>
-      <ScG>1</ScG>
-      <ScB>1</ScB>
-    </color1>
-    <image />
-    <IsImageFlicker>false</IsImageFlicker>
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>300</X>
-    <Y>0</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>12</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Maximum_Lenght_Sequence</Type>
-    <color1>
-      <A>255</A>
-      <R>255</R>
-      <G>255</G>
-      <B>255</B>
-      <ScA>1</ScA>
-      <ScR>1</ScR>
-      <ScG>1</ScG>
-      <ScB>1</ScB>
-    </color1>
-    <image />
-    <IsImageFlicker>false</IsImageFlicker>
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>400</X>
-    <Y>0</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>14</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Maximum_Lenght_Sequence</Type>
-    <color1>
-      <A>255</A>
-      <R>255</R>
-      <G>255</G>
-      <B>255</B>
-      <ScA>1</ScA>
-      <ScR>1</ScR>
-      <ScG>1</ScG>
-      <ScB>1</ScB>
-    </color1>
-    <image />
-    <IsImageFlicker>false</IsImageFlicker>
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>855</X>
-    <Y>258</Y>
-    <Width>320</Width>
-    <Height>210</Height>
-    <Frequency>12</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
     <Type>Sine</Type>
     <color1>
       <A>255</A>
-      <R>255</R>
-      <G>0</G>
-      <B>0</B>
+      <R>0</R>
+      <G>255</G>
+      <B>64</B>
       <ScA>1</ScA>
-      <ScR>1</ScR>
-      <ScG>0</ScG>
-      <ScB>0</ScB>
+      <ScR>0</ScR>
+      <ScG>1</ScG>
+      <ScB>0.0512694642</ScB>
     </color1>
     <image />
     <IsImageFlicker>false</IsImageFlicker>
   </Flicker>
   <Flicker>
     <Name>Flicker</Name>
-    <X>1175</X>
-    <Y>-14</Y>
-    <Width>320</Width>
-    <Height>210</Height>
-    <Frequency>12</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sine</Type>
-    <color1>
-      <A>255</A>
-      <R>255</R>
-      <G>0</G>
-      <B>0</B>
-      <ScA>1</ScA>
-      <ScR>1</ScR>
-      <ScG>0</ScG>
-      <ScB>0</ScB>
-    </color1>
-    <image />
-    <IsImageFlicker>false</IsImageFlicker>
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>1465</X>
-    <Y>114</Y>
-    <Width>320</Width>
-    <Height>210</Height>
-    <Frequency>12</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sine</Type>
-    <color1>
-      <A>255</A>
-      <R>255</R>
-      <G>0</G>
-      <B>0</B>
-      <ScA>1</ScA>
-      <ScR>1</ScR>
-      <ScG>0</ScG>
-      <ScB>0</ScB>
-    </color1>
-    <image />
-    <IsImageFlicker>false</IsImageFlicker>
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>845</X>
-    <Y>95</Y>
-    <Width>320</Width>
-    <Height>210</Height>
-    <Frequency>12</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sine</Type>
-    <color1>
-      <A>255</A>
-      <R>255</R>
-      <G>0</G>
-      <B>0</B>
-      <ScA>1</ScA>
-      <ScR>1</ScR>
-      <ScG>0</ScG>
-      <ScB>0</ScB>
-    </color1>
-    <image />
-    <IsImageFlicker>false</IsImageFlicker>
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>0</X>
-    <Y>100</Y>
-    <Width>100</Width>
-    <Height>100</Height>
-    <Frequency>4</Frequency>
-    <Phase>0</Phase>
-    <Opacity_Min>0</Opacity_Min>
-    <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
-    <color1>
-      <A>255</A>
-      <R>58</R>
-      <G>32</G>
-      <B>222</B>
-      <ScA>1</ScA>
-      <ScR>0.04231141</ScR>
-      <ScG>0.0144438446</ScG>
-      <ScB>0.730460763</ScB>
-    </color1>
-    <imagepath />
-  </Flicker>
-  <Flicker>
-    <Name>Flicker</Name>
-    <X>100</X>
-    <Y>100</Y>
-    <Width>100</Width>
-    <Height>100</Height>
+    <X>-20</X>
+    <Y>453</Y>
+    <Width>780</Width>
+    <Height>516</Height>
     <Frequency>1</Frequency>
     <Phase>0</Phase>
     <Opacity_Min>0</Opacity_Min>
     <Opacity_Max>100</Opacity_Max>
-    <Type>Sinuous</Type>
+    <Type>Sine</Type>
     <color1>
       <A>255</A>
-      <R>246</R>
-      <G>248</G>
-      <B>6</B>
+      <R>0</R>
+      <G>255</G>
+      <B>64</B>
       <ScA>1</ScA>
-      <ScR>0.921581864</ScR>
-      <ScG>0.9386857</ScG>
-      <ScB>0.001821162</ScB>
+      <ScR>0</ScR>
+      <ScG>1</ScG>
+      <ScB>0.0512694642</ScB>
     </color1>
-    <imagepath />
+    <image />
+    <IsImageFlicker>false</IsImageFlicker>
   </Flicker>
   <Flicker>
     <Name>Flicker</Name>
-    <X>100</X>
-    <Y>0</Y>
-    <Width>1920</Width>
-    <Height>1080</Height>
+    <X>480</X>
+    <Y>4</Y>
+    <Width>780</Width>
+    <Height>516</Height>
     <Frequency>1</Frequency>
     <Phase>0</Phase>
-    <Opacity_Min>1</Opacity_Min>
-    <Opacity_Max>1</Opacity_Max>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
     <Type>Sine</Type>
     <color1>
-      <A>0</A>
-      <R>255</R>
+      <A>255</A>
+      <R>0</R>
       <G>255</G>
-      <B>255</B>
-      <ScA>0</ScA>
-      <ScR>1</ScR>
+      <B>64</B>
+      <ScA>1</ScA>
+      <ScR>0</ScR>
       <ScG>1</ScG>
-      <ScB>1</ScB>
+      <ScB>0.0512694642</ScB>
+    </color1>
+    <image />
+    <IsImageFlicker>false</IsImageFlicker>
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>490</X>
+    <Y>229</Y>
+    <Width>780</Width>
+    <Height>516</Height>
+    <Frequency>1</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sine</Type>
+    <color1>
+      <A>255</A>
+      <R>0</R>
+      <G>255</G>
+      <B>64</B>
+      <ScA>1</ScA>
+      <ScR>0</ScR>
+      <ScG>1</ScG>
+      <ScB>0.0512694642</ScB>
+    </color1>
+    <image />
+    <IsImageFlicker>false</IsImageFlicker>
+  </Flicker>
+  <Flicker>
+    <Name>Flicker</Name>
+    <X>490</X>
+    <Y>229</Y>
+    <Width>780</Width>
+    <Height>516</Height>
+    <Frequency>1</Frequency>
+    <Phase>0</Phase>
+    <Opacity_Min>0</Opacity_Min>
+    <Opacity_Max>100</Opacity_Max>
+    <Type>Sine</Type>
+    <color1>
+      <A>255</A>
+      <R>0</R>
+      <G>255</G>
+      <B>64</B>
+      <ScA>1</ScA>
+      <ScR>0</ScR>
+      <ScG>1</ScG>
+      <ScB>0.0512694642</ScB>
     </color1>
     <image />
     <IsImageFlicker>false</IsImageFlicker>

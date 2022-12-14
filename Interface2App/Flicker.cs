@@ -1,18 +1,10 @@
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Timers;
-using System.Windows.Media;
-using System.Drawing;
 
 namespace Interface2App
 {
-	
+
 	public class Flicker : EntityValidator
 	{
         [Required, RegularExpression(@"^.*", ErrorMessage = "Please enter a number")]

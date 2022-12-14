@@ -64,7 +64,7 @@ namespace Interface2App
 		}
 		delegate void SetTextCallback(Label label, string text);
 		/// <summary>
-		/// used for updating the label on screen. Mostly used for error and test
+		/// used for updating the labels on screen. Mostly used for error and test.
 		/// </summary>
 		/// <param name="l"></param>
 		/// <param name="text"></param>
@@ -283,7 +283,8 @@ namespace Interface2App
 			{
 				
 				CPlay oPlay = new CPlay();
-				new Thread(oPlay.Animate_Flicker).Start();
+				//new Thread(oPlay.Animate_Flicker).Start(); //seems to cause problems # TODO: investigate
+				oPlay.Animate_Flicker();
 				FlickerRunning= true;
 				//Application.Exit();
 			}
