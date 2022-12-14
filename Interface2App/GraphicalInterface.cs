@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Text.RegularExpressions;
-using System.Windows.Input;
 using System.Threading;
-using System.Diagnostics;
-using System.ComponentModel.DataAnnotations;
-using System.Timers;
-using System.Xml;
 using VisualStimuli;
 using System.Xml.Serialization;
 
@@ -59,8 +50,18 @@ namespace Interface2App
 			{
                 loadFile(default_save_file);
             }
-			
+			new Thread(ThreadPosition).Start();
         }
+		private void ThreadPosition()
+		{
+			while (true)
+			{
+				var p = Cursor.Position;
+				SetText(labelX, "X: " + p.X);
+				SetText(labelY, "Y: " + p.Y);
+				Thread.Sleep(10);
+			}
+		}
 		delegate void SetTextCallback(Label label, string text);
 		/// <summary>
 		/// used for updating the label on screen. Mostly used for error and test
@@ -247,8 +248,22 @@ namespace Interface2App
                 }
             }
 
-			if (checkBox1.Checked) { FlickerList.RemoveAt(0);FlickerList.RemoveAt(FlickerList.Count - 1); }
-            bt_save(sender, e);
+			if (checkBox1.Checked) 
+			{
+                FlickerList.RemoveAt(0);
+                FlickerList.RemoveAt(FlickerList.Count - 1);
+                while (true)
+				{
+                    try
+                    {
+                        bt_save(sender, e);
+						Thread.Sleep(10);
+						break;
+                    }
+                    catch { }
+                } 
+            }
+            
             //Application.Exit();
         }
 		/// <summary>
@@ -272,9 +287,22 @@ namespace Interface2App
 				FlickerRunning= true;
 				//Application.Exit();
 			}
-            if (checkBox1.Checked) { FlickerList.RemoveAt(0); FlickerList.RemoveAt(FlickerList.Count - 1); }
-            bt_save(sender, e);
-		}
+            if (checkBox1.Checked)
+            {
+                FlickerList.RemoveAt(0);
+                FlickerList.RemoveAt(FlickerList.Count - 1);
+                while (true)
+                {
+                    try
+                    {
+                        bt_save(sender, e);
+                        Thread.Sleep(10);
+                        break;
+                    }
+                    catch { }
+                }
+            }
+        }
 
 
 		// errorProvider 

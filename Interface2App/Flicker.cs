@@ -33,7 +33,7 @@ namespace Interface2App
 		public double Frequency { get; set; }
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
 		[Range(0, 180)]
-		public int Phase { get; set; }
+		public double Phase { get; set; }
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
 		[Range(0, 100)]
 		public int Opacity_Min { get; set; }
