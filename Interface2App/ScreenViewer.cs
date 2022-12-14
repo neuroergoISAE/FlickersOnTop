@@ -70,6 +70,7 @@ namespace Interface2App
         }
         private void UpdateFlickerZones(int index)
         {
+            if(dataSource.Count <= index) { return; }
             var flicker = dataSource[index];
             if (index >= FlickerZones.Count)
             {

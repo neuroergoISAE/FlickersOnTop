@@ -212,6 +212,7 @@ namespace Interface2App
             this.FlickerDataGridView.TabIndex = 95;
             this.FlickerDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FlickerDataGridCellContentClick);
             this.FlickerDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FlickerDataGridCellContentClick);
+            this.FlickerDataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.FlickerDataGridView_RowsRemoved);
             // 
             // NameDataGridViewTextBoxColumn
             // 

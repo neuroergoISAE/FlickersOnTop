@@ -304,11 +304,6 @@ namespace Interface2App
                 }
             }
         }
-
-
-		// errorProvider 
-		//----------------------------------------------- Input validation ----------------------------------------------//
-
 		public int resX = Screen.PrimaryScreen.Bounds.Width;
 		public int resY = Screen.PrimaryScreen.Bounds.Height;
 
@@ -338,6 +333,8 @@ namespace Interface2App
             flickerBindingSource.ResetBindings(true);
             screenViewer1.DataSource = FlickerList;
             screenViewer1.InvalidateRectangle();
+            
+            
         }
 		/// <summary>
 		/// import a list of flicker from a XML file, remove the current flickers!
@@ -499,6 +496,13 @@ namespace Interface2App
                 }
                 
             }
+        }
+
+        private void FlickerDataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            //flickerBindingSource.ResetBindings(true); //will stop the application from starting
+            screenViewer1.DataSource = FlickerList;
+            screenViewer1.InvalidateRectangle();
         }
     }
 }
