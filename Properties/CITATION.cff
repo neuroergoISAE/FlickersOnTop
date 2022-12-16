@@ -1,0 +1,9 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Darmet, Garvis, Tien, Labedan, Dehais
+    given-names: Ludovic, Victor, Dat, Patrice, Frédéric
+    orcid: https://orcid.org/0000-0001-5445-9763
+title: ludovicdmt/FlickersOnTop: Release for Zenodo
+version: v0.0.1-beta
+date-released: 2022-12-16

@@ -1,5 +1,6 @@
 Flickers on top 🖥️
 =======================
+[![DOI](https://zenodo.org/badge/483661450.svg)](https://zenodo.org/badge/latestdoi/483661450)
 
 Overview
 ------------------
@@ -7,7 +8,9 @@ Overview
 No need to code ! You define flickers and place them in the interface. The flickers can be displayed on top of any interface or with a black background for pyschopysics experiments. 🧑‍🔬  
 It provides [Lab Streaming Layer (LSL)](https://github.com/sccn/labstreaminglayer) integration.
 
-🧠 It was developped in the [Human-Factors department](https://personnel.isae-supaero.fr/neuroergonomie-et-facteurs-humains-dcas?lang=en) of ISAE-Supaero (France) by the team under the supervision of [Frédéric Dehais](https://personnel.isae-supaero.fr/frederic-dehais/).  
+🧠 It was developped in the [Human-Factors department](https://personnel.isae-supaero.fr/neuroergonomie-et-facteurs-humains-dcas?lang=en) of ISAE-Supaero (France) by the team under the supervision of [Frédéric Dehais](https://personnel.isae-supaero.fr/frederic-dehais/). 
+
+📚 You can cite our work using the DOI on top or in the [`CITATION.cff`](https://github.com/ludovicdmt/FlickersOnTop/blob/main/CITATION.cff) file. 
 
 ⚠️ This project is still under-development and this is a beta version. If you experience some issue/bug, you can share it with us in the [GitHub issues webpage](https://github.com/ludovicdmt/FlickersOnTop/issues) and we would be very happy to work on it ! It can also be used to suggest further improvements. 
 
