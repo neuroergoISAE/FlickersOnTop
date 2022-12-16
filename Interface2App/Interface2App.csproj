@@ -101,6 +101,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SequenceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ScreenViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -117,6 +120,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SequenceDialog.resx">
+      <DependentUpon>SequenceDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\DataSources\Check.datasource" />
     <None Include="Properties\DataSources\EntityValidator.datasource" />
     <None Include="Properties\DataSources\Form1.datasource" />

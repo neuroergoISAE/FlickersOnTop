@@ -97,6 +97,7 @@ namespace Interface2App
     public class flickerRect : UserControl
     {
         protected static int edgeSizeForResize = 1; //size of area where we can grab the object for resizing
+        protected static int borderSizeDrawing = 3; //size for the border of the rectangle drawn on screen. Unused for the moment.
         private bool hovered;
         private Color color1;
         private int a1;

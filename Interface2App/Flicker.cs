@@ -34,6 +34,7 @@ namespace Interface2App
         public System.Windows.Media.Color color1 { get; set; }
         public string image { get; set; }
 		public bool IsImageFlicker { get; set; } 
+		public int[] sequence { get; set; }
 
 
 

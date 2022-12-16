@@ -27,8 +27,8 @@ namespace VisualStimuli
 		{
 			//lookup the position of the Application
             filepath = Application.StartupPath;
-            filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
-            filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
+            //filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
+            //filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
             // create stream info and outlet
             StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string, "giu4h5600");
             outl = new StreamOutlet(inf);

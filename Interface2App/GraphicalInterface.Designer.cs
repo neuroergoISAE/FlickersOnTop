@@ -42,18 +42,6 @@ namespace Interface2App
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.flickerBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.FlickerDataGridView = new System.Windows.Forms.DataGridView();
-            this.NameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.xDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.yDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.widthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.heightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.frequenceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.phaseDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.opacityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Opacity2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.color = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ImageCheckBox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.typeDataGridViewComboBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.btn_delete = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -72,6 +60,19 @@ namespace Interface2App
             this.label1 = new System.Windows.Forms.Label();
             this.labelX = new System.Windows.Forms.Label();
             this.labelY = new System.Windows.Forms.Label();
+            this.NameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.xDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.yDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.widthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.heightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.frequenceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.phaseDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.opacityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Opacity2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.color = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ImageCheckBox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.typeDataGridViewComboBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Sequence = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.flickerBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FlickerDataGridView)).BeginInit();
@@ -200,7 +201,8 @@ namespace Interface2App
             this.Opacity2DataGridViewTextBoxColumn,
             this.color,
             this.ImageCheckBox,
-            this.typeDataGridViewComboBoxColumn});
+            this.typeDataGridViewComboBoxColumn,
+            this.Sequence});
             this.FlickerDataGridView.DataSource = this.flickerBindingSource;
             this.FlickerDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FlickerDataGridView.Location = new System.Drawing.Point(2, 2);
@@ -213,125 +215,6 @@ namespace Interface2App
             this.FlickerDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FlickerDataGridCellContentClick);
             this.FlickerDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FlickerDataGridCellContentClick);
             this.FlickerDataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.FlickerDataGridView_RowsRemoved);
-            // 
-            // NameDataGridViewTextBoxColumn
-            // 
-            this.NameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.NameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.NameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.NameDataGridViewTextBoxColumn.Name = "NameDataGridViewTextBoxColumn";
-            this.NameDataGridViewTextBoxColumn.ToolTipText = "Name of the Flicker";
-            this.NameDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // xDataGridViewTextBoxColumn
-            // 
-            this.xDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.xDataGridViewTextBoxColumn.DataPropertyName = "X";
-            this.xDataGridViewTextBoxColumn.HeaderText = "X";
-            this.xDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.xDataGridViewTextBoxColumn.Name = "xDataGridViewTextBoxColumn";
-            this.xDataGridViewTextBoxColumn.ToolTipText = "Top-left X coordinate";
-            this.xDataGridViewTextBoxColumn.Width = 39;
-            // 
-            // yDataGridViewTextBoxColumn
-            // 
-            this.yDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.yDataGridViewTextBoxColumn.DataPropertyName = "Y";
-            this.yDataGridViewTextBoxColumn.HeaderText = "Y";
-            this.yDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.yDataGridViewTextBoxColumn.Name = "yDataGridViewTextBoxColumn";
-            this.yDataGridViewTextBoxColumn.ToolTipText = "Top-left Y Coordinate";
-            this.yDataGridViewTextBoxColumn.Width = 39;
-            // 
-            // widthDataGridViewTextBoxColumn
-            // 
-            this.widthDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.widthDataGridViewTextBoxColumn.DataPropertyName = "Width";
-            this.widthDataGridViewTextBoxColumn.HeaderText = "Width";
-            this.widthDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.widthDataGridViewTextBoxColumn.Name = "widthDataGridViewTextBoxColumn";
-            this.widthDataGridViewTextBoxColumn.ToolTipText = "Width of the Flicker";
-            this.widthDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // heightDataGridViewTextBoxColumn
-            // 
-            this.heightDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.heightDataGridViewTextBoxColumn.DataPropertyName = "Height";
-            this.heightDataGridViewTextBoxColumn.HeaderText = "Height";
-            this.heightDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.heightDataGridViewTextBoxColumn.Name = "heightDataGridViewTextBoxColumn";
-            this.heightDataGridViewTextBoxColumn.ToolTipText = "Height of the Flicker";
-            this.heightDataGridViewTextBoxColumn.Width = 63;
-            // 
-            // frequenceDataGridViewTextBoxColumn
-            // 
-            this.frequenceDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.frequenceDataGridViewTextBoxColumn.DataPropertyName = "Frequency";
-            this.frequenceDataGridViewTextBoxColumn.HeaderText = "Frequency";
-            this.frequenceDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.frequenceDataGridViewTextBoxColumn.Name = "frequenceDataGridViewTextBoxColumn";
-            this.frequenceDataGridViewTextBoxColumn.ToolTipText = "Frequency of the Flicker";
-            this.frequenceDataGridViewTextBoxColumn.Width = 82;
-            // 
-            // phaseDataGridViewTextBoxColumn
-            // 
-            this.phaseDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.phaseDataGridViewTextBoxColumn.DataPropertyName = "Phase";
-            this.phaseDataGridViewTextBoxColumn.HeaderText = "Phase";
-            this.phaseDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.phaseDataGridViewTextBoxColumn.Name = "phaseDataGridViewTextBoxColumn";
-            this.phaseDataGridViewTextBoxColumn.ToolTipText = "Phase of the Flicker";
-            // 
-            // opacityDataGridViewTextBoxColumn
-            // 
-            this.opacityDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.opacityDataGridViewTextBoxColumn.DataPropertyName = "Opacity_Min";
-            this.opacityDataGridViewTextBoxColumn.HeaderText = "Opacity Min";
-            this.opacityDataGridViewTextBoxColumn.MinimumWidth = 8;
-            this.opacityDataGridViewTextBoxColumn.Name = "opacityDataGridViewTextBoxColumn";
-            this.opacityDataGridViewTextBoxColumn.ToolTipText = "Minimum Opacity during a cycle";
-            // 
-            // Opacity2DataGridViewTextBoxColumn
-            // 
-            this.Opacity2DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Opacity2DataGridViewTextBoxColumn.DataPropertyName = "Opacity_Max";
-            this.Opacity2DataGridViewTextBoxColumn.HeaderText = "Opacity Max";
-            this.Opacity2DataGridViewTextBoxColumn.Name = "Opacity2DataGridViewTextBoxColumn";
-            this.Opacity2DataGridViewTextBoxColumn.ToolTipText = "Maximum Opacity during a cycle";
-            // 
-            // color
-            // 
-            this.color.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.color.HeaderText = "Texture";
-            this.color.Name = "color";
-            this.color.ReadOnly = true;
-            this.color.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.color.ToolTipText = "Flicker Color or Image, click to choose the color or image file. Image can only b" +
-    "e in .bmp format!!";
-            // 
-            // ImageCheckBox
-            // 
-            this.ImageCheckBox.DataPropertyName = "IsImageFlicker";
-            this.ImageCheckBox.FalseValue = "false";
-            this.ImageCheckBox.HeaderText = "Image Flicker?";
-            this.ImageCheckBox.Name = "ImageCheckBox";
-            this.ImageCheckBox.ToolTipText = "Does that Flicker use an Image?";
-            this.ImageCheckBox.TrueValue = "true";
-            // 
-            // typeDataGridViewComboBoxColumn
-            // 
-            this.typeDataGridViewComboBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.typeDataGridViewComboBoxColumn.DataPropertyName = "Type";
-            this.typeDataGridViewComboBoxColumn.DataSource = new Interface2App.Flicker.Signal_Type[] {
-        Interface2App.Flicker.Signal_Type.Random,
-        Interface2App.Flicker.Signal_Type.Sine,
-        Interface2App.Flicker.Signal_Type.Square,
-        Interface2App.Flicker.Signal_Type.Root_Square,
-        Interface2App.Flicker.Signal_Type.Maximum_Lenght_Sequence};
-            this.typeDataGridViewComboBoxColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.typeDataGridViewComboBoxColumn.HeaderText = "Type";
-            this.typeDataGridViewComboBoxColumn.Name = "typeDataGridViewComboBoxColumn";
-            this.typeDataGridViewComboBoxColumn.ToolTipText = "Signal type for the Flicker";
             // 
             // btn_delete
             // 
@@ -577,6 +460,133 @@ namespace Interface2App
             this.labelY.Size = new System.Drawing.Size(0, 13);
             this.labelY.TabIndex = 2;
             // 
+            // NameDataGridViewTextBoxColumn
+            // 
+            this.NameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.NameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.NameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.NameDataGridViewTextBoxColumn.Name = "NameDataGridViewTextBoxColumn";
+            this.NameDataGridViewTextBoxColumn.ToolTipText = "Name of the Flicker";
+            this.NameDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // xDataGridViewTextBoxColumn
+            // 
+            this.xDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.xDataGridViewTextBoxColumn.DataPropertyName = "X";
+            this.xDataGridViewTextBoxColumn.HeaderText = "X";
+            this.xDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.xDataGridViewTextBoxColumn.Name = "xDataGridViewTextBoxColumn";
+            this.xDataGridViewTextBoxColumn.ToolTipText = "Top-left X coordinate";
+            this.xDataGridViewTextBoxColumn.Width = 39;
+            // 
+            // yDataGridViewTextBoxColumn
+            // 
+            this.yDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.yDataGridViewTextBoxColumn.DataPropertyName = "Y";
+            this.yDataGridViewTextBoxColumn.HeaderText = "Y";
+            this.yDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.yDataGridViewTextBoxColumn.Name = "yDataGridViewTextBoxColumn";
+            this.yDataGridViewTextBoxColumn.ToolTipText = "Top-left Y Coordinate";
+            this.yDataGridViewTextBoxColumn.Width = 39;
+            // 
+            // widthDataGridViewTextBoxColumn
+            // 
+            this.widthDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.widthDataGridViewTextBoxColumn.DataPropertyName = "Width";
+            this.widthDataGridViewTextBoxColumn.HeaderText = "Width";
+            this.widthDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.widthDataGridViewTextBoxColumn.Name = "widthDataGridViewTextBoxColumn";
+            this.widthDataGridViewTextBoxColumn.ToolTipText = "Width of the Flicker";
+            this.widthDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // heightDataGridViewTextBoxColumn
+            // 
+            this.heightDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.heightDataGridViewTextBoxColumn.DataPropertyName = "Height";
+            this.heightDataGridViewTextBoxColumn.HeaderText = "Height";
+            this.heightDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.heightDataGridViewTextBoxColumn.Name = "heightDataGridViewTextBoxColumn";
+            this.heightDataGridViewTextBoxColumn.ToolTipText = "Height of the Flicker";
+            this.heightDataGridViewTextBoxColumn.Width = 63;
+            // 
+            // frequenceDataGridViewTextBoxColumn
+            // 
+            this.frequenceDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.frequenceDataGridViewTextBoxColumn.DataPropertyName = "Frequency";
+            this.frequenceDataGridViewTextBoxColumn.HeaderText = "Frequency";
+            this.frequenceDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.frequenceDataGridViewTextBoxColumn.Name = "frequenceDataGridViewTextBoxColumn";
+            this.frequenceDataGridViewTextBoxColumn.ToolTipText = "Frequency of the Flicker";
+            this.frequenceDataGridViewTextBoxColumn.Width = 82;
+            // 
+            // phaseDataGridViewTextBoxColumn
+            // 
+            this.phaseDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.phaseDataGridViewTextBoxColumn.DataPropertyName = "Phase";
+            this.phaseDataGridViewTextBoxColumn.HeaderText = "Phase";
+            this.phaseDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.phaseDataGridViewTextBoxColumn.Name = "phaseDataGridViewTextBoxColumn";
+            this.phaseDataGridViewTextBoxColumn.ToolTipText = "Phase of the Flicker";
+            // 
+            // opacityDataGridViewTextBoxColumn
+            // 
+            this.opacityDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.opacityDataGridViewTextBoxColumn.DataPropertyName = "Opacity_Min";
+            this.opacityDataGridViewTextBoxColumn.HeaderText = "Opacity Min";
+            this.opacityDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.opacityDataGridViewTextBoxColumn.Name = "opacityDataGridViewTextBoxColumn";
+            this.opacityDataGridViewTextBoxColumn.ToolTipText = "Minimum Opacity during a cycle";
+            // 
+            // Opacity2DataGridViewTextBoxColumn
+            // 
+            this.Opacity2DataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Opacity2DataGridViewTextBoxColumn.DataPropertyName = "Opacity_Max";
+            this.Opacity2DataGridViewTextBoxColumn.HeaderText = "Opacity Max";
+            this.Opacity2DataGridViewTextBoxColumn.Name = "Opacity2DataGridViewTextBoxColumn";
+            this.Opacity2DataGridViewTextBoxColumn.ToolTipText = "Maximum Opacity during a cycle";
+            // 
+            // color
+            // 
+            this.color.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.color.HeaderText = "Texture";
+            this.color.Name = "color";
+            this.color.ReadOnly = true;
+            this.color.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.color.ToolTipText = "Flicker Color or Image, click to choose the color or image file. Image can only b" +
+    "e in .bmp format!!";
+            // 
+            // ImageCheckBox
+            // 
+            this.ImageCheckBox.DataPropertyName = "IsImageFlicker";
+            this.ImageCheckBox.FalseValue = "false";
+            this.ImageCheckBox.HeaderText = "Image Flicker?";
+            this.ImageCheckBox.Name = "ImageCheckBox";
+            this.ImageCheckBox.ToolTipText = "Does that Flicker use an Image?";
+            this.ImageCheckBox.TrueValue = "true";
+            // 
+            // typeDataGridViewComboBoxColumn
+            // 
+            this.typeDataGridViewComboBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.typeDataGridViewComboBoxColumn.DataPropertyName = "Type";
+            this.typeDataGridViewComboBoxColumn.DataSource = new Interface2App.Flicker.Signal_Type[] {
+        Interface2App.Flicker.Signal_Type.Random,
+        Interface2App.Flicker.Signal_Type.Sine,
+        Interface2App.Flicker.Signal_Type.Square,
+        Interface2App.Flicker.Signal_Type.Root_Square,
+        Interface2App.Flicker.Signal_Type.Maximum_Lenght_Sequence};
+            this.typeDataGridViewComboBoxColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.typeDataGridViewComboBoxColumn.HeaderText = "Type";
+            this.typeDataGridViewComboBoxColumn.Name = "typeDataGridViewComboBoxColumn";
+            this.typeDataGridViewComboBoxColumn.ToolTipText = "Signal type for the Flicker";
+            // 
+            // Sequence
+            // 
+            this.Sequence.HeaderText = "Sequencing";
+            this.Sequence.Name = "Sequence";
+            this.Sequence.ReadOnly = true;
+            this.Sequence.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Sequence.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -658,6 +668,7 @@ namespace Interface2App
         private System.Windows.Forms.DataGridViewTextBoxColumn color;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ImageCheckBox;
         private System.Windows.Forms.DataGridViewComboBoxColumn typeDataGridViewComboBoxColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn Sequence;
     }
 }
 
