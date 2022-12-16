@@ -45,6 +45,7 @@ namespace VisualStimuli
 		public int TypeFrequence { get => m_typeFreq; set => m_typeFreq = value; }
 		public int size { get; set; }
 		public int index { get; set; }
+		public int[] seq { get; set; }
 
 		public double[] Data { get => m_data; set => m_data = value; }
 		/// <summary>
@@ -56,10 +57,11 @@ namespace VisualStimuli
 		/// <param name="alph1">The double value illustates the opacity1.</param>
 		/// <param name="alph2">The double value illustates the opacity2.</param>
 		/// <param name="phase">The double value illustates the phase.</param>
-		/// <param name="typeFreq">The double value illustates type of the flicker (sinious, max-length-sequence,...).</param>
+		/// <param name="typeFreq">The double value illustates type of the flicker (sine, max-length-sequence,...).</param>
+		/// <param name="seq">The int array illustrates the timing in which the flicker is active</param>
 		///<return>None</return>>
 		
-		public CFlicker(int x,int y,int width,int height,CScreen screen, Color col1, double freq, double alph1, double alph2, double phase, int typeFreq)
+		public CFlicker(int x,int y,int width,int height,CScreen screen, Color col1, double freq, double alph1, double alph2, double phase, int typeFreq, int[] seq)
 		{
 			Color1 = col1;
 			Frequency = freq;
@@ -72,6 +74,7 @@ namespace VisualStimuli
 			Alpha2 = alph2;
 			Phase = phase;
 			TypeFrequence = typeFreq;
+			this.seq= seq;
 			double frameRate = GetFrameRate();
 			while (Frequency > frameRate)
 			{

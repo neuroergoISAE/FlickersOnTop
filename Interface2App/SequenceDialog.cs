@@ -230,6 +230,7 @@ namespace Interface2App
             timeMax = 60.0;
             this.flicker = flicker;
             this.MouseWheel += OnScroll;
+            this.BackColor= Color.White;
             //check if sequence list correct
             if(flicker.sequence!=null)
             {
@@ -332,7 +333,7 @@ namespace Interface2App
             var pos = owner.getPos();
             Location = new Point((int)((pos - startTime) * scale), owner.Height / 2 - SizeRectY);
             Width = (int)((endTime - pos) * scale);
-            e.Graphics.FillRectangle(new SolidBrush(Color.AliceBlue), DisplayRectangle);
+            BackColor = Color.FromArgb(200, 80, 80, 220);
         }
         private bool mouseLock = false;
         private int startPoint = 0;

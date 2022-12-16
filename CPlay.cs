@@ -10,6 +10,9 @@ using LSL;
 using System.Xml;
 using System.Globalization;
 using System.Drawing;
+using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace VisualStimuli
 {
@@ -132,8 +135,20 @@ namespace VisualStimuli
 					{
 						image= node.SelectSingleNode("image").InnerText;
                     }
-                    
+					int[] seq = new int[0];
+                    if (node.SelectSingleNode("sequence") != null)
+					{
+                        var seqnodes = node.SelectSingleNode("sequence").ChildNodes;
 
+                        seq = new int[seqnodes.Count];
+                        for (int i = 0; i < seq.Length; i++)
+                        {
+                            int v;
+                            int.TryParse(seqnodes[i].InnerText, out v);
+                            seq.SetValue(v, i);
+                        }
+                    }
+					Console.WriteLine(seq.Length);
                     //create a window and a the flickers to the list of flickers
                     CScreen screen = new CScreen(pos_x, pos_y, width, height, name, false,r1,g1,b1,image);
 					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen.PSurface);
@@ -145,10 +160,11 @@ namespace VisualStimuli
 						screen,
 					   Color.FromArgb(255, r1, g1, b1), // color1 RGB
 					   freq,
-					   a1 *2.55, // alpha1
-					   a2*2.55, // alpha2
+					   a1 * 2.55, // alpha1
+					   a2 * 2.55, // alpha2
 					   phase,
-					   (int)type) // type frequence
+					   (int)type,
+					   seq) // type frequence
 					);
 				}
 				Console.WriteLine("Created {0} Flickers", m_listFlickers.Count);
@@ -224,13 +240,37 @@ namespace VisualStimuli
 			{
 				frame += 1;
                 var watchFPSMax=System.Diagnostics.Stopwatch.StartNew();
-				//parallel treatment for each flickers
+				//parallel treatment for each flickers (useful when lots of flicker on slow computer with multiple proc core)
 				//flickers are still synchronized, only parallelized during 1 frame.
 				Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
 				{
 					if (c.index >= c.size) { c.index = 0; }
-					c.display();
-					c.index += 1+lost_frame;
+					//check if this flicker is to be shown
+					// TODO: fasten this process with use of sorting or not checking when we are active and before endTime of activity
+					if(c.seq.Length> 0)
+					{
+						bool b=false;
+						for(int i = 0; i < c.seq.Length; i += 2)
+						{
+							if ((int)watch.Elapsed.TotalSeconds > c.seq[i] && (int)watch.Elapsed.TotalSeconds < c.seq[i + 1])
+							{
+                                c.display();
+                                c.index += 1 + lost_frame;
+								b=true;
+								break;
+                            }
+						}
+						if (!b)
+						{
+							c.Screen.show(0);
+						}
+					}
+					else
+					{
+                        c.display();
+                        c.index += 1 + lost_frame;
+                    }
+					
 				}
 				);
 				watchFPSMax.Stop();
