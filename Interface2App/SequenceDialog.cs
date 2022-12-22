@@ -145,7 +145,7 @@ namespace Interface2App
 
         }
 
-        private Label label1;
+        public Label label1;
         private FlowLayoutPanel flowLayoutPanel1;
         private Button button1;
         private Button button2;
@@ -269,13 +269,17 @@ namespace Interface2App
             var size = timeScale * Width;
 
         }
+        protected override void OnInvalidated(InvalidateEventArgs e)
+        {
+            base.OnInvalidated(e);
+        }
         private void OnScroll(object sender, MouseEventArgs e)
         {
             //if we scrolled, change the time scale , the scroll bar and potentially timeMax
             if (e.Delta != 0)
             {
-                if (e.Delta > 0) { SetScale(timeScale /= 1.3); }
-                if (e.Delta < 0) { SetScale(timeScale * 1.5); }
+                if (e.Delta > 0) { SetScale(timeScale /= 1.07); }
+                if (e.Delta < 0) { SetScale(timeScale * 1.15); }
                 if (timeScale * DisplayRectangle.Width > timeMax) { timeMax = timeScale*DisplayRectangle.Width;}
                 owner.setSizeScrollBar((int)timeMax);
             }
@@ -283,6 +287,12 @@ namespace Interface2App
         }
         public void SetPos(double pos)
         {
+            owner.label1.Text= timeRectangles.Count.ToString();
+            foreach(TimeRectangle rect in timeRectangles)
+            {
+                owner.label1.Text=rect.ToString();
+                rect.Invalidate();
+            }
             //we moved on the time axis
             timePos = pos;
             Invalidate();
@@ -297,6 +307,7 @@ namespace Interface2App
                 var point = PointToClient(Cursor.Position);
                 var start = timePos - timeWindow / 2;
                 var end = timePos + timeWindow / 2;
+                if (start < 0) { start = 0; }
                 timePos = (start * (DisplayRectangle.Width - point.X) + end * point.X) / 2;
             }
             timeScale=scale;
@@ -330,14 +341,19 @@ namespace Interface2App
         }
         protected override void OnPaint(PaintEventArgs e)
         {
+            BackColor = Color.FromArgb(200, 80, 80, 220);
             base.OnPaint(e);
+        }
+        protected override void OnInvalidated(InvalidateEventArgs e)
+        {
             var scale = owner.GetScale();
             var pos = owner.GetPos();
-            var size = scale*owner.Width;
+            var size = scale * owner.Width;
             var sta = pos - size / 2;
-            Location = new Point((int)((startTime-sta) * scale), owner.Height / 2 - SizeRectY);
-            Width = (int)((endTime-startTime) * scale);
-            BackColor = Color.FromArgb(200, 80, 80, 220);
+            //warning: scale is in || second per pixel || not pixel per second!!! s.pixel^-1
+            Location = new Point((int)((startTime - sta) / scale), owner.Height / 2 - SizeRectY);
+            Width = (int)((endTime - startTime) / scale);
+            base.OnInvalidated(e);
         }
         private bool mouseLock = false;
         private int startPoint = 0;
@@ -408,6 +424,10 @@ namespace Interface2App
         {
             mouseLock = false;
             Cursor.Current = Cursors.Default;
+        }
+        public override string ToString()
+        {
+            return "[TimeRectangle: x:" + DisplayRectangle.X + " y:" + DisplayRectangle.Y + " Width:" + DisplayRectangle.Width + " Height:" + DisplayRectangle.Height + " StartTime:" + startTime + " Endtime:" + endTime + "]";
         }
     }
 }
