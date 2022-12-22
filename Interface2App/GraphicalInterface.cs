@@ -417,8 +417,8 @@ namespace Interface2App
 				//detect mouse click on sequencing column
                 if (e.RowIndex >= 0 && e.ColumnIndex == FlickerDataGridView.Columns["Sequence"].Index)
 				{
-					SequenceForm f = new SequenceForm(FlickerList[e.RowIndex]);
-					if(f.ShowDialog() == DialogResult.OK){}
+					new SequenceForm(FlickerList[e.RowIndex]).ShowDialog();
+
 				}
                 //manually signal that data has been changed
                 onDataChanged(sender, e);

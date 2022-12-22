@@ -66,7 +66,7 @@ namespace Interface2App
             // 
             // sequenceControl1
             // 
-            this.sequenceControl1.AutoSize = true;
+            this.sequenceControl1.AutoSize = false;
             this.sequenceControl1.ContextMenuStrip = this.SequenceControlContextMenu;
             this.sequenceControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sequenceControl1.Location = new System.Drawing.Point(3, 16);
@@ -172,13 +172,13 @@ namespace Interface2App
 
         private void hScrollBar1_ValueChanged(object sender, EventArgs e)
         {
-            var totalTimeShown = (sequenceControl1.getScale() * sequenceControl1.Width);
+            var totalTimeShown = (sequenceControl1.GetScale() * sequenceControl1.Width);
             //convert back into timePos
-            sequenceControl1.setPos(hScrollBar1.Value*totalTimeShown/ scrollBarGranularity);
+            sequenceControl1.SetPos(hScrollBar1.Value*totalTimeShown/ scrollBarGranularity);
         }
         public void setSizeScrollBar(int max)
         {
-            var totalTimeShown = (sequenceControl1.getScale() * sequenceControl1.Width);
+            var totalTimeShown = (sequenceControl1.GetScale() * sequenceControl1.Width);
             //if all is shown, no need for the scroll bar
             if (totalTimeShown >= max) { hScrollBar1.Maximum = 0; }
             //else add the number of different position we want to show  based on granularity
@@ -211,8 +211,8 @@ namespace Interface2App
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var pointX = sequenceControl1.PointToClient(Cursor.Position).X;
-            var startTime = (int)(pointX * sequenceControl1.getScale());
-            sequenceControl1.timeRectangles.Add(new TimeRectangle(startTime, startTime + (int)(10 * sequenceControl1.getScale()), sequenceControl1));
+            var startTime = (int)(pointX * sequenceControl1.GetScale());
+            sequenceControl1.timeRectangles.Add(new TimeRectangle(startTime, startTime + (int)(10 * sequenceControl1.GetScale()), sequenceControl1));
             sequenceControl1.BackColor= Color.White;
         }
     }
@@ -228,6 +228,7 @@ namespace Interface2App
         {
             timeScale= 1.0;
             timeMax = 60.0;
+            timePos = 30;
             this.flicker = flicker;
             this.MouseWheel += OnScroll;
             this.BackColor= Color.White;
@@ -265,6 +266,7 @@ namespace Interface2App
 
             //add demarcation for clarity
             //TODO
+            var size = timeScale * Width;
 
         }
         private void OnScroll(object sender, MouseEventArgs e)
@@ -272,20 +274,20 @@ namespace Interface2App
             //if we scrolled, change the time scale , the scroll bar and potentially timeMax
             if (e.Delta != 0)
             {
-                if (e.Delta > 0) { setScale(timeScale /= 1.3); }
-                if (e.Delta < 0) { setScale(timeScale * 1.5); }
+                if (e.Delta > 0) { SetScale(timeScale /= 1.3); }
+                if (e.Delta < 0) { SetScale(timeScale * 1.5); }
                 if (timeScale * DisplayRectangle.Width > timeMax) { timeMax = timeScale*DisplayRectangle.Width;}
                 owner.setSizeScrollBar((int)timeMax);
             }
             return;
         }
-        public void setPos(double pos)
+        public void SetPos(double pos)
         {
             //we moved on the time axis
             timePos = pos;
             Invalidate();
         }
-        public void setScale(double scale)
+        public void SetScale(double scale)
         {
             //we changed the zoom
             if (scale < timeScale)
@@ -300,8 +302,8 @@ namespace Interface2App
             timeScale=scale;
             Invalidate();
         }
-        public double getPos() { return timePos;}
-        public double getScale() { return timeScale;}
+        public double GetPos() { return timePos;}
+        public double GetScale() { return timeScale;}
     }
     public class TimeRectangle : UserControl
     {
@@ -329,10 +331,12 @@ namespace Interface2App
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            var scale = owner.getScale();
-            var pos = owner.getPos();
-            Location = new Point((int)((pos - startTime) * scale), owner.Height / 2 - SizeRectY);
-            Width = (int)((endTime - pos) * scale);
+            var scale = owner.GetScale();
+            var pos = owner.GetPos();
+            var size = scale*owner.Width;
+            var sta = pos - size / 2;
+            Location = new Point((int)((startTime-sta) * scale), owner.Height / 2 - SizeRectY);
+            Width = (int)((endTime-startTime) * scale);
             BackColor = Color.FromArgb(200, 80, 80, 220);
         }
         private bool mouseLock = false;
@@ -353,9 +357,9 @@ namespace Interface2App
             var point = PointToClient(Cursor.Position);
             if (!mouseLock)
             {
-                if (point.X <= Location.X + edgeSizeForResize || point.X >= Width - edgeSizeForResize)
+                if (point.X <= DisplayRectangle.Location.X + edgeSizeForResize || point.X >= Width - edgeSizeForResize)
                 {
-                    if (point.X <= Location.X + edgeSizeForResize)
+                    if (point.X <= DisplayRectangle.Location.X + edgeSizeForResize)
                     {
                         direction = -1;
                     }
@@ -370,7 +374,7 @@ namespace Interface2App
             }
             else
             {
-                var scale = owner.getScale();
+                var scale = owner.GetScale();
                 if((point.X - startPoint) > 2) //minimum distance before modifying anything
                 {
                     var difX = (int)(scale * (point.X - startPoint)); //time displacement (with scale!)

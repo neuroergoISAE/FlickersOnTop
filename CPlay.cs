@@ -262,6 +262,7 @@ namespace VisualStimuli
 						}
 						if (!b)
 						{
+							//let the flicker become invisible
 							c.Screen.show(0);
 						}
 					}
