@@ -87,7 +87,7 @@ namespace Interface2App
             this.AddTimeWindow.Name = "AddTimeWindow";
             this.AddTimeWindow.Size = new System.Drawing.Size(283, 22);
             this.AddTimeWindow.Text = "Add a new time window at this position";
-            this.AddTimeWindow.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.AddTimeWindow.Click += new System.EventHandler(this.addRectangleMenuItem1_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -108,7 +108,7 @@ namespace Interface2App
             this.button1.TabIndex = 0;
             this.button1.Text = "Cancel";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // button2
             // 
@@ -118,7 +118,7 @@ namespace Interface2App
             this.button2.TabIndex = 1;
             this.button2.Text = "Ok";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.buttonAccept_Click);
             // 
             // hScrollBar1
             // 
@@ -185,8 +185,13 @@ namespace Interface2App
             else { hScrollBar1.Maximum = (int)(scrollBarGranularity * max / totalTimeShown); }
             
         }
+        public void setSizeScrollBarValue(double pos)
+        {
+            var totalTimeShown = (sequenceControl1.GetScale() * sequenceControl1.Width);
+            hScrollBar1.Value= (int)(scrollBarGranularity*(pos/totalTimeShown));
+        }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonAccept_Click(object sender, EventArgs e)
         {
             //accept the modification and close
             int[] newSequence = new int[sequenceControl1.timeRectangles.Count*2];
@@ -201,14 +206,14 @@ namespace Interface2App
             this.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonCancel_Click(object sender, EventArgs e)
         {
             //we don't change anything and close
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void addRectangleMenuItem1_Click(object sender, EventArgs e)
         {
             var pointX = sequenceControl1.PointToClient(Cursor.Position).X;
             var startTime = (int)(pointX * sequenceControl1.GetScale());
@@ -269,10 +274,6 @@ namespace Interface2App
             var size = timeScale * Width;
 
         }
-        protected override void OnInvalidated(InvalidateEventArgs e)
-        {
-            base.OnInvalidated(e);
-        }
         private void OnScroll(object sender, MouseEventArgs e)
         {
             //if we scrolled, change the time scale , the scroll bar and potentially timeMax
@@ -287,14 +288,9 @@ namespace Interface2App
         }
         public void SetPos(double pos)
         {
-            owner.label1.Text= timeRectangles.Count.ToString();
-            foreach(TimeRectangle rect in timeRectangles)
-            {
-                owner.label1.Text=rect.ToString();
-                rect.Invalidate();
-            }
             //we moved on the time axis
             timePos = pos;
+            owner.setSizeScrollBarValue(pos);
             Invalidate();
         }
         public void SetScale(double scale)
@@ -321,8 +317,8 @@ namespace Interface2App
         public int startTime;
         public int endTime;
         public SequenceControl owner;
-        protected static int SizeRectY = 6; //size in pixel of the rectanle on screen
-        protected static int edgeSizeForResize = 1; //size of area where we can grab the object for resizing
+        protected static int SizeRectY = 6; //Height/2 in pixel of the rectanle on screen
+        protected static int edgeSizeForResize = 3; //size of area where we can grab the object for resizing
         public TimeRectangle(int start, int end,SequenceControl owner)
         {
             this.startTime = start;
@@ -349,7 +345,7 @@ namespace Interface2App
             var scale = owner.GetScale();
             var pos = owner.GetPos();
             var size = scale * owner.Width;
-            var sta = pos - size / 2;
+            var sta = pos - size / 2.0;
             //warning: scale is in || second per pixel || not pixel per second!!! s.pixel^-1
             Location = new Point((int)((startTime - sta) / scale), owner.Height / 2 - SizeRectY);
             Width = (int)((endTime - startTime) / scale);
@@ -413,7 +409,6 @@ namespace Interface2App
                     Invalidate();
                 }
             }
-            
         }
         private void OnMouseUp(object sender, EventArgs e)
         {

@@ -21,8 +21,8 @@ namespace VisualStimuli
 		private IntPtr m_handle;
 		private CScreen m_screen;
 		private Color m_color1;
-		private double m_alpha1;
-		private double m_alpha2;
+		private int m_alpha1;
+		private int m_alpha2;
 		private double m_frequence;
 		private double m_phase;
 		private int m_typeFreq;
@@ -37,8 +37,8 @@ namespace VisualStimuli
 		public int Height { get=>m_height; set=> m_height = value; }
 		public double Phase { get => m_phase; set => m_phase = value; }
         public double Frequency { get => m_frequence; set => m_frequence = value; }
-        public double Alpha2 { get => m_alpha2; set => m_alpha2 = value; }
-        public double Alpha1 { get => m_alpha1; set => m_alpha1 = value; }
+        public int Alpha2 { get => m_alpha2; set => m_alpha2 = value; }
+        public int Alpha1 { get => m_alpha1; set => m_alpha1 = value; }
         public Color Color1 { get => m_color1; set => m_color1 = value; }
         internal CScreen Screen { get => m_screen; set => m_screen = value; }
         public IntPtr Handle { get => m_handle; set => m_handle = value; }
@@ -61,7 +61,7 @@ namespace VisualStimuli
 		/// <param name="seq">The int array illustrates the timing in which the flicker is active</param>
 		///<return>None</return>>
 		
-		public CFlicker(int x,int y,int width,int height,CScreen screen, Color col1, double freq, double alph1, double alph2, double phase, int typeFreq, int[] seq)
+		public CFlicker(int x,int y,int width,int height,CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, int[] seq)
 		{
 			Color1 = col1;
 			Frequency = freq;
@@ -178,7 +178,7 @@ namespace VisualStimuli
 
 			Random rand = new Random();
 			int tmp;
-			double frameRate = GetFrameRate(); 
+			double frameRate = GetFrameRate();
 			// 60Hz 
 			double timeFlicker = frameRate/Frequency;
             size = (int)(frameRate * timeFlicker);
@@ -265,7 +265,16 @@ namespace VisualStimuli
 
 				 
 			}
-		}
+			// None, used only for test
+            if (TypeFrequence == 4)
+			{
+				for(int j=0;j<size;j++)
+				{
+					Data[j] = 1.0;
+				}
+			}
+
+        }
 		public void Destroy()
 		{
 			Screen.Quit();

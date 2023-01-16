@@ -14,11 +14,14 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.IO;
 
+
 namespace VisualStimuli
 {
-	public class CPlay
+    
+    public class CPlay
 	{
-		ArrayList m_listFlickers = new ArrayList();
+        private long TICKSPERSECONDS = TimeSpan.TicksPerSecond;
+        ArrayList m_listFlickers = new ArrayList();
 		string filepath; //indicate the environment path
 		public CPlay(string filepath)
 		{
@@ -87,7 +90,8 @@ namespace VisualStimuli
             Root_Square = 3,
             Square = 2,
             Random = 0,
-            Maximum_Lenght_Sequence = 4
+            Maximum_Lenght_Sequence = 4,
+			None=5
         };
 
         /// <summary>
@@ -160,14 +164,16 @@ namespace VisualStimuli
 						screen,
 					   Color.FromArgb(255, r1, g1, b1), // color1 RGB
 					   freq,
-					   a1 * 2.55, // alpha1
-					   a2 * 2.55, // alpha2
+					   (int)Math.Round(a1 * 2.55), // alpha1
+					   (int)Math.Round(a2 * 2.55), // alpha2
 					   phase,
 					   (int)type,
 					   seq) // type frequence
 					);
-				}
+                    Console.WriteLine("With Opacity {0}", a2 * 2.55);
+                }
 				Console.WriteLine("Created {0} Flickers", m_listFlickers.Count);
+				
 			}
 			catch (Exception e)
 			{
@@ -234,7 +240,7 @@ namespace VisualStimuli
             long frame = 0;
             var watch = System.Diagnostics.Stopwatch.StartNew(); //watch for fps syncing
 			int lost_frame = 0; //only used if computer is too slow to display all frames, we will jump over some frames
-			long frame_ticks =(long) ((1d / frameRate) * 10000000d);
+            long frame_ticks =(long) ((1d / frameRate) * TICKSPERSECONDS);
             SDL.SDL_Event evt = new SDL.SDL_Event();
             while (!quit && SDL.SDL_GetTicks() < 1000000)
 			{
@@ -244,34 +250,33 @@ namespace VisualStimuli
 				//flickers are still synchronized, only parallelized during 1 frame.
 				Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
 				{
-					if (c.index >= c.size) { c.index = 0; }
-					//check if this flicker is to be shown
-					// TODO: fasten this process with use of sorting or not checking when we are active and before endTime of activity
-					if(c.seq.Length> 0)
-					{
-						bool b=false;
-						for(int i = 0; i < c.seq.Length; i += 2)
-						{
-							if ((int)watch.Elapsed.TotalSeconds > c.seq[i] && (int)watch.Elapsed.TotalSeconds < c.seq[i + 1])
-							{
+                    if (c.index >= c.size) { c.index = 0; }
+                    //check if this flicker is to be shown
+                    // TODO: fasten this process with use of sorting or not checking when we are active and before endTime of activity
+                    if (c.seq.Length > 0)
+                    {
+                        bool b = false;
+                        for (int i = 0; i < c.seq.Length; i += 2)
+                        {
+                            if ((int)watch.Elapsed.TotalSeconds > c.seq[i] && (int)watch.Elapsed.TotalSeconds < c.seq[i + 1])
+                            {
                                 c.display();
                                 c.index += 1 + lost_frame;
-								b=true;
-								break;
+                                b = true;
+                                break;
                             }
-						}
-						if (!b)
-						{
-							//let the flicker become invisible
-							c.Screen.show(0);
-						}
-					}
-					else
-					{
+                        }
+                        if (!b)
+                        {
+                            //let the flicker become invisible
+                            c.Screen.show(0);
+                        }
+                    }
+                    else
+                    {
                         c.display();
                         c.index += 1 + lost_frame;
                     }
-					
 				}
 				);
 				watchFPSMax.Stop();
@@ -289,12 +294,14 @@ namespace VisualStimuli
 				}
 				var left = frame_ticks*frame - watch.ElapsedTicks;
                 //Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,left/10000d,frame*1000/watch.ElapsedMilliseconds,10000000d/watchFPSMax.ElapsedTicks);
-                if (left>0L) { 
-					Thread.Sleep((int)(left/10000d));
+                
+				if (left>0L) { 
+					Thread.Sleep((int)(left/(TICKSPERSECONDS/1000d)));
 					lost_frame= 0;
 				} 
 				else 
 				{ 
+					//# TODO: jump over frames in case of slow down, useful with sine flickers, breaks cVEP, but a slow down already breaks them anyway 
 					//Console.WriteLine("Warning Rendering can't keep up!! max FPS: {0}",frame*10000000d/watch.ElapsedTicks);
                     //left= Math.Abs(left);
                     //lost_frame = Convert.ToInt32(left / frame_ticks)+1;

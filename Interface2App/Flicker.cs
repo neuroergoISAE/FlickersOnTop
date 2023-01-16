@@ -44,7 +44,8 @@ namespace Interface2App
 			Root_Square=3,
 			Square=2,
 			Random=0,
-			Maximum_Lenght_Sequence=4
+			Maximum_Lenght_Sequence=4,
+			None=5
 		}
 		/// <summary>
 		/// create a new flicker in top-left point of the screen with white color.
@@ -72,12 +73,12 @@ namespace Interface2App
 		/// <param name="Width"></param>
 		/// <param name="Height"></param>
 		/// <param name="c"></param>
-        public Flicker(int X,int Y,int Width,int Height,System.Windows.Media.Color c,int op_min,int op_max,double freq)
+        public Flicker(int X,int Y,int Width,int Height,System.Windows.Media.Color c,int op_min,int op_max,double freq,int type)
         {
             Name = "Flicker";
             Opacity_Min = op_min;
             Opacity_Max = op_max;
-            Type = Signal_Type.Sine;
+            Type = (Signal_Type)type;
 			color1 = c;
             this.X = X;
             this.Y = Y;

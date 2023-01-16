@@ -573,7 +573,8 @@ namespace Interface2App
         Interface2App.Flicker.Signal_Type.Sine,
         Interface2App.Flicker.Signal_Type.Square,
         Interface2App.Flicker.Signal_Type.Root_Square,
-        Interface2App.Flicker.Signal_Type.Maximum_Lenght_Sequence};
+        Interface2App.Flicker.Signal_Type.Maximum_Lenght_Sequence,
+        Interface2App.Flicker.Signal_Type.None};
             this.typeDataGridViewComboBoxColumn.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
             this.typeDataGridViewComboBoxColumn.HeaderText = "Type";
             this.typeDataGridViewComboBoxColumn.Name = "typeDataGridViewComboBoxColumn";

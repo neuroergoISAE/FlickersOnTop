@@ -227,8 +227,8 @@ namespace Interface2App
 		{
             if (checkBox1.Checked)
             {
-                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq:1));
-				FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1));
+                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq:1, type: 5));
+				FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1, type: 5));
 			}
             bt_save(sender, e);
             if (!FlickerRunning)
@@ -278,8 +278,8 @@ namespace Interface2App
 		{
             if (checkBox1.Checked)
             {
-                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1));
-                FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1));
+                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1,type:5));
+                FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1,type:5));
             }
             bt_save(sender, e);
 			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled) && !FlickerRunning)
