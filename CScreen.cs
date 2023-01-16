@@ -145,9 +145,6 @@ namespace VisualStimuli
             {
                 throw new Exception(SDL_GetError());
             }
-            var b = 0f;
-            SDL.SDL_GetWindowOpacity(m_pWindow, out b);
-            Console.WriteLine("Window opacity: {0} , Asked for: {1}",b,a);
         }
         public void Quit()
         {

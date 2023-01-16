@@ -331,9 +331,9 @@ namespace Interface2App
 
             //Event handling for mouse interaction
             this.MouseDown += OnMouseDown;
-            this.MouseUp+= OnMouseUp;
+            this.MouseUp += OnMouseUp;
             this.MouseMove += OnMouseMove;
-            this.MouseLeave+= OnMouseLeave;
+            this.MouseLeave += OnMouseLeave;
         }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -403,6 +403,7 @@ namespace Interface2App
                             startTime = sOrigin + difX;
                             break;
                     }
+                    Console.WriteLine(difX);
                     //start time can't be inferior to 0
                     if (startTime < 0) { startTime = 0; }
                     //redraw the rectangle

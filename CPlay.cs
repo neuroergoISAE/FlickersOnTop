@@ -246,9 +246,9 @@ namespace VisualStimuli
 			{
 				frame += 1;
                 var watchFPSMax=System.Diagnostics.Stopwatch.StartNew();
-				//parallel treatment for each flickers (useful when lots of flicker on slow computer with multiple proc core)
-				//flickers are still synchronized, only parallelized during 1 frame.
-				Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
+                //parallel treatment for each flickers (useful when lots of flicker on slow computer with multiple proc core)
+                //flickers are still synchronized, only parallelized during 1 frame.
+                Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
 				{
                     if (c.index >= c.size) { c.index = 0; }
                     //check if this flicker is to be shown
@@ -292,10 +292,12 @@ namespace VisualStimuli
 						quit = false;
 					}
 				}
-				var left = frame_ticks*frame - watch.ElapsedTicks;
+				var left = frame_ticks - watchFPSMax.ElapsedTicks;
+				//Console.WriteLine("Time rendering: {0} ms",watchFPSMax.ElapsedMilliseconds);
                 //Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,left/10000d,frame*1000/watch.ElapsedMilliseconds,10000000d/watchFPSMax.ElapsedTicks);
-                
-				if (left>0L) { 
+                watchFPSMax.Restart();
+
+                if (left>0L) { 
 					Thread.Sleep((int)(left/(TICKSPERSECONDS/1000d)));
 					lost_frame= 0;
 				} 
@@ -307,6 +309,9 @@ namespace VisualStimuli
                     //lost_frame = Convert.ToInt32(left / frame_ticks)+1;
                     //left -= (lost_frame-1) * frame_ticks;
                 }
+				watchFPSMax.Stop();
+				//Console.WriteLine("Sleeped for: {0} ms, Asked: {1} ms",watchFPSMax.ElapsedMilliseconds,left/10000d);
+				//Console.WriteLine("Current frame rate: {0} -> frameTicks : {1} ms", frameRate,frame_ticks/(TICKSPERSECONDS/1000d));
             }
 			//Kill all Flickers Windows
 			Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
