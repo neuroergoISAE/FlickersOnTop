@@ -270,6 +270,7 @@ namespace VisualStimuli
 								marker_sequence[0] = "End " + c.name;
                                 c.nextTime++;
 							}
+							// Markers to specify the start and end of the flickering (following sequence)
 							outl.push_sample(marker_sequence);
 						}
                         if (c.isActive)
@@ -298,13 +299,15 @@ namespace VisualStimuli
 						quit = false;
 					}
 				}
-				var left = frame_ticks - watchFPSMax.ElapsedTicks;
+				// Remaining time for the frame after the display of all the flickers with the paralell loop
+				var timeleft = frame_ticks - watchFPSMax.ElapsedTicks;
 				//Console.WriteLine("Time rendering: {0} ms",watchFPSMax.ElapsedMilliseconds);
                 //Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,left/10000d,frame*1000/watch.ElapsedMilliseconds,10000000d/watchFPSMax.ElapsedTicks);
-                watchFPSMax.Restart();
+                
 
-                if (left>0L) { 
-					Thread.Sleep((int)(left/(TICKSPERSECONDS/1000d)));
+				// Wait until the full elapsed time for a frame
+                if (timeleft > 0L) { 
+					Thread.Sleep((int)(timeleft / (TICKSPERSECONDS/1000d)));
 					lost_frame= 0;
 				} 
 				else 
@@ -315,7 +318,6 @@ namespace VisualStimuli
                     //lost_frame = Convert.ToInt32(left / frame_ticks)+1;
                     //left -= (lost_frame-1) * frame_ticks;
                 }
-				watchFPSMax.Stop();
 				//Console.WriteLine("Sleeped for: {0} ms, Asked: {1} ms",watchFPSMax.ElapsedMilliseconds,left/10000d);
 				//Console.WriteLine("Current frame rate: {0} -> frameTicks : {1} ms", frameRate,frame_ticks/(TICKSPERSECONDS/1000d));
             }
