@@ -31,6 +31,7 @@ namespace VisualStimuli
 		private int m_y;
 		private int m_width;
 		private int m_height;
+		public string name { get; set; }
 		public int X { get=>m_x; set=>m_x=value; }
 		public int Y { get=>m_y; set=> m_y = value; }
 		public int Width { get=>m_width; set=> m_width = value; }
@@ -46,6 +47,8 @@ namespace VisualStimuli
 		public int size { get; set; }
 		public int index { get; set; }
 		public int[] seq { get; set; }
+		public int nextTime { get; set; }
+		public bool isActive { get; set; }
 
 		public double[] Data { get => m_data; set => m_data = value; }
 		/// <summary>
@@ -61,8 +64,9 @@ namespace VisualStimuli
 		/// <param name="seq">The int array illustrates the timing in which the flicker is active</param>
 		///<return>None</return>>
 		
-		public CFlicker(int x,int y,int width,int height,CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, int[] seq)
+		public CFlicker(string n,int x,int y,int width,int height,CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, int[] seq)
 		{
+			name = n;
 			Color1 = col1;
 			Frequency = freq;
 			Screen= screen;
@@ -75,6 +79,8 @@ namespace VisualStimuli
 			Phase = phase;
 			TypeFrequence = typeFreq;
 			this.seq= seq;
+			isActive= true;
+			if (seq.Length > 0) { nextTime = 0; if (nextTime != 0) { isActive = false; } Console.WriteLine("seq lenght: {0}\n nextTime: {1}",seq.Length,nextTime); }
 			double frameRate = GetFrameRate();
 			while (Frequency > frameRate)
 			{

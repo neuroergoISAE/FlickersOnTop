@@ -143,7 +143,7 @@ namespace VisualStimuli
                     if (node.SelectSingleNode("sequence") != null)
 					{
                         var seqnodes = node.SelectSingleNode("sequence").ChildNodes;
-
+						Console.WriteLine("seqnodes contain {0} elements", seqnodes.Count);
                         seq = new int[seqnodes.Count];
                         for (int i = 0; i < seq.Length; i++)
                         {
@@ -151,12 +151,14 @@ namespace VisualStimuli
                             int.TryParse(seqnodes[i].InnerText, out v);
                             seq.SetValue(v, i);
                         }
+                        Console.WriteLine(seq);
                     }
 					Console.WriteLine(seq.Length);
                     //create a window and a the flickers to the list of flickers
                     CScreen screen = new CScreen(pos_x, pos_y, width, height, name, false,r1,g1,b1,image);
 					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen.PSurface);
 					m_listFlickers.Add(new CFlicker(
+						name,
 						pos_x,
 						pos_y,
 						width,
@@ -255,24 +257,34 @@ namespace VisualStimuli
                     // TODO: fasten this process with use of sorting or not checking when we are active and before endTime of activity
                     if (c.seq.Length > 0)
                     {
-                        bool b = false;
-                        for (int i = 0; i < c.seq.Length; i += 2)
+						//check if we reached the next change in state
+						if(c.nextTime<c.seq.Length && c.seq[c.nextTime]< watch.ElapsedMilliseconds/1000)
+						{
+							string[] marker_sequence= new string[1];
+
+                            if (c.nextTime % 2 ==0) //nextTime is even -> start of flickering period
+							{
+								c.isActive= true;
+								marker_sequence[0] = "Start "+c.name;
+								c.nextTime++;
+							}
+							else //nextTime is odd -> end of the period
+							{
+								c.isActive= false;
+                                //let the flicker become invisible
+                                c.Screen.show(0);
+								marker_sequence[0] = "End " + c.name;
+                                c.nextTime++;
+							}
+							outl.push_sample(marker_sequence);
+						}
+                        if (c.isActive)
                         {
-                            if ((int)watch.Elapsed.TotalSeconds > c.seq[i] && (int)watch.Elapsed.TotalSeconds < c.seq[i + 1])
-                            {
-                                c.display();
-                                c.index += 1 + lost_frame;
-                                b = true;
-                                break;
-                            }
-                        }
-                        if (!b)
-                        {
-                            //let the flicker become invisible
-                            c.Screen.show(0);
+                            c.display();
+                            c.index += 1 + lost_frame;
                         }
                     }
-                    else
+                    else //if no sequence for this flicker
                     {
                         c.display();
                         c.index += 1 + lost_frame;

@@ -346,7 +346,7 @@ namespace Interface2App
             var pos = owner.GetPos();
             var size = scale * owner.Width;
             var sta = pos - size / 2.0;
-            //warning: scale is in || second per pixel || not pixel per second!!! s.pixel^-1
+            //warning: scale is in || second per pixel || not pixel per second!!! sec*pixel^-1
             Location = new Point((int)((startTime - sta) / scale), owner.Height / 2 - SizeRectY);
             Width = (int)((endTime - startTime) / scale);
             base.OnInvalidated(e);
@@ -387,7 +387,7 @@ namespace Interface2App
             else
             {
                 var scale = owner.GetScale();
-                if((point.X - startPoint) > 2) //minimum distance before modifying anything
+                if(Math.Abs(point.X - startPoint) > 2) //minimum distance before modifying anything
                 {
                     var difX = (int)(scale * (point.X - startPoint)); //time displacement (with scale!)
                     switch (direction)
@@ -403,13 +403,14 @@ namespace Interface2App
                             startTime = sOrigin + difX;
                             break;
                     }
-                    Console.WriteLine(difX);
                     //start time can't be inferior to 0
                     if (startTime < 0) { startTime = 0; }
+                    Console.WriteLine(this);
                     //redraw the rectangle
                     Invalidate();
                 }
             }
+            Console.WriteLine("locked: {0}, direction: {1}",mouseLock,direction);
         }
         private void OnMouseUp(object sender, EventArgs e)
         {
