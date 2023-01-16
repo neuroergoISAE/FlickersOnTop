@@ -21,8 +21,8 @@ namespace VisualStimuli
 		private IntPtr m_handle;
 		private CScreen m_screen;
 		private Color m_color1;
-		private double m_alpha1;
-		private double m_alpha2;
+		private int m_alpha1;
+		private int m_alpha2;
 		private double m_frequence;
 		private double m_phase;
 		private int m_typeFreq;
@@ -31,20 +31,24 @@ namespace VisualStimuli
 		private int m_y;
 		private int m_width;
 		private int m_height;
+		public string name { get; set; }
 		public int X { get=>m_x; set=>m_x=value; }
 		public int Y { get=>m_y; set=> m_y = value; }
 		public int Width { get=>m_width; set=> m_width = value; }
 		public int Height { get=>m_height; set=> m_height = value; }
 		public double Phase { get => m_phase; set => m_phase = value; }
         public double Frequency { get => m_frequence; set => m_frequence = value; }
-        public double Alpha2 { get => m_alpha2; set => m_alpha2 = value; }
-        public double Alpha1 { get => m_alpha1; set => m_alpha1 = value; }
+        public int Alpha2 { get => m_alpha2; set => m_alpha2 = value; }
+        public int Alpha1 { get => m_alpha1; set => m_alpha1 = value; }
         public Color Color1 { get => m_color1; set => m_color1 = value; }
         internal CScreen Screen { get => m_screen; set => m_screen = value; }
         public IntPtr Handle { get => m_handle; set => m_handle = value; }
 		public int TypeFrequence { get => m_typeFreq; set => m_typeFreq = value; }
 		public int size { get; set; }
 		public int index { get; set; }
+		public int[] seq { get; set; }
+		public int nextTime { get; set; }
+		public bool isActive { get; set; }
 
 		public double[] Data { get => m_data; set => m_data = value; }
 		/// <summary>
@@ -56,11 +60,13 @@ namespace VisualStimuli
 		/// <param name="alph1">The double value illustates the opacity1.</param>
 		/// <param name="alph2">The double value illustates the opacity2.</param>
 		/// <param name="phase">The double value illustates the phase.</param>
-		/// <param name="typeFreq">The double value illustates type of the flicker (sinious, max-length-sequence,...).</param>
+		/// <param name="typeFreq">The double value illustates type of the flicker (sine, max-length-sequence,...).</param>
+		/// <param name="seq">The int array illustrates the timing in which the flicker is active</param>
 		///<return>None</return>>
 		
-		public CFlicker(int x,int y,int width,int height,CScreen screen, Color col1, double freq, double alph1, double alph2, double phase, int typeFreq)
+		public CFlicker(string n,int x,int y,int width,int height,CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, int[] seq)
 		{
+			name = n;
 			Color1 = col1;
 			Frequency = freq;
 			Screen= screen;
@@ -72,6 +78,9 @@ namespace VisualStimuli
 			Alpha2 = alph2;
 			Phase = phase;
 			TypeFrequence = typeFreq;
+			this.seq= seq;
+			isActive= true;
+			if (seq.Length > 0) { nextTime = 0; if (nextTime != 0) { isActive = false; } Console.WriteLine("seq lenght: {0}\n nextTime: {1}",seq.Length,nextTime); }
 			double frameRate = GetFrameRate();
 			while (Frequency > frameRate)
 			{
@@ -133,13 +142,17 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// Display the flicker.
+		/// Display the flicker if it is active.
 		/// </summary>
 		public void display()
 		{
             var i = Data[index];
             var a = (Byte)(Alpha1 * i + Alpha2 * (1 - i));
-            m_screen.show(a);
+			if (isActive)
+			{
+                m_screen.show(a);
+            }
+           
 		}
 
 		/// <summary>
@@ -175,7 +188,7 @@ namespace VisualStimuli
 
 			Random rand = new Random();
 			int tmp;
-			double frameRate = GetFrameRate(); 
+			double frameRate = GetFrameRate();
 			// 60Hz 
 			double timeFlicker = frameRate/Frequency;
             size = (int)(frameRate * timeFlicker);
@@ -262,7 +275,16 @@ namespace VisualStimuli
 
 				 
 			}
-		}
+			// None, used only for test
+            if (TypeFrequence == 4)
+			{
+				for(int j=0;j<size;j++)
+				{
+					Data[j] = 1.0;
+				}
+			}
+
+        }
 		public void Destroy()
 		{
 			Screen.Quit();

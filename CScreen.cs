@@ -48,8 +48,6 @@ namespace VisualStimuli
             {
                 SDL.SDL_SetRenderDrawColor(PRenderer, r, g, b, 255);
                 SDL.SDL_RenderClear(PRenderer);
-                
-                //SDL.SDL_RenderFillRect(PRenderer, IntPtr.Zero); unnecessary
             }
             else
             {
@@ -143,7 +141,7 @@ namespace VisualStimuli
         public void show(Byte a)
         {
             //SDL.SDL_RenderPresent(PRenderer); //renderer isn't needed here
-            if(SDL.SDL_SetWindowOpacity(m_pWindow, a / 255f)!=0) //might be the quickest SDL rendering in the world :)
+            if(SDL.SDL_SetWindowOpacity(m_pWindow, a / 255.0f)!=0) //might be the quickest SDL rendering in the world :)
             {
                 throw new Exception(SDL_GetError());
             }

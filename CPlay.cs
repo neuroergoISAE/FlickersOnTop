@@ -11,11 +11,14 @@ using System.Xml;
 using System.Globalization;
 using System.Drawing;
 
+
 namespace VisualStimuli
 {
-	public class CPlay
+    
+    public class CPlay
 	{
-		ArrayList m_listFlickers = new ArrayList();
+        private long TICKSPERSECONDS = TimeSpan.TicksPerSecond;
+        ArrayList m_listFlickers = new ArrayList();
 		string filepath; //indicate the environment path
 		public CPlay(string filepath)
 		{
@@ -27,8 +30,8 @@ namespace VisualStimuli
 		{
 			//lookup the position of the Application
             filepath = Application.StartupPath;
-            filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
-            filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
+            //filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
+            //filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
             // create stream info and outlet
             StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string, "giu4h5600");
             outl = new StreamOutlet(inf);
@@ -84,7 +87,8 @@ namespace VisualStimuli
             Root_Square = 3,
             Square = 2,
             Random = 0,
-            Maximum_Lenght_Sequence = 4
+            Maximum_Lenght_Sequence = 4,
+			None=5
         };
 
         /// <summary>
@@ -132,12 +136,24 @@ namespace VisualStimuli
 					{
 						image= node.SelectSingleNode("image").InnerText;
                     }
-                    
-
+					int[] seq = new int[0];
+                    if (node.SelectSingleNode("sequence") != null)
+					{
+                        var seqnodes = node.SelectSingleNode("sequence").ChildNodes;
+						Console.WriteLine("seqnodes contain {0} elements", seqnodes.Count);
+                        seq = new int[seqnodes.Count];
+                        for (int i = 0; i < seq.Length; i++)
+                        {
+                            int v;
+                            int.TryParse(seqnodes[i].InnerText, out v);
+                            seq.SetValue(v, i);
+                        }
+                    }
                     //create a window and a the flickers to the list of flickers
                     CScreen screen = new CScreen(pos_x, pos_y, width, height, name, false,r1,g1,b1,image);
 					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen.PSurface);
 					m_listFlickers.Add(new CFlicker(
+						name,
 						pos_x,
 						pos_y,
 						width,
@@ -145,13 +161,16 @@ namespace VisualStimuli
 						screen,
 					   Color.FromArgb(255, r1, g1, b1), // color1 RGB
 					   freq,
-					   a1 *2.55, // alpha1
-					   a2*2.55, // alpha2
+					   (int)Math.Round(a1 * 2.55), // alpha1
+					   (int)Math.Round(a2 * 2.55), // alpha2
 					   phase,
-					   (int)type) // type frequence
+					   (int)type,
+					   seq) // type frequence
 					);
-				}
+                    Console.WriteLine("With Opacity {0}", a2 * 2.55);
+                }
 				Console.WriteLine("Created {0} Flickers", m_listFlickers.Count);
+				
 			}
 			catch (Exception e)
 			{
@@ -181,14 +200,13 @@ namespace VisualStimuli
 			return (double)devMode.dmDisplayFrequency;
 		}
         private static double frameRate = getFrameRate();
+        private bool quit = false;
         /// <summary>
         /// Animate the flickers from the .xml file
         /// </summary>
         /// <returns>None</returns>
         public void Animate_Flicker()
 		{
-			bool quit = false;
-
 			init_test();
 			string[] marker_info = new string[4];
 
@@ -218,19 +236,54 @@ namespace VisualStimuli
             long frame = 0;
             var watch = System.Diagnostics.Stopwatch.StartNew(); //watch for fps syncing
 			int lost_frame = 0; //only used if computer is too slow to display all frames, we will jump over some frames
-			long frame_ticks =(long) ((1d / frameRate) * 10000000d);
+            long frame_ticks =(long) ((1d / frameRate) * TICKSPERSECONDS);
             SDL.SDL_Event evt = new SDL.SDL_Event();
             while (!quit && SDL.SDL_GetTicks() < 1000000)
 			{
 				frame += 1;
                 var watchFPSMax=System.Diagnostics.Stopwatch.StartNew();
-				//parallel treatment for each flickers
-				//flickers are still synchronized, only parallelized during 1 frame.
-				Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
+                //parallel treatment for each flickers (useful when lots of flicker on slow computer with multiple proc core)
+                //flickers are still synchronized, only parallelized during 1 frame.
+                Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
 				{
-					if (c.index >= c.size) { c.index = 0; }
-					c.display();
-					c.index += 1+lost_frame;
+                    if (c.index >= c.size) { c.index = 0; }
+                    //check if this flicker is to be shown
+                    // TODO: fasten this process with use of sorting or not checking when we are active and before endTime of activity
+                    if (c.seq.Length > 0)
+                    {
+						//check if we reached the next change in state
+						if(c.nextTime<c.seq.Length && c.seq[c.nextTime]< watch.ElapsedMilliseconds/1000)
+						{
+							string[] marker_sequence= new string[1];
+
+                            if (c.nextTime % 2 ==0) //nextTime is even -> start of flickering period
+							{
+								c.isActive= true;
+								marker_sequence[0] = "Start "+c.name;
+								c.nextTime++;
+							}
+							else //nextTime is odd -> end of the period
+							{
+								c.isActive= false;
+                                //let the flicker become invisible
+                                c.Screen.show(0);
+								marker_sequence[0] = "End " + c.name;
+                                c.nextTime++;
+							}
+							// Markers to specify the start and end of the flickering (following sequence)
+							outl.push_sample(marker_sequence);
+						}
+                        if (c.isActive)
+                        {
+                            c.display();
+                            c.index += 1 + lost_frame;
+                        }
+                    }
+                    else //if no sequence for this flicker
+                    {
+                        c.display();
+                        c.index += 1 + lost_frame;
+                    }
 				}
 				);
 				watchFPSMax.Stop();
@@ -246,23 +299,32 @@ namespace VisualStimuli
 						quit = false;
 					}
 				}
-				var left = frame_ticks*frame - watch.ElapsedTicks;
+				// Remaining time for the frame after the display of all the flickers with the paralell loop
+				var timeleft = frame_ticks - watchFPSMax.ElapsedTicks;
+				//Console.WriteLine("Time rendering: {0} ms",watchFPSMax.ElapsedMilliseconds);
                 //Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,left/10000d,frame*1000/watch.ElapsedMilliseconds,10000000d/watchFPSMax.ElapsedTicks);
-                if (left>0L) { 
-					Thread.Sleep((int)(left/10000d));
+                
+
+				// Wait until the full elapsed time for a frame
+                if (timeleft > 0L) { 
+					Thread.Sleep((int)(timeleft / (TICKSPERSECONDS/1000d)));
 					lost_frame= 0;
 				} 
 				else 
 				{ 
+					//# TODO: jump over frames in case of slow down, useful with sine flickers, breaks cVEP, but a slow down already breaks them anyway 
 					//Console.WriteLine("Warning Rendering can't keep up!! max FPS: {0}",frame*10000000d/watch.ElapsedTicks);
                     //left= Math.Abs(left);
                     //lost_frame = Convert.ToInt32(left / frame_ticks)+1;
                     //left -= (lost_frame-1) * frame_ticks;
                 }
+				//Console.WriteLine("Sleeped for: {0} ms, Asked: {1} ms",watchFPSMax.ElapsedMilliseconds,left/10000d);
+				//Console.WriteLine("Current frame rate: {0} -> frameTicks : {1} ms", frameRate,frame_ticks/(TICKSPERSECONDS/1000d));
             }
 			//Kill all Flickers Windows
 			Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
             {
+				c.isActive = false;
                 c.Destroy();
             });
 			SDL.SDL_Quit();
@@ -271,6 +333,20 @@ namespace VisualStimuli
 		{
 			Environment.Exit(0);
 		}
+		public void Animate_Flicker(double time)
+		{
+            System.Timers.Timer timer = new System.Timers.Timer(time*1000)
+            {
+                AutoReset = false
+            };
+            timer.Elapsed += OnElapsed;
+            timer.Start();
+            void OnElapsed(object sender1, EventArgs e1)
+            {
+				quit=true;
+            }
+			Animate_Flicker();
+        }
 	}
 
 }

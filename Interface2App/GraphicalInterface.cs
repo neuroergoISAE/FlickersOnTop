@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading;
 using VisualStimuli;
 using System.Xml.Serialization;
+using System.Threading.Tasks;
 
 namespace Interface2App
 {
@@ -16,6 +17,7 @@ namespace Interface2App
         public static string default_save_file;
 		public BindingSource dataview;
 		private bool FlickerRunning=false;
+		private Thread posThread;
         private static Color convertColor(System.Windows.Media.Color c)
 		{
 			return Color.FromArgb(c.A,c.R,c.G,c.B);
@@ -28,8 +30,8 @@ namespace Interface2App
 		{
 			InitializeComponent();
             path = Application.StartupPath;
-            path = path.Substring(0, path.LastIndexOf('\\'));
-            path = path.Substring(0, path.LastIndexOf('\\'));
+            //path = path.Substring(0, path.LastIndexOf('\\'));
+            //path = path.Substring(0, path.LastIndexOf('\\'));
 			default_save_file = path + "\\Flickers.xml";
         }
 		private List<Flicker> FlickerList = new List<Flicker>();
@@ -50,7 +52,8 @@ namespace Interface2App
 			{
                 loadFile(default_save_file);
             }
-			new Thread(ThreadPosition).Start();
+			posThread=new Thread(ThreadPosition);
+			posThread.Start();
         }
 		private void ThreadPosition()
 		{
@@ -126,9 +129,9 @@ namespace Interface2App
 				}
                 SetText(labelTest, string.Format("File saved Succesfully at: {0}", file));
 			}
-			catch
+			catch(Exception ex)
 			{
-				SetText(labelTest, "An Error Occured While Trying To Save");
+				SetText(labelTest, "An Error Occured While Trying To Save" + ex.Message);
 			}
             
 			return;
@@ -186,6 +189,7 @@ namespace Interface2App
 		// Closing Application in anyway
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			posThread.Abort();
 			System.Windows.Forms.Application.Exit();
 		}
 		/// <summary>
@@ -220,39 +224,40 @@ namespace Interface2App
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void button_pre_Click(object sender, EventArgs e)
+		private void button_test_Click(object sender, EventArgs e)
 		{
             if (checkBox1.Checked)
             {
-                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq:1));
-				FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1));
+                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq:1, type: 5));
+				FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1, type: 5));
 			}
             bt_save(sender, e);
             if (!FlickerRunning)
 			{
 				flickerBindingSource.EndEdit();
                 CPlay oPlay = new CPlay();
-                var t = new Thread(oPlay.Animate_Flicker);
-                t.Start();
-				
-				FlickerRunning= true;
-                System.Timers.Timer timer = new System.Timers.Timer(10000);
-                timer.AutoReset = false;
+				oPlay.Animate_Flicker(10.0);
+                /*FlickerRunning = true;
+                System.Timers.Timer timer = new System.Timers.Timer(10000)
+                {
+                    AutoReset = false
+                };
                 timer.Elapsed += OnElapsed;
 				timer.Start();
                 void OnElapsed(object sender1, EventArgs e1)
                 {
-                    t.Abort();
-					FlickerRunning= false;
-					
-                }
+
+					FlickerRunning = false;
+					timer.Dispose();
+					GC.Collect();
+                }*/
             }
 
 			if (checkBox1.Checked) 
 			{
                 FlickerList.RemoveAt(0);
                 FlickerList.RemoveAt(FlickerList.Count - 1);
-                while (true)
+                while (FlickerRunning)
 				{
                     try
                     {
@@ -275,18 +280,16 @@ namespace Interface2App
 		{
             if (checkBox1.Checked)
             {
-                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1));
-                FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1));
+                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1,type:5));
+                FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1,type:5));
             }
             bt_save(sender, e);
-			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled) && !FlickerRunning)
+			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled))
 			{
 				
 				CPlay oPlay = new CPlay();
 				//new Thread(oPlay.Animate_Flicker).Start(); //seems to cause problems # TODO: investigate
 				oPlay.Animate_Flicker();
-				FlickerRunning= true;
-				//Application.Exit();
 			}
             if (checkBox1.Checked)
             {
@@ -329,7 +332,7 @@ namespace Interface2App
 			foreach (DataGridViewRow item in this.FlickerDataGridView.SelectedRows)
 			{
 				FlickerList.RemoveAt(item.Index);
-            }
+			}
             flickerBindingSource.ResetBindings(true);
             screenViewer1.DataSource = FlickerList;
             screenViewer1.InvalidateRectangle();
@@ -411,7 +414,13 @@ namespace Interface2App
                         }
                     }
 				}
-				//manually signal that data has been changed
+				//detect mouse click on sequencing column
+                if (e.RowIndex >= 0 && e.ColumnIndex == FlickerDataGridView.Columns["Sequence"].Index)
+				{
+					new SequenceForm(FlickerList[e.RowIndex]).ShowDialog();
+
+				}
+                //manually signal that data has been changed
                 onDataChanged(sender, e);
             }
 			catch (Exception ex)
