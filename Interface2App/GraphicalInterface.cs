@@ -7,7 +7,6 @@ using System.IO;
 using System.Threading;
 using VisualStimuli;
 using System.Xml.Serialization;
-using System.Threading.Tasks;
 
 namespace Interface2App
 {
@@ -16,9 +15,8 @@ namespace Interface2App
         public static string path;
         public static string default_save_file;
 		public BindingSource dataview;
-		private bool FlickerRunning=false;
-		private Thread posThread;
-        private static Color convertColor(System.Windows.Media.Color c)
+        private Thread posThread;
+        private static Color ConvertColor(System.Windows.Media.Color c)
 		{
 			return Color.FromArgb(c.A,c.R,c.G,c.B);
 		}
@@ -30,8 +28,6 @@ namespace Interface2App
 		{
 			InitializeComponent();
             path = Application.StartupPath;
-            //path = path.Substring(0, path.LastIndexOf('\\'));
-            //path = path.Substring(0, path.LastIndexOf('\\'));
 			default_save_file = path + "\\Flickers.xml";
         }
 		private List<Flicker> FlickerList = new List<Flicker>();
@@ -44,6 +40,7 @@ namespace Interface2App
         private void Form1_Load(object sender, EventArgs e)
 		{
             flickerBindingSource.DataSource = FlickerList;
+			//TODO: make use of data bindings to link screenViewer1 and the Flicker table
 			//screenViewer1.DataBindings.Add("DataSource",FlickerList , "", true, DataSourceUpdateMode.OnPropertyChanged);
 			screenViewer1.form = this;
 			dataview = flickerBindingSource;
@@ -101,7 +98,7 @@ namespace Interface2App
                 //SetText(labelTest, FlickerList.Count.ToString());
                 for (int i=0; i < FlickerList.Count; i++)
 				{
-                    FlickerDataGridView.Rows[i].Cells["color"].Style.BackColor = convertColor(FlickerList[i].color1);
+                    FlickerDataGridView.Rows[i].Cells["color"].Style.BackColor = ConvertColor(FlickerList[i].color1);
 					if (FlickerList[i].IsImageFlicker)
 					{
 						FlickerDataGridView.Rows[i].Cells["color"].Value = FlickerList[i].image;
@@ -292,7 +289,7 @@ namespace Interface2App
 		{
 			flickerBindingSource.AddNew();
 			flickerBindingSource.EndEdit();
-			FlickerDataGridView.Rows[FlickerList.Count-1].Cells["color"].Style.BackColor = convertColor(FlickerList[FlickerList.Count - 1].color1);
+			FlickerDataGridView.Rows[FlickerList.Count-1].Cells["color"].Style.BackColor = ConvertColor(FlickerList[FlickerList.Count - 1].color1);
 			screenViewer1.DataSource = FlickerList;
 		}
 		/// <summary>
@@ -470,7 +467,7 @@ namespace Interface2App
             {
 				if (!FlickerList[i].IsImageFlicker)
 				{
-                    dgv.Rows[i].Cells["color"].Style.BackColor = convertColor(FlickerList[i].color1);
+                    dgv.Rows[i].Cells["color"].Style.BackColor = ConvertColor(FlickerList[i].color1);
 				}
 				else
 				{

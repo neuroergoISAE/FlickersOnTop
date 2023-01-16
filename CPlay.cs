@@ -10,7 +10,8 @@ using LSL;
 using System.Xml;
 using System.Globalization;
 using System.Drawing;
-
+using System.Collections.Generic;
+using static VisualStimuli.CPlay;
 
 namespace VisualStimuli
 {
@@ -30,8 +31,6 @@ namespace VisualStimuli
 		{
 			//lookup the position of the Application
             filepath = Application.StartupPath;
-            //filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
-            //filepath = filepath.Substring(0, filepath.LastIndexOf('\\'));
             // create stream info and outlet
             StreamInfo inf = new StreamInfo("flickers_info", "Markers", 1, 0, channel_format_t.cf_string, "giu4h5600");
             outl = new StreamOutlet(inf);
@@ -46,6 +45,8 @@ namespace VisualStimuli
 
 		[DllImport("user32.dll")]
 		public static extern int EnumDisplaySettings(string deviceName, int modeNum, ref DEVMODE devMode);
+		[DllImport("user32.dll")]
+		public static extern int EnumDisplayDevices(string deviceName,int index,out DEVMODE devMode);
 
 
         /// https://csharp.hotexamples.com/site/file?hash=0x238a44f2ed8da632e4e090af60159d66126fa38d9fd574bee99939a492be5ee7&fullName=KernelAPI.cs&project=ozeppi/mAgicAnime
@@ -109,30 +110,24 @@ namespace VisualStimuli
 				// Iterate over the child elements of the root
 				foreach (XmlNode node in root.ChildNodes)
 				{
-					int pos_x, pos_y, width, height;
-					int.TryParse(node.SelectSingleNode("X").InnerText, out pos_x);
-					int.TryParse(node.SelectSingleNode("Y").InnerText, out pos_y);
-					int.TryParse(node.SelectSingleNode("Width").InnerText, out width);
-					int.TryParse(node.SelectSingleNode("Height").InnerText, out height);
-					Signal_Type type;
-					Enum.TryParse<Signal_Type>(node.SelectSingleNode("Type").InnerText, out type);
-					string name = node.SelectSingleNode("Name").InnerText;
-					double freq, phase;
-					double.TryParse(node.SelectSingleNode("Frequency").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out freq); //culture info is necessary due to use of "," or "." for decimal number in different part of the world
-					double.TryParse(node.SelectSingleNode("Phase").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out phase);
+                    int.TryParse(node.SelectSingleNode("X").InnerText, out int pos_x);
+                    int.TryParse(node.SelectSingleNode("Y").InnerText, out int pos_y);
+					int.TryParse(node.SelectSingleNode("Width").InnerText, out int width);
+					int.TryParse(node.SelectSingleNode("Height").InnerText, out int height);
+                    Enum.TryParse<Signal_Type>(node.SelectSingleNode("Type").InnerText, out Signal_Type type);
+                    string name = node.SelectSingleNode("Name").InnerText;
+                    double.TryParse(node.SelectSingleNode("Frequency").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double freq); //culture info is necessary due to use of "," or "." for decimal number in different part of the world
+                    double.TryParse(node.SelectSingleNode("Phase").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double phase);
 					var C1Node = node.SelectSingleNode("color1");
 					var C2Node = node.SelectSingleNode("color2");
-					Byte r1, g1, b1;
-					int a1, a2;
-					Byte.TryParse(C1Node.SelectSingleNode("R").InnerText, out r1);
-					Byte.TryParse(C1Node.SelectSingleNode("G").InnerText, out g1);
-					Byte.TryParse(C1Node.SelectSingleNode("B").InnerText, out b1);
-                    int.TryParse(node.SelectSingleNode("Opacity_Min").InnerText, out a1);
-                    int.TryParse(node.SelectSingleNode("Opacity_Max").InnerText, out a2);
+                    Byte.TryParse(C1Node.SelectSingleNode("R").InnerText, out byte r1);
+                    Byte.TryParse(C1Node.SelectSingleNode("G").InnerText, out byte g1);
+					Byte.TryParse(C1Node.SelectSingleNode("B").InnerText, out byte b1);
+                    int.TryParse(node.SelectSingleNode("Opacity_Min").InnerText, out int a1);
+                    int.TryParse(node.SelectSingleNode("Opacity_Max").InnerText, out int a2);
 					string image = string.Empty;
-					bool IsImage;
-                    bool.TryParse(node.SelectSingleNode("IsImageFlicker").InnerText, out IsImage);
-					if(IsImage)
+                    bool.TryParse(node.SelectSingleNode("IsImageFlicker").InnerText, out bool IsImage);
+                    if (IsImage)
 					{
 						image= node.SelectSingleNode("image").InnerText;
                     }
@@ -191,11 +186,31 @@ namespace VisualStimuli
 		/// <returns>Refresh rate of the screen</returns>
 		public static double getFrameRate()
 		{
-			DEVMODE devMode = new DEVMODE();
-			devMode.dmSize = (short)Marshal.SizeOf(devMode);
-			devMode.dmDriverExtra = 0;
-			EnumDisplaySettings(null, -1, ref devMode);
-			return (double)devMode.dmDisplayFrequency;
+            /*DEVMODE devMode = new DEVMODE();*/
+			
+			List<DEVMODE> l = getAllScreen();
+			double frequencyMonitor = 0;
+			for(int i=0;i<l.Count;i++)
+			{
+				DEVMODE devMode = l[i];
+                devMode.dmSize = (short)Marshal.SizeOf(devMode);
+                devMode.dmDriverExtra = 0;
+                EnumDisplaySettings(null, -1, ref devMode);
+				frequencyMonitor = frequencyMonitor > devMode.dmDisplayFrequency ? frequencyMonitor : devMode.dmDisplayFrequency;
+            }
+            return frequencyMonitor;
+        }
+		public static List<DEVMODE> getAllScreen()
+		{
+			int i = 0,a=1;
+			List<DEVMODE> l = new List<DEVMODE>();
+			while(a!=0){
+				DEVMODE devMode = new DEVMODE();
+				a=EnumDisplayDevices(null, i, out devMode);
+				l.Add(devMode);
+                i++;
+			}
+			return l ;
 		}
         private static double frameRate = getFrameRate();
         private bool quit = false;
@@ -299,7 +314,7 @@ namespace VisualStimuli
 				// Remaining time for the frame after the display of all the flickers with the paralell loop
 				var timeleft = frame_ticks - watchFPSMax.ElapsedTicks;
 				//Console.WriteLine("Time rendering: {0} ms",watchFPSMax.ElapsedMilliseconds);
-                //Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,left/10000d,frame*1000/watch.ElapsedMilliseconds,10000000d/watchFPSMax.ElapsedTicks);
+                //Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,timeleft/10000d,frame*1000/watch.ElapsedMilliseconds,10000000d/watchFPSMax.ElapsedTicks);
                 
 
 				// Wait until the full elapsed time for a frame
