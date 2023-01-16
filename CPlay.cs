@@ -48,8 +48,8 @@ namespace VisualStimuli
 		public static extern int EnumDisplaySettings(string deviceName, int modeNum, ref DEVMODE devMode);
 
 
-		/// https://csharp.hotexamples.com/site/file?hash=0x238a44f2ed8da632e4e090af60159d66126fa38d9fd574bee99939a492be5ee7&fullName=KernelAPI.cs&project=ozeppi/mAgicAnime
-		[StructLayout(LayoutKind.Sequential)]
+        /// https://csharp.hotexamples.com/site/file?hash=0x238a44f2ed8da632e4e090af60159d66126fa38d9fd574bee99939a492be5ee7&fullName=KernelAPI.cs&project=ozeppi/mAgicAnime
+        [StructLayout(LayoutKind.Sequential)]
 		public struct DEVMODE
 		{
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
@@ -118,7 +118,7 @@ namespace VisualStimuli
 					Enum.TryParse<Signal_Type>(node.SelectSingleNode("Type").InnerText, out type);
 					string name = node.SelectSingleNode("Name").InnerText;
 					double freq, phase;
-					double.TryParse(node.SelectSingleNode("Frequency").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out freq);
+					double.TryParse(node.SelectSingleNode("Frequency").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out freq); //culture info is necessary due to use of "," or "." for decimal number in different part of the world
 					double.TryParse(node.SelectSingleNode("Phase").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out phase);
 					var C1Node = node.SelectSingleNode("color1");
 					var C2Node = node.SelectSingleNode("color2");
@@ -140,7 +140,6 @@ namespace VisualStimuli
                     if (node.SelectSingleNode("sequence") != null)
 					{
                         var seqnodes = node.SelectSingleNode("sequence").ChildNodes;
-						Console.WriteLine("seqnodes contain {0} elements", seqnodes.Count);
                         seq = new int[seqnodes.Count];
                         for (int i = 0; i < seq.Length; i++)
                         {
@@ -149,7 +148,7 @@ namespace VisualStimuli
                             seq.SetValue(v, i);
                         }
                     }
-                    //create a window and a the flickers to the list of flickers
+                    //create a window and add the flickers to the list of flickers
                     CScreen screen = new CScreen(pos_x, pos_y, width, height, name, false,r1,g1,b1,image);
 					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen.PSurface);
 					m_listFlickers.Add(new CFlicker(
@@ -167,7 +166,6 @@ namespace VisualStimuli
 					   (int)type,
 					   seq) // type frequence
 					);
-                    Console.WriteLine("With Opacity {0}", a2 * 2.55);
                 }
 				Console.WriteLine("Created {0} Flickers", m_listFlickers.Count);
 				
@@ -217,7 +215,6 @@ namespace VisualStimuli
 			}
 
 			// init vars
-			Console.WriteLine(frameRate.ToString());
 
 
 			for (int j = 0; j < m_listFlickers.Count; j++)

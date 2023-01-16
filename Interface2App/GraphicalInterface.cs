@@ -228,45 +228,18 @@ namespace Interface2App
 		{
             if (checkBox1.Checked)
             {
-                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq:1, type: 5));
+                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1, type: 5));
 				FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1, type: 5));
 			}
             bt_save(sender, e);
-            if (!FlickerRunning)
-			{
-				flickerBindingSource.EndEdit();
-                CPlay oPlay = new CPlay();
-				oPlay.Animate_Flicker(10.0);
-                /*FlickerRunning = true;
-                System.Timers.Timer timer = new System.Timers.Timer(10000)
-                {
-                    AutoReset = false
-                };
-                timer.Elapsed += OnElapsed;
-				timer.Start();
-                void OnElapsed(object sender1, EventArgs e1)
-                {
-
-					FlickerRunning = false;
-					timer.Dispose();
-					GC.Collect();
-                }*/
-            }
-
-			if (checkBox1.Checked) 
+			flickerBindingSource.EndEdit();
+            CPlay oPlay = new CPlay();
+			oPlay.Animate_Flicker(10.0);
+			if (checkBox1.Checked)
 			{
                 FlickerList.RemoveAt(0);
                 FlickerList.RemoveAt(FlickerList.Count - 1);
-                while (FlickerRunning)
-				{
-                    try
-                    {
-                        bt_save(sender, e);
-						Thread.Sleep(10);
-						break;
-                    }
-                    catch { }
-                } 
+                bt_save(sender, e);
             }
             
             //Application.Exit();
