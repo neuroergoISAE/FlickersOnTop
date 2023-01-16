@@ -389,7 +389,7 @@ namespace Interface2App
                 var scale = owner.GetScale();
                 if(Math.Abs(point.X - startPoint) > 2) //minimum distance before modifying anything
                 {
-                    var difX = (int)(scale * (point.X - startPoint)); //time displacement (with scale!)
+                    var difX = (int)Math.Round(scale * (point.X - startPoint)); //time displacement (with scale!)
                     switch (direction)
                     {
                         case 1:

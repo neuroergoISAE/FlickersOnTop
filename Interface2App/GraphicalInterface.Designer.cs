@@ -129,7 +129,7 @@ namespace Interface2App
             this.button_pre.TabIndex = 17;
             this.button_pre.Text = "TEST";
             this.button_pre.UseVisualStyleBackColor = true;
-            this.button_pre.Click += new System.EventHandler(this.button_pre_Click);
+            this.button_pre.Click += new System.EventHandler(this.button_test_Click);
             // 
             // button_help
             // 

@@ -142,13 +142,17 @@ namespace VisualStimuli
 		}
 
 		/// <summary>
-		/// Display the flicker.
+		/// Display the flicker if it is active.
 		/// </summary>
 		public void display()
 		{
             var i = Data[index];
             var a = (Byte)(Alpha1 * i + Alpha2 * (1 - i));
-            m_screen.show(a);
+			if (isActive)
+			{
+                m_screen.show(a);
+            }
+           
 		}
 
 		/// <summary>

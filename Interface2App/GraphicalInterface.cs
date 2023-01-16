@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading;
 using VisualStimuli;
 using System.Xml.Serialization;
+using System.Threading.Tasks;
 
 namespace Interface2App
 {
@@ -128,9 +129,9 @@ namespace Interface2App
 				}
                 SetText(labelTest, string.Format("File saved Succesfully at: {0}", file));
 			}
-			catch
+			catch(Exception ex)
 			{
-				SetText(labelTest, "An Error Occured While Trying To Save");
+				SetText(labelTest, "An Error Occured While Trying To Save" + ex.Message);
 			}
             
 			return;
@@ -223,7 +224,7 @@ namespace Interface2App
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void button_pre_Click(object sender, EventArgs e)
+		private void button_test_Click(object sender, EventArgs e)
 		{
             if (checkBox1.Checked)
             {
@@ -235,27 +236,28 @@ namespace Interface2App
 			{
 				flickerBindingSource.EndEdit();
                 CPlay oPlay = new CPlay();
-                var t = new Thread(oPlay.Animate_Flicker);
-                t.Start();
-				
-				FlickerRunning= true;
-                System.Timers.Timer timer = new System.Timers.Timer(10000);
-                timer.AutoReset = false;
+				oPlay.Animate_Flicker(10.0);
+                /*FlickerRunning = true;
+                System.Timers.Timer timer = new System.Timers.Timer(10000)
+                {
+                    AutoReset = false
+                };
                 timer.Elapsed += OnElapsed;
 				timer.Start();
                 void OnElapsed(object sender1, EventArgs e1)
                 {
-                    t.Abort();
-					FlickerRunning= false;
-					
-                }
+
+					FlickerRunning = false;
+					timer.Dispose();
+					GC.Collect();
+                }*/
             }
 
 			if (checkBox1.Checked) 
 			{
                 FlickerList.RemoveAt(0);
                 FlickerList.RemoveAt(FlickerList.Count - 1);
-                while (true)
+                while (FlickerRunning)
 				{
                     try
                     {
@@ -282,14 +284,12 @@ namespace Interface2App
                 FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1,type:5));
             }
             bt_save(sender, e);
-			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled) && !FlickerRunning)
+			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled))
 			{
 				
 				CPlay oPlay = new CPlay();
 				//new Thread(oPlay.Animate_Flicker).Start(); //seems to cause problems # TODO: investigate
 				oPlay.Animate_Flicker();
-				FlickerRunning= true;
-				//Application.Exit();
 			}
             if (checkBox1.Checked)
             {

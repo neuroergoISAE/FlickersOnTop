@@ -10,9 +10,6 @@ using LSL;
 using System.Xml;
 using System.Globalization;
 using System.Drawing;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using System.IO;
 
 
 namespace VisualStimuli
@@ -151,9 +148,7 @@ namespace VisualStimuli
                             int.TryParse(seqnodes[i].InnerText, out v);
                             seq.SetValue(v, i);
                         }
-                        Console.WriteLine(seq);
                     }
-					Console.WriteLine(seq.Length);
                     //create a window and a the flickers to the list of flickers
                     CScreen screen = new CScreen(pos_x, pos_y, width, height, name, false,r1,g1,b1,image);
 					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen.PSurface);
@@ -205,14 +200,13 @@ namespace VisualStimuli
 			return (double)devMode.dmDisplayFrequency;
 		}
         private static double frameRate = getFrameRate();
+        private bool quit = false;
         /// <summary>
         /// Animate the flickers from the .xml file
         /// </summary>
         /// <returns>None</returns>
         public void Animate_Flicker()
 		{
-			bool quit = false;
-
 			init_test();
 			string[] marker_info = new string[4];
 
@@ -328,6 +322,7 @@ namespace VisualStimuli
 			//Kill all Flickers Windows
 			Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
             {
+				c.isActive = false;
                 c.Destroy();
             });
 			SDL.SDL_Quit();
@@ -336,6 +331,20 @@ namespace VisualStimuli
 		{
 			Environment.Exit(0);
 		}
+		public void Animate_Flicker(double time)
+		{
+            System.Timers.Timer timer = new System.Timers.Timer(time*1000)
+            {
+                AutoReset = false
+            };
+            timer.Elapsed += OnElapsed;
+            timer.Start();
+            void OnElapsed(object sender1, EventArgs e1)
+            {
+				quit=true;
+            }
+			Animate_Flicker();
+        }
 	}
 
 }
