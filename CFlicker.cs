@@ -191,7 +191,7 @@ namespace VisualStimuli
 			double frameRate = GetFrameRate();
 			// 60Hz
 			double timeFlicker = frameRate/Frequency;
-            size = (int)(frameRate * timeFlicker);
+            size = (int)(frameRate * Frequency);
 
             m_data = new double[size]; // initializing data
 
