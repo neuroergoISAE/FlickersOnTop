@@ -189,7 +189,7 @@ namespace VisualStimuli
 			Random rand = new Random();
 			int tmp;
 			double frameRate = GetFrameRate();
-			// 60Hz 
+			// 60Hz
 			double timeFlicker = frameRate/Frequency;
             size = (int)(frameRate * timeFlicker);
 

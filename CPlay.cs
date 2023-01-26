@@ -250,7 +250,7 @@ namespace VisualStimuli
 			int lost_frame = 0; //only used if computer is too slow to display all frames, we will jump over some frames
             long frame_ticks =(long) ((1d / frameRate) * TICKSPERSECONDS);
             SDL.SDL_Event evt = new SDL.SDL_Event();
-            while (!quit && SDL.SDL_GetTicks() < 1000000)
+            while (!quit && SDL.SDL_GetTicks() < 1000000000)
 			{
 				frame += 1;
                 var watchFPSMax=System.Diagnostics.Stopwatch.StartNew();
@@ -299,7 +299,6 @@ namespace VisualStimuli
 				}
 				);
 				watchFPSMax.Stop();
-                
 				if (SDL.SDL_PollEvent(out evt) != 0)
 				{
 					if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
@@ -313,19 +312,20 @@ namespace VisualStimuli
 				}
 				// Remaining time for the frame after the display of all the flickers with the paralell loop
 				var timeleft = frame_ticks - watchFPSMax.ElapsedTicks;
-				//Console.WriteLine("Time rendering: {0} ms",watchFPSMax.ElapsedMilliseconds);
-                //Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,timeleft/10000d,frame*1000/watch.ElapsedMilliseconds,10000000d/watchFPSMax.ElapsedTicks);
+				Console.WriteLine("Time rendering: {0} ms Total Time: {1} ms",watchFPSMax.ElapsedTicks/10000d, (timeleft + watchFPSMax.ElapsedTicks) / 10000d);
+                Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,timeleft/10000d,1000d/((timeleft+watchFPSMax.ElapsedTicks)/10000d),10000000d/watchFPSMax.ElapsedTicks);
                 
 
 				// Wait until the full elapsed time for a frame
-                if (timeleft > 0L) { 
+                if (timeleft > 0L) {
+					if (timeleft > frame_ticks) { timeleft= frame_ticks; }
 					Thread.Sleep((int)(timeleft / (TICKSPERSECONDS/1000d)));
 					lost_frame= 0;
 				} 
 				else 
 				{ 
 					//# TODO: jump over frames in case of slow down, useful with sine flickers, breaks cVEP, but a slow down already breaks them anyway 
-					//Console.WriteLine("Warning Rendering can't keep up!! max FPS: {0}",frame*10000000d/watch.ElapsedTicks);
+					Console.WriteLine("Warning Rendering can't keep up!! max FPS: {0}",frame*10000000d/watch.ElapsedTicks);
                     //left= Math.Abs(left);
                     //lost_frame = Convert.ToInt32(left / frame_ticks)+1;
                     //left -= (lost_frame-1) * frame_ticks;
@@ -334,6 +334,7 @@ namespace VisualStimuli
 				//Console.WriteLine("Current frame rate: {0} -> frameTicks : {1} ms", frameRate,frame_ticks/(TICKSPERSECONDS/1000d));
             }
 			//Kill all Flickers Windows
+			Console.WriteLine("Killing all Flickers");
 			Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
             {
 				c.isActive = false;

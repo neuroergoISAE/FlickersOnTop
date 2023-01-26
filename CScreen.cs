@@ -124,8 +124,6 @@ namespace VisualStimuli
                 Console.WriteLine("Renderer could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
                 return;
             }
-            //might be the cause of crashing + imperfect transparency
-            //SDL.SDL_SetRenderDrawBlendMode(m_pRenderer, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
             
 
             // Attributes
@@ -141,10 +139,16 @@ namespace VisualStimuli
         public void show(Byte a)
         {
             //SDL.SDL_RenderPresent(PRenderer); //renderer isn't needed here
-            if(SDL.SDL_SetWindowOpacity(m_pWindow, a / 255.0f)!=0) //might be the quickest SDL rendering in the world :)
+            try
             {
-                throw new Exception(SDL_GetError());
-            }
+                if (SDL.SDL_SetWindowOpacity(m_pWindow, a/255.0f) != 0) //might be the quickest SDL rendering in the world :)
+                {
+                    Console.WriteLine("Warning, error while rendering");
+                    throw new Exception(SDL_GetError());
+                }
+            }catch(Exception e) { Console.WriteLine(e.ToString()); }
+            
+            
         }
         public void Quit()
         {
