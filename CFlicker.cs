@@ -185,13 +185,26 @@ namespace VisualStimuli
 		/// <param name="flicker">FLicker.</param>
 		public void setData()
 		{
+            int LCM(int a, int b)
+            {
+                return (a * b) / GCD(a, b);
+            }
 
-			Random rand = new Random();
+            int GCD(int a, int b)
+            {
+                while (b != 0)
+                {
+                    int temp = b;
+                    b = a % b;
+                    a = temp;
+                }
+                return a;
+            }
+
+            Random rand = new Random();
 			int tmp;
 			double frameRate = GetFrameRate();
-			// 60Hz
-			double timeFlicker = frameRate/Frequency;
-            size = (int)(frameRate * Frequency);
+            size = LCM((int)frameRate,(int)Frequency);
 
             m_data = new double[size]; // initializing data
 

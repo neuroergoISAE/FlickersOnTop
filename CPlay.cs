@@ -312,8 +312,8 @@ namespace VisualStimuli
 				}
 				// Remaining time for the frame after the display of all the flickers with the paralell loop
 				var timeleft = frame_ticks - watchFPSMax.ElapsedTicks;
-				Console.WriteLine("Time rendering: {0} ms Total Time: {1} ms",watchFPSMax.ElapsedTicks/10000d, (timeleft + watchFPSMax.ElapsedTicks) / 10000d);
-                Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,timeleft/10000d,1000d/((timeleft+watchFPSMax.ElapsedTicks)/10000d),10000000d/watchFPSMax.ElapsedTicks);
+				//Console.WriteLine("Time rendering: {0} ms Total Time: {1} ms",watchFPSMax.ElapsedTicks/10000d, (timeleft + watchFPSMax.ElapsedTicks) / 10000d);
+                //Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,timeleft/10000d,1000d/((timeleft+watchFPSMax.ElapsedTicks)/10000d),10000000d/watchFPSMax.ElapsedTicks);
                 
 
 				// Wait until the full elapsed time for a frame
