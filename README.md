@@ -14,11 +14,12 @@ It provides [Lab Streaming Layer (LSL)](https://github.com/sccn/labstreaminglaye
 
 ⚠️ This project is still under-development and this is a beta version. If you experience some issue/bug, you can share it with us in the [GitHub issues webpage](https://github.com/ludovicdmt/FlickersOnTop/issues) and we would be very happy to work on it ! It can also be used to suggest further improvements. 
 
-![FlickerOnTop](https://user-images.githubusercontent.com/19227268/207640580-4b37e8f1-eb59-4719-b924-be0f3882d3e6.PNG)
+![FlickerOnTop](https://user-images.githubusercontent.com/19227268/215775405-28b916f5-372c-40a2-89b9-6d5bd565292f.PNG)
 
 Organization of the repo
 ---------------
 🧑‍💻 The code is divided in two parts : 
+
 * Interface2App: A GUI to design and place flickers. It creats an XML files that would be used as input for the second part.
 * VisualSimuli: Use the XML file to create and animate flickers.
 
