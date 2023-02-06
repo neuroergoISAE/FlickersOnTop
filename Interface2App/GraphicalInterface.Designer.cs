@@ -473,7 +473,6 @@ namespace Interface2App
             // 
             // screenViewer1
             // 
-            this.screenViewer1.AutoSize = true;
             this.screenViewer1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.screenViewer1.BackColor = System.Drawing.Color.Transparent;
             this.screenViewer1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("screenViewer1.BackgroundImage")));
@@ -628,7 +627,6 @@ namespace Interface2App
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
