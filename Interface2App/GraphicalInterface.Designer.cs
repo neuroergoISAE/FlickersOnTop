@@ -482,7 +482,7 @@ namespace Interface2App
             this.screenViewer1.Margin = new System.Windows.Forms.Padding(50, 5, 40, 5);
             this.screenViewer1.MinimumSize = new System.Drawing.Size(374, 0);
             this.screenViewer1.Name = "screenViewer1";
-            this.screenViewer1.Size = new System.Drawing.Size(374, 235);
+            this.screenViewer1.Size = new System.Drawing.Size(768, 235);
             this.screenViewer1.TabIndex = 109;
             // 
             // elementHost1
@@ -540,7 +540,7 @@ namespace Interface2App
             this.tableLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 220F));
             this.tableLayoutPanel3.Controls.Add(this.screenViewer1, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -560,7 +560,7 @@ namespace Interface2App
             this.tableLayoutPanel4.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.labelX, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.labelY, 0, 2);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(961, 203);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(861, 203);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 3;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
