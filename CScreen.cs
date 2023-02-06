@@ -98,7 +98,7 @@ namespace VisualStimuli
                     return;
                 }
             }
-            SDL.SDL_SetWindowOpacity(m_pWindow, 0.5f);
+            SDL.SDL_SetWindowOpacity(m_pWindow, 0.0f);
             SDL.SDL_SetRelativeMouseMode(SDL.SDL_bool.SDL_FALSE);
 
             //removing some event to assure it doesn't get laggy with lots of flickers on top of each other
