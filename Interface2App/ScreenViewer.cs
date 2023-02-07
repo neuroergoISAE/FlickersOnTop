@@ -84,8 +84,6 @@ namespace Interface2App
             Xfactor = (float)this.Size.Width / (float)resX;
             Yfactor = (float)this.Size.Height / (float)resY;
             UpdateFlickerZones();
-            //this.MaximumSize = new Size((int)(this.Height*(resX/resY)),500); //to get an aspect ratio equal to the real screen
-            //this.Size = new Size((int)(this.Height * (resX / resY)), this.Height);
         }
 
     }

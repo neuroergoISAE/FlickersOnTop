@@ -11,7 +11,6 @@ using System.Xml;
 using System.Globalization;
 using System.Drawing;
 using System.Collections.Generic;
-using static VisualStimuli.CPlay;
 
 namespace VisualStimuli
 {
@@ -106,7 +105,10 @@ namespace VisualStimuli
 				// Get the root element of the document
 				XmlElement root = doc.DocumentElement;
 
+                //program instance for window creation
+                var instance=Marshal.GetHINSTANCE(this.GetType().Module);
 
+                int k = 0;
 				// Iterate over the child elements of the root
 				foreach (XmlNode node in root.ChildNodes)
 				{
@@ -144,7 +146,8 @@ namespace VisualStimuli
                         }
                     }
                     //create a window and add the flickers to the list of flickers
-                    CScreen screen = new CScreen(pos_x, pos_y, width, height, name, false,r1,g1,b1,image);
+                    CScreen screen = new CScreen(pos_x, pos_y, width, height, name+k.ToString(), false,r1,g1,b1,image,
+                       instance);
 					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen.PSurface);
 					m_listFlickers.Add(new CFlicker(
 						name,
@@ -159,8 +162,9 @@ namespace VisualStimuli
 					   (int)Math.Round(a2 * 2.55), // alpha2
 					   phase,
 					   (int)type,
-					   seq) // type frequence
+					   seq)
 					);
+					k++;
                 }
 				Console.WriteLine("Created {0} Flickers", m_listFlickers.Count);
 				
@@ -313,7 +317,7 @@ namespace VisualStimuli
 				// Remaining time for the frame after the display of all the flickers with the paralell loop
 				var timeleft = frame_ticks - watchFPSMax.ElapsedTicks;
 				//Console.WriteLine("Time rendering: {0} ms Total Time: {1} ms",watchFPSMax.ElapsedTicks/10000d, (timeleft + watchFPSMax.ElapsedTicks) / 10000d);
-                //Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,timeleft/10000d,1000d/((timeleft+watchFPSMax.ElapsedTicks)/10000d),10000000d/watchFPSMax.ElapsedTicks);
+                Console.WriteLine("frame {0}: watch {1} ms left: {2} ms\nEstimated FPS: {3}\nEstimated Max Fps: {4}", frame,watch.ElapsedTicks/10000d,timeleft/10000d,1000d/((timeleft+watchFPSMax.ElapsedTicks)/10000d),10000000d/watchFPSMax.ElapsedTicks);
                 
 
 				// Wait until the full elapsed time for a frame
