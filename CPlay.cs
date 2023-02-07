@@ -362,7 +362,18 @@ namespace VisualStimuli
             {
 				quit=true;
             }
-			Animate_Flicker();
+			try
+			{
+                Animate_Flicker();
+            }catch(Exception ex)
+			{
+                Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
+                {
+                    c.isActive = false;
+                    c.Destroy();
+                });
+                SDL.SDL_Quit();
+            }
         }
 	}
 

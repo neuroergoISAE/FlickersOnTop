@@ -124,6 +124,8 @@ namespace VisualStimuli
 
         [DllImport("user32.dll", SetLastError = true)]
         static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, UInt32 uFlags);
+        [DllImport("user32.dll")]
+        public static extern bool UnregisterClass(string lpClassName, IntPtr hInstance);
         public const int WS_EX_LAYERED = 0x00080000;
         public const int WS_EX_TRANSPARENT = 0x00000020;
         public const int WS_EX_TOPMOST = 0x00000008;
@@ -245,6 +247,7 @@ namespace VisualStimuli
                 wind_class.lpfnWndProc = Marshal.GetFunctionPointerForDelegate(delegWndProc);
                 wind_class.hIconSm = IntPtr.Zero;
                 regResult = RegisterClassEx(ref wind_class);
+                Console.WriteLine(regResult);
                 if (regResult == 0)
                 {
                     uint error = GetLastError();
@@ -252,8 +255,6 @@ namespace VisualStimuli
                 }
             }
             hwnd = CreateWindowEx(WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST, regResult, name, WS_POPUP, x, y, width, height, IntPtr.Zero, IntPtr.Zero, wind_class.hInstance, IntPtr.Zero);
-            //hwnd = CreateWindowEx(0, regResult, name, 0, x, y, width, height, IntPtr.Zero, IntPtr.Zero, wind_class.hInstance, IntPtr.Zero);
-            Console.WriteLine("window {0}, error: {1}", hwnd,GetLastError());
             ShowWindow(hwnd, 1);
             //SetWindowLong(hwnd,GWL_EXSTYLE,0);
             m_pWindow = SDL.SDL_CreateWindowFrom(hwnd);
@@ -316,9 +317,12 @@ namespace VisualStimuli
         }
         public void Quit()
         {
+            //SetLayeredWindowAttributes(hwnd, 0, 0, LWA_ALPHA);
+            myWndProc(hwnd, WM_DESTROY, IntPtr.Zero, IntPtr.Zero);
+            //var b=UnregisterClass(wind_class.lpszClassName, wind_class.hInstance);
+            //Console.WriteLine("{0} code: {1}",b,GetLastError());
             SDL.SDL_FreeSurface(m_pSurface);
             SDL.SDL_DestroyRenderer(PRenderer);
-            DestroyWindow(hwnd);
             SDL.SDL_DestroyWindow(m_pWindow);
         }
     }
