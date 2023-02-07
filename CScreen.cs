@@ -15,7 +15,8 @@ namespace VisualStimuli
     class CScreen
     {
 
-
+        /// New imports to be used by User32 to be able to define windows
+        /// Use https://www.pinvoke.net/
         const UInt32 WS_OVERLAPPEDWINDOW = 0xcf0000;
         const UInt32 WS_VISIBLE = 0x10000000;
         const UInt32 CS_USEDEFAULT = 0x80000000;
@@ -137,6 +138,8 @@ namespace VisualStimuli
         public const uint WS_POPUP = 0x80000000;
         private static WNDCLASSEX wind_class = new WNDCLASSEX();
         private static ushort regResult;
+        // End of imports used by User32 to define windows
+
         // Attributes (from "struct screen" in Screen.h)
         private IntPtr m_pWindow = IntPtr.Zero; // ex "pWindow"
         private IntPtr m_pRenderer = IntPtr.Zero; // ex "renderer"
@@ -197,6 +200,8 @@ namespace VisualStimuli
 
         private void create(int x, int y, int width, int height, String name, bool fixedScreen, IntPtr instance)
         {
+            /// Legacy code to define windows using SDL DLL
+            /// 
             /*if (!fixedScreen)
             {
 
@@ -229,6 +234,8 @@ namespace VisualStimuli
                     return;
                 }
             }*/
+            /// Windows defined using the User32 DLL (lower level to allow clicks through windows)
+            /// 
             if (wind_class.cbSize==0)
             {
                 wind_class = new WNDCLASSEX();
@@ -254,9 +261,13 @@ namespace VisualStimuli
                     Console.WriteLine("Error while registering class code: {0}", error);
                 }
             }
+            // Create a window with capacity to be clicker trough: WS_EX_LAYERED and WS_EX_TRANSPARENT together
+            /// WS_POPUP make the window borderless
             hwnd = CreateWindowEx(WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST, regResult, name, WS_POPUP, x, y, width, height, IntPtr.Zero, IntPtr.Zero, wind_class.hInstance, IntPtr.Zero);
             ShowWindow(hwnd, 1);
             //SetWindowLong(hwnd,GWL_EXSTYLE,0);
+
+            /// Put this new User32 window into SDL instead of the regular m_pWindow from SDL
             m_pWindow = SDL.SDL_CreateWindowFrom(hwnd);
             //SDL.SDL_ShowWindow(m_pWindow);
             
@@ -305,6 +316,7 @@ namespace VisualStimuli
             //SDL.SDL_RenderPresent(PRenderer); //renderer isn't needed here
             try
             {
+                // With User32, opacity is named a here. Little bit more efficient than SDL_SetWindowOpacity
                 SetLayeredWindowAttributes(hwnd, 0, a, LWA_ALPHA);
                 /*if (SDL.SDL_SetWindowOpacity(m_pWindow, a/255.0f) != 0) //might be the quickest SDL rendering in the world :)
                 {
@@ -315,9 +327,13 @@ namespace VisualStimuli
             
             
         }
+        /// <summary>
+        /// Kill the windows and free up memory properly when leaving
+        /// </summary>
         public void Quit()
         {
             //SetLayeredWindowAttributes(hwnd, 0, 0, LWA_ALPHA);
+            
             myWndProc(hwnd, WM_DESTROY, IntPtr.Zero, IntPtr.Zero);
             //var b=UnregisterClass(wind_class.lpszClassName, wind_class.hInstance);
             //Console.WriteLine("{0} code: {1}",b,GetLastError());
