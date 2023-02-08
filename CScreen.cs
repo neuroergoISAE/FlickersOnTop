@@ -67,7 +67,6 @@ namespace VisualStimuli
             }
             return DefWindowProc(hWnd, msg, wParam, lParam);
         }
-
         private WndProc delegWndProc = myWndProc;
 
         [DllImport("user32.dll")]
@@ -112,7 +111,7 @@ namespace VisualStimuli
         [DllImport("user32.dll")]
         public static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
         [DllImport("user32.dll")]
-        public static extern bool UnregisterClass(string lpClassName, IntPtr hInstance);
+        static extern bool UnregisterClass([In] string class_name);
         public const int WS_EX_LAYERED = 0x00080000;
         public const int WS_EX_TRANSPARENT = 0x00000020;
         public const int WS_EX_TOPMOST = 0x00000008;
@@ -123,7 +122,9 @@ namespace VisualStimuli
         public const int GWL_EXSTYLE= -0x14;
         public const uint WS_POPUP = 0x80000000;
         private static WNDCLASSEX wind_class = new WNDCLASSEX();
-        private static ushort regResult;
+        private static ushort regResult =0;
+        private static IntPtr ParentWindow=IntPtr.Zero;
+        private bool IsParent=false;
         // End of imports used by User32 to define windows
 
         // Attributes (from "struct screen" in Screen.h)
@@ -161,6 +162,7 @@ namespace VisualStimuli
         /// <param name="fixedScreen">The value represents the screen is fixed or not.</param>
         public CScreen(int x, int y, int width, int height, String name, bool fixedScreen,Byte r,Byte g, Byte b,string imagepath,IntPtr instance)
         {
+            
             SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
             create(x, y, width, height, name, fixedScreen, instance);
             if (imagepath == string.Empty)
@@ -221,24 +223,26 @@ namespace VisualStimuli
                 }
             }*/
             /// Windows defined using the User32 DLL (lower level to allow clicks through windows)
-            /// 
-            if (wind_class.cbSize==0)
+
+            if (regResult == 0)
             {
-                wind_class = new WNDCLASSEX();
-                wind_class.cbSize = Marshal.SizeOf(typeof(WNDCLASSEX));
-                wind_class.style = (int)(CS_HREDRAW | CS_VREDRAW);
-                wind_class.hbrBackground = (IntPtr)COLOR_BACKGROUND + 1; //Black background, +1 is necessary
-                wind_class.cbClsExtra = 0;
-                wind_class.cbWndExtra = 0;
-                //wind_class.hInstance = instance ;// alternative: Process.GetCurrentProcess().Handle;
-                //wind_class.hInstance = Marshal.GetHINSTANCE(this.GetType().Module);
-                wind_class.hInstance = GetModuleHandle(null);
-                wind_class.hIcon = IntPtr.Zero;
-                wind_class.hCursor = LoadCursor(IntPtr.Zero, (int)IDC_CROSS);
-                wind_class.lpszMenuName = null;
-                wind_class.lpszClassName = name;
-                wind_class.lpfnWndProc = Marshal.GetFunctionPointerForDelegate(delegWndProc);
-                wind_class.hIconSm = IntPtr.Zero;
+                wind_class = new WNDCLASSEX
+                {
+                    cbSize = Marshal.SizeOf(typeof(WNDCLASSEX)),
+                    style = (int)(CS_HREDRAW | CS_VREDRAW),
+                    hbrBackground = (IntPtr)COLOR_BACKGROUND + 1, //Black background, +1 is necessary
+                    cbClsExtra = 0,
+                    cbWndExtra = 0,
+                    //wind_class.hInstance = instance ;// alternative: Process.GetCurrentProcess().Handle;
+                    //wind_class.hInstance = Marshal.GetHINSTANCE(this.GetType().Module);
+                    hInstance = GetModuleHandle(null),
+                    hIcon = IntPtr.Zero,
+                    hCursor = LoadCursor(IntPtr.Zero, (int)IDC_CROSS),
+                    lpszMenuName = null,
+                    lpszClassName = name,
+                    lpfnWndProc = Marshal.GetFunctionPointerForDelegate(delegWndProc),
+                    hIconSm = IntPtr.Zero
+                };
                 regResult = RegisterClassEx(ref wind_class);
                 Console.WriteLine(regResult);
                 if (regResult == 0)
@@ -247,9 +251,16 @@ namespace VisualStimuli
                     Console.WriteLine("Error while registering class code: {0}", error);
                 }
             }
-            // Create a window with capacity to be clicker trough: WS_EX_LAYERED and WS_EX_TRANSPARENT together
+            if(ParentWindow== IntPtr.Zero) {
+                hwnd = CreateWindowEx(WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST, regResult, name, WS_POPUP, x, y, width, height, IntPtr.Zero, IntPtr.Zero, wind_class.hInstance, IntPtr.Zero);
+                ParentWindow = hwnd; IsParent = true;
+            }
+            else
+            {
+                hwnd = CreateWindowEx(WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST, regResult, name, WS_POPUP, x, y, width, height, ParentWindow, IntPtr.Zero, wind_class.hInstance, IntPtr.Zero);
+            }
+            // Create a window with capacity to be clicked through: WS_EX_LAYERED and WS_EX_TRANSPARENT together
             /// WS_POPUP make the window borderless
-            hwnd = CreateWindowEx(WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST, regResult, name, WS_POPUP, x, y, width, height, IntPtr.Zero, IntPtr.Zero, wind_class.hInstance, IntPtr.Zero);
             ShowWindow(hwnd, 1);
             //SetWindowLong(hwnd,GWL_EXSTYLE,0);
 
@@ -257,7 +268,7 @@ namespace VisualStimuli
             m_pWindow = SDL.SDL_CreateWindowFrom(hwnd);
             //SDL.SDL_ShowWindow(m_pWindow);
             
-            SDL.SDL_SetWindowOpacity(m_pWindow, 0.0f); //make window insible before animation
+            SDL.SDL_SetWindowOpacity(m_pWindow, 0.0f); //make window invisible before animation
             SDL.SDL_SetRelativeMouseMode(SDL.SDL_bool.SDL_FALSE);
 
             //removing some event to assure it doesn't get laggy with lots of flickers on top of each other
@@ -299,7 +310,6 @@ namespace VisualStimuli
         /// </summary>
         public void show(Byte a)
         {
-            //SDL.SDL_RenderPresent(PRenderer); //renderer isn't needed here
             try
             {
                 // With User32, opacity is named a here. Little bit more efficient than SDL_SetWindowOpacity
@@ -318,10 +328,14 @@ namespace VisualStimuli
         /// </summary>
         public void Quit()
         {
+            if(IsParent) {
+                DestroyWindow(hwnd);
+                ParentWindow = IntPtr.Zero;
+            }
             //SetLayeredWindowAttributes(hwnd, 0, 0, LWA_ALPHA);
-            
-            myWndProc(hwnd, WM_DESTROY, IntPtr.Zero, IntPtr.Zero);
-            //var b=UnregisterClass(wind_class.lpszClassName, wind_class.hInstance);
+
+            //myWndProc(ParentWindow, WM_DESTROY, IntPtr.Zero, IntPtr.Zero);
+            //var b=UnregisterClass(wind_class.lpszClassName);
             //Console.WriteLine("{0} code: {1}",b,GetLastError());
             SDL.SDL_FreeSurface(m_pSurface);
             SDL.SDL_DestroyRenderer(PRenderer);

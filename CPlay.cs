@@ -148,7 +148,6 @@ namespace VisualStimuli
                     //create a window and add the flickers to the list of flickers
                     CScreen screen = new CScreen(pos_x, pos_y, width, height, name+k.ToString(), false,r1,g1,b1,image,
                        instance);
-					var screenSurface1 = Marshal.PtrToStructure<SDL.SDL_Surface>(screen.PSurface);
 					m_listFlickers.Add(new CFlicker(
 						name,
 						pos_x,
@@ -367,6 +366,7 @@ namespace VisualStimuli
                 Animate_Flicker();
             }catch(Exception ex)
 			{
+				Console.WriteLine(ex.Message);
                 Parallel.ForEach<CFlicker>(m_listFlickers.Cast<CFlicker>(), c =>
                 {
                     c.isActive = false;
