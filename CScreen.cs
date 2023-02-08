@@ -16,18 +16,12 @@ namespace VisualStimuli
     {
 
 
-        const UInt32 WS_OVERLAPPEDWINDOW = 0xcf0000;
-        const UInt32 WS_VISIBLE = 0x10000000;
-        const UInt32 CS_USEDEFAULT = 0x80000000;
-        const UInt32 CS_DBLCLKS = 8;
         const UInt32 CS_VREDRAW = 1;
         const UInt32 CS_HREDRAW = 2;
-        const UInt32 COLOR_WINDOW = 5;
         const UInt32 COLOR_BACKGROUND = 1;
         const UInt32 IDC_CROSS = 32515;
         const UInt32 WM_DESTROY = 2;
         const UInt32 WM_PAINT = 0x0f;
-        const UInt32 WM_LBUTTONUP = 0x0202;
         const UInt32 WM_LBUTTONDBLCLK = 0x0203;
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -229,6 +223,7 @@ namespace VisualStimuli
                     return;
                 }
             }*/
+            //create window class if doesn't exist (1 window class for all flickers)
             if (wind_class.cbSize==0)
             {
                 wind_class = new WNDCLASSEX();
@@ -260,7 +255,7 @@ namespace VisualStimuli
             m_pWindow = SDL.SDL_CreateWindowFrom(hwnd);
             //SDL.SDL_ShowWindow(m_pWindow);
             
-            SDL.SDL_SetWindowOpacity(m_pWindow, 0.0f);
+            SDL.SDL_SetWindowOpacity(m_pWindow, 0.0f); //make window insible before animation
             SDL.SDL_SetRelativeMouseMode(SDL.SDL_bool.SDL_FALSE);
 
             //removing some event to assure it doesn't get laggy with lots of flickers on top of each other
