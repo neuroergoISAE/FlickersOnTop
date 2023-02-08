@@ -38,7 +38,6 @@ namespace Interface2App
             // copy the screen to the Bitmap
             graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
 
-
             //event handling
             this.SizeChanged+= OnSizeChanged;
         }
@@ -63,8 +62,6 @@ namespace Interface2App
             FlickerZones = new List<flickerRect>();
             for(int i=0; i<dataSource.Count; i++)
             {
-                var fr = new flickerRect(dataSource[i],this);
-                FlickerZones.Add(fr);
                 UpdateFlickerZones(i);
             }
         }
@@ -86,17 +83,16 @@ namespace Interface2App
             this.BackgroundImage = bitmap.GetThumbnailImage(this.Width, this.Height, null, IntPtr.Zero);
             Xfactor = (float)this.Size.Width / (float)resX;
             Yfactor = (float)this.Size.Height / (float)resY;
-            //this.MaximumSize = new Size((int)(this.Height*(resX/resY)),9999); //to get an aspect ratio equal to the real screen
-            this.MaximumSize = new Size((int)(this.Height*1.7),9999); //to get an aspect ratio equal to the real screen
-    }
+            UpdateFlickerZones();
+        }
 
-}
+    }
     /// <summary>
     /// Each flickerRect correspond to one flicker and is used to visualized the flickers in a ScreenViewer.
     /// </summary>
     public class flickerRect : UserControl
     {
-        protected static int edgeSizeForResize = 1; //size of area where we can grab the object for resizing
+        protected static int edgeSizeForResize = 2; //size of area where we can grab the object for resizing
         protected static int borderSizeDrawing = 3; //size for the border of the rectangle drawn on screen. Unused for the moment.
         private bool hovered;
         private Color color1;

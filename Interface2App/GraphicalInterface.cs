@@ -88,25 +88,31 @@ namespace Interface2App
 		
 		private void loadFile(string filePath)
 		{
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Flicker>));
-            using (StreamReader s = new StreamReader(filePath))
-            {
-                FlickerList = (List<Flicker>)serializer.Deserialize(s);
-                s.Close();
-                flickerBindingSource.DataSource = FlickerList;
-                FlickerDataGridView.Update();
-                //SetText(labelTest, FlickerList.Count.ToString());
-                for (int i=0; i < FlickerList.Count; i++)
-				{
-                    FlickerDataGridView.Rows[i].Cells["color"].Style.BackColor = ConvertColor(FlickerList[i].color1);
-					if (FlickerList[i].IsImageFlicker)
-					{
-						FlickerDataGridView.Rows[i].Cells["color"].Value = FlickerList[i].image;
+			try
+			{
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Flicker>));
+                using (StreamReader s = new StreamReader(filePath))
+                {
+                    FlickerList = (List<Flicker>)serializer.Deserialize(s);
+                    s.Close();
+                    flickerBindingSource.DataSource = FlickerList;
+                    FlickerDataGridView.Update();
+                    for (int i = 0; i < FlickerList.Count; i++)
+                    {
+                        FlickerDataGridView.Rows[i].Cells["color"].Style.BackColor = ConvertColor(FlickerList[i].color1);
+                        if (FlickerList[i].IsImageFlicker)
+                        {
+                            FlickerDataGridView.Rows[i].Cells["color"].Value = FlickerList[i].image;
 
+                        }
                     }
+                    screenViewer1.InvalidateRectangle();
                 }
-                screenViewer1.InvalidateRectangle();
+            }catch(Exception ex)
+			{
+                SetText(labelTest, "An Error Occured While Trying To Import" + ex.Message);
             }
+            
         }
 		/// <summary>
 		/// Saving all informations which were written in the interface to an xml file.
@@ -483,5 +489,6 @@ namespace Interface2App
             screenViewer1.DataSource = FlickerList;
             screenViewer1.InvalidateRectangle();
         }
+
     }
 }
