@@ -41,6 +41,33 @@ namespace Interface2App
             //event handling
             this.SizeChanged+= OnSizeChanged;
         }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            
+            foreach(flickerRect f in FlickerZones)
+            {
+                var c = f.color1;
+                if (!f.IsImage)
+                {
+                    c = Color.FromArgb((int)(f.a2 * 2.55 * 0.7), c.R, c.G, c.B);
+                    var alpha = f.a1 * 2.55 * 0.5;
+                    var blackPen = new Pen(c);
+                    if (f.hovered) { alpha *= 1.3; }
+                    var zone = new Rectangle(f.Location, f.Size);
+                    e.Graphics.DrawRectangle(blackPen, zone);
+                    var background = Color.FromArgb(50, c.R, c.G, c.B);
+                    var brush = new SolidBrush(background);
+                    e.Graphics.FillRectangle(brush, zone);
+                }
+                else
+                {
+                    var alpha = f.a1 * 2.55 * 0.3;
+                    e.Graphics.DrawImage(f.image.GetThumbnailImage(Width, Height, null, IntPtr.Zero), DisplayRectangle.Location);
+                }
+            }
+            
+        }
         protected override void OnInvalidated(InvalidateEventArgs e)
         {
             base.OnInvalidated(e);
@@ -94,13 +121,13 @@ namespace Interface2App
     {
         protected static int edgeSizeForResize = 2; //size of area where we can grab the object for resizing
         protected static int borderSizeDrawing = 3; //size for the border of the rectangle drawn on screen. Unused for the moment.
-        private bool hovered;
-        private Color color1;
-        private int a1;
-        private int a2;
+        public bool hovered;
+        public Color color1;
+        public int a1;
+        public int a2;
         public Flicker flicker;
-        private Image image;
-        private bool IsImage;
+        public Image image;
+        public bool IsImage;
         private ScreenViewer sv;
         private List<Rectangle> covers; //used for rezizing, a list of rectangle on the edges
         /*
@@ -166,7 +193,8 @@ namespace Interface2App
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+            //MOVED DRAWING TO PARENT FOR TRANSPARENCY PURPOSE
+            /*base.OnPaint(e);
             var c = color1;
             if (!IsImage)
             {
@@ -175,13 +203,13 @@ namespace Interface2App
                 if (hovered) { alpha *= 1.3; }
                 //e.Graphics.DrawRectangle(blackPen, new Rectangle(Location.X/2,Location.Y/2,Width,Height));
                 ControlPaint.DrawBorder(e.Graphics, DisplayRectangle, c, ButtonBorderStyle.Solid);
-                BackColor = Color.FromArgb((int)alpha, c.R, c.G, c.B);
+                BackColor = Color.FromArgb(50, c.R, c.G, c.B);
             }
             else
             {
                 var alpha = a1 * 2.55 * 0.3;
                 e.Graphics.DrawImage(image.GetThumbnailImage(Width, Height, null, IntPtr.Zero), DisplayRectangle.Location);
-            }
+            }*/
         }
         protected override void OnInvalidated(InvalidateEventArgs e)
         {
