@@ -68,7 +68,7 @@ namespace VisualStimuli
             }
             return DefWindowProc(hWnd, msg, wParam, lParam);
         }
-        private WndProc delegWndProc = myWndProc;
+        private static WndProc delegWndProc = myWndProc;
 
         [DllImport("user32.dll")]
         static extern bool UpdateWindow(IntPtr hWnd);
@@ -332,11 +332,6 @@ namespace VisualStimuli
                 DestroyWindow(hwnd);
                 ParentWindow = IntPtr.Zero;
             }
-            //SetLayeredWindowAttributes(hwnd, 0, 0, LWA_ALPHA);
-
-            //myWndProc(ParentWindow, WM_DESTROY, IntPtr.Zero, IntPtr.Zero);
-            //var b=UnregisterClass(wind_class.lpszClassName);
-            //Console.WriteLine("{0} code: {1}",b,GetLastError());
             SDL.SDL_FreeSurface(m_pSurface);
             SDL.SDL_DestroyRenderer(PRenderer);
             SDL.SDL_DestroyWindow(m_pWindow);
