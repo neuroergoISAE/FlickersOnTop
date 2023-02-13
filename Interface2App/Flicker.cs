@@ -24,7 +24,7 @@ namespace Interface2App
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
 		public double Frequency { get; set; }
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
-		[Range(0, 180)]
+		[Range(0, 360)]
 		public double Phase { get; set; }
 		[Required, RegularExpression(@"^.*[0-9]", ErrorMessage = "Please enter a number")]
 		[Range(0, 100)]

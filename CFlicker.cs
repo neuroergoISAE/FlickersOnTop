@@ -289,7 +289,7 @@ namespace VisualStimuli
 				 
 			}
 			// None, used only for test
-            if (TypeFrequence == 4)
+            if (TypeFrequence == 5)
 			{
 				for(int j=0;j<size;j++)
 				{

@@ -15,8 +15,8 @@ namespace VisualStimuli
     class CScreen
     {
 
-        /// New imports to be used by User32 to be able to define windows
-        /// Use https://www.pinvoke.net/
+        // New imports to be used by User32 to be able to define windows
+        // Use https://www.pinvoke.net/
         const UInt32 CS_VREDRAW = 1;
         const UInt32 CS_HREDRAW = 2;
         const UInt32 COLOR_BACKGROUND = 1;
@@ -43,6 +43,7 @@ namespace VisualStimuli
             public string lpszClassName;
             public IntPtr hIconSm;
         }
+        //window function for all flickers -> linked to the class, MUST NOT be garbage collected during execution at any point.
         private static IntPtr myWndProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam)
         {
             switch (msg)
@@ -67,7 +68,7 @@ namespace VisualStimuli
             }
             return DefWindowProc(hWnd, msg, wParam, lParam);
         }
-        private WndProc delegWndProc = myWndProc;
+        private static WndProc delegWndProc = myWndProc;
 
         [DllImport("user32.dll")]
         static extern bool UpdateWindow(IntPtr hWnd);
@@ -188,8 +189,7 @@ namespace VisualStimuli
 
         private void create(int x, int y, int width, int height, String name, bool fixedScreen, IntPtr instance)
         {
-            /// Legacy code to define windows using SDL DLL
-            /// 
+            // Legacy code to define windows using SDL DLL 
             /*if (!fixedScreen)
             {
 
@@ -222,7 +222,7 @@ namespace VisualStimuli
                     return;
                 }
             }*/
-            /// Windows defined using the User32 DLL (lower level to allow clicks through windows)
+            // Windows defined using the User32 DLL (lower level to allow clicks through windows)
 
             if (regResult == 0)
             {
@@ -260,11 +260,11 @@ namespace VisualStimuli
                 hwnd = CreateWindowEx(WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST, regResult, name, WS_POPUP, x, y, width, height, ParentWindow, IntPtr.Zero, wind_class.hInstance, IntPtr.Zero);
             }
             // Create a window with capacity to be clicked through: WS_EX_LAYERED and WS_EX_TRANSPARENT together
-            /// WS_POPUP make the window borderless
+            // WS_POPUP make the window borderless
             ShowWindow(hwnd, 1);
             //SetWindowLong(hwnd,GWL_EXSTYLE,0);
 
-            /// Put this new User32 window into SDL instead of the regular m_pWindow from SDL
+            // Put this new User32 window into SDL instead of the regular m_pWindow from SDL
             m_pWindow = SDL.SDL_CreateWindowFrom(hwnd);
             //SDL.SDL_ShowWindow(m_pWindow);
             
@@ -332,11 +332,6 @@ namespace VisualStimuli
                 DestroyWindow(hwnd);
                 ParentWindow = IntPtr.Zero;
             }
-            //SetLayeredWindowAttributes(hwnd, 0, 0, LWA_ALPHA);
-
-            //myWndProc(ParentWindow, WM_DESTROY, IntPtr.Zero, IntPtr.Zero);
-            //var b=UnregisterClass(wind_class.lpszClassName);
-            //Console.WriteLine("{0} code: {1}",b,GetLastError());
             SDL.SDL_FreeSurface(m_pSurface);
             SDL.SDL_DestroyRenderer(PRenderer);
             SDL.SDL_DestroyWindow(m_pWindow);
