@@ -247,7 +247,7 @@ namespace Interface2App
                     if (!_startPosition.IsEmpty && !_startSize.IsEmpty)
                     {
                         var s = _startSize;
-                        switch (index) //TODO: find a better way to do that, moreover it doesn't even work correctly
+                        switch (index) //TODO: find a better way to do that, it doesn't even work correctly
                         {
                             case 0:
                                 flicker.Height = (int)((s.Height - difY) / Yfactor);
