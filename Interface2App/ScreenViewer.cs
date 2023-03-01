@@ -44,8 +44,8 @@ namespace Interface2App
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            
-            foreach(flickerRect f in FlickerZones)
+
+            foreach (flickerRect f in FlickerZones)
             {
                 var c = f.color1;
                 if (!f.IsImage)
@@ -53,12 +53,15 @@ namespace Interface2App
                     c = Color.FromArgb((int)(f.a2 * 2.55 * 0.7), c.R, c.G, c.B);
                     var alpha = f.a1 * 2.55 * 0.5;
                     var blackPen = new Pen(c);
+                    blackPen.Width = 1;
                     if (f.hovered) { alpha *= 1.3; }
-                    var zone = new Rectangle(f.Location, f.Size);
-                    e.Graphics.DrawRectangle(blackPen, zone);
+                    var zone_rect = new Rectangle(f.Location, f.Size);
+                    var zone = new Rectangle(f.Location, new Size((int)(f.Size.Width-blackPen.Width),(int)(f.Size.Height-blackPen.Width)));
+                    
                     var background = Color.FromArgb(50, c.R, c.G, c.B);
                     var brush = new SolidBrush(background);
-                    e.Graphics.FillRectangle(brush, zone);
+                    e.Graphics.FillRectangle(brush, zone_rect);
+                    e.Graphics.DrawRectangle(blackPen, zone);
                 }
                 else
                 {
@@ -151,6 +154,9 @@ namespace Interface2App
             this.sv = sv;
             //resize(new Rectangle((int)(f.X/Xfactor), (int)(f.Y/Yfactor), (int)(f.Width/Xfactor), (int)(f.Height/Yfactor)));
             resize(new Rectangle(f.X,f.Y,f.Width,f.Height));
+            Size= new Size(0,0);
+            Location= new Point(0,0);
+            DisplayRectangle.Inflate(-DisplayRectangle.Width,-DisplayRectangle.Height);
             hovered = false;
 
             BackColor= Color.Transparent;
@@ -326,6 +332,7 @@ namespace Interface2App
                         }
                     }
                     Invalidate();
+                    //this.sv.Invalidate();
                 }
             }
             if (mousePosition != null && !LockMouse)
@@ -348,6 +355,7 @@ namespace Interface2App
         private void OnMouseUp(Object sender, MouseEventArgs e)
         {
             sv.form.dataview.ResetBindings(false);
+            sv.Invalidate();
             _startSize = Size.Empty;
             _startPosition = Point.Empty;
             _previousPoint = Point.Empty;
