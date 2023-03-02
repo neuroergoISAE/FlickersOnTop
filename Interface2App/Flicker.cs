@@ -1,5 +1,6 @@
 
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography.X509Certificates;
@@ -123,45 +124,76 @@ namespace Interface2App
 			return string.Format("Flicker at: {0},{1} Size: {2},{3}", X, Y, Width, Height);
 		}
 	}
-	public class Sequence
+	public class sequenceValue
 	{
-		public List<ValueTuple<SeqType,CondType,String>> sequence_list;
-		public enum SeqType
+		type Type;
+		List<sequenceValue> contained_sequence=new List<sequenceValue>();
+		CondType cond;
+		String value;
+		public enum type
 		{
-			Loop,
-			EndLoop,
-			Active,
-			Inactive,
 			Block,
-			EndBlock
+			Loop,
+			Active,
+			Inactive
 		}
-		public enum CondType 
+        public enum CondType
+        {
+            KeyPress = 0,
+            Time = 0,
+            Always = 1,
+            Never = 0,
+            None
+        }
+        public sequenceValue(type t,CondType c)
 		{
-			KeyPress=0,
-			Time=0,
-			Always=1,
-			Never=0,
-			None
+			Type = t;
+			cond = c;
+			value=string.Empty;
 		}
-		public Sequence() 
+		public sequenceValue(type t,CondType c,String v)
 		{
-			sequence_list = new List<(SeqType,CondType, string)>();
-			//start a new block that always end
-			sequence_list.Add((SeqType.Block,CondType.None, string.Empty));
-			sequence_list.Add((SeqType.EndBlock, CondType.Always,string.Empty));
+			Type = t;
+			cond = c;
+			value = v;
 		}
-		public void SetEternal(bool b) 
+		public sequenceValue addSeq(int pos,sequenceValue seq)
 		{
-			if (b) { sequence_list[-1] = (SeqType.EndBlock, CondType.Never,string.Empty); }
-			else { sequence_list[-1] = (SeqType.EndBlock, CondType.Always,string.Empty); }
+			contained_sequence.Insert(pos, seq);
+			return seq;
 		}
-		public void addToSeq(int pos,SeqType type,CondType cond, String value)
+		public sequenceValue addSeq(sequenceValue seq)
 		{
-			sequence_list.Insert(pos,(type,cond, value));
+			contained_sequence.Add(seq);
+			return seq
 		}
-		public void setConditionOnEnd(int pos, CondType cond,String value)
+		public sequenceValue addSeq(type t,CondType c)
 		{
-			sequence_list[pos] = (sequence_list[pos].Item1, cond, value);
+			var seq = new sequenceValue(t, c);
+            addSeq(seq);
+			return seq;
 		}
-	}
+		public sequenceValue addSeq(int pos,type t,CondType c)
+		{
+            var seq = new sequenceValue(t, c);
+            addSeq(pos,seq);
+            return seq;
+        }
+		public sequenceValue addSeq(int pos,type t,CondType c,String v)
+		{
+			addSeq(pos, new sequenceValue(t, c, v));
+		}
+        public sequenceValue addSeq(type t, CondType c, String v)
+        {
+            addSeq(new sequenceValue(t, c, v));
+        }
+		public void removeSeq(int pos)
+		{
+			contained_sequence.RemoveAt(pos)
+		}
+		public override String ToString()
+		{
+			return Type.ToString()+":["+contained_sequence.ToString()+"]\n"+cond.ToString()+":"+value+"\n";
+		}
+    }
 }
