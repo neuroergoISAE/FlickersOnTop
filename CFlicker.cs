@@ -46,8 +46,9 @@ namespace VisualStimuli
 		public int TypeFrequence { get => m_typeFreq; set => m_typeFreq = value; }
 		public int size { get; set; }
 		public int index { get; set; }
-		public int[] seq { get; set; }
-		public int nextTime { get; set; }
+		public sequenceValue seq { get; set; }
+        public List<int> sequenceStack { get; set; }
+        public int nextTime { get; set; }
 		public bool isActive { get; set; }
 
 		public double[] Data { get => m_data; set => m_data = value; }
@@ -64,7 +65,7 @@ namespace VisualStimuli
 		/// <param name="seq">The int array illustrates the timing in which the flicker is active</param>
 		///<return>None</return>>
 		
-		public CFlicker(string n,int x,int y,int width,int height,CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, int[] seq)
+		public CFlicker(string n,int x,int y,int width,int height,CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, sequenceValue seq)
 		{
 			name = n;
 			Color1 = col1;
@@ -80,7 +81,7 @@ namespace VisualStimuli
 			TypeFrequence = typeFreq;
 			this.seq= seq;
 			isActive= true;
-			if (seq.Length > 0) { nextTime = 0; if (nextTime != 0) { isActive = false; } Console.WriteLine("seq lenght: {0}\n nextTime: {1}",seq.Length,nextTime); }
+			//if (seq.Length > 0) { nextTime = 0; if (nextTime != 0) { isActive = false; } Console.WriteLine("seq lenght: {0}\n nextTime: {1}",seq.Length,nextTime); }
 			double frameRate = GetFrameRate();
 			while (Frequency > frameRate)
 			{
@@ -298,11 +299,127 @@ namespace VisualStimuli
 			}
 
         }
-		public void Destroy()
+        public sequenceValue nextSeq()
+        {
+			if (sequenceStack.Count == 0) { sequenceStack.Add(0); }
+			else
+			{
+				if (seqGo(sequenceStack).contained_sequence.Count > 0)
+				{
+					sequenceStack.Add(0);
+				}
+				else
+				{
+					var parent = seqGo(sequenceStack.GetRange(0, sequenceStack.Count - 2));
+                    if (sequenceStack[-1]<parent.contained_sequence.Count-1) 
+					{
+						sequenceStack[-1] = sequenceStack[-1]++;
+					}
+					else
+					{
+						skipSeq();
+					}
+					
+				}
+			}
+			return seqGo(sequenceStack);
+        }
+		public void skipSeq()
+		{
+            sequenceStack.RemoveAt(-1);
+            sequenceStack[-1] = sequenceStack[-1]++;
+            nextSeq();
+        }
+        private sequenceValue seqGo(List<int> ints)
+        {
+            var c = seq;
+            foreach (var i in ints)
+            {
+                c = c.contained_sequence[i];
+            }
+			return c;
+
+        }
+        public void Destroy()
 		{
 			Screen.Quit();
 		}
 	}
+    public class sequenceValue
+    {
+        public type Type;
+        public List<sequenceValue> contained_sequence = new List<sequenceValue>();
+        public CondType cond;
+        public String value;
+        public enum type
+        {
+            Block,
+            Loop,
+            Active,
+            Inactive
+        }
+        public enum CondType
+        {
+            KeyPress = 0,
+            Time = 0,
+            Always = 1,
+            Never = 0,
+            None
+        }
+        public sequenceValue(type t, CondType c)
+        {
+            Type = t;
+            cond = c;
+            value = string.Empty;
+        }
+        public sequenceValue(type t, CondType c, String v)
+        {
+            Type = t;
+            cond = c;
+            value = v;
+        }
+        public sequenceValue addSeq(int pos, sequenceValue seq)
+        {
+            contained_sequence.Insert(pos, seq);
+            return seq;
+        }
+        public sequenceValue addSeq(sequenceValue seq)
+        {
+            contained_sequence.Add(seq);
+			return seq;
+
+        }
+        public sequenceValue addSeq(type t, CondType c)
+        {
+            var seq = new sequenceValue(t, c);
+            addSeq(seq);
+            return seq;
+        }
+        public sequenceValue addSeq(int pos, type t, CondType c)
+        {
+            var seq = new sequenceValue(t, c);
+            addSeq(pos, seq);
+            return seq;
+        }
+        public sequenceValue addSeq(int pos, type t, CondType c, String v)
+        {
+            return addSeq(pos, new sequenceValue(t, c, v));
+        }
+        public sequenceValue addSeq(type t, CondType c, String v)
+        {
+            return addSeq(new sequenceValue(t, c, v));
+        }
+        public void removeSeq(int pos)
+        {
+			contained_sequence.RemoveAt(pos);
+
+        }
+        public override String ToString()
+        {
+            return Type.ToString() + ":[" + contained_sequence.ToString() + "]\n" + cond.ToString() + ":" + value + "\n";
+        }
+        public sequenceValue GetSequence(int pos) { return contained_sequence[pos]; }
+    }
 }
 
 

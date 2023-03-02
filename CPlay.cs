@@ -133,7 +133,8 @@ namespace VisualStimuli
 					{
 						image= node.SelectSingleNode("image").InnerText;
                     }
-					int[] seq = new int[0];
+					sequenceValue seq=new sequenceValue(sequenceValue.type.Block,sequenceValue.CondType.Never);
+					/*int[] seq = new int[0];
                     if (node.SelectSingleNode("sequence") != null)
 					{
                         var seqnodes = node.SelectSingleNode("sequence").ChildNodes;
@@ -144,7 +145,7 @@ namespace VisualStimuli
                             int.TryParse(seqnodes[i].InnerText, out v);
                             seq.SetValue(v, i);
                         }
-                    }
+                    }*/
                     //create a window and add the flickers to the list of flickers
                     CScreen screen = new CScreen(pos_x, pos_y, width, height, name+k.ToString(), false,r1,g1,b1,image,
                        instance);
@@ -264,35 +265,9 @@ namespace VisualStimuli
                     if (c.index >= c.size) { c.index = 0; }
                     //check if this flicker is to be shown
                     // TODO: fasten this process with use of sorting or not checking when we are active and before endTime of activity
-                    if (c.seq.Length > 0)
+                    if (c.seq!=null)
                     {
-						//check if we reached the next change in state
-						if(c.nextTime<c.seq.Length && c.seq[c.nextTime]< watch.ElapsedMilliseconds/1000)
-						{
-							string[] marker_sequence= new string[1];
-
-                            if (c.nextTime % 2 ==0) //nextTime is even -> start of flickering period
-							{
-								c.isActive= true;
-								marker_sequence[0] = "Start "+c.name;
-								c.nextTime++;
-							}
-							else //nextTime is odd -> end of the period
-							{
-								c.isActive= false;
-                                //let the flicker become invisible
-                                c.Screen.show(0);
-								marker_sequence[0] = "End " + c.name;
-                                c.nextTime++;
-							}
-							// Markers to specify the start and end of the flickering (following sequence)
-							outl.push_sample(marker_sequence);
-						}
-                        if (c.isActive)
-                        {
-                            c.display();
-                            c.index += 1 + lost_frame;
-                        }
+						
                     }
                     else //if no sequence for this flicker
                     {

@@ -194,14 +194,14 @@ namespace Interface2App
         private void buttonAccept_Click(object sender, EventArgs e)
         {
             //accept the modification and close
-            int[] newSequence = new int[sequenceControl1.timeRectangles.Count*2];
+            /*int[] newSequence = new int[sequenceControl1.timeRectangles.Count*2];
             for(int i=0;sequenceControl1.timeRectangles.Count>i;i++)
             {
                 var tr = sequenceControl1.timeRectangles[i];
                 newSequence.SetValue(tr.startTime, index:i * 2);
                 newSequence.SetValue(tr.endTime, index:i * 2 + 1);
             }
-            flicker.sequence=newSequence;
+            flicker.sequence=newSequence;*/
             this.DialogResult= DialogResult.OK;
             this.Close();
         }
@@ -238,7 +238,7 @@ namespace Interface2App
             this.MouseWheel += OnScroll;
             this.BackColor= Color.White;
             //check if sequence list correct
-            if(flicker.sequence!=null)
+            /*if(flicker.sequence!=null)
             {
                 if (flicker.sequence.Length % 2 == 0)
                 {
@@ -257,7 +257,7 @@ namespace Interface2App
                     this.BackColor = Color.AliceBlue;
                 }
             }
-            else { this.BackColor = Color.AliceBlue; }
+            else { this.BackColor = Color.AliceBlue; }*/
             
             
         }

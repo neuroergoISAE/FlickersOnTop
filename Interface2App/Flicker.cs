@@ -37,7 +37,7 @@ namespace Interface2App
         public System.Windows.Media.Color color1 { get; set; }
         public string image { get; set; }
 		public bool IsImageFlicker { get; set; } 
-		public int[] sequence { get; set; }
+		public sequenceValue sequence { get; set; }
 
 
 
@@ -67,7 +67,9 @@ namespace Interface2App
 			IsImageFlicker = false;
 			image = String.Empty;
 			Frequency= 1;
-		}
+			Phase = 0;
+			sequence = new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Never);
+        }
 		/// <summary>
 		/// custom flicker with parameters
 		/// </summary>
@@ -76,9 +78,9 @@ namespace Interface2App
 		/// <param name="Width"></param>
 		/// <param name="Height"></param>
 		/// <param name="c"></param>
-        public Flicker(int X,int Y,int Width,int Height,System.Windows.Media.Color c,int op_min,int op_max,double freq,int type)
+        public Flicker(String name,int X,int Y,int Width,int Height,System.Windows.Media.Color c,int op_min,int op_max,double freq,double phase,int type,sequenceValue seq)
         {
-            Name = "Flicker";
+            Name = name;
             Opacity_Min = op_min;
             Opacity_Max = op_max;
             Type = (Signal_Type)type;
@@ -90,6 +92,16 @@ namespace Interface2App
             IsImageFlicker = false;
             image = String.Empty;
             Frequency = freq;
+			Phase=phase;
+			sequence = seq;
+        }
+		public Flicker(int X, int Y, int Width, int Height, System.Windows.Media.Color c, int op_min, int op_max, double freq, double phase, int type)
+		{
+			new Flicker( X, Y,  Width, Height,  c, op_min, op_max, freq,phase,type, new sequenceValue(sequenceValue.type.Block,sequenceValue.CondType.Never));
+        }
+        public Flicker(int X, int Y, int Width, int Height, System.Windows.Media.Color c, int op_min, int op_max, double freq, double phase, int type,sequenceValue seq)
+        {
+            new Flicker(X, Y, Width, Height, c, op_min, op_max, freq, phase, type, seq);
         }
         /// <summary>
         /// copy a flicker
@@ -97,18 +109,7 @@ namespace Interface2App
         /// <param name="f"></param>
         public Flicker(Flicker f)
 		{
-			Name = f.Name;
-			Opacity_Min = f.Opacity_Min;
-			Opacity_Max = f.Opacity_Max;
-			Type= f.Type;
-			color1 = f.color1;
-			image = f.image;
-			Frequency= f.Frequency;
-			Phase= f.Phase;
-			X= f.X;
-			Y= f.Y;
-			Width= f.Width;
-			Height= f.Height;
+			new Flicker(f.Name, f.X, f.Y,f.Width, f.Height,f.color1,f.Opacity_Min,f.Opacity_Max,f.Frequency,f.Phase,(int)f.Type,f.sequence);
 		}
 		/// <summary>
 		/// copy a flicker
@@ -123,6 +124,7 @@ namespace Interface2App
 		{
 			return string.Format("Flicker at: {0},{1} Size: {2},{3}", X, Y, Width, Height);
 		}
+		
 	}
 	public class sequenceValue
 	{
@@ -165,7 +167,7 @@ namespace Interface2App
 		public sequenceValue addSeq(sequenceValue seq)
 		{
 			contained_sequence.Add(seq);
-			return seq
+			return seq;
 		}
 		public sequenceValue addSeq(type t,CondType c)
 		{
@@ -181,19 +183,20 @@ namespace Interface2App
         }
 		public sequenceValue addSeq(int pos,type t,CondType c,String v)
 		{
-			addSeq(pos, new sequenceValue(t, c, v));
+			return addSeq(pos, new sequenceValue(t, c, v));
 		}
         public sequenceValue addSeq(type t, CondType c, String v)
         {
-            addSeq(new sequenceValue(t, c, v));
+            return addSeq(new sequenceValue(t, c, v));
         }
 		public void removeSeq(int pos)
 		{
-			contained_sequence.RemoveAt(pos)
+			contained_sequence.RemoveAt(pos);
 		}
 		public override String ToString()
 		{
 			return Type.ToString()+":["+contained_sequence.ToString()+"]\n"+cond.ToString()+":"+value+"\n";
 		}
+		public sequenceValue GetSequence(int pos) { return contained_sequence[pos]; }
     }
 }
