@@ -1,6 +1,8 @@
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Interface2App
 {
@@ -119,6 +121,47 @@ namespace Interface2App
 		public override string ToString()
 		{
 			return string.Format("Flicker at: {0},{1} Size: {2},{3}", X, Y, Width, Height);
+		}
+	}
+	public class Sequence
+	{
+		public List<ValueTuple<SeqType,CondType,String>> sequence_list;
+		public enum SeqType
+		{
+			Loop,
+			EndLoop,
+			Active,
+			Inactive,
+			Block,
+			EndBlock
+		}
+		public enum CondType 
+		{
+			KeyPress=0,
+			Time=0,
+			Always=1,
+			Never=0,
+			None
+		}
+		public Sequence() 
+		{
+			sequence_list = new List<(SeqType,CondType, string)>();
+			//start a new block that always end
+			sequence_list.Add((SeqType.Block,CondType.None, string.Empty));
+			sequence_list.Add((SeqType.EndBlock, CondType.Always,string.Empty));
+		}
+		public void SetEternal(bool b) 
+		{
+			if (b) { sequence_list[-1] = (SeqType.EndBlock, CondType.Never,string.Empty); }
+			else { sequence_list[-1] = (SeqType.EndBlock, CondType.Always,string.Empty); }
+		}
+		public void addToSeq(int pos,SeqType type,CondType cond, String value)
+		{
+			sequence_list.Insert(pos,(type,cond, value));
+		}
+		public void setConditionOnEnd(int pos, CondType cond,String value)
+		{
+			sequence_list[pos] = (sequence_list[pos].Item1, cond, value);
 		}
 	}
 }
