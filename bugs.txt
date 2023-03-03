@@ -1,1 +1,0 @@
-dernière ligne du tableau qui fait crash en deletant
