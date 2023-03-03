@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -46,12 +47,29 @@ namespace VisualStimuli
 		public int TypeFrequence { get => m_typeFreq; set => m_typeFreq = value; }
 		public int size { get; set; }
 		public int index { get; set; }
+
+		//sequence stuff
 		public sequenceValue seq { get; set; }
         public List<int> sequenceStack { get; set; }
+		public OrderedDictionary sequenceDict { get; set; }
         public int nextTime { get; set; }
 		public bool isActive { get; set; }
+        
 
-		public double[] Data { get => m_data; set => m_data = value; }
+        public double[] Data { get => m_data; set => m_data = value; }
+        public static double[] mseq;
+        public static int mseqshift = 0;
+		//list of primitive polynoms for mseq calculation of different size (taken from scipy module in python)
+		private static Dictionary<int,List<int>> tapslist = new Dictionary<int, List<int>>()
+			{
+				{ 2, new List<int>(){1} }, {3, new List<int>(){2} }, {4, new List<int>(){3} }, {5, new List<int>(){3} }, {6, new List<int>(){5} }, {7, new List<int>(){6} }, {8, new List<int>(){7, 6, 1 }},
+				{ 9, new List<int>(){5} }, {10, new List<int>(){7} }, {11, new List<int>(){9} }, {12, new List<int>(){11, 10, 4 } },{ 13, new List<int>(){12, 11, 8 } },
+				{ 14, new List<int>(){13, 12, 2 } },{ 15, new List<int>(){14} },{ 16, new List<int>(){15, 13, 4 } },{ 17, new List<int>(){14} },
+				{ 18, new List<int>(){11} },{ 19, new List<int>(){18, 17, 14 } },{ 20, new List<int>(){17} },{ 21, new List<int>(){19} },{ 22, new List<int>(){21} },
+				{ 23, new List<int>(){18} },{ 24, new List<int>(){23, 22, 17 } },{ 25, new List<int>(){22} },{ 26, new List<int>(){25, 24, 20 } },
+				{ 27, new List<int>(){26, 25, 22 } },{ 28, new List<int>(){25} },{ 29, new List<int>(){27} },{ 30, new List<int>(){29, 28, 7 } },
+				{ 31, new List<int>(){28} },{ 32, new List<int>(){31, 30, 10 } }
+			};
 		/// <summary>
 		/// Create a flicker.
 		/// </summary>
@@ -64,7 +82,7 @@ namespace VisualStimuli
 		/// <param name="typeFreq">The double value illustates type of the flicker (sine, max-length-sequence,...).</param>
 		/// <param name="seq">The int array illustrates the timing in which the flicker is active</param>
 		///<return>None</return>>
-		
+
 		public CFlicker(string n,int x,int y,int width,int height,CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, sequenceValue seq)
 		{
 			name = n;
@@ -94,7 +112,7 @@ namespace VisualStimuli
 			Handle = info.info.win.window;
 			index = 0;
 
-            Console.WriteLine("	\n");
+			Console.WriteLine("	\n");
 			Console.WriteLine("Flicker {0} created - Position \tX = {1}\tY = {2}\tWidth = {3}\tHeight = {4} pixels", Screen.Name,Screen.X, Screen.Y,Screen.W, Screen.H);
 			setData();
 			//CreateAtlas();
@@ -147,12 +165,12 @@ namespace VisualStimuli
 		/// </summary>
 		public void display()
 		{
-            var i = Data[index];
-            var a = (Byte)(Alpha1 * i + Alpha2 * (1 - i));
+			var i = Data[index];
+			var a = (Byte)(Alpha1 * i + Alpha2 * (1 - i));
 			if (isActive)
 			{
-                m_screen.show(a);
-            }
+				m_screen.show(a);
+			}
            
 		}
 
@@ -179,6 +197,74 @@ namespace VisualStimuli
 			EnumDisplaySettings(null, -1, ref devMode);
 			return (double)devMode.dmDisplayFrequency;
 		}
+		private static double[] create_mseq(int bits_length, int length)
+		{
+			var Taps = tapslist[bits_length];
+			//number of possible code with bits_length
+			var nseed = 2 ^ bits_length;
+			var state = new List<int>();
+			var out_mseq = new double[length];
+			var r = new Random();
+			//Linear feedback shift registers function
+			double[] lfsr(List<int> seed)
+			{
+				var seed_copy = new List<int>();
+				for (int i = 0; i < length; i++)
+				{
+					out_mseq[i] = seed[0];
+					var feedback = out_mseq[i];
+					foreach (int tap in Taps)
+					{
+						feedback = (int)feedback ^ seed[tap];
+					}
+					//roll seed value backward by 1
+					seed_copy.Clear();
+					for (int j = 0; j < seed.Count; j++)
+					{
+						seed_copy.Add(seed[(j + 1) % seed.Count]);
+					}
+					seed = new List<int>(seed_copy);
+					//add feedback in the seed
+					seed[seed.Count - 1] = (int)feedback;
+				}
+				return out_mseq;
+			}
+			//create a random seed
+			for(int f = 0; f < bits_length; f++)
+			{
+				state.Add(r.Next(0, 1));
+			}
+			//force at least one value to be a "1". a full zero seed is useless
+			state[r.Next(0, state.Count - 1)] = 1;
+
+			//choose a seed and throw it in the feedback loop
+			out_mseq = lfsr(state);
+			mseq = out_mseq;
+			return out_mseq;
+
+			
+
+			
+		}
+		private static double[] create_mseq(int size)
+		{
+			if (mseq != null)
+			{
+				int bitl=(int)Math.Ceiling(Math.Log(size+1,2));
+
+				return create_mseq(bitl, size);
+			}
+			else
+			{
+				var mseq_copy = new double[size];
+				for (int j = 0; j< mseq.Count(); j++)
+				{
+					mseq_copy[j]=(mseq[(j + mseqshift) % mseq.Count()]);
+				}
+				mseqshift = (mseqshift + 3) % mseq.Count();
+				return mseq_copy;
+			}
+		}
 
 		/// <summary>
 		/// Generate a list of opacity number depends on type which was defined.
@@ -186,31 +272,31 @@ namespace VisualStimuli
 		/// <param name="flicker">FLicker.</param>
 		public void setData()
 		{
-            int LCM(int a, int b)
-            {
-                return (a * b) / GCD(a, b);
-            }
+			int LCM(int a, int b)
+			{
+				return (a * b) / GCD(a, b);
+			}
 
-            int GCD(int a, int b)
-            {
-                while (b != 0)
-                {
-                    int temp = b;
-                    b = a % b;
-                    a = temp;
-                }
-                return a;
-            }
+			int GCD(int a, int b)
+			{
+				while (b != 0)
+				{
+					int temp = b;
+					b = a % b;
+					a = temp;
+				}
+				return a;
+			}
 
-            Random rand = new Random();
+			Random rand = new Random();
 			int tmp;
 			double frameRate = GetFrameRate();
-            size = LCM((int)frameRate,(int)Frequency);
+			size = LCM((int)frameRate,(int)Frequency);
 
-            m_data = new double[size]; // initializing data
+			m_data = new double[size]; // initializing data
 
-            // random frequence
-            if (TypeFrequence == 0)
+			// random frequence
+			if (TypeFrequence == 0)
 			{
 
 				for (int j = 0; j < size; j++)
@@ -270,27 +356,27 @@ namespace VisualStimuli
 				// To understand maximum length sequence, go https://www.gaussianwaves.com/2018/09/maximum-length-sequences-m-sequences/
 				// Here, we take a primitive polynomial degree 8 
 				// The generator polynomial of the given LFSR is g(x) = g0 + g1x + g2x^2 + ... + gnx^n
-				// So data we wiil set here have form: s[k + 8] = s[k + 7] + s[k + 2] + s[k + 1] + s[k]
+				// So data we will set here have form: s[k + 8] = s[k + 7] + s[k + 2] + s[k + 1] + s[k]
 				// LFSR is Linear feedback shift registers 
 				// We initialyze 8 first random numbers (because of MLS is pseudorandom frequence)
-				Data[0] = 1;
-				Data[1] = 0;
-				Data[2] = 0;
-				Data[3] = 1;
-				Data[4] = 0;
-				Data[5] = 1;
-				Data[6] = 0;
-				Data[7] = 1;
-				 for(int j = 0;j < size - 8 ; j++)
+				/*Data[0] = rand.Next(0, 1);
+				Data[1] = rand.Next(0, 1);
+				Data[2] = rand.Next(0, 1);
+				Data[3] = rand.Next(0, 1);
+				Data[4] = rand.Next(0, 1);
+				Data[5] = rand.Next(0, 1);
+				Data[6] = rand.Next(0, 1);
+				Data[7] = rand.Next(0, 1);
+				for (int j = 0;j < size - 8 ; j++)
 				{
 					Data[j + 8] = (Data[j + 7] + Data[j + 2] + Data[j + 1] + Data[j]) % 2;
-					
-				}
 
+				}*/
+				Data = create_mseq(size);
 				 
 			}
 			// None, used only for test
-            if (TypeFrequence == 5)
+			if (TypeFrequence == 5)
 			{
 				for(int j=0;j<size;j++)
 				{
@@ -298,49 +384,59 @@ namespace VisualStimuli
 				}
 			}
 
-        }
-        public sequenceValue nextSeq()
-        {
+		}
+		public void nextSeq(float time)
+		{
+			sequenceValue newSeq;
 			if (sequenceStack.Count == 0) { sequenceStack.Add(0); }
 			else
 			{
 				if (seqGo(sequenceStack).contained_sequence.Count > 0)
 				{
 					sequenceStack.Add(0);
+					
+
 				}
 				else
 				{
 					var parent = seqGo(sequenceStack.GetRange(0, sequenceStack.Count - 2));
-                    if (sequenceStack[-1]<parent.contained_sequence.Count-1) 
+					if (sequenceStack[-1]<parent.contained_sequence.Count-1) 
 					{
 						sequenceStack[-1] = sequenceStack[-1]++;
 					}
 					else
 					{
-						skipSeq();
+						skipSeq(time);
 					}
-					
 				}
 			}
-			return seqGo(sequenceStack);
-        }
-		public void skipSeq()
+			newSeq = seqGo(sequenceStack);
+			if (newSeq.cond == sequenceValue.CondType.Time)
+			{
+				sequenceDict.Add(newSeq, time);
+			}
+			else
+			{
+				sequenceDict.Add(newSeq, 0.0);
+			}
+		}
+		public void skipSeq(float time)
 		{
-            sequenceStack.RemoveAt(-1);
-            sequenceStack[-1] = sequenceStack[-1]++;
-            nextSeq();
-        }
-        private sequenceValue seqGo(List<int> ints)
-        {
-            var c = seq;
-            foreach (var i in ints)
-            {
-                c = c.contained_sequence[i];
-            }
+			sequenceStack.RemoveAt(-1);
+			sequenceStack[-1] = sequenceStack[-1]++;
+			nextSeq(time);
+		}
+		public sequenceValue seqGo(List<int> ints)
+		{
+			var c = seq;
+			foreach (var i in ints)
+			{
+				c = c.contained_sequence[i];
+			}
 			return c;
 
-        }
-        public void Destroy()
+		}
+		public void Destroy()
 		{
 			Screen.Quit();
 		}

@@ -11,6 +11,7 @@ using System.Xml;
 using System.Globalization;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace VisualStimuli
 {
@@ -267,7 +268,21 @@ namespace VisualStimuli
                     // TODO: fasten this process with use of sorting or not checking when we are active and before endTime of activity
                     if (c.seq!=null)
                     {
-						
+						var currentSeq = c.sequenceDict.Cast<DictionaryEntry>().ElementAt(-1);
+						sequenceValue newSeq;
+                        if (currentSeq.cond==sequenceValue.CondType.Always || currentSeq.cond == sequenceValue.CondType.None)
+						{
+							newSeq = c.nextSeq(watch.Elapsed.TotalSeconds);
+                        }
+						//Check Times
+						if (currentSeq.cond == sequenceValue.CondType.Time) 
+						{
+							if(watch.Elapsed.TotalSeconds - c.sequenceDict[currentSeq] < 0)
+							{
+								newSeq = c.nextSeq(watch.Elapsed.TotalSeconds);
+							}
+						}
+
                     }
                     else //if no sequence for this flicker
                     {
