@@ -248,6 +248,14 @@ namespace VisualStimuli
 
                 // Push the marker in LSL that the flicker will flicker now
                 outl.push_sample(marker_info);
+
+				//send a second message contaning the "code" of the flicker (useful for mseq)
+				string[] marker_data = new string[currentFlicker.size];
+				for(int k = 0; k < currentFlicker.size; k++)
+				{
+					marker_data[k] = currentFlicker.Data[k].ToString();
+				}
+				outl.push_sample(marker_data);
             }
             
             long frame = 0;
