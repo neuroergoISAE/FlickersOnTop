@@ -37,7 +37,7 @@ namespace Interface2App
         public System.Windows.Media.Color color1 { get; set; }
         public string image { get; set; }
 		public bool IsImageFlicker { get; set; } 
-		public sequenceValue sequence { get; set; }
+		/*public sequenceValue sequence { get; set; }*/
 
 
 
@@ -68,7 +68,7 @@ namespace Interface2App
 			image = String.Empty;
 			Frequency= 1;
 			Phase = 0;
-			sequence = new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Never);
+			/*sequence = new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Never);*/
         }
 		/// <summary>
 		/// custom flicker with parameters
@@ -93,15 +93,15 @@ namespace Interface2App
             image = String.Empty;
             Frequency = freq;
 			Phase=phase;
-			sequence = seq;
+			/*sequence = seq;*/
         }
 		public Flicker(int X, int Y, int Width, int Height, System.Windows.Media.Color c, int op_min, int op_max, double freq, double phase, int type)
 		{
-			new Flicker( X, Y,  Width, Height,  c, op_min, op_max, freq,phase,type, new sequenceValue(sequenceValue.type.Block,sequenceValue.CondType.Never));
+			new Flicker( "Flicker",X, Y,  Width, Height,  c, op_min, op_max, freq,phase,type, new sequenceValue(sequenceValue.type.Block,sequenceValue.CondType.Never));
         }
         public Flicker(int X, int Y, int Width, int Height, System.Windows.Media.Color c, int op_min, int op_max, double freq, double phase, int type,sequenceValue seq)
         {
-            new Flicker(X, Y, Width, Height, c, op_min, op_max, freq, phase, type, seq);
+            new Flicker("Flicker",X, Y, Width, Height, c, op_min, op_max, freq, phase, type, seq);
         }
         /// <summary>
         /// copy a flicker
@@ -109,7 +109,7 @@ namespace Interface2App
         /// <param name="f"></param>
         public Flicker(Flicker f)
 		{
-			new Flicker(f.Name, f.X, f.Y,f.Width, f.Height,f.color1,f.Opacity_Min,f.Opacity_Max,f.Frequency,f.Phase,(int)f.Type,f.sequence);
+			new Flicker(f.Name, f.X, f.Y,f.Width, f.Height,f.color1,f.Opacity_Min,f.Opacity_Max,f.Frequency,f.Phase,(int)f.Type,new sequenceValue(sequenceValue.type.Block,sequenceValue.CondType.Always)/*f.sequence*/);
 		}
 		/// <summary>
 		/// copy a flicker

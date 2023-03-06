@@ -134,7 +134,7 @@ namespace Interface2App
 			}
 			catch(Exception ex)
 			{
-				SetText(labelTest, "An Error Occured While Trying To Save" + ex.Message);
+				SetText(labelTest, "An Error Occured While Trying To Save" + ex.Message +  ex.StackTrace);
 			}
             
 			return;
@@ -232,7 +232,7 @@ namespace Interface2App
             if (checkBox1.Checked)
             {
                 FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1, phase: 0, type: 5));
-                FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1, phase: 0, type: 5));
+                /*FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1, phase: 0, type: 5));*/
             }
             bt_save(sender, e);
 			flickerBindingSource.EndEdit();
@@ -241,7 +241,7 @@ namespace Interface2App
 			if (checkBox1.Checked)
 			{
                 FlickerList.RemoveAt(0);
-                FlickerList.RemoveAt(FlickerList.Count - 1);
+                /*FlickerList.RemoveAt(FlickerList.Count - 1);*/
                 bt_save(sender, e);
             }
             
@@ -257,7 +257,7 @@ namespace Interface2App
             if (checkBox1.Checked)
             {
                 FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1,phase: 0,type:5));
-                FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1,phase: 0,type:5));
+                /*FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1,phase: 0,type:5));*/
             }
             bt_save(sender, e);
 			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled))
@@ -270,7 +270,7 @@ namespace Interface2App
             if (checkBox1.Checked)
             {
                 FlickerList.RemoveAt(0);
-                FlickerList.RemoveAt(FlickerList.Count - 1);
+                /*FlickerList.RemoveAt(FlickerList.Count - 1);*/
                 while (true)
                 {
                     try

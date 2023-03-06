@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
@@ -50,7 +51,6 @@ namespace VisualStimuli
 
 		//sequence stuff
 		public sequenceValue seq { get; set; }
-        public List<int> sequenceStack { get; set; }
 		public OrderedDictionary sequenceDict { get; set; }
         public int nextTime { get; set; }
 		public bool isActive { get; set; }
@@ -83,7 +83,7 @@ namespace VisualStimuli
 		/// <param name="seq">The int array illustrates the timing in which the flicker is active</param>
 		///<return>None</return>>
 
-		public CFlicker(string n,int x,int y,int width,int height,CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, sequenceValue seq)
+		public CFlicker(string n,int x,int y,int width,int height,CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq)
 		{
 			name = n;
 			Color1 = col1;
@@ -97,7 +97,6 @@ namespace VisualStimuli
 			Alpha2 = alph2;
 			Phase = phase;
 			TypeFrequence = typeFreq;
-			this.seq= seq;
 			isActive= true;
 			//if (seq.Length > 0) { nextTime = 0; if (nextTime != 0) { isActive = false; } Console.WriteLine("seq lenght: {0}\n nextTime: {1}",seq.Length,nextTime); }
 			double frameRate = GetFrameRate();
@@ -105,8 +104,8 @@ namespace VisualStimuli
 			{
 				Frequency = frameRate; //a frequency higher than the frameRate is useless and takes more ressource
 			}
-
-			SDL.SDL_SysWMinfo info = new SDL.SDL_SysWMinfo();			
+            setData();
+            SDL.SDL_SysWMinfo info = new SDL.SDL_SysWMinfo();			
 			SDL.SDL_VERSION(out info.version);
 			SDL.SDL_bool bRes = SDL.SDL_GetWindowWMInfo(Screen.PWindow, ref info);
 			Handle = info.info.win.window;
@@ -114,16 +113,21 @@ namespace VisualStimuli
 
 			Console.WriteLine("	\n");
 			Console.WriteLine("Flicker {0} created - Position \tX = {1}\tY = {2}\tWidth = {3}\tHeight = {4} pixels", Screen.Name,Screen.X, Screen.Y,Screen.W, Screen.H);
-			setData();
-			//CreateAtlas();
-		}
+			
+            //CreateAtlas();
+        }
+        public CFlicker(string n, int x, int y, int width, int height, CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, sequenceValue seq)
+		{
+			new CFlicker(n,x,y,width,height,screen,col1,freq,alph1,alph2,phase,typeFreq);
+            this.seq = seq;
+        }
 
-		/// <summary>
-		/// Get the number which represents to red color.
-		/// </summary>
-		/// <param name="color"> Red value. </param>
-		/// <returns>Red color.</returns>
-		public Byte getRed(UInt32 color)
+        /// <summary>
+        /// Get the number which represents to red color.
+        /// </summary>
+        /// <param name="color"> Red value. </param>
+        /// <returns>Red color.</returns>
+        public Byte getRed(UInt32 color)
 		{
 			Byte res = (Byte)(color >> 16);
 			return res;
@@ -165,6 +169,11 @@ namespace VisualStimuli
 		/// </summary>
 		public void display()
 		{
+			Console.WriteLine(Data.Length);
+			if (index >= Data.Length)
+			{
+				index = 0;
+			}
 			var i = Data[index];
 			var a = (Byte)(Alpha1 * i + Alpha2 * (1 - i));
 			if (isActive)
@@ -248,7 +257,7 @@ namespace VisualStimuli
 		}
 		private static double[] create_mseq(int size)
 		{
-			if (mseq != null)
+			if (mseq == null)
 			{
 				int bitl=(int)Math.Ceiling(Math.Log(size+1,2));
 
@@ -257,7 +266,7 @@ namespace VisualStimuli
 			else
 			{
 				var mseq_copy = new double[size];
-				for (int j = 0; j< mseq.Count(); j++)
+				for (int j = 0; j< mseq.Length; j++)
 				{
 					mseq_copy[j]=(mseq[(j + mseqshift) % mseq.Count()]);
 				}
@@ -372,7 +381,9 @@ namespace VisualStimuli
 					Data[j + 8] = (Data[j + 7] + Data[j + 2] + Data[j + 1] + Data[j]) % 2;
 
 				}*/
+
 				Data = create_mseq(size);
+				Console.WriteLine(Data);
 				 
 			}
 			// None, used only for test
@@ -385,57 +396,92 @@ namespace VisualStimuli
 			}
 
 		}
-		public void nextSeq(float time)
+		public sequenceValue currentSeq()
+		{
+            return (sequenceValue)getSeq(sequenceDict.Count - 1).Key;
+        }
+		public sequenceValue nextSeq(double time)
 		{
 			sequenceValue newSeq;
-			if (sequenceStack.Count == 0) { sequenceStack.Add(0); }
+			var current = currentSeq();
+			if (sequenceDict.Count== 0) { newSeq = seq; }
 			else
 			{
-				if (seqGo(sequenceStack).contained_sequence.Count > 0)
+				if (current.contained_sequence.Count > 0)
 				{
-					sequenceStack.Add(0);
-					
-
+					newSeq = current.contained_sequence[0];
 				}
 				else
 				{
-					var parent = seqGo(sequenceStack.GetRange(0, sequenceStack.Count - 2));
-					if (sequenceStack[-1]<parent.contained_sequence.Count-1) 
+					
+					var parent = (sequenceValue)getSeq(sequenceDict.Count - 2).Key;
+					var indexSeq = parent.contained_sequence.FindIndex(a => a.contained_sequence.Contains(current));
+                    sequenceDict.Remove(current);
+                    // start by checking if we are at the end of the list
+                    if (indexSeq == parent.contained_sequence.Count - 1)
 					{
-						sequenceStack[-1] = sequenceStack[-1]++;
-					}
+						//check recursively if we are at the end of the parent list, parent parent list....
+                        while (indexSeq == parent.contained_sequence.Count - 1 && indexSeq != -1 && sequenceDict.Count > 1)
+                        {
+                            current = parent;
+                            if (current == seq)
+                            {
+                                newSeq = seq;
+                                break;
+                            }
+                            parent = (sequenceValue)getSeq(sequenceDict.Count - 2).Key;
+                            indexSeq = parent.contained_sequence.FindIndex(a => a.contained_sequence.Contains(current));
+                        }
+						newSeq = parent.contained_sequence[indexSeq + 1];
+                    }
 					else
 					{
-						skipSeq(time);
+						newSeq = parent.contained_sequence[indexSeq + 1];
 					}
-				}
+                   
+                }
 			}
-			newSeq = seqGo(sequenceStack);
+			//add to dictionnary
 			if (newSeq.cond == sequenceValue.CondType.Time)
 			{
 				sequenceDict.Add(newSeq, time);
 			}
 			else
 			{
-				sequenceDict.Add(newSeq, 0.0);
+				if (newSeq.cond == sequenceValue.CondType.KeyPress)
+				{
+                    sequenceDict.Add(newSeq, newSeq.value);
+				}
+				else
+				{
+                    sequenceDict.Add(newSeq, 0.0);
+                }
 			}
-		}
-		public void skipSeq(float time)
-		{
-			sequenceStack.RemoveAt(-1);
-			sequenceStack[-1] = sequenceStack[-1]++;
-			nextSeq(time);
-		}
-		public sequenceValue seqGo(List<int> ints)
-		{
-			var c = seq;
-			foreach (var i in ints)
+			//if type is a container then jump to next sequence
+			/*if (newSeq.Type==sequenceValue.type.Block || newSeq.Type == sequenceValue.type.Loop)
 			{
-				c = c.contained_sequence[i];
+				return nextSeq(time);
 			}
-			return c;
-
+			else
+			{
+                return newSeq;
+            }*/
+			return newSeq;
+			
 		}
+		public void skipTo(sequenceValue seq,double time)
+		{
+			var current = currentSeq();
+			while(current != seq)
+			{
+				current = nextSeq(time);
+			}
+		}
+		public DictionaryEntry getSeq(int indexDict)
+		{
+			return sequenceDict.Cast<DictionaryEntry>().ElementAt(indexDict);
+
+        }
 		public void Destroy()
 		{
 			Screen.Quit();
@@ -446,7 +492,7 @@ namespace VisualStimuli
         public type Type;
         public List<sequenceValue> contained_sequence = new List<sequenceValue>();
         public CondType cond;
-        public String value;
+        public double value;
         public enum type
         {
             Block,
@@ -466,9 +512,9 @@ namespace VisualStimuli
         {
             Type = t;
             cond = c;
-            value = string.Empty;
+            value = 0;
         }
-        public sequenceValue(type t, CondType c, String v)
+        public sequenceValue(type t, CondType c, double v)
         {
             Type = t;
             cond = c;
@@ -497,11 +543,11 @@ namespace VisualStimuli
             addSeq(pos, seq);
             return seq;
         }
-        public sequenceValue addSeq(int pos, type t, CondType c, String v)
+        public sequenceValue addSeq(int pos, type t, CondType c, double v)
         {
             return addSeq(pos, new sequenceValue(t, c, v));
         }
-        public sequenceValue addSeq(type t, CondType c, String v)
+        public sequenceValue addSeq(type t, CondType c, double v)
         {
             return addSeq(new sequenceValue(t, c, v));
         }

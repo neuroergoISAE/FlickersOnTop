@@ -48,6 +48,8 @@ namespace VisualStimuli
 		[DllImport("user32.dll")]
 		public static extern int EnumDisplayDevices(string deviceName,int index,out DEVMODE devMode);
 
+		private static Dictionary<SDL.SDL_Keycode,List<ValueTuple<CFlicker,sequenceValue>>> SequenceKeyDict = new Dictionary<SDL.SDL_Keycode, List<ValueTuple<CFlicker, sequenceValue>>>();
+
 
         /// https://csharp.hotexamples.com/site/file?hash=0x238a44f2ed8da632e4e090af60159d66126fa38d9fd574bee99939a492be5ee7&fullName=KernelAPI.cs&project=ozeppi/mAgicAnime
         [StructLayout(LayoutKind.Sequential)]
@@ -113,59 +115,66 @@ namespace VisualStimuli
 				// Iterate over the child elements of the root
 				foreach (XmlNode node in root.ChildNodes)
 				{
-                    int.TryParse(node.SelectSingleNode("X").InnerText, out int pos_x);
-                    int.TryParse(node.SelectSingleNode("Y").InnerText, out int pos_y);
-					int.TryParse(node.SelectSingleNode("Width").InnerText, out int width);
-					int.TryParse(node.SelectSingleNode("Height").InnerText, out int height);
-                    Enum.TryParse<Signal_Type>(node.SelectSingleNode("Type").InnerText, out Signal_Type type);
-                    string name = node.SelectSingleNode("Name").InnerText;
-                    double.TryParse(node.SelectSingleNode("Frequency").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double freq); //culture info is necessary due to use of "," or "." for decimal number in different part of the world
-                    double.TryParse(node.SelectSingleNode("Phase").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double phase);
-					var C1Node = node.SelectSingleNode("color1");
-					var C2Node = node.SelectSingleNode("color2");
-                    Byte.TryParse(C1Node.SelectSingleNode("R").InnerText, out byte r1);
-                    Byte.TryParse(C1Node.SelectSingleNode("G").InnerText, out byte g1);
-					Byte.TryParse(C1Node.SelectSingleNode("B").InnerText, out byte b1);
-                    int.TryParse(node.SelectSingleNode("Opacity_Min").InnerText, out int a1);
-                    int.TryParse(node.SelectSingleNode("Opacity_Max").InnerText, out int a2);
-					string image = string.Empty;
-                    bool.TryParse(node.SelectSingleNode("IsImageFlicker").InnerText, out bool IsImage);
-                    if (IsImage)
+					try
 					{
-						image= node.SelectSingleNode("image").InnerText;
-                    }
-					sequenceValue seq=new sequenceValue(sequenceValue.type.Block,sequenceValue.CondType.Never);
-					/*int[] seq = new int[0];
-                    if (node.SelectSingleNode("sequence") != null)
-					{
-                        var seqnodes = node.SelectSingleNode("sequence").ChildNodes;
-                        seq = new int[seqnodes.Count];
-                        for (int i = 0; i < seq.Length; i++)
+                        int.TryParse(node.SelectSingleNode("X").InnerText, out int pos_x);
+                        int.TryParse(node.SelectSingleNode("Y").InnerText, out int pos_y);
+                        int.TryParse(node.SelectSingleNode("Width").InnerText, out int width);
+                        int.TryParse(node.SelectSingleNode("Height").InnerText, out int height);
+                        Enum.TryParse<Signal_Type>(node.SelectSingleNode("Type").InnerText, out Signal_Type type);
+                        string name = node.SelectSingleNode("Name").InnerText;
+                        double.TryParse(node.SelectSingleNode("Frequency").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double freq); //culture info is necessary due to use of "," or "." for decimal number in different part of the world
+                        double.TryParse(node.SelectSingleNode("Phase").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double phase);
+                        var C1Node = node.SelectSingleNode("color1");
+                        var C2Node = node.SelectSingleNode("color2");
+                        Byte.TryParse(C1Node.SelectSingleNode("R").InnerText, out byte r1);
+                        Byte.TryParse(C1Node.SelectSingleNode("G").InnerText, out byte g1);
+                        Byte.TryParse(C1Node.SelectSingleNode("B").InnerText, out byte b1);
+                        int.TryParse(node.SelectSingleNode("Opacity_Min").InnerText, out int a1);
+                        int.TryParse(node.SelectSingleNode("Opacity_Max").InnerText, out int a2);
+                        string image = string.Empty;
+                        bool.TryParse(node.SelectSingleNode("IsImageFlicker").InnerText, out bool IsImage);
+                        if (IsImage)
                         {
-                            int v;
-                            int.TryParse(seqnodes[i].InnerText, out v);
-                            seq.SetValue(v, i);
+                            image = node.SelectSingleNode("image").InnerText;
                         }
-                    }*/
-                    //create a window and add the flickers to the list of flickers
-                    CScreen screen = new CScreen(pos_x, pos_y, width, height, name+k.ToString(), false,r1,g1,b1,image,
-                       instance);
-					m_listFlickers.Add(new CFlicker(
-						name,
-						pos_x,
-						pos_y,
-						width,
-						height,
-						screen,
-					   Color.FromArgb(255, r1, g1, b1), // color1 RGB
-					   freq,
-					   (int)Math.Round(a1 * 2.55), // alpha1
-					   (int)Math.Round(a2 * 2.55), // alpha2
-					   phase,
-					   (int)type,
-					   seq)
-					);
-					k++;
+                        sequenceValue seq = new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Never);
+                        /*int[] seq = new int[0];
+                        if (node.SelectSingleNode("sequence") != null)
+                        {
+                            var seqnodes = node.SelectSingleNode("sequence").ChildNodes;
+                            seq = new int[seqnodes.Count];
+                            for (int i = 0; i < seq.Length; i++)
+                            {
+                                int v;
+                                int.TryParse(seqnodes[i].InnerText, out v);
+                                seq.SetValue(v, i);
+                            }
+                        }*/
+                        //create a window and add the flickers to the list of flickers
+                        CScreen screen = new CScreen(pos_x, pos_y, width, height, name + k.ToString(), false, r1, g1, b1, image,
+                           instance);
+                        m_listFlickers.Add(new CFlicker(
+                            name,
+                            pos_x,
+                            pos_y,
+                            width,
+                            height,
+                            screen,
+                           Color.FromArgb(255, r1, g1, b1), // color1 RGB
+                           freq,
+                           (int)Math.Round(a1 * 2.55), // alpha1
+                           (int)Math.Round(a2 * 2.55), // alpha2
+                           phase,
+                           (int)type)
+                        );
+                        k++;
+                    }
+					catch(Exception ex)
+					{
+						Console.WriteLine("Failed to create a flicker" + ex.Message + "\n" + ex.StackTrace);
+					}
+                    
                 }
 				Console.WriteLine("Created {0} Flickers", m_listFlickers.Count);
 				
@@ -255,7 +264,7 @@ namespace VisualStimuli
 				{
 					marker_data[k] = currentFlicker.Data[k].ToString();
 				}
-				outl.push_sample(marker_data);
+				/*outl.push_sample(marker_data);*/
             }
             
             long frame = 0;
@@ -276,19 +285,46 @@ namespace VisualStimuli
                     // TODO: fasten this process with use of sorting or not checking when we are active and before endTime of activity
                     if (c.seq!=null)
                     {
-						var currentSeq = c.sequenceDict.Cast<DictionaryEntry>().ElementAt(-1);
+                        var currentSeq = c.getSeq(c.sequenceDict.Count - 1);
+						var key = (sequenceValue)currentSeq.Key;
+                        var value = (double)currentSeq.Value;
 						sequenceValue newSeq;
-                        if (currentSeq.cond==sequenceValue.CondType.Always || currentSeq.cond == sequenceValue.CondType.None)
+						if (key.cond == sequenceValue.CondType.Always || key.cond == sequenceValue.CondType.None)
 						{
 							newSeq = c.nextSeq(watch.Elapsed.TotalSeconds);
-                        }
+						}
 						//Check Times
-						if (currentSeq.cond == sequenceValue.CondType.Time) 
+						else
 						{
-							if(watch.Elapsed.TotalSeconds - c.sequenceDict[currentSeq] < 0)
+							if (key.cond == sequenceValue.CondType.Time)
 							{
-								newSeq = c.nextSeq(watch.Elapsed.TotalSeconds);
+								if (watch.Elapsed.TotalSeconds - value < 0)
+								{
+									newSeq = c.nextSeq(watch.Elapsed.TotalSeconds);
+								}
+								else
+								{
+									newSeq = key;
+								}
 							}
+							else
+							{
+								newSeq = key;
+							}
+						}
+						if (newSeq.cond == sequenceValue.CondType.KeyPress) 
+						{
+							var keyboardKey = (SDL.SDL_Keycode)(int)newSeq.value;
+
+                            if (SequenceKeyDict.Keys.Contains(keyboardKey))
+							{
+                                SequenceKeyDict[keyboardKey].Add((c,newSeq));
+                            }
+							else
+							{
+								SequenceKeyDict[keyboardKey]=new List<(CFlicker, sequenceValue)>() { (c,newSeq)};
+							}
+							
 						}
 
                     }
@@ -302,14 +338,35 @@ namespace VisualStimuli
 				watchFPSMax.Stop();
 				if (SDL.SDL_PollEvent(out evt) != 0)
 				{
-					if (evt.type == SDL.SDL_EventType.SDL_KEYUP && evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
+					
+					if(evt.type == SDL.SDL_EventType.SDL_KEYUP)
 					{
-						quit = true;
-					}
-					else
-					{
-						quit = false;
-					}
+                        if (evt.key.keysym.sym == SDL.SDL_Keycode.SDLK_ESCAPE)
+                        {
+                            quit = true;
+                        }
+                        else
+                        {
+                            quit = false;
+							// will check if any flicker is waiting for a key input
+							foreach(var key in SequenceKeyDict.Keys)
+							{
+								//there might be multiple flicker bound to the same key at the same time
+								while (SequenceKeyDict[key].Count> 0)
+								{
+									//can be replaced with a stack
+                                    var tuple = SequenceKeyDict[key][0];
+                                    tuple.Item1.skipTo(tuple.Item2,watch.Elapsed.TotalSeconds);
+                                    SequenceKeyDict[key].Remove(tuple);
+                                    //remove that flicker from the list
+                                    if (SequenceKeyDict[key].Count == 0)
+                                    {
+                                        SequenceKeyDict.Remove(key);
+                                    }
+                                }
+                            }
+                        }
+                    }
 				}
 				// Remaining time for the frame after the display of all the flickers with the paralell loop
 				var timeleft = frame_ticks - watchFPSMax.ElapsedTicks;
