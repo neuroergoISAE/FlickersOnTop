@@ -69,6 +69,7 @@ namespace Interface2App
 			Frequency= 1;
 			Phase = 0;
 			sequence = new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Never);
+            sequence.addSeq(new sequenceValue(sequenceValue.type.Active, sequenceValue.CondType.Never));
         }
 		/// <summary>
 		/// custom flicker with parameters
@@ -110,7 +111,7 @@ namespace Interface2App
         /// copy a flicker
         /// </summary>
         /// <param name="f"></param>
-        public Flicker(Flicker f) : this(f.Name, f.X, f.Y, f.Width, f.Height, f.color1, f.Opacity_Min, f.Opacity_Max, f.Frequency, f.Phase, (int)f.Type, new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Always)/*f.sequence*/)
+        public Flicker(Flicker f) : this(f.Name, f.X, f.Y, f.Width, f.Height, f.color1, f.Opacity_Min, f.Opacity_Max, f.Frequency, f.Phase, (int)f.Type,f.sequence)
 		{
 			
 		}
@@ -172,25 +173,25 @@ namespace Interface2App
         public sequenceValue addSeq(int pos, sequenceValue seq)
         {
             contained_sequence.Insert(pos, seq);
-            return seq;
+            return this;
         }
         public sequenceValue addSeq(sequenceValue seq)
         {
             contained_sequence.Add(seq);
-            return seq;
+            return this;
 
         }
         public sequenceValue addSeq(type t, CondType c)
         {
             var seq = new sequenceValue(t, c);
             addSeq(seq);
-            return seq;
+            return this;
         }
         public sequenceValue addSeq(int pos, type t, CondType c)
         {
             var seq = new sequenceValue(t, c);
             addSeq(pos, seq);
-            return seq;
+            return this;
         }
         public sequenceValue addSeq(int pos, type t, CondType c, double v)
         {

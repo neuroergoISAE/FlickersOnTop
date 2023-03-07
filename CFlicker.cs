@@ -97,8 +97,7 @@ namespace VisualStimuli
 			Alpha2 = alph2;
 			Phase = phase;
 			TypeFrequence = typeFreq;
-			isActive= true;
-			//if (seq.Length > 0) { nextTime = 0; if (nextTime != 0) { isActive = false; } Console.WriteLine("seq lenght: {0}\n nextTime: {1}",seq.Length,nextTime); }
+			isActive= false;
 			double frameRate = GetFrameRate();
 			while (Frequency > frameRate)
 			{
@@ -116,10 +115,10 @@ namespace VisualStimuli
 			
             //CreateAtlas();
         }
-        public CFlicker(string n, int x, int y, int width, int height, CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, sequenceValue seq)
-		{
-			new CFlicker(n,x,y,width,height,screen,col1,freq,alph1,alph2,phase,typeFreq);
+        public CFlicker(string n, int x, int y, int width, int height, CScreen screen, Color col1, double freq, int alph1, int alph2, double phase, int typeFreq, sequenceValue seq) : this(n, x, y, width, height, screen, col1, freq, alph1, alph2, phase, typeFreq)
+        {
             this.seq = seq;
+			sequenceDict = new OrderedDictionary();
         }
 
         /// <summary>
@@ -403,46 +402,56 @@ namespace VisualStimuli
 		public sequenceValue nextSeq(double time)
 		{
 			sequenceValue newSeq;
-			var current = currentSeq();
-			if (sequenceDict.Count== 0) { newSeq = seq; }
-			else
+			
+            if (sequenceDict.Count == 0) { newSeq = seq; }
+            else
 			{
-				if (current.contained_sequence.Count > 0)
+                var current = currentSeq();
+                if (current.contained_sequence.Count > 0)
 				{
 					newSeq = current.contained_sequence[0];
 				}
 				else
 				{
-					
-					var parent = (sequenceValue)getSeq(sequenceDict.Count - 2).Key;
-					var indexSeq = parent.contained_sequence.FindIndex(a => a.contained_sequence.Contains(current));
-                    sequenceDict.Remove(current);
-                    // start by checking if we are at the end of the list
-                    if (indexSeq == parent.contained_sequence.Count - 1)
+					if (sequenceDict.Count > 1)
 					{
-						//check recursively if we are at the end of the parent list, parent parent list....
-                        while (indexSeq == parent.contained_sequence.Count - 1 && indexSeq != -1 && sequenceDict.Count > 1)
+                        var parent = (sequenceValue)getSeq(sequenceDict.Count - 2).Key;
+                        var indexSeq = parent.contained_sequence.IndexOf(current);
+                        sequenceDict.Remove(current);
+                        // start by checking if we are at the end of the list
+                        if (indexSeq == parent.contained_sequence.Count - 1)
                         {
-                            current = parent;
-                            if (current == seq)
+                            //check recursively if we are at the end of the parent list, parent parent list....
+                            while (indexSeq == parent.contained_sequence.Count - 1 && indexSeq != -1 && sequenceDict.Count > 1)
                             {
-                                newSeq = seq;
-                                break;
+                                current = parent;
+                                if (current == seq)
+                                {
+                                    newSeq = seq;
+                                    break;
+                                }
+                                parent = (sequenceValue)getSeq(sequenceDict.Count - 2).Key;
+                                indexSeq = parent.contained_sequence.IndexOf(current);
                             }
-                            parent = (sequenceValue)getSeq(sequenceDict.Count - 2).Key;
-                            indexSeq = parent.contained_sequence.FindIndex(a => a.contained_sequence.Contains(current));
+                            newSeq = parent.contained_sequence[indexSeq + 1];
                         }
-						newSeq = parent.contained_sequence[indexSeq + 1];
-                    }
+                        else
+                        {
+                            Console.WriteLine(indexSeq);
+                            newSeq = parent.contained_sequence[indexSeq + 1];
+                        }
+					}
 					else
 					{
-						newSeq = parent.contained_sequence[indexSeq + 1];
+                        sequenceDict.Remove(current);
+                        newSeq = current;
 					}
+					
                    
                 }
 			}
-			//add to dictionnary
-			if (newSeq.cond == sequenceValue.CondType.Time)
+            //add to dictionnary
+            if (newSeq.cond == sequenceValue.CondType.Time)
 			{
 				sequenceDict.Add(newSeq, time);
 			}
@@ -502,8 +511,8 @@ namespace VisualStimuli
         }
         public enum CondType
         {
-            KeyPress = 0,
-            Time = 0,
+            KeyPress = 2,
+            Time = 3,
             Always = 1,
             Never = 0,
             None

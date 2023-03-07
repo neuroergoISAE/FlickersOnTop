@@ -101,6 +101,19 @@ namespace VisualStimuli
         public void Read_File(string filePath)
 		{
 			try {
+				sequenceValue loadSeq(XmlNode node)
+				{
+					double.TryParse(node.SelectSingleNode("value").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double valueSeq);
+					Enum.TryParse<sequenceValue.type>(node.SelectSingleNode("Type").InnerText, out sequenceValue.type Type);
+					Enum.TryParse<sequenceValue.CondType>(node.SelectSingleNode("cond").InnerText, out sequenceValue.CondType cond);
+					sequenceValue seq= new sequenceValue(Type,cond,valueSeq);
+                    Console.WriteLine("value: {0} original:{1}",valueSeq, node.SelectSingleNode("value").InnerText);
+					foreach(XmlNode nodeSeq in node.SelectSingleNode("contained_sequence"))
+					{
+						seq.addSeq(loadSeq(nodeSeq));
+					}
+					return seq;
+				}
 				// Load the XML file into memory
 				XmlDocument doc = new XmlDocument();
 				doc.Load(filePath);
@@ -138,10 +151,11 @@ namespace VisualStimuli
                         {
                             image = node.SelectSingleNode("image").InnerText;
                         }
+						//load the sequence
                         sequenceValue seq = null; 
                         if (node.SelectSingleNode("sequence") != null)
                         {
-							
+							seq=loadSeq(node.SelectSingleNode("sequence"));
                         }
 						//create a window and add the flickers to the list of flickers
 						if (seq != null)
@@ -288,6 +302,8 @@ namespace VisualStimuli
 			int lost_frame = 0; //only used if computer is too slow to display all frames, we will jump over some frames
             long frame_ticks =(long) ((1d / frameRate) * TICKSPERSECONDS);
             SDL.SDL_Event evt = new SDL.SDL_Event();
+
+            // ANIMATION LOOP
             while (!quit && SDL.SDL_GetTicks() < 1000000000)
 			{
 				frame += 1;
@@ -301,53 +317,79 @@ namespace VisualStimuli
                     // TODO: fasten this process with use of sorting or not checking when we are active and before endTime of activity
                     if (c.seq!=null)
                     {
-                        var currentSeq = c.getSeq(c.sequenceDict.Count - 1);
-						var key = (sequenceValue)currentSeq.Key;
-                        var value = (double)currentSeq.Value;
-						sequenceValue newSeq;
-						if (key.cond == sequenceValue.CondType.Always || key.cond == sequenceValue.CondType.None)
+						if(c.sequenceDict.Count> 0)
 						{
-							newSeq = c.nextSeq(watch.Elapsed.TotalSeconds);
-						}
-						//Check Times
-						else
-						{
-							if (key.cond == sequenceValue.CondType.Time)
-							{
-								if (watch.Elapsed.TotalSeconds - value < 0)
-								{
-									newSeq = c.nextSeq(watch.Elapsed.TotalSeconds);
-								}
-								else
-								{
-									newSeq = key;
-								}
-							}
-							else
-							{
-								newSeq = key;
-							}
-						}
-						if (newSeq.cond == sequenceValue.CondType.KeyPress) 
-						{
-							var keyboardKey = (SDL.SDL_Keycode)(int)newSeq.value;
-
-                            if (SequenceKeyDict.Keys.Contains(keyboardKey))
-							{
-                                SequenceKeyDict[keyboardKey].Add((c,newSeq));
+                            var currentSeq = c.getSeq(c.sequenceDict.Count - 1);
+                            var key = (sequenceValue)currentSeq.Key;
+                            var timeStamp = (double)currentSeq.Value;
+                            sequenceValue newSeq;
+                            if (key.cond == sequenceValue.CondType.Always || key.cond == sequenceValue.CondType.None || key.Type == sequenceValue.type.Block || key.Type == sequenceValue.type.Loop)
+                            {
+                                newSeq = c.nextSeq(watch.Elapsed.TotalSeconds);
                             }
-							else
-							{
-								SequenceKeyDict[keyboardKey]=new List<(CFlicker, sequenceValue)>() { (c,newSeq)};
-							}
-							
-						}
+                            //Check Times
+                            else
+                            {
+                                if (key.cond == sequenceValue.CondType.Time)
+                                {
+                                    if (watch.Elapsed.TotalSeconds - timeStamp > key.value)
+                                    {
+                                        newSeq = c.nextSeq(watch.Elapsed.TotalSeconds);
+                                    }
+                                    else
+                                    {
+                                        newSeq = key;
+                                    }
+                                }
+                                else
+                                {
+                                    newSeq = key;
+                                }
+
+                                    
+
+                            }
+                            if (newSeq.cond == sequenceValue.CondType.KeyPress)
+                            {
+                                var keyboardKey = (SDL.SDL_Keycode)(int)newSeq.value;
+
+                                if (SequenceKeyDict.Keys.Contains(keyboardKey))
+                                {
+                                    SequenceKeyDict[keyboardKey].Add((c, newSeq));
+                                }
+                                else
+                                {
+                                    SequenceKeyDict[keyboardKey] = new List<(CFlicker, sequenceValue)>() { (c, newSeq) };
+                                }
+
+                            }
+                            if (newSeq.Type == sequenceValue.type.Active)
+                            {
+                                c.isActive= true;
+                                //TODO: add LSL signal
+                            }
+                            if (newSeq.Type == sequenceValue.type.Inactive)
+                            {
+                                c.isActive= false;
+                                //TODO: add LSL signal
+                            }
+
+                        }
+                        else
+                        {
+                            c.nextSeq(watch.Elapsed.TotalSeconds);
+                        }
+                        
 
                     }
-                    else //if no sequence for this flicker
+                    if (c.isActive)
                     {
                         c.display();
                         c.index += 1 + lost_frame;
+                    }
+                    else
+                    {
+                        c.Screen.show(0);
                     }
 				}
 				);
@@ -364,21 +406,34 @@ namespace VisualStimuli
                         else
                         {
                             quit = false;
-							// will check if any flicker is waiting for a key input
-							foreach(var key in SequenceKeyDict.Keys)
-							{
-								//there might be multiple flicker bound to the same key at the same time
-								while (SequenceKeyDict[key].Count> 0)
-								{
-									//can be replaced with a stack
-                                    var tuple = SequenceKeyDict[key][0];
-                                    tuple.Item1.skipTo(tuple.Item2,watch.Elapsed.TotalSeconds);
-                                    SequenceKeyDict[key].Remove(tuple);
-                                    //remove that flicker from the list
-                                    if (SequenceKeyDict[key].Count == 0)
+                            // will check if any flicker is waiting for a key input
+                            if(SequenceKeyDict.Count> 0)
+                            {
+                                for(int keyIndex =0;keyIndex<SequenceKeyDict.Keys.Count;keyIndex++)
+                                {
+                                    var key = (SequenceKeyDict.Keys.ToList())[keyIndex];
+                                    //there might be multiple flicker bound to the same key at the same time
+                                    try
                                     {
-                                        SequenceKeyDict.Remove(key);
+                                        var linkedSeqs = SequenceKeyDict[key];
+                                        while (linkedSeqs.Count > 0)
+                                        {
+                                            //can be replaced with a stack
+                                            var tuple = linkedSeqs[0];
+                                            tuple.Item1.skipTo(tuple.Item2, watch.Elapsed.TotalSeconds);
+                                            linkedSeqs.Remove(tuple);
+                                            //remove that flicker from the list
+                                            if (linkedSeqs.Count == 0)
+                                            {
+                                                SequenceKeyDict.Remove(key);
+                                            }
+                                        }
                                     }
+                                    catch
+                                    {
+
+                                    }
+
                                 }
                             }
                         }
