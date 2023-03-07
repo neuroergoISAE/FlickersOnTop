@@ -37,7 +37,7 @@ namespace Interface2App
         public System.Windows.Media.Color color1 { get; set; }
         public string image { get; set; }
 		public bool IsImageFlicker { get; set; } 
-		/*public sequenceValue sequence { get; set; }*/
+		public sequenceValue sequence { get; set; }
 
 
 
@@ -68,7 +68,7 @@ namespace Interface2App
 			image = String.Empty;
 			Frequency= 1;
 			Phase = 0;
-			/*sequence = new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Never);*/
+			sequence = new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Never);
         }
 		/// <summary>
 		/// custom flicker with parameters
@@ -93,23 +93,26 @@ namespace Interface2App
             image = String.Empty;
             Frequency = freq;
 			Phase=phase;
-			/*sequence = seq;*/
+			sequence = seq;
         }
-		public Flicker(int X, int Y, int Width, int Height, System.Windows.Media.Color c, int op_min, int op_max, double freq, double phase, int type)
-		{
-			new Flicker( "Flicker",X, Y,  Width, Height,  c, op_min, op_max, freq,phase,type, new sequenceValue(sequenceValue.type.Block,sequenceValue.CondType.Never));
-        }
-        public Flicker(int X, int Y, int Width, int Height, System.Windows.Media.Color c, int op_min, int op_max, double freq, double phase, int type,sequenceValue seq)
+        //Other construction method
+		public Flicker(int X, int Y, int Width, int Height, System.Windows.Media.Color c, int op_min, int op_max, double freq, double phase, int type) : this("Flicker", X, Y, Width, Height, c, op_min, op_max, freq, phase, type, new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Never).addSeq(new sequenceValue(sequenceValue.type.Active, sequenceValue.CondType.Never)))
         {
-            new Flicker("Flicker",X, Y, Width, Height, c, op_min, op_max, freq, phase, type, seq);
+        }
+        public Flicker(string name,int X, int Y, int Width, int Height, System.Windows.Media.Color c, int op_min, int op_max, double freq, double phase, int type) :this(name, X, Y, Width, Height, c, op_min, op_max, freq, phase, type, new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Never).addSeq(new sequenceValue(sequenceValue.type.Active, sequenceValue.CondType.Never)))
+        {
+        }
+        public Flicker(int X, int Y, int Width, int Height, System.Windows.Media.Color c, int op_min, int op_max, double freq, double phase, int type,sequenceValue seq): this("Flicker", X, Y, Width, Height, c, op_min, op_max, freq, phase, type, seq)
+        {
+            
         }
         /// <summary>
         /// copy a flicker
         /// </summary>
         /// <param name="f"></param>
-        public Flicker(Flicker f)
+        public Flicker(Flicker f) : this(f.Name, f.X, f.Y, f.Width, f.Height, f.color1, f.Opacity_Min, f.Opacity_Max, f.Frequency, f.Phase, (int)f.Type, new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Always)/*f.sequence*/)
 		{
-			new Flicker(f.Name, f.X, f.Y,f.Width, f.Height,f.color1,f.Opacity_Min,f.Opacity_Max,f.Frequency,f.Phase,(int)f.Type,new sequenceValue(sequenceValue.type.Block,sequenceValue.CondType.Always)/*f.sequence*/);
+			
 		}
 		/// <summary>
 		/// copy a flicker
@@ -126,77 +129,86 @@ namespace Interface2App
 		}
 		
 	}
-	public class sequenceValue
-	{
-		type Type;
-		List<sequenceValue> contained_sequence=new List<sequenceValue>();
-		CondType cond;
-		String value;
-		public enum type
-		{
-			Block,
-			Loop,
-			Active,
-			Inactive
-		}
+
+    public class sequenceValue
+    {
+        public type Type;
+        public List<sequenceValue> contained_sequence = new List<sequenceValue>();
+        public CondType cond;
+        public double value;
+        public enum type
+        {
+            Block,
+            Loop,
+            Active,
+            Inactive
+        }
         public enum CondType
         {
-            KeyPress = 0,
-            Time = 0,
+            KeyPress = 2,
+            Time = 3,
             Always = 1,
             Never = 0,
             None
         }
-        public sequenceValue(type t,CondType c)
-		{
-			Type = t;
-			cond = c;
-			value=string.Empty;
-		}
-		public sequenceValue(type t,CondType c,String v)
-		{
-			Type = t;
-			cond = c;
-			value = v;
-		}
-		public sequenceValue addSeq(int pos,sequenceValue seq)
-		{
-			contained_sequence.Insert(pos, seq);
-			return seq;
-		}
-		public sequenceValue addSeq(sequenceValue seq)
-		{
-			contained_sequence.Add(seq);
-			return seq;
-		}
-		public sequenceValue addSeq(type t,CondType c)
-		{
-			var seq = new sequenceValue(t, c);
-            addSeq(seq);
-			return seq;
-		}
-		public sequenceValue addSeq(int pos,type t,CondType c)
-		{
-            var seq = new sequenceValue(t, c);
-            addSeq(pos,seq);
+        private sequenceValue()
+        {
+            Type = type.Block;
+            cond = CondType.Always;
+            value = 0.0;
+        }
+        public sequenceValue(type t, CondType c)
+        {
+            Type = t;
+            cond = c;
+            value = 0;
+        }
+        public sequenceValue(type t, CondType c, double v)
+        {
+            Type = t;
+            cond = c;
+            value = v;
+        }
+        public sequenceValue addSeq(int pos, sequenceValue seq)
+        {
+            contained_sequence.Insert(pos, seq);
             return seq;
         }
-		public sequenceValue addSeq(int pos,type t,CondType c,String v)
-		{
-			return addSeq(pos, new sequenceValue(t, c, v));
-		}
-        public sequenceValue addSeq(type t, CondType c, String v)
+        public sequenceValue addSeq(sequenceValue seq)
+        {
+            contained_sequence.Add(seq);
+            return seq;
+
+        }
+        public sequenceValue addSeq(type t, CondType c)
+        {
+            var seq = new sequenceValue(t, c);
+            addSeq(seq);
+            return seq;
+        }
+        public sequenceValue addSeq(int pos, type t, CondType c)
+        {
+            var seq = new sequenceValue(t, c);
+            addSeq(pos, seq);
+            return seq;
+        }
+        public sequenceValue addSeq(int pos, type t, CondType c, double v)
+        {
+            return addSeq(pos, new sequenceValue(t, c, v));
+        }
+        public sequenceValue addSeq(type t, CondType c, double v)
         {
             return addSeq(new sequenceValue(t, c, v));
         }
-		public void removeSeq(int pos)
-		{
-			contained_sequence.RemoveAt(pos);
-		}
-		public override String ToString()
-		{
-			return Type.ToString()+":["+contained_sequence.ToString()+"]\n"+cond.ToString()+":"+value+"\n";
-		}
-		public sequenceValue GetSequence(int pos) { return contained_sequence[pos]; }
+        public void removeSeq(int pos)
+        {
+            contained_sequence.RemoveAt(pos);
+
+        }
+        public override String ToString()
+        {
+            return Type.ToString() + ":[" + contained_sequence.ToString() + "]\n" + cond.ToString() + ":" + value + "\n";
+        }
+        public sequenceValue GetSequence(int pos) { return contained_sequence[pos]; }
     }
 }

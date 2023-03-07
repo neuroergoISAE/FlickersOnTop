@@ -138,36 +138,52 @@ namespace VisualStimuli
                         {
                             image = node.SelectSingleNode("image").InnerText;
                         }
-                        sequenceValue seq = new sequenceValue(sequenceValue.type.Block, sequenceValue.CondType.Never);
-                        /*int[] seq = new int[0];
+                        sequenceValue seq = null; 
                         if (node.SelectSingleNode("sequence") != null)
                         {
-                            var seqnodes = node.SelectSingleNode("sequence").ChildNodes;
-                            seq = new int[seqnodes.Count];
-                            for (int i = 0; i < seq.Length; i++)
-                            {
-                                int v;
-                                int.TryParse(seqnodes[i].InnerText, out v);
-                                seq.SetValue(v, i);
-                            }
-                        }*/
-                        //create a window and add the flickers to the list of flickers
-                        CScreen screen = new CScreen(pos_x, pos_y, width, height, name + k.ToString(), false, r1, g1, b1, image,
+							
+                        }
+						//create a window and add the flickers to the list of flickers
+						if (seq != null)
+						{
+                            CScreen screen = new CScreen(pos_x, pos_y, width, height, name + k.ToString(), false, r1, g1, b1, image,
+                                                       instance);
+                            m_listFlickers.Add(new CFlicker(
+                                name,
+                                pos_x,
+                                pos_y,
+                                width,
+                                height,
+                                screen,
+                               Color.FromArgb(255, r1, g1, b1), // color1 RGB
+                               freq,
+                               (int)Math.Round(a1 * 2.55), // alpha1
+                               (int)Math.Round(a2 * 2.55), // alpha2
+                               phase,
+                               (int)type,
+							   seq)
+                            );
+						}
+						else
+						{
+                            CScreen screen = new CScreen(pos_x, pos_y, width, height, name + k.ToString(), false, r1, g1, b1, image,
                            instance);
-                        m_listFlickers.Add(new CFlicker(
-                            name,
-                            pos_x,
-                            pos_y,
-                            width,
-                            height,
-                            screen,
-                           Color.FromArgb(255, r1, g1, b1), // color1 RGB
-                           freq,
-                           (int)Math.Round(a1 * 2.55), // alpha1
-                           (int)Math.Round(a2 * 2.55), // alpha2
-                           phase,
-                           (int)type)
-                        );
+                            m_listFlickers.Add(new CFlicker(
+                                name,
+                                pos_x,
+                                pos_y,
+                                width,
+                                height,
+                                screen,
+                               Color.FromArgb(255, r1, g1, b1), // color1 RGB
+                               freq,
+                               (int)Math.Round(a1 * 2.55), // alpha1
+                               (int)Math.Round(a2 * 2.55), // alpha2
+                               phase,
+                               (int)type)
+                            );
+                        }
+                        
                         k++;
                     }
 					catch(Exception ex)

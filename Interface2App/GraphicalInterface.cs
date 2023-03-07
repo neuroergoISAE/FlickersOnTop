@@ -124,7 +124,7 @@ namespace Interface2App
 			try
 			{
                 string file = default_save_file;
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Flicker>));
+				XmlSerializer serializer = new XmlSerializer(typeof(List<Flicker>));
 				using (StreamWriter s = new StreamWriter(file))
 				{
 					serializer.Serialize(s, FlickerList);
@@ -231,8 +231,7 @@ namespace Interface2App
 		{
             if (checkBox1.Checked)
             {
-                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1, phase: 0, type: 5));
-                /*FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1, phase: 0, type: 5));*/
+                FlickerList.Insert(0, new Flicker("BlackBackground",0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1, phase: 0, type: 5));
             }
             bt_save(sender, e);
 			flickerBindingSource.EndEdit();
@@ -241,7 +240,6 @@ namespace Interface2App
 			if (checkBox1.Checked)
 			{
                 FlickerList.RemoveAt(0);
-                /*FlickerList.RemoveAt(FlickerList.Count - 1);*/
                 bt_save(sender, e);
             }
             
@@ -256,8 +254,8 @@ namespace Interface2App
 		{
             if (checkBox1.Checked)
             {
-                FlickerList.Insert(0, new Flicker(0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1,phase: 0,type:5));
-                /*FlickerList.Add(new Flicker(0, 0, resX, resY, convertColor(Color.Transparent), 1, 1, freq: 1,phase: 0,type:5));*/
+                FlickerList.Insert(0, new Flicker("BlackBackground",0, 0, resX, resY, convertColor(Color.Black), 100, 100, freq: 1,phase: 0,type:5));
+				FlickerList[0].Name = "BlackBackground";
             }
             bt_save(sender, e);
 			if (this.ValidateChildren(ValidationConstraints.ImmediateChildren | ValidationConstraints.Enabled))
@@ -270,7 +268,6 @@ namespace Interface2App
             if (checkBox1.Checked)
             {
                 FlickerList.RemoveAt(0);
-                /*FlickerList.RemoveAt(FlickerList.Count - 1);*/
                 while (true)
                 {
                     try
