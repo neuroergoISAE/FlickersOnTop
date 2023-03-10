@@ -266,8 +266,13 @@ namespace VisualStimuli
 
             // Put this new User32 window into SDL instead of the regular m_pWindow from SDL
             m_pWindow = SDL.SDL_CreateWindowFrom(hwnd);
+            if (m_pWindow == IntPtr.Zero)
+            {
+                Console.WriteLine("Window could not be created ! SDL_Error: {0}", SDL.SDL_GetError());
+                return;
+            }
             //SDL.SDL_ShowWindow(m_pWindow);
-            
+
             SDL.SDL_SetWindowOpacity(m_pWindow, 0.0f); //make window invisible before animation
             SDL.SDL_SetRelativeMouseMode(SDL.SDL_bool.SDL_FALSE);
 

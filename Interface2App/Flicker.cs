@@ -204,7 +204,10 @@ namespace Interface2App
         public void removeSeq(int pos)
         {
             contained_sequence.RemoveAt(pos);
-
+        }
+        public void removeSeq(sequenceValue seq)
+        {
+            contained_sequence.Remove(seq);
         }
         public override String ToString()
         {

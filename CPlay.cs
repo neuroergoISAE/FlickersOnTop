@@ -107,7 +107,6 @@ namespace VisualStimuli
 					Enum.TryParse<sequenceValue.type>(node.SelectSingleNode("Type").InnerText, out sequenceValue.type Type);
 					Enum.TryParse<sequenceValue.CondType>(node.SelectSingleNode("cond").InnerText, out sequenceValue.CondType cond);
 					sequenceValue seq= new sequenceValue(Type,cond,valueSeq);
-                    Console.WriteLine("value: {0} original:{1}",valueSeq, node.SelectSingleNode("value").InnerText);
 					foreach(XmlNode nodeSeq in node.SelectSingleNode("contained_sequence"))
 					{
 						seq.addSeq(loadSeq(nodeSeq));
@@ -138,8 +137,7 @@ namespace VisualStimuli
                         string name = node.SelectSingleNode("Name").InnerText;
                         double.TryParse(node.SelectSingleNode("Frequency").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double freq); //culture info is necessary due to use of "," or "." for decimal number in different part of the world
                         double.TryParse(node.SelectSingleNode("Phase").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double phase);
-                        var C1Node = node.SelectSingleNode("color1");
-                        var C2Node = node.SelectSingleNode("color2");
+                        var C1Node = node.SelectSingleNode("Color");
                         Byte.TryParse(C1Node.SelectSingleNode("R").InnerText, out byte r1);
                         Byte.TryParse(C1Node.SelectSingleNode("G").InnerText, out byte g1);
                         Byte.TryParse(C1Node.SelectSingleNode("B").InnerText, out byte b1);
@@ -147,6 +145,7 @@ namespace VisualStimuli
                         int.TryParse(node.SelectSingleNode("Opacity_Max").InnerText, out int a2);
                         string image = string.Empty;
                         bool.TryParse(node.SelectSingleNode("IsImageFlicker").InnerText, out bool IsImage);
+                        Console.WriteLine("parsed:{0} {1} {2} {3} ", pos_x, pos_y, width, height);
                         if (IsImage)
                         {
                             image = node.SelectSingleNode("image").InnerText;
@@ -389,6 +388,7 @@ namespace VisualStimuli
                     }
                     else
                     {
+                        //full transparancy when inactive
                         c.Screen.show(0);
                     }
 				}
