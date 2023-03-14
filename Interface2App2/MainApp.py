@@ -25,6 +25,7 @@ class MainApp(QMainWindow):
 
         # create main widget
         central_widget = QWidget(self)
+        #central_widget.setStyleSheet("border: 1px solid black")
         self.setCentralWidget(central_widget)
 
         # Main Data
@@ -32,6 +33,8 @@ class MainApp(QMainWindow):
 
         self.Load()
         self.MainLayout = QVBoxLayout()
+
+
         self.InitFlickerTable()
 
         self.InitLowerPart()

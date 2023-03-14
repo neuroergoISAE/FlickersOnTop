@@ -421,19 +421,28 @@ namespace VisualStimuli
                         // start by checking if we are at the end of the list
                         if (indexSeq == parent.contained_sequence.Count - 1)
                         {
-                            //check recursively if we are at the end of the parent list, parent parent list....
-                            while (indexSeq == parent.contained_sequence.Count - 1 && indexSeq != -1 && sequenceDict.Count > 1)
-                            {
-                                current = parent;
-                                if (current == seq)
+							Console.WriteLine(sequenceDict.Count);
+							//special case, parent is the root
+							if(sequenceDict.Count == 1)
+							{
+								return parent;
+							}
+							else
+							{
+                                //check recursively if we are at the end of the parent list, parent parent list....
+                                while (indexSeq == parent.contained_sequence.Count - 1 && indexSeq != -1 && sequenceDict.Count > 1)
                                 {
-                                    newSeq = seq;
-                                    break;
+                                    current = parent;
+                                    if (current == seq)
+                                    {
+                                        newSeq = seq;
+                                        break;
+                                    }
+                                    parent = (sequenceValue)getSeq(sequenceDict.Count - 2).Key;
+                                    indexSeq = parent.contained_sequence.IndexOf(current);
                                 }
-                                parent = (sequenceValue)getSeq(sequenceDict.Count - 2).Key;
-                                indexSeq = parent.contained_sequence.IndexOf(current);
+                                newSeq = parent.contained_sequence[indexSeq + 1];
                             }
-                            newSeq = parent.contained_sequence[indexSeq + 1];
                         }
                         else
                         {

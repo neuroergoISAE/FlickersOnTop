@@ -25,7 +25,7 @@ class SequenceBuilder(QWidget):
             typebox.addItem(str(type.name))
 
         def assigntype(seq, text,frame):
-            seq.Type = SeqType[text]
+            seq.seqType = SeqType[text]
             if text=="Block" or text=="Loop":
                 frame.show()
             else:
