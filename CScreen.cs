@@ -113,6 +113,8 @@ namespace VisualStimuli
         public static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
         [DllImport("user32.dll")]
         static extern bool UnregisterClass([In] string class_name);
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr SetFocus(IntPtr hWnd);
         public const int WS_EX_LAYERED = 0x00080000;
         public const int WS_EX_TRANSPARENT = 0x00000020;
         public const int WS_EX_TOPMOST = 0x00000008;
@@ -254,6 +256,7 @@ namespace VisualStimuli
             if(ParentWindow== IntPtr.Zero) {
                 hwnd = CreateWindowEx(WS_EX_COMPOSITED | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST, regResult, name, WS_POPUP, x, y, width, height, IntPtr.Zero, IntPtr.Zero, wind_class.hInstance, IntPtr.Zero);
                 ParentWindow = hwnd; IsParent = true;
+                SetFocus(hwnd);
             }
             else
             {
