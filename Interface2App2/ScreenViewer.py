@@ -84,14 +84,12 @@ class ScreenViewer(QGraphicsScene):
     def _customMenu(self,point:QPoint):
         menu = QMenu("Context Menu", self.view)
         flickerUnder=self.itemAt(point,QTransform())
-        print(flickerUnder)
         if isinstance(flickerUnder,QGraphicsRectItem):
             a2=QAction("Remove this Flicker",self.view)
             a2.triggered.connect(lambda :self.removeSignal.emit(*[k for k, v in self.graphDict.items() if v == flickerUnder.parentItem()]))
             menu.addAction(a2)
 
         a1=QAction("Add a new Flicker",self.view)
-        print(point.x(),point.y())
         a1.triggered.connect(lambda :self.addSignal.emit(Flicker(x=int(point.x()/self.view.ratio_X),y=int(point.y()/self.view.ratio_Y))))
         menu.addAction(a1)
 

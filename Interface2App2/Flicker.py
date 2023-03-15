@@ -71,3 +71,8 @@ class Flicker:
     def __repr__(self):
         return "Flicker X:" + str(self.X) + " Y:" + str(self.Y) + " Width" + str(self.Width) + " Height" + str(
             self.Height) + " Type:" + self.Type.name
+    def __copy__(self):
+        f=Flicker()
+        for key in self.__dict__:
+            f.__setattr__(key,self.__dict__[key])
+        return f

@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLineEdit, QVBoxLayout, QComboBox, QLabel, QPushButton, QColorDialog, \
-    QFileDialog, QFrame, QScrollArea
+    QFileDialog, QFrame, QScrollArea, QMenu, QAction
 from PyQt5.QtGui import QColor, QImage, QBrush
-from PyQt5.QtCore import Qt, pyqtSlot, pyqtSignal
+from PyQt5.QtCore import Qt, pyqtSlot, pyqtSignal, QPoint
 from Flicker import Flicker, FreqType, SequenceBlock
 from SequenceBuilder import SequenceBuilder
 
@@ -40,6 +40,7 @@ def open_sequence_builder(f):
 
 class FlickerTableRow(QFrame):
     rowUpdateSignal = pyqtSignal(Flicker)
+    removeSignal = pyqtSignal(Flicker)
 
     def __init__(self, flicker: Flicker):
         super().__init__()
@@ -55,6 +56,16 @@ class FlickerTableRow(QFrame):
         p.setColor(self.backgroundRole(), QColor(220, 220, 220, 100))
         self.setPalette(p)
         self.defaultPalette = p
+        self.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.customMenu)
+        self.selected = False
+
+    def customMenu(self, point: QPoint):
+        Menu = QMenu("FlickerMenu", self)
+        a1 = QAction("Remove this Flicker")
+        a1.triggered.connect(lambda: self.removeSignal.emit(self.Flicker))
+        Menu.addAction(a1)
+        Menu.exec(self.mapToGlobal(point))
 
     def rowInit(self):
         Layout = QHBoxLayout(self)
@@ -156,6 +167,8 @@ class FlickerTable(QFrame):
         self.setLayout(self.VLayout)
         self.Rows = {}
         self.selected = []
+
+        # graphic property
         self.setMaximumHeight(400)
         self.setMinimumHeight(400)
         # modify style
@@ -164,6 +177,8 @@ class FlickerTable(QFrame):
         p = self.palette()
         p.setColor(self.backgroundRole(), QColor(100, 100, 100))
         self.setPalette(p)
+
+        # first row with column name
         labelWidget = QWidget()
         labelLayout = QHBoxLayout()
         testFlicker = Flicker()
@@ -175,6 +190,8 @@ class FlickerTable(QFrame):
                 labelLayout.addWidget(t)
         labelWidget.setLayout(labelLayout)
         self.VLayout.addWidget(labelWidget)
+
+        # Row Area
         self.RowArea = QScrollArea()
         self.RowArea.setWidgetResizable(True)
         self.RowArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -184,16 +201,18 @@ class FlickerTable(QFrame):
         self.InitRows()
         self.RowArea.setWidget(RowContainer)
         self.VLayout.addWidget(self.RowArea)
-        # self.VLayout.addStretch(0)
 
+        # shortcut definition
+        self.toCopy = []
     def InitRows(self):
         for f in self.Flickers:
             self.AddNewFlicker(f)
 
     def AddNewFlicker(self, flicker):
         row = FlickerTableRow(flicker)
-        self.RowLayout.insertWidget(self.RowLayout.count()-1,row)
-        #self.RowLayout.addWidget(row)
+        row.removeSignal.connect(self.removeFlicker)
+        self.RowLayout.insertWidget(self.RowLayout.count() - 1, row)
+        # self.RowLayout.addWidget(row)
         self.Rows[flicker] = row
         row.mousePressEvent = lambda event: row.select(self.selected)
         row.rowUpdateSignal.connect(lambda flicker: self.tableUpdateSignal.emit(flicker))
@@ -217,7 +236,22 @@ class FlickerTable(QFrame):
             self.Rows[f].updateData()
         else:
             self.AddNewFlicker(f)
+
     @pyqtSlot(Flicker)
-    def removeFlicker(self,f):
+    def removeFlicker(self, f):
         if f in self.Rows.keys():
             self.RemoveRow(self.Rows[f])
+
+    @pyqtSlot()
+    def _copy(self):
+        self.toCopy = []
+        for f in self.Flickers:
+            if self.Rows[f] in self.selected:
+                self.toCopy.append(f)
+
+    @pyqtSlot()
+    def _paste(self):
+        for f in self.toCopy:
+            newf = f.__copy__()
+            self.Flickers.append(newf)
+            self.AddNewFlicker(newf)

@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QFileDialog, \
-    QLabel
-from PyQt5.QtGui import QColor
-from PyQt5.QtCore import QTimer
+    QLabel,QShortcut
+from PyQt5.QtGui import QColor, QKeySequence
+from PyQt5.QtCore import QTimer,Qt
 from sys import exit, argv
 from FlickerTable import FlickerTable, Flicker, FreqType, SequenceBlock
 from Flicker import SeqType, SeqCondition
@@ -46,6 +46,13 @@ class MainApp(QMainWindow):
 
         # Flicker self.Table
         self.Table = FlickerTable(self.Flickers)
+        shortcutCopy=QShortcut(QKeySequence("Ctrl+C"), self, self.Table._copy)
+        QShortcut(QKeySequence("Ctrl+V"), self, self.Table._paste)
+
+
+
+
+
         self.MainLayout.addWidget(self.Table)
 
         buttonAdd = QPushButton("Add")
@@ -65,6 +72,7 @@ class MainApp(QMainWindow):
                 self.Table.RemoveRow(self.Table.Rows[list(self.Table.Rows.keys())[-1]])
 
         buttonRemove.clicked.connect(lambda: remove())
+        buttonRemove.setShortcut(Qt.Key_Delete)
 
         ButtonLayout.addWidget(buttonAdd)
         ButtonLayout.addWidget(buttonRemove)
@@ -92,6 +100,7 @@ class MainApp(QMainWindow):
         buttonLayout.addLayout(actionLayout)
         buttonSave = QPushButton("Save")
         buttonSave.clicked.connect(lambda a: self.Save())
+        buttonSave.setShortcut("Ctrl+S")
         buttonSaveAs = QPushButton("Save As...")
         buttonSaveAs.clicked.connect(lambda b: self.SaveAs())
         buttonImport = QPushButton("Import")
