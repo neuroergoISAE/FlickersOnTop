@@ -63,6 +63,7 @@ class MainApp(QMainWindow):
             self.Table.AddNewFlicker(f)
 
         buttonAdd.clicked.connect(lambda: add())
+        buttonAdd.setShortcut("Ctrl+N")
         buttonRemove = QPushButton("Remove")
 
         def remove():

@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QComboBox, QHBoxLayout, QFrame, QPushButton
-from PyQt5.QtGui import QKeySequence
+from PyQt5.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QComboBox, QHBoxLayout, QFrame, QPushButton
+from PyQt5.QtGui import QKeySequence,QIcon
 from Flicker import SeqType, SeqCondition, SequenceBlock
 
 
@@ -11,6 +11,13 @@ class SequenceBuilder(QFrame):
         self.setLayout(self.MainLayout)
         self.InitSeq(self.MainLayout, flicker.sequence)
 
+        BottomLayout=QHBoxLayout()
+        closeButton=QPushButton("Close")
+        closeButton.clicked.connect(self.hide)
+        BottomLayout.addStretch(0)
+        BottomLayout.addWidget(closeButton)
+        self.MainLayout.addLayout(BottomLayout)
+
     def InitSeq(self, parent, seq: SequenceBlock, rootSeq=None):
         seqWidget = QFrame()
         seqWidget.setFrameStyle(QFrame.StyledPanel)
@@ -21,7 +28,9 @@ class SequenceBuilder(QFrame):
         # type
         ly1 = QHBoxLayout()
         l1 = QLabel("Type")
+        l1.setMinimumWidth(55)
         typebox = QComboBox()
+        typebox.setMinimumWidth(65)
         for types in (SeqType):
             typebox.addItem(str(types.name))
 
@@ -39,12 +48,15 @@ class SequenceBuilder(QFrame):
 
         ly1.addWidget(l1)
         ly1.addWidget(typebox)
+        ly1.addStretch(0)
         seqLayout.addLayout(ly1)
 
         # Condition
         ly2 = QHBoxLayout()
         l2 = QLabel("Condition")
+        l2.setMinimumWidth(55)
         conditionBox = QComboBox()
+        conditionBox.setMinimumWidth(65)
         for cond in (SeqCondition):
             conditionBox.addItem(str(cond.name))
 
@@ -63,6 +75,7 @@ class SequenceBuilder(QFrame):
         conditionBox.currentTextChanged.connect(lambda text, seq=seq: assigncond(seq, text))
         ly2.addWidget(l2)
         ly2.addWidget(conditionBox)
+        ly2.addStretch(0)
         seqLayout.addLayout(ly2)
 
         # Value
@@ -91,6 +104,7 @@ class SequenceBuilder(QFrame):
         ly3.addWidget(l3)
         ly3.addWidget(valueEdit)
         ly3.addWidget(keyButton)
+        ly3.addStretch(0)
         container_value=QFrame()
         container_value.setFrameStyle(QFrame.StyledPanel)
         container_value.setLayout(ly3)
@@ -104,10 +118,13 @@ class SequenceBuilder(QFrame):
         if seq.seqType == SeqType.Block or seq.seqType == SeqType.Loop:
             container_value.hide()
 
+
+
+        #subsequence
         subseqLayout = QVBoxLayout()
         frame.setLayout(subseqLayout)
         frame.setLineWidth(5)
-        frame.setFrameStyle(QFrame.StyledPanel)
+        #frame.setFrameStyle(QFrame.StyledPanel)
 
         l4 = QLabel("Subsequences:")
         addButton = QPushButton("+")
@@ -116,10 +133,12 @@ class SequenceBuilder(QFrame):
 
         ly4 = QHBoxLayout()
         ly4.addWidget(l4)
+        ly4.addWidget(addButton)
+        ly4.addStretch(0)
         subseqLayout.addLayout(ly4)
         #subseqLayout.addWidget(separation_line)
 
-        ly4.addWidget(addButton)
+
 
         def addNew(p, s, root):
             seq.AddSeq(s)
@@ -147,6 +166,7 @@ class SequenceBuilder(QFrame):
         def remove(p:SequenceBlock, s:SequenceBlock):
             p.removeSeq(s)
             seqWidget.hide()
+            self.adjustSize()
 
         if rootSeq:
             removeButton.clicked.connect(lambda b, s=seq, p=rootSeq: remove(p, s))

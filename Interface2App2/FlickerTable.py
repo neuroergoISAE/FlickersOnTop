@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLineEdit, QVBoxLayout, QComboBox, QLabel, QPushButton, QColorDialog, \
-    QFileDialog, QFrame, QScrollArea, QMenu, QAction
-from PyQt5.QtGui import QColor, QImage, QBrush
+    QFileDialog, QFrame, QScrollArea, QMenu, QAction,QApplication
+from PyQt5.QtGui import QColor, QImage, QBrush,QMouseEvent
 from PyQt5.QtCore import Qt, pyqtSlot, pyqtSignal, QPoint
 from Flicker import Flicker, FreqType, SequenceBlock
 from SequenceBuilder import SequenceBuilder
+from collections import OrderedDict
 
 Selection_Color = QColor(0, 120, 215, 100)
 size = 70
@@ -123,15 +124,31 @@ class FlickerTableRow(QFrame):
 
         self.setLayout(Layout)
 
-    def select(self, l):
-        if self in l:
-            l.remove(self)
-            self.setPalette(self.defaultPalette)
+    def select(self,event:QMouseEvent, l, Rows):
+        if event.button()==Qt.LeftButton and QApplication.keyboardModifiers()!=Qt.ShiftModifier:
+            if self in l:
+                l.remove(self)
+                self.setPalette(self.defaultPalette)
+            else:
+                l.insert(0,self)
+                p = self.palette()
+                p.setColor(self.backgroundRole(), Selection_Color)
+                self.setPalette(p)
         else:
-            l.append(self)
-            p = self.palette()
-            p.setColor(self.backgroundRole(), Selection_Color)
-            self.setPalette(p)
+            if event.button() == Qt.LeftButton and l!=[]:
+                previous=l[0]
+                for row in l:
+                    l.remove(row)
+                    row.setPalette(row.defaultPalette)
+                previous_index=list(Rows.values()).index(previous)
+                currentIndex=list(Rows.values()).index(self)
+                toAdd=list(Rows.values())[min(previous_index,currentIndex):max(previous_index+1,currentIndex+1)]
+                for f in toAdd:
+                    if not f in l:
+                        l.append(f)
+                        p = f.palette()
+                        p.setColor(f.backgroundRole(), Selection_Color)
+                        f.setPalette(p)
 
     def updateData(self):
         for attr in self.attrDict:
@@ -165,7 +182,7 @@ class FlickerTable(QFrame):
         self.Flickers = flickerlist
         self.VLayout = QVBoxLayout()
         self.setLayout(self.VLayout)
-        self.Rows = {}
+        self.Rows = OrderedDict()
         self.selected = []
 
         # graphic property
@@ -204,6 +221,18 @@ class FlickerTable(QFrame):
 
         # shortcut definition
         self.toCopy = []
+
+        # custom menu
+        self.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.customMenu)
+
+
+    def customMenu(self,point:QPoint):
+        Menu=QMenu("Flicker Table Menu",self)
+        a1=QAction("Add a Flicker",self)
+        a1.triggered.connect(lambda :self.AddNewFlicker(Flicker()))
+        Menu.addAction(a1)
+        Menu.exec(self.mapToGlobal(point))
     def InitRows(self):
         for f in self.Flickers:
             self.AddNewFlicker(f)
@@ -212,9 +241,8 @@ class FlickerTable(QFrame):
         row = FlickerTableRow(flicker)
         row.removeSignal.connect(self.removeFlicker)
         self.RowLayout.insertWidget(self.RowLayout.count() - 1, row)
-        # self.RowLayout.addWidget(row)
         self.Rows[flicker] = row
-        row.mousePressEvent = lambda event: row.select(self.selected)
+        row.mousePressEvent = lambda event: row.select(event,self.selected,self.Rows)
         row.rowUpdateSignal.connect(lambda flicker: self.tableUpdateSignal.emit(flicker))
         self.tableAddSignal.emit(flicker)
 

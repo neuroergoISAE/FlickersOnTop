@@ -430,8 +430,6 @@ namespace VisualStimuli
                                                 var tuple = linkedSeqs[0];
                                                 var c=tuple.Item1.nextSeq(tuple.Item2, watch.Elapsed.TotalSeconds);
                                                 var b=linkedSeqs.Remove(tuple);
-                                                Console.WriteLine(b);
-                                                Console.WriteLine(linkedSeqs.Count);
                                                 //remove that flicker from the list
                                                 if (linkedSeqs.Count == 0)
                                                 {
