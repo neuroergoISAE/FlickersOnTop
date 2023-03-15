@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
 using SDL2;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using static VisualStimuli.CPlay;
 
 namespace VisualStimuli
@@ -168,7 +169,6 @@ namespace VisualStimuli
 		/// </summary>
 		public void display()
 		{
-			Console.WriteLine(Data.Length);
 			if (index >= Data.Length)
 			{
 				index = 0;
@@ -487,13 +487,62 @@ namespace VisualStimuli
 			return newSeq;
 			
 		}
-		public void skipTo(sequenceValue seq,double time)
+		//skip to the next sequence of a specific sequence
+		public sequenceValue nextSeq(sequenceValue seq,double time)
+		{
+			var current=skipTo(seq, time);
+			sequenceValue newSeq;
+            var parent = (sequenceValue)getSeq(sequenceDict.Count - 2).Key;
+            var indexSeq = parent.contained_sequence.IndexOf(current);
+            sequenceDict.Remove(current);
+            if (sequenceDict.Count == 0)
+            {
+                return current;
+            }
+            else
+            {
+                //check recursively if we are at the end of the parent list, parent parent list....
+                while (indexSeq == parent.contained_sequence.Count - 1 && indexSeq != -1 && sequenceDict.Count > 1)
+                {
+                    current = parent;
+                    if (current == seq)
+                    {
+                        newSeq = seq;
+                        break;
+                    }
+                    parent = (sequenceValue)getSeq(sequenceDict.Count - 2).Key;
+                    indexSeq = parent.contained_sequence.IndexOf(current);
+                }
+                newSeq = parent.contained_sequence[indexSeq + 1];
+            }
+
+
+            if (newSeq.cond == sequenceValue.CondType.Time)
+            {
+                sequenceDict.Add(newSeq, time);
+            }
+            else
+            {
+                if (newSeq.cond == sequenceValue.CondType.KeyPress)
+                {
+                    sequenceDict.Add(newSeq, newSeq.value);
+                }
+                else
+                {
+                    sequenceDict.Add(newSeq, 0.0);
+                }
+            }
+			return newSeq;
+        }
+		//skip to the specified sequenceValue (if reachable)
+		public sequenceValue skipTo(sequenceValue seq,double time)
 		{
 			var current = currentSeq();
 			while(current != seq)
 			{
 				current = nextSeq(time);
 			}
+			return current;
 		}
 		public DictionaryEntry getSeq(int indexDict)
 		{

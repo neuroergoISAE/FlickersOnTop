@@ -354,7 +354,12 @@ namespace VisualStimuli
 
                                 if (SequenceKeyDict.Keys.Contains(keyboardKey))
                                 {
-                                    SequenceKeyDict[keyboardKey].Add((c, newSeq));
+                                    var l = SequenceKeyDict[keyboardKey];
+                                    if (!l.Contains((c,newSeq)))
+                                    {
+                                        l.Add((c, newSeq));
+                                    }
+                                    
                                 }
                                 else
                                 {
@@ -412,27 +417,34 @@ namespace VisualStimuli
                                 for(int keyIndex =0;keyIndex<SequenceKeyDict.Keys.Count;keyIndex++)
                                 {
                                     var key = (SequenceKeyDict.Keys.ToList())[keyIndex];
+                                    Console.WriteLine("checking:{0} received:{1}",key, evt.key.keysym.sym);
                                     //there might be multiple flicker bound to the same key at the same time
-                                    try
-                                    {
-                                        var linkedSeqs = SequenceKeyDict[key];
-                                        while (linkedSeqs.Count > 0)
+                                    if(key== evt.key.keysym.sym)
                                         {
-                                            //can be replaced with a stack
-                                            var tuple = linkedSeqs[0];
-                                            tuple.Item1.skipTo(tuple.Item2, watch.Elapsed.TotalSeconds);
-                                            linkedSeqs.Remove(tuple);
-                                            //remove that flicker from the list
-                                            if (linkedSeqs.Count == 0)
+                                        try
+                                        {
+                                            var linkedSeqs = SequenceKeyDict[key];
+                                            while (linkedSeqs.Count > 0)
                                             {
-                                                SequenceKeyDict.Remove(key);
+                                                //can be replaced with a stack
+                                                var tuple = linkedSeqs[0];
+                                                var c=tuple.Item1.nextSeq(tuple.Item2, watch.Elapsed.TotalSeconds);
+                                                var b=linkedSeqs.Remove(tuple);
+                                                Console.WriteLine(b);
+                                                Console.WriteLine(linkedSeqs.Count);
+                                                //remove that flicker from the list
+                                                if (linkedSeqs.Count == 0)
+                                                {
+                                                    SequenceKeyDict.Remove(key);
+                                                }
                                             }
                                         }
+                                        catch
+                                        {
+                                            Console.WriteLine("Failed KeyPress event");
+                                        }
                                     }
-                                    catch
-                                    {
-
-                                    }
+                                    
 
                                 }
                             }
