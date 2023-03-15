@@ -144,8 +144,9 @@ class SequenceBuilder(QFrame):
         removeButton = QPushButton("-")
         removeButton.setMaximumWidth(30)
 
-        def remove(p, s):
-            p.RemoveSeq(s)
+        def remove(p:SequenceBlock, s:SequenceBlock):
+            p.removeSeq(s)
+            seqWidget.hide()
 
         if rootSeq:
             removeButton.clicked.connect(lambda b, s=seq, p=rootSeq: remove(p, s))
