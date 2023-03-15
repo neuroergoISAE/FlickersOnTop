@@ -108,6 +108,9 @@ class MainApp(QMainWindow):
         # Screen Viewer
         self.screenviewer = ScreenViewer(self.Flickers)
         self.screenviewer.changeSignal.connect(self.Table.updateFlicker)
+        self.screenviewer.removeSignal.connect(self.Table.removeFlicker)
+        self.screenviewer.addSignal.connect(self.Table.updateFlicker)
+        self.screenviewer.addSignal.connect(lambda f:self.Flickers.append(f))
         self.Table.tableUpdateSignal.connect(lambda flicker: self.screenviewer.updateFlickers(flicker))
         self.Table.tableRemoveSignal.connect(self.screenviewer.removeFlicker)
         self.Table.tableAddSignal.connect(lambda flicker: self.screenviewer.setupFlickers(flicker))
