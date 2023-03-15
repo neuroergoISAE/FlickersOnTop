@@ -213,4 +213,7 @@ class FlickerTable(QFrame):
 
     @pyqtSlot(Flicker)
     def updateFlicker(self, f):
-        self.Rows[f].updateData()
+        if f in self.Rows.keys():
+            self.Rows[f].updateData()
+        else:
+            self.AddNewFlicker(f)

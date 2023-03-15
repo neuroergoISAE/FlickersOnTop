@@ -53,8 +53,8 @@ class Flicker:
                  opacity_min=0, opacity_max=100, color=QColor(255, 255, 255), sequence=(SequenceBlock().AddSeq(SequenceBlock(SeqType.Active,SeqCondition.Never))), image=None,
                  IsImageFlicker=False):
         self.Name = name
-        self.X = x
-        self.Y = y
+        self.X = int(x)
+        self.Y = int(y)
         self.Width = width
         self.Height = height
         self.Frequency = frequency

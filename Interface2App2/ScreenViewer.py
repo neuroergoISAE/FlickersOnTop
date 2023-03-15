@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import QWidget, QGraphicsRectItem, QGraphicsScene, QGraphicsView, QApplication, \
     QGraphicsPixmapItem, \
-    QGraphicsItem, QGraphicsSceneMouseEvent, QGraphicsObject,QGraphicsTextItem
+    QGraphicsItem, QGraphicsSceneMouseEvent, QGraphicsObject,QGraphicsTextItem,QMenu,QAction
 from PyQt5.QtGui import QColor, QPainter, QBrush, QResizeEvent, QPen,QImage
-from PyQt5.QtCore import Qt, pyqtSignal, QRectF,pyqtSlot
+from PyQt5.QtCore import Qt, pyqtSignal, QRectF,pyqtSlot,QPoint
 from Flicker import Flicker
 import typing
 
@@ -38,12 +38,15 @@ class viewer(QGraphicsView):
         self.ratio_X = self.size().width() / self.screensize.width()
         self.ratio_Y = self.size().height() / self.screensize.height()
 
+
     def resizeEvent(self, event: QResizeEvent) -> None:
         super().resizeEvent(event)
         self.ratio_X = self.size().width() / self.screensize.width()
         self.ratio_Y = self.size().height() / self.screensize.height()
         self.parent._set_image()
         self.parent.updateFlickers(*self.parent.Flickers)
+
+
 
 
 class ScreenViewer(QGraphicsScene):
@@ -64,12 +67,26 @@ class ScreenViewer(QGraphicsScene):
         self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.view.mouseDoubleClickEvent=lambda event:self._set_blank()
 
+        # setup context menu
+        self.view.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.view.customContextMenuRequested.connect(self._customMenu)
+
+
         self.background = None
         self._set_image()
 
         # self.ratio_X=self.view.size().width()/size.width()
         # self.ratio_Y=self.view.size().height()/size.height()
         self.setupFlickers(*flickers)
+    @pyqtSlot(QPoint)
+    def _customMenu(self,point:QPoint):
+        menu=QMenu("Context Menu",self.view)
+        a1=QAction("Add a new Flicker",self.view)
+        print(point.x(),point.y())
+        a1.triggered.connect(lambda :self.changeSignal.emit(Flicker(x=int(point.x()/self.view.ratio_X),y=int(point.y()/self.view.ratio_Y))))
+        menu.addAction(a1)
+
+        menu.exec(self.view.mapToGlobal(point))
 
     def _set_image(self):
         screenshot = self.screen.grabWindow(0, 0, 0, self.screen.size().width(), self.screen.size().height())
