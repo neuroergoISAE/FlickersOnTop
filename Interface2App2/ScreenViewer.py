@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QGraphicsRectItem, QGraphicsScene, QGraphicsView, QApplication, \
     QGraphicsPixmapItem, \
     QGraphicsItem, QGraphicsSceneMouseEvent, QGraphicsObject,QGraphicsTextItem,QMenu,QAction
-from PyQt5.QtGui import QColor, QPainter, QBrush, QResizeEvent, QPen,QImage,QTransform
+from PyQt5.QtGui import QColor, QPainter, QBrush, QResizeEvent, QPen,QImage,QTransform,QMatrix2x2
 from PyQt5.QtCore import Qt, pyqtSignal, QRectF,pyqtSlot,QPoint
 from Flicker import Flicker
 import typing
@@ -80,6 +80,9 @@ class ScreenViewer(QGraphicsScene):
         # self.ratio_X=self.view.size().width()/size.width()
         # self.ratio_Y=self.view.size().height()/size.height()
         self.setupFlickers(*flickers)
+
+
+
     @pyqtSlot(QPoint)
     def _customMenu(self,point:QPoint):
         menu = QMenu("Context Menu", self.view)
@@ -102,6 +105,8 @@ class ScreenViewer(QGraphicsScene):
             self.removeItem(self.background)
         self.background = QGraphicsPixmapItem(screenshot)
         self.background.setZValue(0)
+        exactRect = self.background.sceneBoundingRect();
+        self.view.setSceneRect(exactRect);
         self.addItem(self.background)
     def _set_blank(self):
         if self.background != None:
