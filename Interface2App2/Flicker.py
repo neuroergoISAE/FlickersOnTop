@@ -31,7 +31,9 @@ class SequenceBlock:
         self.value = value
         self.contained_sequence = []
 
-    def AddSeq(self, seq, index=-1):
+    def AddSeq(self, seq, index=None):
+        if index==None:
+            index= len(self.contained_sequence)
         self.contained_sequence.insert(index, seq)
         return self
 

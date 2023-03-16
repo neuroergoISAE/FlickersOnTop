@@ -22,6 +22,7 @@ class SequenceBuilder(QFrame):
         seqWidget = QFrame()
         seqWidget.setFrameStyle(QFrame.StyledPanel)
         seqLayout = QVBoxLayout()
+        argsLayout=QHBoxLayout()
         # for subseq
         frame = QFrame()
 
@@ -49,7 +50,7 @@ class SequenceBuilder(QFrame):
         ly1.addWidget(l1)
         ly1.addWidget(typebox)
         ly1.addStretch(0)
-        seqLayout.addLayout(ly1)
+        argsLayout.addLayout(ly1)
 
         # Condition
         ly2 = QHBoxLayout()
@@ -64,19 +65,23 @@ class SequenceBuilder(QFrame):
             seq.Condition = SeqCondition[text]
             if SeqCondition[text] == SeqCondition.KeyPress:
                 l3.setText("Key to proceed")
+                container_value.show()
                 keyButton.show()
                 valueEdit.hide()
-            else:
+            if seq.Condition == SeqCondition.Time:
                 l3.setText("Time in seconds")
+                container_value.show()
                 keyButton.hide()
                 valueEdit.show()
+            if seq.Condition== SeqCondition.Never or seq.Condition==SeqCondition.Always:
+                container_value.hide()
 
         conditionBox.setCurrentText(seq.Condition.name)
         conditionBox.currentTextChanged.connect(lambda text, seq=seq: assigncond(seq, text))
         ly2.addWidget(l2)
         ly2.addWidget(conditionBox)
         ly2.addStretch(0)
-        seqLayout.addLayout(ly2)
+        argsLayout.addLayout(ly2)
 
         # Value
         ly3 = QHBoxLayout()
@@ -108,14 +113,16 @@ class SequenceBuilder(QFrame):
         container_value=QFrame()
         container_value.setFrameStyle(QFrame.StyledPanel)
         container_value.setLayout(ly3)
-        seqLayout.addWidget(container_value)
+        argsLayout.addWidget(container_value)
+
+        seqLayout.addLayout(argsLayout)
         if seq.Condition==SeqCondition.KeyPress:
             l3.setText("Key to proceed")
             valueEdit.hide()
         else:
             l3.setText("Time in seconds")
             keyButton.hide()
-        if seq.seqType == SeqType.Block or seq.seqType == SeqType.Loop:
+        if seq.seqType == SeqType.Block or seq.seqType == SeqType.Loop or seq.Condition==SeqCondition.Never or seq.Condition==SeqCondition.Always:
             container_value.hide()
 
 

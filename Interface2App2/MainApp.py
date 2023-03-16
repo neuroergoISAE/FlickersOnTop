@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QFileDialog, \
-    QLabel,QShortcut
-from PyQt5.QtGui import QColor, QKeySequence
+    QLabel,QShortcut,QFrame
+from PyQt5.QtGui import QColor, QKeySequence,QCursor,QScreen
 from PyQt5.QtCore import QTimer,Qt
 from sys import exit, argv
 from FlickerTable import FlickerTable, Flicker, FreqType, SequenceBlock
@@ -33,7 +33,7 @@ class MainApp(QMainWindow):
 
         self.Load()
         self.MainLayout = QVBoxLayout()
-
+        self.process=None
 
         self.InitFlickerTable()
 
@@ -84,9 +84,14 @@ class MainApp(QMainWindow):
         self.centralWidget().setLayout(self.MainLayout)
 
     def InitLowerPart(self):
+        lowerContainer=QFrame()
         lowerLayout = QHBoxLayout()
 
+        lowerContainer.setFrameStyle(QFrame.Panel | QFrame.Sunken)
         # button on the left
+        buttonContainer=QFrame()
+        #buttonContainer.setFrameStyle(QFrame.StyledPanel)
+
         buttonLayout = QVBoxLayout()
         actionLayout = QHBoxLayout()
         buttonTest = QPushButton("Test")
@@ -104,6 +109,7 @@ class MainApp(QMainWindow):
         buttonSave.setShortcut("Ctrl+S")
         buttonSaveAs = QPushButton("Save As...")
         buttonSaveAs.clicked.connect(lambda b: self.SaveAs())
+        buttonSaveAs.setShortcut("Ctrl+Shift+S")
         buttonImport = QPushButton("Import")
         buttonImport.clicked.connect(lambda b: self.Import())
         buttonHelp = QPushButton("Help")
@@ -113,7 +119,8 @@ class MainApp(QMainWindow):
         buttonLayout.addWidget(buttonImport)
         buttonLayout.addWidget(buttonHelp)
         buttonLayout.addStretch(0)
-        lowerLayout.addLayout(buttonLayout)
+        buttonContainer.setLayout(buttonLayout)
+        lowerLayout.addWidget(buttonContainer)
 
         # Screen Viewer
         self.screenviewer = ScreenViewer(self.Flickers)
@@ -126,7 +133,30 @@ class MainApp(QMainWindow):
         self.Table.tableAddSignal.connect(lambda flicker: self.screenviewer.setupFlickers(flicker))
         lowerLayout.addWidget(self.screenviewer.view)
 
-        self.MainLayout.addLayout(lowerLayout)
+        # mousePosition
+        mousePosLayout=QVBoxLayout()
+        titleLabel=QLabel("Mouse Position")
+        xlabel=QLabel()
+        ylabel=QLabel()
+        mousePosLayout.addWidget(titleLabel)
+        mousePosLayout.addWidget(xlabel)
+        mousePosLayout.addWidget(ylabel)
+        mousePosLayout.addStretch(0)
+        lowerLayout.addLayout(mousePosLayout)
+
+
+        def get_mouse_pos():
+            pos=QCursor.pos()
+            xlabel.setText("X: "+str(pos.x()))
+            ylabel.setText("Y: " + str(pos.y()))
+
+        mouseTimer = QTimer(self)
+        mouseTimer.timeout.connect(get_mouse_pos)
+        mouseTimer.start(20)
+
+
+        lowerContainer.setLayout(lowerLayout)
+        self.MainLayout.addWidget(lowerContainer)
 
     def Load(self, file=Standard_Save_File):
         def loadseq(attribute):
@@ -288,7 +318,7 @@ class MainApp(QMainWindow):
                                 + " You can click on Add to create a new Flicker \n"
                                 + "VI.\n"
                                 + " Finally, click on RUN to run the Flicker program or TEST for a 10 seconds test.\n"
-                                + " Click on a flicker and press 'Echap' to close all flickers. Or alternatively, click on 'Stop'\n"
+                                + " press 'Echap' to close all flickers. Or alternatively, click on 'Stop'\n"
                                 + "THANK FOR READING !!!")
         self.helpLabel.show()
 
