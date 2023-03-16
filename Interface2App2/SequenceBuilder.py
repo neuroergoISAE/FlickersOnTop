@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QComboBox, QHBoxLayout, QFrame, QPushButton
-from PyQt5.QtGui import QKeySequence,QIcon
+from PyQt5.QtGui import QKeySequence
 from Flicker import SeqType, SeqCondition, SequenceBlock
 
 
@@ -11,8 +11,8 @@ class SequenceBuilder(QFrame):
         self.setLayout(self.MainLayout)
         self.InitSeq(self.MainLayout, flicker.sequence)
 
-        BottomLayout=QHBoxLayout()
-        closeButton=QPushButton("Close")
+        BottomLayout = QHBoxLayout()
+        closeButton = QPushButton("Close")
         closeButton.clicked.connect(self.hide)
         BottomLayout.addStretch(0)
         BottomLayout.addWidget(closeButton)
@@ -22,7 +22,7 @@ class SequenceBuilder(QFrame):
         seqWidget = QFrame()
         seqWidget.setFrameStyle(QFrame.StyledPanel)
         seqLayout = QVBoxLayout()
-        argsLayout=QHBoxLayout()
+        argsLayout = QHBoxLayout()
         # for subseq
         frame = QFrame()
 
@@ -73,7 +73,7 @@ class SequenceBuilder(QFrame):
                 container_value.show()
                 keyButton.hide()
                 valueEdit.show()
-            if seq.Condition== SeqCondition.Never or seq.Condition==SeqCondition.Always:
+            if seq.Condition == SeqCondition.Never or seq.Condition == SeqCondition.Always:
                 container_value.hide()
 
         conditionBox.setCurrentText(seq.Condition.name)
@@ -89,53 +89,53 @@ class SequenceBuilder(QFrame):
         valueEdit = QLineEdit(str(seq.value))
         keyButton = QPushButton()
 
-        def keyget(e,widget:QPushButton,seq):
+        def keyget(e, widget: QPushButton, seq):
             widget.releaseKeyboard()
-            widget.setText("Key:" + e.text().upper())
-            seq.value=float(e.key())
-            widget.keyPressEvent = lambda e:False
+            widget.setText("Key: "+QKeySequence(int(e.key())).toString())
+            seq.value = float(e.key())
+            widget.keyPressEvent = lambda e: QPushButton.keyPressEvent(widget,e)
 
-        def assignValue(text, seq,widget:QPushButton=None):
-            if seq.Condition == SeqCondition.KeyPress:
-                widget.setText("Press a key...")
-                widget.grabKeyboard()
-                widget.keyPressEvent = lambda e,widget=widget,seq=seq: keyget(e,widget,seq)
-            else:
-                seq.value = text
+        def assignValue(text, seq, widget: QPushButton = None):
+            try:
+                if seq.Condition == SeqCondition.KeyPress:
+                    widget.setText("Press a key...")
+                    widget.grabKeyboard()
+                    widget.keyPressEvent = lambda e, widget=widget, seq=seq: keyget(e, widget, seq)
+                else:
+                    seq.value = float(text)
+            except:valueEdit.setText(str(seq.value))
 
         valueEdit.textChanged.connect(lambda text, seq=seq: assignValue(text, seq))
-        keyButton.clicked.connect(lambda b,seq=seq,w=keyButton:assignValue(b,seq,keyButton))
-        keyButton.setText("Key: "+QKeySequence(int(seq.value)).toString())
+        keyButton.clicked.connect(lambda b, seq=seq, w=keyButton: assignValue(b, seq, keyButton))
+        keyButton.setText("Key: " + QKeySequence(int(seq.value)).toString())
         ly3.addWidget(l3)
         ly3.addWidget(valueEdit)
         ly3.addWidget(keyButton)
         ly3.addStretch(0)
-        container_value=QFrame()
+        container_value = QFrame()
         container_value.setFrameStyle(QFrame.StyledPanel)
         container_value.setLayout(ly3)
         argsLayout.addWidget(container_value)
 
         seqLayout.addLayout(argsLayout)
-        if seq.Condition==SeqCondition.KeyPress:
+        if seq.Condition == SeqCondition.KeyPress:
             l3.setText("Key to proceed")
             valueEdit.hide()
         else:
             l3.setText("Time in seconds")
             keyButton.hide()
-        if seq.seqType == SeqType.Block or seq.seqType == SeqType.Loop or seq.Condition==SeqCondition.Never or seq.Condition==SeqCondition.Always:
+        if seq.seqType == SeqType.Block or seq.seqType == SeqType.Loop or seq.Condition == SeqCondition.Never or seq.Condition == SeqCondition.Always:
             container_value.hide()
 
-
-
-        #subsequence
+        # subsequence
         subseqLayout = QVBoxLayout()
         frame.setLayout(subseqLayout)
         frame.setLineWidth(5)
-        #frame.setFrameStyle(QFrame.StyledPanel)
+        # frame.setFrameStyle(QFrame.StyledPanel)
 
         l4 = QLabel("Subsequences:")
         addButton = QPushButton("+")
-        separation_line=QFrame()
+        separation_line = QFrame()
         separation_line.setFrameStyle(QFrame.HLine)
 
         ly4 = QHBoxLayout()
@@ -143,9 +143,8 @@ class SequenceBuilder(QFrame):
         ly4.addWidget(addButton)
         ly4.addStretch(0)
         subseqLayout.addLayout(ly4)
-        #subseqLayout.addWidget(separation_line)
 
-
+        # subseqLayout.addWidget(separation_line)
 
         def addNew(p, s, root):
             seq.AddSeq(s)
@@ -161,8 +160,8 @@ class SequenceBuilder(QFrame):
 
         # Final thing
         finalLayout = QHBoxLayout()
-        Indicator_Line=QFrame()
-        Indicator_Line.setFrameStyle(QFrame.VLine|QFrame.Sunken)
+        Indicator_Line = QFrame()
+        Indicator_Line.setFrameStyle(QFrame.VLine | QFrame.Sunken)
         Indicator_Line.setLineWidth(3)
         finalLayout.addWidget(Indicator_Line)
         finalLayout.addLayout(seqLayout)
@@ -170,7 +169,7 @@ class SequenceBuilder(QFrame):
         removeButton = QPushButton("-")
         removeButton.setMaximumWidth(30)
 
-        def remove(p:SequenceBlock, s:SequenceBlock):
+        def remove(p: SequenceBlock, s: SequenceBlock):
             p.removeSeq(s)
             seqWidget.hide()
             self.adjustSize()

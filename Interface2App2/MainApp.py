@@ -169,27 +169,30 @@ class MainApp(QMainWindow):
             Tree = ET.parse(file)
             root = Tree.getroot()
             for f in root:
-                temp = Flicker()
-                for attribute in f:
-                    # Basic Attribute
-                    if (attribute.tag in temp.__dict__.keys()):
-                        value = None
-                        if attribute.text != None and len(
-                                attribute) == 0 and attribute.text != "false" and attribute.text != "true":
-                            value = attribute.text
-                            if attribute.tag == "Type":
-                                value = FreqType[value]
-                        if attribute.tag == "Color":
-                            value = QColor(int(attribute[1].text), int(attribute[2].text), int(attribute[3].text))
-                        if attribute.tag == "sequence":
-                            value = loadseq(attribute)
-                        if attribute.text == "false":
-                            value = False
-                        if attribute.text == "true":
-                            value = True
+                try:
+                    temp = Flicker()
+                    for attribute in f:
 
-                        temp.__setattr__(attribute.tag, value)
-                self.Flickers.append(temp)
+                        # Basic Attribute
+                        if (attribute.tag in temp.__dict__.keys()):
+                            value = None
+                            if attribute.text != None and len(
+                                    attribute) == 0 and attribute.text != "false" and attribute.text != "true":
+                                value = attribute.text
+                                if attribute.tag == "Type":
+                                    value = FreqType[value]
+                            if attribute.tag == "Color":
+                                value = QColor(int(attribute[1].text), int(attribute[2].text), int(attribute[3].text))
+                            if attribute.tag == "sequence":
+                                value = loadseq(attribute)
+                            if attribute.text == "false":
+                                value = False
+                            if attribute.text == "true":
+                                value = True
+
+                            temp.__setattr__(attribute.tag, value)
+                    self.Flickers.append(temp)
+                except:print("Couldn't load flicker")
 
     def Save(self, file=Standard_Save_File):
         def saveSeq(root, seq: SequenceBlock):
@@ -255,26 +258,29 @@ class MainApp(QMainWindow):
                 Tree = ET.parse(file)
                 root = Tree.getroot()
                 for f in root:
-                    temp = Flicker()
-                    for attribute in f:
-                        # Basic Attribute
-                        value = None
-                        if attribute.text != None and len(
-                                attribute) == 0 and attribute.text != "false" and attribute.text != "true":
-                            value = attribute.text
-                            if attribute.tag == "Type":
-                                value = FreqType[value]
-                        if attribute.tag == "Color":
-                            value = QColor(int(attribute[1].text), int(attribute[2].text), int(attribute[3].text))
-                        if attribute.tag == "sequence":
-                            value = loadseq(attribute)
-                        if attribute.text == "false":
-                            value = False
-                        if attribute.text == "true":
-                            value = True
+                    try:
+                        temp = Flicker()
+                        for attribute in f:
+                            # Basic Attribute
+                            value = None
+                            if attribute.text != None and len(
+                                    attribute) == 0 and attribute.text != "false" and attribute.text != "true":
+                                value = attribute.text
+                                if attribute.tag == "Type":
+                                    value = FreqType[value]
+                            if attribute.tag == "Color":
+                                value = QColor(int(attribute[1].text), int(attribute[2].text), int(attribute[3].text))
+                            if attribute.tag == "sequence":
+                                value = loadseq(attribute)
+                            if attribute.text == "false":
+                                value = False
+                            if attribute.text == "true":
+                                value = True
 
-                        temp.__setattr__(attribute.tag, value)
-                    self.Flickers.append(temp)
+                            temp.__setattr__(attribute.tag, value)
+                        self.Flickers.append(temp)
+                    except:
+                        print("Couldn't load flicker")
             self.Table.InitRows()
 
     def LaunchVisualStimuli(self):
