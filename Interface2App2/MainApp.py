@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QFileDialog, \
-    QLabel,QShortcut,QFrame
-from PyQt5.QtGui import QColor, QKeySequence,QCursor,QScreen
-from PyQt5.QtCore import QTimer,Qt
+    QLabel, QShortcut, QFrame, QCheckBox
+from PyQt5.QtGui import QColor, QKeySequence, QCursor, QScreen
+from PyQt5.QtCore import QTimer, Qt
 from sys import exit, argv
 from FlickerTable import FlickerTable, Flicker, FreqType, SequenceBlock
 from Flicker import SeqType, SeqCondition
@@ -25,15 +25,16 @@ class MainApp(QMainWindow):
 
         # create main widget
         central_widget = QWidget(self)
-        #central_widget.setStyleSheet("border: 1px solid black")
+        # central_widget.setStyleSheet("border: 1px solid black")
         self.setCentralWidget(central_widget)
 
         # Main Data
         self.Flickers = []
+        self.backgroundFlicker = None
 
         self.Load()
         self.MainLayout = QVBoxLayout()
-        self.process=None
+        self.process = None
 
         self.InitFlickerTable()
 
@@ -46,12 +47,8 @@ class MainApp(QMainWindow):
 
         # Flicker self.Table
         self.Table = FlickerTable(self.Flickers)
-        shortcutCopy=QShortcut(QKeySequence("Ctrl+C"), self, self.Table._copy)
+        shortcutCopy = QShortcut(QKeySequence("Ctrl+C"), self, self.Table._copy)
         QShortcut(QKeySequence("Ctrl+V"), self, self.Table._paste)
-
-
-
-
 
         self.MainLayout.addWidget(self.Table)
 
@@ -75,8 +72,13 @@ class MainApp(QMainWindow):
         buttonRemove.clicked.connect(lambda: remove())
         buttonRemove.setShortcut(Qt.Key_Delete)
 
+        # Black Screen checkbox
+        self.checkboxblack = QCheckBox(
+            "Add a Black Screen background? (WARNING: flickers are click-through even with a background)")
+
         ButtonLayout.addWidget(buttonAdd)
         ButtonLayout.addWidget(buttonRemove)
+        ButtonLayout.addWidget(self.checkboxblack)
         ButtonLayout.addStretch(0)
 
         self.MainLayout.addLayout(ButtonLayout)
@@ -84,13 +86,13 @@ class MainApp(QMainWindow):
         self.centralWidget().setLayout(self.MainLayout)
 
     def InitLowerPart(self):
-        lowerContainer=QFrame()
+        lowerContainer = QFrame()
         lowerLayout = QHBoxLayout()
 
         lowerContainer.setFrameStyle(QFrame.Panel | QFrame.Sunken)
         # button on the left
-        buttonContainer=QFrame()
-        #buttonContainer.setFrameStyle(QFrame.StyledPanel)
+        buttonContainer = QFrame()
+        # buttonContainer.setFrameStyle(QFrame.StyledPanel)
 
         buttonLayout = QVBoxLayout()
         actionLayout = QHBoxLayout()
@@ -127,33 +129,31 @@ class MainApp(QMainWindow):
         self.screenviewer.changeSignal.connect(self.Table.updateFlicker)
         self.screenviewer.removeSignal.connect(self.Table.removeFlicker)
         self.screenviewer.addSignal.connect(self.Table.updateFlicker)
-        self.screenviewer.addSignal.connect(lambda f:self.Flickers.append(f))
+        self.screenviewer.addSignal.connect(lambda f: self.Flickers.append(f))
         self.Table.tableUpdateSignal.connect(lambda flicker: self.screenviewer.updateFlickers(flicker))
         self.Table.tableRemoveSignal.connect(self.screenviewer.removeFlicker)
         self.Table.tableAddSignal.connect(lambda flicker: self.screenviewer.setupFlickers(flicker))
         lowerLayout.addWidget(self.screenviewer.view)
 
         # mousePosition
-        mousePosLayout=QVBoxLayout()
-        titleLabel=QLabel("Mouse Position")
-        xlabel=QLabel()
-        ylabel=QLabel()
+        mousePosLayout = QVBoxLayout()
+        titleLabel = QLabel("Mouse Position")
+        xlabel = QLabel()
+        ylabel = QLabel()
         mousePosLayout.addWidget(titleLabel)
         mousePosLayout.addWidget(xlabel)
         mousePosLayout.addWidget(ylabel)
         mousePosLayout.addStretch(0)
         lowerLayout.addLayout(mousePosLayout)
 
-
         def get_mouse_pos():
-            pos=QCursor.pos()
-            xlabel.setText("X: "+str(pos.x()))
+            pos = QCursor.pos()
+            xlabel.setText("X: " + str(pos.x()))
             ylabel.setText("Y: " + str(pos.y()))
 
         mouseTimer = QTimer(self)
         mouseTimer.timeout.connect(get_mouse_pos)
         mouseTimer.start(20)
-
 
         lowerContainer.setLayout(lowerLayout)
         self.MainLayout.addWidget(lowerContainer)
@@ -202,7 +202,8 @@ class MainApp(QMainWindow):
 
                             temp.__setattr__(attribute.tag, value)
                     self.Flickers.append(temp)
-                except:print("Couldn't load flicker")
+                except:
+                    print("Couldn't load flicker")
 
     def Save(self, file=Standard_Save_File):
         def saveSeq(root, seq: SequenceBlock):
@@ -295,7 +296,13 @@ class MainApp(QMainWindow):
 
     def LaunchVisualStimuli(self):
         # Launch the main code
-        if len(self.Flickers)>0:
+        if len(self.Flickers) > 0:
+            if self.checkboxblack.checkState() and not self.backgroundFlicker in self.Flickers:
+                screen = app.primaryScreen()
+                size = screen.size()
+                self.backgroundFlicker = Flicker(width=size.width(), height=size.height(), frequency=1, opacity_min=100,
+                                                 color=QColor(0, 0, 0))
+                self.Flickers.insert(0, self.backgroundFlicker)
             self.Save()
             self.process = Process(target=system, args=("VisualStimuli.exe",))
             self.process.start()
@@ -316,6 +323,8 @@ class MainApp(QMainWindow):
                     if proc.name() == "VisualStimuli.exe":
                         proc.kill()
                 self.process.kill()
+                if self.backgroundFlicker in self.Flickers:
+                    self.Flickers.remove(self.backgroundFlicker)
 
     def help(self):
         self.helpLabel = QLabel("I.\n"
@@ -341,17 +350,19 @@ class MainApp(QMainWindow):
                                 + "THANK FOR READING !!!")
         self.helpLabel.show()
 
-
-def onQuit(a, window):
-    if window.process:
-        if window.process.is_alive():
-            window.process.kill()
-    QApplication.quit(a)
+    def closeEvent(self, a0) -> None:
+        if self.process:
+            if self.process.is_alive():
+                self.process.kill()
+        if self.backgroundFlicker in self.Flickers:
+            self.Flickers.remove(self.backgroundFlicker)
+            self.Save()
+        QApplication.quit()
+        return super().closeEvent(a0)
 
 
 if __name__ == "__main__":
     app = QApplication(argv)
     window = MainApp()
     window.show()
-    app.quit = lambda a=app, w=window: onQuit(a, w)
     exit(app.exec_())
