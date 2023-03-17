@@ -179,6 +179,16 @@ class MainApp(QMainWindow):
                             if attribute.text != None and len(
                                     attribute) == 0 and attribute.text != "false" and attribute.text != "true":
                                 value = attribute.text
+                                if "." in value:
+                                    try:
+                                        value = float(value)
+                                    except:
+                                        pass
+                                else:
+                                    try:
+                                        value = int(value)
+                                    except:
+                                        pass
                                 if attribute.tag == "Type":
                                     value = FreqType[value]
                             if attribute.tag == "Color":

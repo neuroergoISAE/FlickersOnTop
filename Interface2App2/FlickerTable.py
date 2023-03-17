@@ -79,6 +79,13 @@ class FlickerTableRow(QFrame):
             def change(new_Value, attribute):
                 self.Flicker.__dict__[attribute] = new_Value
                 self.rowUpdateSignal.emit(self.Flicker)
+            def formatdata(type,v,a,w):
+                try:
+                    return type(v)
+                except:
+                    w.setText(str(self.Flicker.__dict__[a]))
+                    return self.Flicker.__dict__[a]
+
 
             if isinstance(attr, bool):
                 temp = QComboBox()
@@ -91,10 +98,10 @@ class FlickerTableRow(QFrame):
                 temp.textChanged.connect(lambda text, a=attribute: change(text, a))
             if (isinstance(attr, float)) and not temp:
                 temp = QLineEdit(str(attr))
-                temp.textChanged.connect(lambda text, a=attribute: change(float(text if text != "" else 0), a))
+                temp.textChanged.connect(lambda text, a=attribute,w=temp: change(formatdata(float,text,a,w), a))
             if (isinstance(attr, int)) and not temp:
                 temp = QLineEdit(str(attr))
-                temp.textChanged.connect(lambda text, a=attribute: change(int(text if text != "" else 0), a))
+                temp.textChanged.connect(lambda text, a=attribute,w=temp: change(formatdata(int,text,a,w), a))
             if isinstance(attr, QColor):
                 temp = QWidget()
                 temp.mousePressEvent = lambda event, widget=temp, row=self, f=self.Flicker: open_color_chooser(widget,
