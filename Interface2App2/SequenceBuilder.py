@@ -161,10 +161,6 @@ class SequenceBuilder(QFrame):
 
         # Final thing
         finalLayout = QHBoxLayout()
-        Indicator_Line = QFrame()
-        Indicator_Line.setFrameStyle(QFrame.VLine | QFrame.Sunken)
-        Indicator_Line.setLineWidth(3)
-        #finalLayout.addWidget(Indicator_Line)
         finalLayout.addLayout(seqLayout)
         ly5 = QVBoxLayout()
         removeButton = QPushButton("-")
