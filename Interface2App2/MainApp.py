@@ -295,9 +295,10 @@ class MainApp(QMainWindow):
 
     def LaunchVisualStimuli(self):
         # Launch the main code
-        self.Save()
-        self.process = Process(target=system, args=["VisualStimuli.exe"])
-        self.process.start()
+        if len(self.Flickers)>0:
+            self.Save()
+            self.process = Process(target=system, args=("VisualStimuli.exe",))
+            self.process.start()
 
     def testVisual(self):
         t = QTimer(self)
@@ -335,6 +336,8 @@ class MainApp(QMainWindow):
                                 + "VI.\n"
                                 + " Finally, click on RUN to run the Flicker program or TEST for a 10 seconds test.\n"
                                 + " press 'Echap' to close all flickers. Or alternatively, click on 'Stop'\n"
+                                + "Note: Please be sure that your screen can support the frequency you want for your flickers\n"
+                                + " as a reminder the screen frequency mus always be at least 2 times higher than the flicker's frequency\n"
                                 + "THANK FOR READING !!!")
         self.helpLabel.show()
 

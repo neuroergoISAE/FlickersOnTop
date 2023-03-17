@@ -78,6 +78,13 @@ class FlickerTableRow(QFrame):
 
             def change(new_Value, attribute):
                 self.Flicker.__dict__[attribute] = new_Value
+                # cap for opacity
+                if "Opacity" in attribute:
+                    if new_Value>100:
+                        self.Flicker.__dict__[attribute] = 100
+                    if new_Value<0:
+                        self.Flicker.__dict__[attribute] = 0
+                    self.updateData()
                 self.rowUpdateSignal.emit(self.Flicker)
             def formatdata(type,v,a,w):
                 try:
