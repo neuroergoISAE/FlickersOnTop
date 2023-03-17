@@ -199,7 +199,7 @@ class FlickerTable(QFrame):
         self.setFrameStyle(QFrame.StyledPanel | QFrame.Sunken)
         self.setAutoFillBackground(True)
         p = self.palette()
-        p.setColor(self.backgroundRole(), QColor(100, 100, 100))
+        p.setColor(self.backgroundRole(), QColor(150, 150, 150))
         self.setPalette(p)
 
         # first row with column name
@@ -209,6 +209,8 @@ class FlickerTable(QFrame):
         for i in testFlicker.__dict__:
             if testFlicker.__dict__[i] != None:
                 t = QLabel(i)
+                if i=="Color":
+                    t.setText("Texture")
                 t.setAlignment(Qt.AlignCenter)
                 t.setFixedSize(size, size * (9 / 16))
                 labelLayout.addWidget(t)
