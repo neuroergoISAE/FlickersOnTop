@@ -51,7 +51,7 @@ class SequenceBlock:
 
 
 class Flicker:
-    def __init__(self, name="Flicker", x=0, y=0, width=100, height=100, frequency=1, phase=0, type_freq=FreqType.Sine,
+    def __init__(self, name="Flicker", x=0, y=0, width=100, height=100, frequency=1.0, phase=0.0, type_freq=FreqType.Sine,
                  opacity_min=0, opacity_max=100, color=QColor(255, 255, 255), sequence=(SequenceBlock().AddSeq(SequenceBlock(SeqType.Active,SeqCondition.Never))), image=None,
                  IsImageFlicker=False):
         self.Name = name
