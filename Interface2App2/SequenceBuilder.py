@@ -42,7 +42,8 @@ class SequenceBuilder(QFrame):
                 container_value.hide()
             else:
                 frame.hide()
-                container_value.show()
+                if seq.Condition == SeqCondition.KeyPress or seq.Condition==SeqCondition.Time:
+                    container_value.show()
 
         typebox.setCurrentText(seq.seqType.name)
         typebox.currentTextChanged.connect(lambda text, seq=seq, f=frame: assigntype(seq, text, frame))
@@ -163,7 +164,7 @@ class SequenceBuilder(QFrame):
         Indicator_Line = QFrame()
         Indicator_Line.setFrameStyle(QFrame.VLine | QFrame.Sunken)
         Indicator_Line.setLineWidth(3)
-        finalLayout.addWidget(Indicator_Line)
+        #finalLayout.addWidget(Indicator_Line)
         finalLayout.addLayout(seqLayout)
         ly5 = QVBoxLayout()
         removeButton = QPushButton("-")
