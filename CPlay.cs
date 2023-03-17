@@ -367,15 +367,19 @@ namespace VisualStimuli
                                 }
 
                             }
+                            string[] marker_info = new string[2];
+                            marker_info[0] = c.ToString();
                             if (newSeq.Type == sequenceValue.type.Active)
                             {
                                 c.isActive= true;
-                                //TODO: add LSL signal
+                                marker_info[1] = "Active";
+                                outl.push_sample(marker_info);
                             }
                             if (newSeq.Type == sequenceValue.type.Inactive)
                             {
                                 c.isActive= false;
-                                //TODO: add LSL signal
+                                marker_info[1] = "Inactive";
+                                outl.push_sample(marker_info);
                             }
 
                         }
