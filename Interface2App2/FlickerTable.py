@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLineEdit, QVBoxLayout, QComboBox, QLabel, QPushButton, QColorDialog, \
-    QFileDialog, QFrame, QScrollArea, QMenu, QAction,QApplication
-from PyQt5.QtGui import QColor, QImage, QBrush,QMouseEvent
+    QFileDialog, QFrame, QScrollArea, QMenu, QAction, QApplication
+from PyQt5.QtGui import QColor, QImage, QBrush, QMouseEvent
 from PyQt5.QtCore import Qt, pyqtSlot, pyqtSignal, QPoint
 from Flicker import Flicker, FreqType, SequenceBlock
 from SequenceBuilder import SequenceBuilder
@@ -80,19 +80,19 @@ class FlickerTableRow(QFrame):
                 self.Flicker.__dict__[attribute] = new_Value
                 # cap for opacity
                 if "Opacity" in attribute:
-                    if new_Value>100:
+                    if new_Value > 100:
                         self.Flicker.__dict__[attribute] = 100
-                    if new_Value<0:
+                    if new_Value < 0:
                         self.Flicker.__dict__[attribute] = 0
                     self.updateData()
                 self.rowUpdateSignal.emit(self.Flicker)
-            def formatdata(type,v,a,w):
+
+            def formatdata(type, v, a, w):
                 try:
                     return type(v)
                 except:
                     w.setText(str(self.Flicker.__dict__[a]))
                     return self.Flicker.__dict__[a]
-
 
             if isinstance(attr, bool):
                 temp = QComboBox()
@@ -105,10 +105,10 @@ class FlickerTableRow(QFrame):
                 temp.textChanged.connect(lambda text, a=attribute: change(text, a))
             if (isinstance(attr, float)) and not temp:
                 temp = QLineEdit(str(attr))
-                temp.textChanged.connect(lambda text, a=attribute,w=temp: change(formatdata(float,text,a,w), a))
+                temp.textChanged.connect(lambda text, a=attribute, w=temp: change(formatdata(float, text, a, w), a))
             if (isinstance(attr, int)) and not temp:
                 temp = QLineEdit(str(attr))
-                temp.textChanged.connect(lambda text, a=attribute,w=temp: change(formatdata(int,text,a,w), a))
+                temp.textChanged.connect(lambda text, a=attribute, w=temp: change(formatdata(int, text, a, w), a))
             if isinstance(attr, QColor):
                 temp = QWidget()
                 temp.mousePressEvent = lambda event, widget=temp, row=self, f=self.Flicker: open_color_chooser(widget,
@@ -138,25 +138,25 @@ class FlickerTableRow(QFrame):
 
         self.setLayout(Layout)
 
-    def select(self,event:QMouseEvent, l, Rows):
-        if event.button()==Qt.LeftButton and QApplication.keyboardModifiers()!=Qt.ShiftModifier:
+    def select(self, event: QMouseEvent, l, Rows):
+        if event.button() == Qt.LeftButton and QApplication.keyboardModifiers() != Qt.ShiftModifier:
             if self in l:
                 l.remove(self)
                 self.setPalette(self.defaultPalette)
             else:
-                l.insert(0,self)
+                l.insert(0, self)
                 p = self.palette()
                 p.setColor(self.backgroundRole(), Selection_Color)
                 self.setPalette(p)
         else:
-            if event.button() == Qt.LeftButton and l!=[]:
-                previous=l[0]
+            if event.button() == Qt.LeftButton and l != []:
+                previous = l[0]
                 for row in l:
                     l.remove(row)
                     row.setPalette(row.defaultPalette)
-                previous_index=list(Rows.values()).index(previous)
-                currentIndex=list(Rows.values()).index(self)
-                toAdd=list(Rows.values())[min(previous_index,currentIndex):max(previous_index+1,currentIndex+1)]
+                previous_index = list(Rows.values()).index(previous)
+                currentIndex = list(Rows.values()).index(self)
+                toAdd = list(Rows.values())[min(previous_index, currentIndex):max(previous_index + 1, currentIndex + 1)]
                 for f in toAdd:
                     if not f in l:
                         l.append(f)
@@ -216,7 +216,7 @@ class FlickerTable(QFrame):
         for i in testFlicker.__dict__:
             if testFlicker.__dict__[i] != None:
                 t = QLabel(i)
-                if i=="Color":
+                if i == "Color":
                     t.setText("Texture")
                 t.setAlignment(Qt.AlignCenter)
                 t.setFixedSize(size, size * (9 / 16))
@@ -232,6 +232,7 @@ class FlickerTable(QFrame):
         self.RowLayout = QVBoxLayout(RowContainer)
         self.RowLayout.addStretch(0)
         self.InitRows()
+        self.setMinimumWidth(1100)
         self.RowArea.setWidget(RowContainer)
         self.VLayout.addWidget(self.RowArea)
 
@@ -242,13 +243,13 @@ class FlickerTable(QFrame):
         self.setContextMenuPolicy(Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.customMenu)
 
-
-    def customMenu(self,point:QPoint):
-        Menu=QMenu("Flicker Table Menu",self)
-        a1=QAction("Add a Flicker",self)
-        a1.triggered.connect(lambda :self.AddNewFlicker(Flicker()))
+    def customMenu(self, point: QPoint):
+        Menu = QMenu("Flicker Table Menu", self)
+        a1 = QAction("Add a Flicker", self)
+        a1.triggered.connect(lambda: self.AddNewFlicker(Flicker()))
         Menu.addAction(a1)
         Menu.exec(self.mapToGlobal(point))
+
     def InitRows(self):
         for f in self.Flickers:
             self.AddNewFlicker(f)
@@ -258,7 +259,7 @@ class FlickerTable(QFrame):
         row.removeSignal.connect(self.removeFlicker)
         self.RowLayout.insertWidget(self.RowLayout.count() - 1, row)
         self.Rows[flicker] = row
-        row.mousePressEvent = lambda event: row.select(event,self.selected,self.Rows)
+        row.mousePressEvent = lambda event: row.select(event, self.selected, self.Rows)
         row.rowUpdateSignal.connect(lambda flicker: self.tableUpdateSignal.emit(flicker))
         self.tableAddSignal.emit(flicker)
 
