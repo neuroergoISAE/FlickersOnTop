@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QComboBox, QHBoxLayo
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtCore import pyqtSignal
 from Flicker import SeqType, SeqCondition, SequenceBlock
+import os
 
 setting_file = "setting"
 
@@ -41,7 +42,9 @@ class Settings(QFrame):
                     f.write(a + ":" + str(getattr(self, a).checkState()))
 
     def load(self):
-        with open(setting_file) as f:
+        if not os.path.exists(setting_file):
+            self.save()
+        with open(setting_file,'r+') as f:
             for line in f.readlines():
                 a, v = line.split(":")
                 if a in self.__dict__:
