@@ -71,6 +71,8 @@ class FlickerTableRow(QFrame):
     def rowInit(self):
         Layout = QHBoxLayout(self)
 
+
+        # Loop on the Flickers Attribute to create each row cell
         for attribute in self.Flicker.__dict__:
             temp = False
             attr = self.Flicker.__dict__[attribute]
@@ -93,7 +95,7 @@ class FlickerTableRow(QFrame):
                 except:
                     w.setText(str(self.Flicker.__dict__[a]))
                     return self.Flicker.__dict__[a]
-
+            # differenciate attribute type (will be more efficient if lots of same type attribute)
             if isinstance(attr, bool):
                 temp = QComboBox()
                 temp.addItem("False")
@@ -137,7 +139,7 @@ class FlickerTableRow(QFrame):
                 Layout.addWidget(temp)
 
         self.setLayout(Layout)
-
+    # select a row for deleting and copying purpose
     def select(self, event: QMouseEvent, l, Rows):
         if event.button() == Qt.LeftButton and QApplication.keyboardModifiers() != Qt.ShiftModifier:
             if self in l:
@@ -148,6 +150,7 @@ class FlickerTableRow(QFrame):
                 p = self.palette()
                 p.setColor(self.backgroundRole(), Selection_Color)
                 self.setPalette(p)
+        # if we use shift, gather other rows inbetween
         else:
             if event.button() == Qt.LeftButton and l != []:
                 previous = l[0]
@@ -163,7 +166,7 @@ class FlickerTableRow(QFrame):
                         p = f.palette()
                         p.setColor(f.backgroundRole(), Selection_Color)
                         f.setPalette(p)
-
+    # in instance of an updated data
     def updateData(self):
         for attr in self.attrDict:
             value = self.Flicker.__dict__[attr]

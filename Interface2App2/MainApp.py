@@ -1,13 +1,14 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QFileDialog, \
     QLabel, QShortcut, QFrame, QCheckBox
 from PyQt5.QtGui import QColor, QKeySequence, QCursor, QScreen
-from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtCore import QTimer, Qt, pyqtSlot
 from sys import exit, argv
 from FlickerTable import FlickerTable, Flicker, FreqType, SequenceBlock
 from Flicker import SeqType, SeqCondition
 from ScreenViewer import ScreenViewer
 from SequenceBuilder import SequenceBuilder
 from os import system, path
+from Settings import Settings
 import xml.etree.cElementTree as ET
 import psutil
 from xml.dom import minidom
@@ -85,6 +86,11 @@ class MainApp(QMainWindow):
 
         self.centralWidget().setLayout(self.MainLayout)
 
+        # create setting window
+        self.setting = Settings()
+        self.setting.updateSettingSignal.connect(self._apply_setting)
+        self._apply_setting()
+
     def InitLowerPart(self):
         lowerContainer = QFrame()
         lowerLayout = QHBoxLayout()
@@ -116,10 +122,13 @@ class MainApp(QMainWindow):
         buttonImport.clicked.connect(lambda b: self.Import())
         buttonHelp = QPushButton("Help")
         buttonHelp.clicked.connect(lambda b: self.help())
+        buttonSettings = QPushButton("Settings")
+        buttonSettings.clicked.connect(self.settings)
         buttonLayout.addWidget(buttonSave)
         buttonLayout.addWidget(buttonSaveAs)
         buttonLayout.addWidget(buttonImport)
         buttonLayout.addWidget(buttonHelp)
+        buttonLayout.addWidget(buttonSettings)
         buttonLayout.addStretch(0)
         buttonContainer.setLayout(buttonLayout)
         lowerLayout.addWidget(buttonContainer)
@@ -346,7 +355,7 @@ class MainApp(QMainWindow):
                                 + " Finally, click on RUN to run the Flicker program or TEST for a 10 seconds test.\n"
                                 + " press 'Echap' to close all flickers. Or alternatively, click on 'Stop'\n"
                                 + "Note: Please be sure that your screen can support the frequency you want for your flickers\n"
-                                + " as a reminder the screen frequency mus always be at least 2 times higher than the flicker's frequency\n"
+                                + " as a reminder the screen frequency must always be at least 2 times higher than the flicker's frequency\n"
                                 + "THANK FOR READING !!!")
         self.helpLabel.show()
 
@@ -360,6 +369,20 @@ class MainApp(QMainWindow):
         QApplication.quit()
         return super().closeEvent(a0)
 
+    def settings(self):
+        self.setting.show()
+
+    @pyqtSlot()
+    def _apply_setting(self):
+        if self.setting:
+            if self.setting.seqlinkCheckBox.checkState():
+                if len(self.Flickers) > 1:
+                    for f in self.Flickers[1:]:
+                        f.sequence = self.Flickers[0].sequence
+            else:
+                for f in self.Flickers[1:]:
+                    f.sequence = SequenceBlock()
+        self.setting.save()
 
 if __name__ == "__main__":
     app = QApplication(argv)

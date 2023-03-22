@@ -13,7 +13,10 @@ class SequenceBuilder(QFrame):
 
         BottomLayout = QHBoxLayout()
         closeButton = QPushButton("Close")
+        HelpButton = QPushButton("Help")
         closeButton.clicked.connect(self.hide)
+        HelpButton.clicked.connect(self.help)
+        BottomLayout.addWidget(HelpButton)
         BottomLayout.addStretch(0)
         BottomLayout.addWidget(closeButton)
         self.MainLayout.addLayout(BottomLayout)
@@ -42,7 +45,7 @@ class SequenceBuilder(QFrame):
                 container_value.hide()
             else:
                 frame.hide()
-                if seq.Condition == SeqCondition.KeyPress or seq.Condition==SeqCondition.Time:
+                if seq.Condition == SeqCondition.KeyPress or seq.Condition == SeqCondition.Time:
                     container_value.show()
 
         typebox.setCurrentText(seq.seqType.name)
@@ -92,9 +95,9 @@ class SequenceBuilder(QFrame):
 
         def keyget(e, widget: QPushButton, seq):
             widget.releaseKeyboard()
-            widget.setText("Key: "+QKeySequence(int(e.key())).toString())
+            widget.setText("Key: " + QKeySequence(int(e.key())).toString())
             seq.value = float(e.key())
-            widget.keyPressEvent = lambda e: QPushButton.keyPressEvent(widget,e)
+            widget.keyPressEvent = lambda e: QPushButton.keyPressEvent(widget, e)
 
         def assignValue(text, seq, widget: QPushButton = None):
             try:
@@ -104,7 +107,8 @@ class SequenceBuilder(QFrame):
                     widget.keyPressEvent = lambda e, widget=widget, seq=seq: keyget(e, widget, seq)
                 else:
                     seq.value = float(text)
-            except:valueEdit.setText(str(seq.value))
+            except:
+                valueEdit.setText(str(seq.value))
 
         valueEdit.textChanged.connect(lambda text, seq=seq: assignValue(text, seq))
         keyButton.clicked.connect(lambda b, seq=seq, w=keyButton: assignValue(b, seq, keyButton))
@@ -179,3 +183,21 @@ class SequenceBuilder(QFrame):
         finalLayout.addLayout(ly5)
         seqWidget.setLayout(finalLayout)
         parent.addWidget(seqWidget)
+
+    def help(self):
+        self.helpLabel = QLabel("Sequences are a way to control your flickers with time or your keyboard\n\n" +
+                                " Sequences can have 4 types:\n" +
+                                "   - Block   : Sequence that contains other sequence, used to gather sequence together\n" +
+                                "   - Loop    : Same as a Block but it will loop until its condition as been verified\n" +
+                                "   - Active  : Flicker will be shown\n" +
+                                "   - Inactive: Flicker will be hidden\n\n" +
+                                " For a sequence to leave the sequence and go to the next, they must verify a conditions\n" +
+                                " There are 4 type of condition currently:\n" +
+                                "   - Never   : will never leave the current sequence\n" +
+                                "   - Always  : condition is always verified, this sequence will be jumped over\n" +
+                                "   - Time    : coupled with a value in seconds, the sequence will last X seconds\n" +
+                                "   - KeyPress: coupled with a key, the sequence will last until that key is pressed\n\n" +
+                                " It must be observed that a LSL marker will be sent everytime a flicker reach a Active\n" +
+                                " or Inactive sequence\n\n" +
+                                " You can change in setting whether all Flickers use the same sequences or if they all have individual one\n")
+        self.helpLabel.show()
