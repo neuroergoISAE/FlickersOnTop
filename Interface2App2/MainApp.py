@@ -210,6 +210,9 @@ class MainApp(QMainWindow):
                                 value = True
 
                             temp.__setattr__(attribute.tag, value)
+                        #Special attribute
+                        if attribute.tag=="Code":
+                            temp.Code=attribute.text
                     self.Flickers.append(temp)
                 except:
                     print("Couldn't load flicker")
@@ -282,22 +285,37 @@ class MainApp(QMainWindow):
                         temp = Flicker()
                         for attribute in f:
                             # Basic Attribute
-                            value = None
-                            if attribute.text != None and len(
-                                    attribute) == 0 and attribute.text != "false" and attribute.text != "true":
-                                value = attribute.text
-                                if attribute.tag == "Type":
-                                    value = FreqType[value]
-                            if attribute.tag == "Color":
-                                value = QColor(int(attribute[1].text), int(attribute[2].text), int(attribute[3].text))
-                            if attribute.tag == "sequence":
-                                value = loadseq(attribute)
-                            if attribute.text == "false":
-                                value = False
-                            if attribute.text == "true":
-                                value = True
+                            if (attribute.tag in temp.__dict__.keys()):
+                                value = None
+                                if attribute.text != None and len(
+                                        attribute) == 0 and attribute.text != "false" and attribute.text != "true":
+                                    value = attribute.text
+                                    if "." in value:
+                                        try:
+                                            value = float(value)
+                                        except:
+                                            pass
+                                    else:
+                                        try:
+                                            value = int(value)
+                                        except:
+                                            pass
+                                    if attribute.tag == "Type":
+                                        value = FreqType[value]
+                                if attribute.tag == "Color":
+                                    value = QColor(int(attribute[1].text), int(attribute[2].text),
+                                                   int(attribute[3].text))
+                                if attribute.tag == "sequence":
+                                    value = loadseq(attribute)
+                                if attribute.text == "false":
+                                    value = False
+                                if attribute.text == "true":
+                                    value = True
 
-                            temp.__setattr__(attribute.tag, value)
+                                temp.__setattr__(attribute.tag, value)
+                            # Special attribute
+                            if attribute.tag == "Code":
+                                temp.Code = attribute.text
                         self.Flickers.append(temp)
                     except:
                         print("Couldn't load flicker")
@@ -381,7 +399,8 @@ class MainApp(QMainWindow):
                         f.sequence = self.Flickers[0].sequence
             else:
                 for f in self.Flickers[1:]:
-                    f.sequence = SequenceBlock()
+                    if f.sequence==self.Flickers[0].sequence:
+                        f.sequence = SequenceBlock(SequenceBlock(seq_type=SeqType.Active))
         self.setting.save()
 
 if __name__ == "__main__":

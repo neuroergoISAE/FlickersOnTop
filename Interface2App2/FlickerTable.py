@@ -1,10 +1,11 @@
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLineEdit, QVBoxLayout, QComboBox, QLabel, QPushButton, QColorDialog, \
     QFileDialog, QFrame, QScrollArea, QMenu, QAction, QApplication
 from PyQt5.QtGui import QColor, QImage, QBrush, QMouseEvent
-from PyQt5.QtCore import Qt, pyqtSlot, pyqtSignal, QPoint
+from PyQt5.QtCore import Qt, pyqtSlot, pyqtSignal, QPoint, QTimer
 from Flicker import Flicker, FreqType, SequenceBlock
 from SequenceBuilder import SequenceBuilder
 from collections import OrderedDict
+from os import path, sep
 
 Selection_Color = QColor(0, 120, 215, 100)
 size = 70
@@ -32,6 +33,39 @@ def open_color_chooser(widget, row, f):
         p.setBrush(widget.backgroundRole(), (QBrush(image)))
         widget.setPalette(p)
         widget.setStyleSheet("background-image: url(" + f.image + ")")
+
+
+def _decode_file(file):
+    with open(file) as f:
+        test = f.readlines()
+        if len(test) > 1:
+            raise Exception
+        text = test[0].split(";")
+        if len(text) > 1:
+            for i in text:float(i)
+            return test[0]
+        raise Exception
+
+
+timer_choose_file = QTimer()
+
+
+def open_code_chooser(widget, row, f):
+    file = QFileDialog.getOpenFileName()[0]
+    timer_choose_file.timeout.connect(lambda: widget.setText("Choose custom..."))
+    timer_choose_file.setSingleShot(True)
+    if path.exists(file):
+        setattr(f, "custom", file)
+        try:
+            text = _decode_file(file)
+            setattr(f, "Code", text)
+            widget.setText("Set")
+        except:
+            print("Incorrect File Format:\n"
+                  "\tfile must be in the following format exemple:'0.5;1;0;0.6'\n"
+                  "\ta single line list of float between 0 and 1 using ';' as a delimiter")
+            widget.setText("Incorrect file")
+        timer_choose_file.start(1000)
 
 
 def open_sequence_builder(f):
@@ -69,14 +103,13 @@ class FlickerTableRow(QFrame):
         Menu.exec(self.mapToGlobal(point))
 
     def rowInit(self):
-        Layout = QHBoxLayout(self)
-
+        self.Layout = QHBoxLayout(self)
 
         # Loop on the Flickers Attribute to create each row cell
         for attribute in self.Flicker.__dict__:
             temp = False
             attr = self.Flicker.__dict__[attribute]
-            if attribute == "image": continue
+            if attribute == "image" or attribute == "Code": continue
 
             def change(new_Value, attribute):
                 self.Flicker.__dict__[attribute] = new_Value
@@ -87,6 +120,15 @@ class FlickerTableRow(QFrame):
                     if new_Value < 0:
                         self.Flicker.__dict__[attribute] = 0
                     self.updateData()
+                if attribute == "Type":
+                    if new_Value == FreqType.Custom:
+                        self.attrDict["Frequency"].hide()
+                        self.attrDict["customType"].show()
+                        self.Flicker.Code=""
+                    else:
+                        self.attrDict["Frequency"].show()
+                        self.attrDict["customType"].hide()
+
                 self.rowUpdateSignal.emit(self.Flicker)
 
             def formatdata(type, v, a, w):
@@ -95,6 +137,7 @@ class FlickerTableRow(QFrame):
                 except:
                     w.setText(str(self.Flicker.__dict__[a]))
                     return self.Flicker.__dict__[a]
+
             # differenciate attribute type (will be more efficient if lots of same type attribute)
             if isinstance(attr, bool):
                 temp = QComboBox()
@@ -129,6 +172,7 @@ class FlickerTableRow(QFrame):
                 temp = QComboBox()
                 for type in (FreqType):
                     temp.addItem(str(type.name))
+                temp.setCurrentText(self.Flicker.Type.name)
                 temp.currentTextChanged.connect(lambda text, a=attribute: change(FreqType[text], a))
             if isinstance(attr, SequenceBlock):
                 temp = QPushButton("Sequence")
@@ -136,9 +180,24 @@ class FlickerTableRow(QFrame):
             if temp:
                 temp.setFixedSize(size, size * (9 / 16))
                 self.attrDict[attribute] = temp
-                Layout.addWidget(temp)
+                self.Layout.addWidget(temp)
+                # add a special widget for custom type
+                if attribute == "Type":
+                    t = QPushButton("Choose custom...")
+                    t.setFixedSize(size, size * (9 / 16))
+                    font = t.font()
+                    font.setPointSize(6)
+                    t.setFont(font)
+                    self.attrDict["Code"] = t
+                    t.clicked.connect(lambda b, f=self.Flicker, row=self, widget=t: open_code_chooser(widget, row, f))
+                    self.Layout.addWidget(t)
+                    if self.Flicker.Type != FreqType.Custom:
+                        t.hide()
+                    else:
+                        self.attrDict["Frequency"].hide()
 
-        self.setLayout(Layout)
+        self.setLayout(self.Layout)
+
     # select a row for deleting and copying purpose
     def select(self, event: QMouseEvent, l, Rows):
         if event.button() == Qt.LeftButton and QApplication.keyboardModifiers() != Qt.ShiftModifier:
@@ -166,9 +225,11 @@ class FlickerTableRow(QFrame):
                         p = f.palette()
                         p.setColor(f.backgroundRole(), Selection_Color)
                         f.setPalette(p)
+
     # in instance of an updated data
     def updateData(self):
         for attr in self.attrDict:
+            if attr=="Code":continue
             value = self.Flicker.__dict__[attr]
             if (isinstance(value, float) or isinstance(value, int)) and not isinstance(value, bool):
                 self.attrDict[attr].setText(str(int(value)))

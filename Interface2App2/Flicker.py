@@ -8,6 +8,7 @@ class FreqType(Enum):
     Square = 2
     Maximum_Length_Sequence = 4
     Random = 0
+    Custom = 5
 
 
 class SeqType(Enum):
@@ -25,11 +26,14 @@ class SeqCondition(Enum):
 
 
 class SequenceBlock:
-    def __init__(self, seq_type=SeqType.Block, cond_type=SeqCondition.Never, value=0.0):
+    def __init__(self, seq_type=SeqType.Block, cond_type=SeqCondition.Never, value=0.0,*args):
         self.seqType = seq_type
         self.Condition = cond_type
         self.value = value
-        self.contained_sequence = []
+        if len(args)>0:
+            self.contained_sequence = args
+        else:
+            self.contained_sequence=[]
 
     def AddSeq(self, seq, index=None):
         if index==None:
