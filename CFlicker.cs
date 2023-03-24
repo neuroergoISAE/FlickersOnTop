@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -120,6 +121,16 @@ namespace VisualStimuli
         {
             this.seq = seq;
 			sequenceDict = new OrderedDictionary();
+        }
+		public void force_data(string code)
+		{
+            var st = code.Split(';');
+            size = st.Length;
+            m_data = new double[size];
+            for (int i = 0; i < size; i++)
+            {
+				m_data[i] = double.Parse(st[i], NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"));
+			}
         }
 
         /// <summary>

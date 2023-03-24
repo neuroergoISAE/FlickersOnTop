@@ -91,7 +91,8 @@ namespace VisualStimuli
             Square = 2,
             Random = 0,
             Maximum_Lenght_Sequence = 4,
-			None=5
+			None=5,
+            Custom=6
         };
 
         /// <summary>
@@ -156,12 +157,13 @@ namespace VisualStimuli
                         {
 							seq=loadSeq(node.SelectSingleNode("sequence"));
                         }
-						//create a window and add the flickers to the list of flickers
+                        //create a window and add the flickers to the list of flickers
+                        CFlicker f;
 						if (seq != null)
 						{
                             CScreen screen = new CScreen(pos_x, pos_y, width, height, name + k.ToString(), false, r1, g1, b1, image,
                                                        instance);
-                            m_listFlickers.Add(new CFlicker(
+                            f = new CFlicker(
                                 name,
                                 pos_x,
                                 pos_y,
@@ -174,14 +176,16 @@ namespace VisualStimuli
                                (int)Math.Round(a2 * 2.55), // alpha2
                                phase,
                                (int)type,
-							   seq)
-                            );
+                               seq);
+                            m_listFlickers.Add(f); 
+                            
 						}
 						else
 						{
+                            
                             CScreen screen = new CScreen(pos_x, pos_y, width, height, name + k.ToString(), false, r1, g1, b1, image,
                            instance);
-                            m_listFlickers.Add(new CFlicker(
+                            f = new CFlicker(
                                 name,
                                 pos_x,
                                 pos_y,
@@ -193,10 +197,10 @@ namespace VisualStimuli
                                (int)Math.Round(a1 * 2.55), // alpha1
                                (int)Math.Round(a2 * 2.55), // alpha2
                                phase,
-                               (int)type)
-                            );
+                               (int)type);
+                            m_listFlickers.Add(f);
                         }
-                        
+                        if (type == Signal_Type.Custom) { f.force_data(node.SelectSingleNode("Code").InnerText); }
                         k++;
                     }
 					catch(Exception ex)

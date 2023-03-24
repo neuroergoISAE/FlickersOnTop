@@ -12,6 +12,7 @@ size = 70
 
 
 def open_color_chooser(widget, row, f):
+    # choose a color
     if not f.IsImageFlicker:
         color = QColorDialog.getColor()
 
@@ -21,6 +22,7 @@ def open_color_chooser(widget, row, f):
             p = widget.palette()
             p.setColor(widget.backgroundRole(), color)
             widget.setPalette(p)
+    # choose an image file MUST BE .bmp due to SDL limitation
     else:
         image = QFileDialog.getOpenFileName(filter="*.bmp")
         f.image = image[0]
