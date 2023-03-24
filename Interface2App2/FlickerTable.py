@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt, pyqtSlot, pyqtSignal, QPoint, QTimer
 from Flicker import Flicker, FreqType, SequenceBlock
 from SequenceBuilder import SequenceBuilder
 from collections import OrderedDict
-from os import path, sep
+from os import path
 
 Selection_Color = QColor(0, 120, 215, 100)
 size = 70
@@ -161,7 +161,7 @@ class FlickerTableRow(QFrame):
                 temp.mousePressEvent = lambda event, widget=temp, row=self, f=self.Flicker: open_color_chooser(widget,
                                                                                                                row, f)
                 temp.setAutoFillBackground(True)
-                temp.setFixedSize(size, size * (9 / 16))
+                temp.setFixedSize(size, int(size * (9 / 16)))
                 p = temp.palette()
                 if self.Flicker.IsImageFlicker:
                     image = QImage(self.Flicker.image)
@@ -180,13 +180,13 @@ class FlickerTableRow(QFrame):
                 temp = QPushButton("Sequence")
                 temp.clicked.connect(lambda b, f=self.Flicker: open_sequence_builder(f))
             if temp:
-                temp.setFixedSize(size, size * (9 / 16))
+                temp.setFixedSize(size, int(size * (9 / 16)))
                 self.attrDict[attribute] = temp
                 self.Layout.addWidget(temp)
                 # add a special widget for custom type
                 if attribute == "Type":
                     t = QPushButton("Choose custom...")
-                    t.setFixedSize(size, size * (9 / 16))
+                    t.setFixedSize(size, int(size * (9 / 16)))
                     font = t.font()
                     font.setPointSize(6)
                     t.setFont(font)
@@ -285,7 +285,7 @@ class FlickerTable(QFrame):
                 if i == "Color":
                     t.setText("Texture")
                 t.setAlignment(Qt.AlignCenter)
-                t.setFixedSize(size, size * (9 / 16))
+                t.setFixedSize(int(size), int(size * (9 / 16)))
                 labelLayout.addWidget(t)
         labelWidget.setLayout(labelLayout)
         self.VLayout.addWidget(labelWidget)
