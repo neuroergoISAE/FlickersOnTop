@@ -114,13 +114,13 @@ class FlickerTableRow(QFrame):
             if attribute == "image" or attribute == "Code": continue
 
             def change(new_Value, attribute):
-                self.Flicker.__dict__[attribute] = new_Value
+                self.Flicker.__setattr__(attribute,new_Value)
                 # cap for opacity
                 if "Opacity" in attribute:
                     if new_Value > 100:
-                        self.Flicker.__dict__[attribute] = 100
+                        self.Flicker.__setattr__(attribute,100)
                     if new_Value < 0:
-                        self.Flicker.__dict__[attribute] = 0
+                        self.Flicker.__setattr__(attribute,0)
                     self.updateData()
                 if attribute == "Type":
                     if new_Value == FreqType.Custom:
