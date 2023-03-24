@@ -13,6 +13,7 @@ import xml.etree.cElementTree as ET
 import psutil
 from xml.dom import minidom
 from multiprocessing import Process
+import platform
 
 Standard_Save_File = "Flickers.xml"
 
@@ -331,7 +332,11 @@ class MainApp(QMainWindow):
                                                  color=QColor(0, 0, 0))
                 self.Flickers.insert(0, self.backgroundFlicker)
             self.Save()
-            self.process = Process(target=system, args=("VisualStimuli.exe",))
+            if "Windows" in platform.system():
+                func_arg=("VisualStimuli.exe",)
+            else:
+                func_arg=("./VisualStimuli.exe",)
+            self.process = Process(target=system, args=func_arg)
             self.process.start()
 
     def testVisual(self):

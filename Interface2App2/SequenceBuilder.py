@@ -2,8 +2,13 @@ from PyQt5.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QComboBox, QHBoxLayo
 from PyQt5.QtGui import QKeySequence
 from Flicker import SeqType, SeqCondition, SequenceBlock
 import os
-os.environ["PYSDL2_DLL_PATH"] = os.getcwd()
-from sdl2 import SDL_GetKeyFromName,SDL_GetKeyName
+# import SDL2 function without modifying the environment
+if "PYSDL2_DLL_PATH" in os.environ.keys():
+    from sdl2 import SDL_GetKeyFromName, SDL_GetKeyName
+else:
+    os.environ["PYSDL2_DLL_PATH"] = os.getcwd()
+    from sdl2 import SDL_GetKeyFromName,SDL_GetKeyName
+    del os.environ["PYSDL2_DLL_PATH"]
 
 
 class SequenceBuilder(QFrame):
