@@ -129,7 +129,7 @@ class SequenceBuilder(QFrame):
         else:
             l3.setText("Time in seconds")
             keyButton.hide()
-        if seq.seqType == SeqType.Block or seq.seqType == SeqType.Loop or seq.Condition == SeqCondition.Never or seq.Condition == SeqCondition.Always:
+        if seq.Condition == SeqCondition.Never or seq.Condition == SeqCondition.Always:
             container_value.hide()
 
         # subsequence
