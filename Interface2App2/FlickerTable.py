@@ -8,6 +8,8 @@ from collections import OrderedDict
 from os import path
 
 Selection_Color = QColor(0, 120, 215, 100)
+
+# size must be int for compatibility purpose
 size = 70
 
 
@@ -125,11 +127,11 @@ class FlickerTableRow(QFrame):
                 if attribute == "Type":
                     if new_Value == FreqType.Custom:
                         self.attrDict["Frequency"].hide()
-                        self.attrDict["customType"].show()
+                        self.attrDict["Code"].show()
                         self.Flicker.Code=""
                     else:
                         self.attrDict["Frequency"].show()
-                        self.attrDict["customType"].hide()
+                        self.attrDict["Code"].hide()
 
                 self.rowUpdateSignal.emit(self.Flicker)
 
