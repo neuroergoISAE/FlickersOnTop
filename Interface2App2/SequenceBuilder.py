@@ -1,6 +1,9 @@
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QLineEdit, QComboBox, QHBoxLayout, QFrame, QPushButton
 from PyQt5.QtGui import QKeySequence
 from Flicker import SeqType, SeqCondition, SequenceBlock
+import os
+os.environ["PYSDL2_DLL_PATH"] = os.getcwd()
+from sdl2 import SDL_GetKeyFromName,SDL_GetKeyName
 
 
 class SequenceBuilder(QFrame):
@@ -95,9 +98,15 @@ class SequenceBuilder(QFrame):
 
         def keyget(e, widget: QPushButton, seq):
             widget.releaseKeyboard()
-            widget.setText("Key: " + QKeySequence(int(e.key())).toString())
-            seq.value = float(e.key())
-            widget.keyPressEvent = lambda e: QPushButton.keyPressEvent(widget, e)
+            try:
+                widget.setText("Key: " + QKeySequence(int(e.key())).toString())
+                # encode to utf 8 before passing to SDL
+                char=QKeySequence(int(e.key())).toString().encode("utf-8")
+                seq.value = float(SDL_GetKeyFromName(char))
+            except:
+                widget.setText("Error, try again")
+            finally:
+                widget.keyPressEvent = lambda e: QPushButton.keyPressEvent(widget, e)
 
         def assignValue(text, seq, widget: QPushButton = None):
             try:
@@ -112,7 +121,7 @@ class SequenceBuilder(QFrame):
 
         valueEdit.textChanged.connect(lambda text, seq=seq: assignValue(text, seq))
         keyButton.clicked.connect(lambda b, seq=seq, w=keyButton: assignValue(b, seq, keyButton))
-        keyButton.setText("Key: " + QKeySequence(int(seq.value)).toString())
+        keyButton.setText("Key: " + str(SDL_GetKeyName(int(seq.value)))[2:-1])
         ly3.addWidget(l3)
         ly3.addWidget(valueEdit)
         ly3.addWidget(keyButton)
