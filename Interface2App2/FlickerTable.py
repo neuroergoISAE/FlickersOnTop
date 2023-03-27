@@ -53,10 +53,16 @@ def _decode_file(file):
 
 timer_choose_file = QTimer()
 
+def _set_file_name_button(widget,f:Flicker,file):
+    if "Code" in f.__dict__:
+        widget.setText(file.split("/")[-1])
+    else:
+        widget.setText("Choose Custom...")
+
 
 def open_code_chooser(widget, row, f):
     file = QFileDialog.getOpenFileName()[0]
-    timer_choose_file.timeout.connect(lambda: widget.setText("Choose custom..."))
+    timer_choose_file.timeout.connect(lambda f=f,file=file: _set_file_name_button(widget,f,file))
     timer_choose_file.setSingleShot(True)
     if path.exists(file):
         setattr(f, "custom", file)
@@ -85,11 +91,12 @@ class FlickerTableRow(QFrame):
         super().__init__()
         self.Flicker = flicker
         self.attrDict = {}
+        self.labelDict= {}
         self.rowInit()
         self.setContentsMargins(2, 2, 2, 2)
         self.setFrameStyle(QFrame.StyledPanel | QFrame.Sunken)
         self.setMinimumHeight(70)
-        self.setMaximumHeight(70)
+        self.setMaximumHeight(110)
         self.setAutoFillBackground(True)
         p = self.palette()
         p.setColor(self.backgroundRole(), QColor(220, 220, 220, 100))
@@ -113,6 +120,10 @@ class FlickerTableRow(QFrame):
         for attribute in self.Flicker.__dict__:
             temp = False
             attr = self.Flicker.__dict__[attribute]
+            label=QLabel(attribute)
+            container=QWidget()
+            vlayout=QVBoxLayout()
+            container.setLayout(vlayout)
             if attribute == "image" or attribute == "Code": continue
 
             def change(new_Value, attribute):
@@ -132,6 +143,11 @@ class FlickerTableRow(QFrame):
                     else:
                         self.attrDict["Frequency"].show()
                         self.attrDict["Code"].hide()
+                if attribute=="IsImageFlicker":
+                    if new_Value:
+                        self.labelDict["Color"].setText("Image")
+                    else:
+                        self.labelDict["Color"].setText("Color")
 
                 self.rowUpdateSignal.emit(self.Flicker)
 
@@ -183,22 +199,40 @@ class FlickerTableRow(QFrame):
                 temp.clicked.connect(lambda b, f=self.Flicker: open_sequence_builder(f))
             if temp:
                 temp.setFixedSize(size, int(size * (9 / 16)))
-                self.attrDict[attribute] = temp
-                self.Layout.addWidget(temp)
+                #self.attrDict[attribute] = temp
+                self.attrDict[attribute] = container
+                self.labelDict[attribute] = label
+                vlayout.addWidget(label)
+                vlayout.addWidget(temp)
+                self.Layout.addWidget(container)
                 # add a special widget for custom type
                 if attribute == "Type":
                     t = QPushButton("Choose custom...")
+                    if "Code" in self.Flicker.__dict__:
+                        t.setText("Code Set")
+                    tlabel=QLabel("Code")
+                    tvlayout=QVBoxLayout()
+                    tcontainer=QWidget()
+                    tcontainer.setLayout(tvlayout)
                     t.setFixedSize(size, int(size * (9 / 16)))
                     font = t.font()
                     font.setPointSize(6)
                     t.setFont(font)
-                    self.attrDict["Code"] = t
+                    self.attrDict["Code"] = tcontainer
+                    self.labelDict["Code"] =tlabel
                     t.clicked.connect(lambda b, f=self.Flicker, row=self, widget=t: open_code_chooser(widget, row, f))
-                    self.Layout.addWidget(t)
+                    tvlayout.addWidget(tlabel)
+                    tvlayout.addWidget(t)
+                    self.Layout.addWidget(tcontainer)
                     if self.Flicker.Type != FreqType.Custom:
-                        t.hide()
+                        tcontainer.hide()
                     else:
                         self.attrDict["Frequency"].hide()
+                if attribute=="IsImageFlicker":
+                    if self.Flicker.IsImageFlicker:
+                        self.labelDict["Color"].setText("Image")
+                    else:
+                        self.labelDict["Color"].setText("Color")
 
         self.setLayout(self.Layout)
 
@@ -276,7 +310,7 @@ class FlickerTable(QFrame):
         p = self.palette()
         p.setColor(self.backgroundRole(), QColor(150, 150, 150))
         self.setPalette(p)
-
+        """
         # first row with column name
         labelWidget = QWidget()
         labelLayout = QHBoxLayout()
@@ -290,7 +324,7 @@ class FlickerTable(QFrame):
                 t.setFixedSize(int(size), int(size * (9 / 16)))
                 labelLayout.addWidget(t)
         labelWidget.setLayout(labelLayout)
-        self.VLayout.addWidget(labelWidget)
+        self.VLayout.addWidget(labelWidget)"""
 
         # Row Area
         self.RowArea = QScrollArea()

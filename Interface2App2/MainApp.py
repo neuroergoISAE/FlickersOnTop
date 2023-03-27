@@ -66,10 +66,11 @@ class MainApp(QMainWindow):
         buttonRemove = QPushButton("Remove")
 
         def remove():
-            if self.Table.selected:
-                self.Table.RemoveRow(*self.Table.selected)
-            else:
-                self.Table.RemoveRow(self.Table.Rows[list(self.Table.Rows.keys())[-1]])
+            if len(self.Flickers) > 0:
+                if self.Table.selected:
+                    self.Table.RemoveRow(*self.Table.selected)
+                else:
+                    self.Table.RemoveRow(self.Table.Rows[list(self.Table.Rows.keys())[-1]])
 
         buttonRemove.clicked.connect(lambda: remove())
         buttonRemove.setShortcut(Qt.Key_Delete)
@@ -211,9 +212,9 @@ class MainApp(QMainWindow):
                                 value = True
 
                             temp.__setattr__(attribute.tag, value)
-                        #Special attribute
-                        if attribute.tag=="Code":
-                            temp.Code=attribute.text
+                        # Special attribute
+                        if attribute.tag == "Code":
+                            temp.Code = attribute.text
                     self.Flickers.append(temp)
                 except:
                     print("Couldn't load flicker")
@@ -333,9 +334,9 @@ class MainApp(QMainWindow):
                 self.Flickers.insert(0, self.backgroundFlicker)
             self.Save()
             if "Windows" in platform.system():
-                func_arg=("VisualStimuli.exe",)
+                func_arg = ("VisualStimuli.exe",)
             else:
-                func_arg=("./VisualStimuli.exe",)
+                func_arg = ("./VisualStimuli.exe",)
             self.process = Process(target=system, args=func_arg)
             self.process.start()
 
@@ -404,9 +405,10 @@ class MainApp(QMainWindow):
                         f.sequence = self.Flickers[0].sequence
             else:
                 for f in self.Flickers[1:]:
-                    if f.sequence==self.Flickers[0].sequence:
+                    if f.sequence == self.Flickers[0].sequence:
                         f.sequence = SequenceBlock(SequenceBlock(seq_type=SeqType.Active))
         self.setting.save()
+
 
 if __name__ == "__main__":
     app = QApplication(argv)

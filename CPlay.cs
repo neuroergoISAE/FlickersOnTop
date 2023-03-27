@@ -50,8 +50,6 @@ namespace VisualStimuli
 
 		private static Dictionary<SDL.SDL_Keycode,List<ValueTuple<CFlicker,sequenceValue>>> SequenceKeyDict = new Dictionary<SDL.SDL_Keycode, List<ValueTuple<CFlicker, sequenceValue>>>();
 
-
-        /// https://csharp.hotexamples.com/site/file?hash=0x238a44f2ed8da632e4e090af60159d66126fa38d9fd574bee99939a492be5ee7&fullName=KernelAPI.cs&project=ozeppi/mAgicAnime
         [StructLayout(LayoutKind.Sequential)]
 		public struct DEVMODE
 		{

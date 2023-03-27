@@ -15,8 +15,7 @@ namespace VisualStimuli
     class CScreen
     {
 
-        // New imports to be used by User32 to be able to define windows
-        // Use https://www.pinvoke.net/
+        // New imports to be used by User32 to be able to define windows found on pinvoke.net
         const UInt32 CS_VREDRAW = 1;
         const UInt32 CS_HREDRAW = 2;
         const UInt32 COLOR_BACKGROUND = 1;

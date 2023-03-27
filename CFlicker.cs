@@ -124,6 +124,7 @@ namespace VisualStimuli
         }
 		public void force_data(string code)
 		{
+			//TODO: add phase value support (cycle the data table accordingly to the phase)
             var st = code.Split(';');
             size = st.Length;
             m_data = new double[size];
@@ -372,7 +373,7 @@ namespace VisualStimuli
 			// Maximum length sequences
 			if(TypeFrequence == 4)
 			{
-				// To understand maximum length sequence, go https://www.gaussianwaves.com/2018/09/maximum-length-sequences-m-sequences/
+				// To understand maximum length sequence, go www.gaussianwaves.com/2018/09/maximum-length-sequences-m-sequences/
 				// Here, we take a primitive polynomial degree 8 
 				// The generator polynomial of the given LFSR is g(x) = g0 + g1x + g2x^2 + ... + gnx^n
 				// So data we will set here have form: s[k + 8] = s[k + 7] + s[k + 2] + s[k + 1] + s[k]
