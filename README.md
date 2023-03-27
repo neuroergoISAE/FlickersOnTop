@@ -4,7 +4,7 @@ Flickers on top 🖥️
 
 🪧 Overview
 ------------------
-✨ FlickersOnTop is a program written in C# that offers SSVEP and code-VEP (using m-sequence) flickers implementation trough a Graphical User Interface for Windows only 🪟.   
+✨ FlickersOnTop is a program written in C# and Python that offers SSVEP and code-VEP (using m-sequence) flickers implementation trough a Graphical User Interface for Windows only 🪟.   
 No need to code ! Just use the software to define flickers and place them. Use the sequencer to enable play and pauses in the flickering. The flickers can be displayed on top of any interface or with a black background for pyschopysics experiments. 🧑‍🔬  
 It provides [Lab Streaming Layer (LSL)](https://github.com/sccn/labstreaminglayer) integration to send corresponding markers at the start of the flickering.
 
@@ -16,23 +16,33 @@ It provides [Lab Streaming Layer (LSL)](https://github.com/sccn/labstreaminglaye
 
 ![FlickerOnTop](https://user-images.githubusercontent.com/19227268/215775405-28b916f5-372c-40a2-89b9-6d5bd565292f.PNG)
 
+IMPORTANT WARNING: our app is false flagged by some antivirus as a virus, this is due to the direct OS calls necessary for our click-through functionnality, if you are afraid of anything, you can read and directly compile the source code yourself. One of the known antivirus to flag us is Avast. the latest update of windows defender seemed ok with it.
+
 👩‍💻 How to use it
 ---------------
-📥 Download the compiled version in the [Release](https://github.com/ludovicdmt/FlickersOnTop/releases) section and then click on `Interface2App.exe`. It will launch the GUI and allows you to create some flickers.   
+📥 Download the compiled version in the [Release](https://github.com/ludovicdmt/FlickersOnTop/releases) section and then click on `Launch.bat`. It will launch the GUI and allows you to create some flickers.   
+As the gui use python, you need to download some package for it to work, specifically "psutil","PyQt5" and "pySDL2":
+pip install psutil
+pip install PyQt5
+pip install pySDL2
 
-1. Click on `New` to add a flicker. You can set a name, X and Y positions, width, height, frequency and phase (for SSVEP). To place and set dimensions of flickers you can use the information of the `Mouse position`, on the bottom right of the interface. It is also possible to change the color of the flicker (default to white) and the amplitude depth of the flicker (default from 0 to 100%).  
+if "Lanch.bat" doesn't work it most likely means that you don't have python in your environment. if you are using anaconda or other third-party python installer, please launch "MainApp.py" from there with the correct package installed.
 
-2. By default it would use a a black background but you can put the flickers on top of your current interface by a click in the checkbox: `Add a Black Screen background when running`.
+1. Click on `Add` to add a flicker. You can set a name, X and Y positions, width, height, frequency and phase (for SSVEP). To place and set dimensions of flickers you can use the information of the `Mouse position`, on the bottom right of the interface. It is also possible to change the color of the flicker (default to white) and the amplitude depth of the flicker (default from 0 to 100%).  
+
+2. By default it would use a black background but you can put the flickers on top of your current interface by a click in the checkbox: `Add a Black Screen background when running`.
 
 3. You can also load an image (as for now only in `BMP` format, you can find some [online converter](https://image.online-convert.com/fr/convertir-en-bmp)) to replace the rectangle by an image (a checkerboard for instance).  
 
-🏃 You can then click on `TEST` to make the flicker run for 30s, you can stop it before with an `Escape` press. If you click on `RUN` it will run until you press `Escape`. One LSL marker per flicker (with the corresponding information) is send at the start to synchronize the EEG recording.   
+🏃 You can then click on `TEST` to make the flicker run for 10s, you can stop it before with an `Escape` press. If you click on `RUN` it will run until you press `Escape` or on stop. One LSL marker per flicker (with the corresponding information) is sent at the start to synchronize the EEG recording.   
 
 💾 The configuration files of the flickers is saved automatically in `XML` format. You can use it to inspect later your design or to load it in the GUI (`Import` button) to run the same configuraton.
 
 ⏯️ Sequencing
 ---------------
-You can click on `Sequencing` to define a specific sequence of pauses and flickering for each stimulus. Then, every time a flicker stops or restarts a new LSL marker is sent. This functionality is still under development so the ergonomy could be improved.  
+You can click on `Sequencing` to define a specific sequence of pauses and flickering for each stimulus. Then, every time a flicker stops or restarts a new LSL marker is sent. 
+Currently, you can change in the settings whether you want all flicker to be link to one sequence or for all flicker to have different sequence.
+This functionality is still under development so the ergonomy could be improved.  
 Please send us your [recommendation](https://github.com/ludovicdmt/FlickersOnTop/issues)! 🙏 
 
 📁 Organization of the repo
@@ -44,7 +54,7 @@ The code is divided in two parts :
 
 🗜️ Make your own build
 ---------------
- If you want to build the software by our self instead of using the `.exe`, here are some hints: 
+ If you want to build the software by yourself instead of using our executable , here are some information: 
 - All files are coded in C# and runing in VisualStudio.  
 - Download VisualStudio 2022: <https://visualstudio.microsoft.com/vs/>  
 - There are 2 application extension: 
