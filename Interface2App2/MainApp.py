@@ -130,19 +130,23 @@ class MainApp(QMainWindow):
         buttonSettings = QPushButton("Settings")
         buttonSettings.clicked.connect(self.settings)
         self.buttonSequence=QPushButton("Sequence")
-        self.buttonSequence.clicked.connect(lambda b:SequenceBuilder(self.Flickers[0]))
+        def seqbuildopen():
+            if len(self.Flickers)>0:
+                self.build=SequenceBuilder(self.Flickers[0])
+                self.build.show()
+        self.buttonSequence.clicked.connect(lambda b:seqbuildopen())
 
         if self.setting.seqlinkCheckBox.checkState():
             for row in self.Table.Rows.values():
                 row.attrDict["sequence"].hide()
         else:
             self.buttonSequence.hide()
+        buttonLayout.addWidget(self.buttonSequence)
         buttonLayout.addWidget(buttonSave)
         buttonLayout.addWidget(buttonSaveAs)
         buttonLayout.addWidget(buttonImport)
         buttonLayout.addWidget(buttonHelp)
         buttonLayout.addWidget(buttonSettings)
-        buttonLayout.addWidget(self.buttonSequence)
         buttonLayout.addStretch(0)
         buttonContainer.setLayout(buttonLayout)
         lowerLayout.addWidget(buttonContainer)
@@ -412,7 +416,7 @@ class MainApp(QMainWindow):
     def _apply_setting(self):
         if self.setting:
             if self.setting.seqlinkCheckBox.checkState():
-                if len(self.Flickers) > 1:
+                if len(self.Flickers) > 0:
                     for f in self.Flickers[1:]:
                         f.sequence = self.Flickers[0].sequence
                     for row in self.Table.Rows.values():

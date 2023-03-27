@@ -63,9 +63,9 @@ class Flicker:
         self.Y = int(y)
         self.Width = width
         self.Height = height
+        self.Type = type_freq
         self.Frequency = frequency
         self.Phase = phase
-        self.Type = type_freq
         self.Opacity_Min = opacity_min
         self.Opacity_Max = opacity_max
         self.Color = color
