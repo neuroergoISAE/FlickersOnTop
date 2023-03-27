@@ -1,1 +1,2 @@
 python MainApp.py
+pause

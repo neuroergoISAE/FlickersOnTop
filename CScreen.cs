@@ -294,10 +294,10 @@ namespace VisualStimuli
             }
 
             // the renderer
-            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED |
-            //                                                          SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
+            m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED |
+                                                                      SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
             //note: Vsync can cause massive lag when using lots of flickers, moving to manual fps management
-            m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+            //m_pRenderer = SDL.SDL_CreateRenderer(m_pWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
             if (m_pRenderer == IntPtr.Zero)
             {
                 Console.WriteLine("Renderer could not be created ! SDL_Error: {0}", SDL.SDL_GetError());

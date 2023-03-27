@@ -69,10 +69,10 @@ class Flicker:
         self.Opacity_Min = opacity_min
         self.Opacity_Max = opacity_max
         self.Color = color
-
+        self.IsImageFlicker = IsImageFlicker
         self.sequence = sequence
         self.image = image
-        self.IsImageFlicker = IsImageFlicker
+
 
     def __repr__(self):
         return "Flicker X:" + str(self.X) + " Y:" + str(self.Y) + " Width" + str(self.Width) + " Height" + str(
