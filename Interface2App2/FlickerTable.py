@@ -195,7 +195,7 @@ class FlickerTableRow(QFrame):
                                                                                         row, f))
 
                 temp.setAutoFillBackground(True)
-                temp.setFixedSize(size//1.5, int(size * (9 / 16)))
+                temp.setFixedSize(int(size//1.5), int(size * (9 / 16)))
                 p = temp.palette()
                 if self.Flicker.IsImageFlicker:
                     image = QImage(self.Flicker.image)
@@ -205,7 +205,7 @@ class FlickerTableRow(QFrame):
                     p.setColor(temp.backgroundRole(), self.Flicker.Color)
                 temp.setPalette(p)
                 chooser=QPushButton("Change")
-                chooser.setFixedSize(size//1.5, int(size * (9 / 16)))
+                chooser.setFixedSize(int(size//1.5), int(size * (9 / 16)))
                 chooser.clicked.connect(lambda b,f=self.Flicker,widget=chooser,row=self:open_color_chooser(self.editDict["Color"].currentText(),widget,row,f))
 
                 hlayout.addWidget(temp)
