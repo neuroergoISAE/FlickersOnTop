@@ -34,12 +34,13 @@ class MainApp(QMainWindow):
         self.Flickers = []
         self.backgroundFlicker = None
 
-        self.Load()
+        #self.Load()
         self.MainLayout = QVBoxLayout()
         self.process = None
 
-        self.InitFlickerTable()
 
+        # graphical init
+        self.InitFlickerTable()
         self.InitLowerPart()
         self.MainLayout.addStretch(0)
 
@@ -47,9 +48,9 @@ class MainApp(QMainWindow):
 
         ButtonLayout = QHBoxLayout()
 
-        # Flicker self.Table
+        # Flicker table containing all flicker
         self.Table = FlickerTable(self.Flickers)
-        shortcutCopy = QShortcut(QKeySequence("Ctrl+C"), self, self.Table._copy)
+        QShortcut(QKeySequence("Ctrl+C"), self, self.Table._copy)
         QShortcut(QKeySequence("Ctrl+V"), self, self.Table._paste)
 
         self.MainLayout.addWidget(self.Table)
@@ -87,6 +88,7 @@ class MainApp(QMainWindow):
         self.MainLayout.addLayout(ButtonLayout)
 
         self.centralWidget().setLayout(self.MainLayout)
+
 
         # create setting window
         self.buttonSequence=QPushButton()
