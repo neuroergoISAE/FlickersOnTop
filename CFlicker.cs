@@ -337,11 +337,26 @@ namespace VisualStimuli
 			// sininous frequence
 			if (TypeFrequence == 1)
 			{
-				for (int j = 0; j < size; j++)
-				{
-					Data[j] = 0.5 * (1.0d + Math.Sin(2d * Math.PI * Frequency * (float)j / frameRate + (Phase/180d) * Math.PI));
-				}
-			}
+                for (int j = 0; j < size; j++)
+                {
+                    Data[j] = 0.5 * (1.0d + Math.Sin(2d * Math.PI * Frequency * (float)j / frameRate + (Phase / 180d) * Math.PI));
+                    if (j > 2 & j < size)
+                    {
+                        if (Data[j - 2] < Data[j - 1] & Data[j - 1] > Data[j])
+                        {
+                            Data[j - 1] = 1.0;
+                        }
+                        else
+                        {
+                            if (Data[j - 2] > Data[j - 1] & Data[j - 1] < Data[j])
+                            {
+                                Data[j - 1] = 0.0;
+                            }
+                        }
+                    }
+
+                }
+            }
 			// square frequence
 			if (TypeFrequence == 2)
 			{

@@ -369,19 +369,19 @@ namespace VisualStimuli
                                 }
 
                             }
-                            string[] marker_info = new string[2];
-                            marker_info[0] = c.ToString();
+                            string[] marker_info_act = new string[2];
+                            marker_info_act[0] = c.ToString();
                             if (newSeq.Type == sequenceValue.type.Active)
                             {
                                 c.isActive= true;
-                                marker_info[1] = "Active";
-                                outl.push_sample(marker_info);
+                                marker_info_act[1] = "Active";
+                                outl.push_sample(marker_info_act);
                             }
                             if (newSeq.Type == sequenceValue.type.Inactive)
                             {
                                 c.isActive= false;
-                                marker_info[1] = "Inactive";
-                                outl.push_sample(marker_info);
+                                marker_info_act[1] = "Inactive";
+                                outl.push_sample(marker_info_act);
                             }
 
                         }
