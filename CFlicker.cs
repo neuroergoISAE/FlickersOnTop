@@ -292,26 +292,11 @@ namespace VisualStimuli
 		/// <param name="flicker">FLicker.</param>
 		public void setData()
 		{
-			int LCM(int a, int b)
-			{
-				return (a * b) / GCD(a, b);
-			}
-
-			int GCD(int a, int b)
-			{
-				while (b != 0)
-				{
-					int temp = b;
-					b = a % b;
-					a = temp;
-				}
-				return a;
-			}
-
+			
 			Random rand = new Random();
 			int tmp;
 			double frameRate = GetFrameRate();
-			size = LCM((int)frameRate,(int)Frequency);
+			size = (int)(2*frameRate*Frequency);
 
 			m_data = new double[size]; // initializing data
 
@@ -364,6 +349,7 @@ namespace VisualStimuli
 				for (int j = 0; j < size; j++)
 				{
 					double demo = 0.5 * (1.0d + Math.Sin(2d * Math.PI * Frequency * (float)j / frameRate + (Phase / 180d) * Math.PI));
+
 					if (demo <= 0.5)   // demo has a continous range from 0 to 1 so when demo value < 0.5 we consider approximatively demo = 0 and in inverse we consider demo = 1 when its value > 0.5; 
 					{
 						Data[j] = 0;

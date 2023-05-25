@@ -136,7 +136,7 @@ namespace VisualStimuli
                         string name = node.SelectSingleNode("Name").InnerText;
                         double.TryParse(node.SelectSingleNode("Frequency").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double freq); //culture info is necessary due to use of "," or "." for decimal number in different part of the world
                         double.TryParse(node.SelectSingleNode("Phase").InnerText, NumberStyles.Number, CultureInfo.GetCultureInfo("en-US"), out double phase);
-                        var C1Node = node.SelectSingleNode("Color");
+                        var C1Node = node.SelectSingleNode("color1");
                         Byte.TryParse(C1Node.SelectSingleNode("R").InnerText, out byte r1);
                         Byte.TryParse(C1Node.SelectSingleNode("G").InnerText, out byte g1);
                         Byte.TryParse(C1Node.SelectSingleNode("B").InnerText, out byte b1);
